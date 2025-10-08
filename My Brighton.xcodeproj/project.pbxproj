@@ -1,0 +1,2315 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 73;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		680D64A22E6778770071DD6B /* CoreSpotlightIndexDelegate.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		680D64AA2E677A4D0071DD6B /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
+		681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
+		681667142E67C1230089CE9A /* LearnKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */; };
+		6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */; };
+		6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF692E4E7D4A003B15BB /* KeychainSwift */; };
+		684DFF782E56318A00E6C316 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FB25142A99573D00D7FDB9 /* WidgetKit.framework */; };
+		684DFF792E56318A00E6C316 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FB25162A99573D00D7FDB9 /* SwiftUI.framework */; };
+		684DFF8A2E56318D00E6C316 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 684DFF772E56318A00E6C316 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		686425BC2E68AF9800A088A8 /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
+		6864265C2E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		686426672E68CC8600A088A8 /* Timetable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
+		686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
+		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
+		68E7BBF62E96A38000F91FD0 /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68E7BBF52E96A38000F91FD0 /* SwiftBbML */; };
+		68E7BBFA2E96A42300F91FD0 /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68E7BBF92E96A42300F91FD0 /* SwiftBbML */; };
+		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
+		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		68EAC7052E79E34200A3F286 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
+		68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */; };
+		68EAC7992E79F5DA00A3F286 /* TimetableIntents.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		68EAC7A92E79F60600A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		68EAC7AD2E79F60600A3F286 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
+		68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
+		68EAC7E72E7A089000A3F286 /* Router.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		68EAC7F52E7A094400A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
+		68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68FF79E62E5516F8000B6F5C /* SwiftBbML */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		680D64A02E6778770071DD6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 680D649A2E6778770071DD6B;
+			remoteInfo = CoreSpotlightIndexDelegate;
+		};
+		680D64AC2E677A4D0071DD6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6835EF522E4E7ADD003B15BB;
+			remoteInfo = LearnKit;
+		};
+		6835EF572E4E7ADD003B15BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6835EF522E4E7ADD003B15BB;
+			remoteInfo = LearnKit;
+		};
+		683E01362E71DBC3004C2831 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B508BD9171489940080AB4D;
+			remoteInfo = ICSExporter;
+		};
+		683E02692E71DC37004C2831 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B508BD9171489940080AB4D;
+			remoteInfo = ICSExporter;
+		};
+		684DFF882E56318D00E6C316 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 684DFF762E56318A00E6C316;
+			remoteInfo = WidgetsExtension;
+		};
+		686425BE2E68AF9800A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6835EF522E4E7ADD003B15BB;
+			remoteInfo = LearnKit;
+		};
+		6864265D2E68CC8600A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426522E68CC8500A088A8;
+			remoteInfo = Timetable;
+		};
+		6864265F2E68CC8600A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28E311062A98E78D00ECC35C;
+			remoteInfo = "My Brighton";
+		};
+		686426642E68CC8600A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426522E68CC8500A088A8;
+			remoteInfo = Timetable;
+		};
+		6864269D2E68CCF000A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426982E68CCEF00A088A8;
+			remoteInfo = TimetableUI;
+		};
+		686426C42E68CD4A00A088A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426522E68CC8500A088A8;
+			remoteInfo = Timetable;
+		};
+		68C28A6A2E91A97D0099B6EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6835EF522E4E7ADD003B15BB;
+			remoteInfo = LearnKit;
+		};
+		68EAC7032E79E34200A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426522E68CC8500A088A8;
+			remoteInfo = Timetable;
+		};
+		68EAC7072E79E34200A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426982E68CCEF00A088A8;
+			remoteInfo = TimetableUI;
+		};
+		68EAC7962E79F5DA00A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7912E79F5DA00A3F286;
+			remoteInfo = TimetableIntents;
+		};
+		68EAC7AB2E79F60600A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426522E68CC8500A088A8;
+			remoteInfo = Timetable;
+		};
+		68EAC7AF2E79F60600A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 686426982E68CCEF00A088A8;
+			remoteInfo = TimetableUI;
+		};
+		68EAC7E42E7A089000A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
+			remoteInfo = Router;
+		};
+		68EAC7F72E7A094400A3F286 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
+			remoteInfo = Router;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28FB25262A99573F00D7FDB9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				680D64A22E6778770071DD6B /* CoreSpotlightIndexDelegate.appex in Embed Foundation Extensions */,
+				684DFF8A2E56318D00E6C316 /* WidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		681667152E67C1230089CE9A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */,
+				686426672E68CC8600A088A8 /* Timetable.framework in Embed Frameworks */,
+				68EAC7992E79F5DA00A3F286 /* TimetableIntents.framework in Embed Frameworks */,
+				681667142E67C1230089CE9A /* LearnKit.framework in Embed Frameworks */,
+				68EAC7E72E7A089000A3F286 /* Router.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686F22E12E7BB23900DFC6CC /* Embed XPC Services */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed XPC Services";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68849A062DFDA85500BF64F1 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		28E311072A98E78D00ECC35C /* My Brighton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Brighton.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28FB25142A99573D00D7FDB9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		28FB25162A99573D00D7FDB9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoreSpotlightIndexDelegate.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6835EF532E4E7ADD003B15BB /* LearnKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LearnKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
+		683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
+		684DFF772E56318A00E6C316 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		686426532E68CC8500A088A8 /* Timetable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Timetable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6864265B2E68CC8600A088A8 /* TimetableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimetableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		686426992E68CCEF00A088A8 /* TimetableUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimetableUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimetableIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68EAC7E02E7A089000A3F286 /* Router.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Router.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Timetable/Timetable/Date++.swift",
+				Timetable/Timetable/ScheduledClass.swift,
+				Timetable/Timetable/TimetableService.swift,
+			);
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+		};
+		68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Timetable/TimetableUI/TimetableRowView.swift,
+			);
+			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
+		};
+		6835EF5F2E4E7B86003B15BB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				API/LearnKitAPI.swift,
+				BbCache.swift,
+				Intents/Entities/CourseEntity.swift,
+				Intents/Entities/CourseEntityQuery.swift,
+				Intents/LearnKitAppIntentsPackage.swift,
+				LearnKitService.swift,
+				Models/Cache/Courses/ContentModel.swift,
+				Models/Cache/Courses/CourseModel.swift,
+				Models/Data/Courses/Content.swift,
+				Models/Data/Courses/Course.swift,
+				Models/Data/IDTypes.swift,
+				Models/Data/SystemAnnouncement.swift,
+				RestError.swift,
+			);
+			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
+		};
+		686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Timetable/TimetableTests/TimetableTests.swift,
+			);
+			target = 6864265A2E68CC8600A088A8 /* TimetableTests */;
+		};
+		68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Resources/My-Brighton-Info.plist",
+			);
+			platformFiltersByRelativePath = {
+				"Resources/Launch Screen.storyboard" = (
+					ios,
+				);
+				Resources/Settings.bundle = (
+					ios,
+				);
+				System/iOS/ApplicationDelegate.swift = (
+					ios,
+				);
+				System/iOS/SafariView.swift = (
+					ios,
+				);
+				System/iOS/SceneDelegate.swift = (
+					ios,
+				);
+				System/iOS/SettingsBundleService.swift = (
+					ios,
+				);
+			};
+			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+		};
+		68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Router/Navigation.swift,
+				Router/OnContinueRouterUserActivitiesViewModifier.swift,
+				Router/Router.swift,
+				Router/UserActivity.swift,
+			);
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+		};
+		68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Timetable/Timetable/Date++.swift",
+				Timetable/Timetable/ScheduledClass.swift,
+				Timetable/Timetable/TimetableService.swift,
+				Timetable/TimetableIntents/Entities/ScheduledClassEntity.swift,
+				Timetable/TimetableIntents/Entities/ScheduledClassEntityQuery.swift,
+				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
+				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
+				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
+				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
+				Timetable/TimetableTests/TimetableTests.swift,
+				Timetable/TimetableUI/TimetableRowView.swift,
+			);
+			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
+		};
+		68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Router/Navigation.swift,
+				Router/OnContinueRouterUserActivitiesViewModifier.swift,
+				Router/Router.swift,
+				Router/UserActivity.swift,
+			);
+			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+		};
+		68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Router/Navigation.swift,
+				Router/OnContinueRouterUserActivitiesViewModifier.swift,
+				Router/Router.swift,
+				Router/UserActivity.swift,
+			);
+			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
+		};
+		68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Assets.xcassets,
+				Resources/Fonts/Avenir.ttc,
+			);
+			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
+		};
+		68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoreSpotlightIndexDelegate/Info.plist,
+				Widgets/Assets.xcassets,
+				Widgets/Info.plist,
+				Widgets/NoContentView.swift,
+				Widgets/Timetable/TimetableWidget.swift,
+				Widgets/Timetable/TimetableWidgetView.swift,
+				Widgets/WidgetsBundle.swift,
+				Widgets/WidgetStyling.swift,
+			);
+			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
+		};
+		68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Widgets/Assets.xcassets,
+				Widgets/NoContentView.swift,
+				Widgets/Timetable/TimetableWidget.swift,
+				Widgets/Timetable/TimetableWidgetView.swift,
+				Widgets/WidgetsBundle.swift,
+				Widgets/WidgetStyling.swift,
+			);
+			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
+		};
+		68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Timetable/TimetableIntents/Entities/ScheduledClassEntity.swift,
+				Timetable/TimetableIntents/Entities/ScheduledClassEntityQuery.swift,
+				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
+				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
+				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
+				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
+			);
+			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		685E29202E5CECA300A54DAD /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 6835EF4F2E4E7ADD003B15BB /* Sources */;
+			membershipExceptions = (
+				"openapi-generator-config.yaml",
+				openapi.yaml,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6835EF4D2E4E7A88003B15BB /* LearnKit */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6835EF5F2E4E7B86003B15BB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 685E29202E5CECA300A54DAD /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LearnKit; sourceTree = "<group>"; };
+		686425762E68A07800A088A8 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		68C863632E969F950023B0AD /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
+		68C863E52E96A03C0023B0AD /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
+		68EAC7472E79EBFC00A3F286 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		28E311042A98E78D00ECC35C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */,
+				681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */,
+				68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */,
+				68E7BBFA2E96A42300F91FD0 /* SwiftBbML in Frameworks */,
+				68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */,
+				68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */,
+				68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */,
+				6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D64982E6778770071DD6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680D64AA2E677A4D0071DD6B /* LearnKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6835EF502E4E7ADD003B15BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
+				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
+				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
+				68E7BBF62E96A38000F91FD0 /* SwiftBbML in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		684DFF742E56318A00E6C316 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68EAC7052E79E34200A3F286 /* TimetableUI.framework in Frameworks */,
+				686425BC2E68AF9800A088A8 /* LearnKit.framework in Frameworks */,
+				684DFF792E56318A00E6C316 /* SwiftUI.framework in Frameworks */,
+				68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */,
+				684DFF782E56318A00E6C316 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426502E68CC8500A088A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426582E68CC8600A088A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6864265C2E68CC8600A088A8 /* Timetable.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426962E68CCEF00A088A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC78F2E79F5DA00A3F286 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68EAC7AD2E79F60600A3F286 /* TimetableUI.framework in Frameworks */,
+				68EAC7F52E7A094400A3F286 /* Router.framework in Frameworks */,
+				68EAC7A92E79F60600A3F286 /* Timetable.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC7DD2E7A089000A3F286 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		28E310FE2A98E78C00ECC35C = {
+			isa = PBXGroup;
+			children = (
+				68C8624A2E969EB90023B0AD /* Shared */,
+				68C863E52E96A03C0023B0AD /* Core */,
+				6835EF4D2E4E7A88003B15BB /* LearnKit */,
+				686425762E68A07800A088A8 /* Features */,
+				68C863632E969F950023B0AD /* App */,
+				68EAC7472E79EBFC00A3F286 /* Extensions */,
+				28FB25132A99573D00D7FDB9 /* Frameworks */,
+				28E311082A98E78D00ECC35C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		28E311082A98E78D00ECC35C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28E311072A98E78D00ECC35C /* My Brighton.app */,
+				6835EF532E4E7ADD003B15BB /* LearnKit.framework */,
+				684DFF772E56318A00E6C316 /* WidgetsExtension.appex */,
+				680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */,
+				686426532E68CC8500A088A8 /* Timetable.framework */,
+				6864265B2E68CC8600A088A8 /* TimetableTests.xctest */,
+				686426992E68CCEF00A088A8 /* TimetableUI.framework */,
+				68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */,
+				68EAC7E02E7A089000A3F286 /* Router.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28FB25132A99573D00D7FDB9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28FB25142A99573D00D7FDB9 /* WidgetKit.framework */,
+				28FB25162A99573D00D7FDB9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		683E010C2E71DBC3004C2831 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				683E01372E71DBC3004C2831 /* ICSExporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		683E01982E71DC2F004C2831 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				683E026A2E71DC37004C2831 /* ICSExporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6835EF4E2E4E7ADD003B15BB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6864264E2E68CC8500A088A8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426942E68CCEF00A088A8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC78D2E79F5DA00A3F286 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC7DB2E7A089000A3F286 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		28E311062A98E78D00ECC35C /* My Brighton */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "My Brighton" */;
+			buildPhases = (
+				28E311032A98E78D00ECC35C /* Sources */,
+				28E311042A98E78D00ECC35C /* Frameworks */,
+				28E311052A98E78D00ECC35C /* Resources */,
+				28FB25262A99573F00D7FDB9 /* Embed Foundation Extensions */,
+				68849A062DFDA85500BF64F1 /* Embed ExtensionKit Extensions */,
+				681667152E67C1230089CE9A /* Embed Frameworks */,
+				686F22E12E7BB23900DFC6CC /* Embed XPC Services */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6835EF582E4E7ADD003B15BB /* PBXTargetDependency */,
+				684DFF892E56318D00E6C316 /* PBXTargetDependency */,
+				680D64A12E6778770071DD6B /* PBXTargetDependency */,
+				686426652E68CC8600A088A8 /* PBXTargetDependency */,
+				6864269E2E68CCF000A088A8 /* PBXTargetDependency */,
+				68EAC7972E79F5DA00A3F286 /* PBXTargetDependency */,
+				68EAC7E52E7A089000A3F286 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				68C8624A2E969EB90023B0AD /* Shared */,
+				68C863632E969F950023B0AD /* App */,
+				68C863E52E96A03C0023B0AD /* Core */,
+			);
+			name = "My Brighton";
+			productName = "My Brighton";
+			productReference = 28E311072A98E78D00ECC35C /* My Brighton.app */;
+			productType = "com.apple.product-type.application";
+		};
+		680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 680D64A32E6778770071DD6B /* Build configuration list for PBXNativeTarget "CoreSpotlightIndexDelegate" */;
+			buildPhases = (
+				680D64972E6778770071DD6B /* Sources */,
+				680D64982E6778770071DD6B /* Frameworks */,
+				680D64992E6778770071DD6B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				680D64AD2E677A4D0071DD6B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				686425762E68A07800A088A8 /* Features */,
+				68EAC7472E79EBFC00A3F286 /* Extensions */,
+			);
+			name = CoreSpotlightIndexDelegate;
+			packageProductDependencies = (
+			);
+			productName = CoreSpotlightIndexDelegate;
+			productReference = 680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		6835EF522E4E7ADD003B15BB /* LearnKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6835EF5B2E4E7ADD003B15BB /* Build configuration list for PBXNativeTarget "LearnKit" */;
+			buildPhases = (
+				6835EF4E2E4E7ADD003B15BB /* Headers */,
+				6835EF4F2E4E7ADD003B15BB /* Sources */,
+				6835EF502E4E7ADD003B15BB /* Frameworks */,
+				6835EF512E4E7ADD003B15BB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6835EF6F2E4E7D60003B15BB /* PBXTargetDependency */,
+			);
+			name = LearnKit;
+			packageProductDependencies = (
+				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
+				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
+				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
+				68E7BBF52E96A38000F91FD0 /* SwiftBbML */,
+			);
+			productName = LearnKit;
+			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		684DFF762E56318A00E6C316 /* WidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 684DFF8D2E56318D00E6C316 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
+			buildPhases = (
+				684DFF732E56318A00E6C316 /* Sources */,
+				684DFF742E56318A00E6C316 /* Frameworks */,
+				684DFF752E56318A00E6C316 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				686425BF2E68AF9800A088A8 /* PBXTargetDependency */,
+				68EAC7042E79E34200A3F286 /* PBXTargetDependency */,
+				68EAC7082E79E34200A3F286 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				68C8624A2E969EB90023B0AD /* Shared */,
+				68C863E52E96A03C0023B0AD /* Core */,
+			);
+			name = WidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = WidgetsExtension;
+			productReference = 684DFF772E56318A00E6C316 /* WidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		686426522E68CC8500A088A8 /* Timetable */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 686426682E68CC8600A088A8 /* Build configuration list for PBXNativeTarget "Timetable" */;
+			buildPhases = (
+				6864264E2E68CC8500A088A8 /* Headers */,
+				6864264F2E68CC8500A088A8 /* Sources */,
+				686426502E68CC8500A088A8 /* Frameworks */,
+				686426512E68CC8500A088A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Timetable;
+			packageProductDependencies = (
+				68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */,
+			);
+			productName = Timetable;
+			productReference = 686426532E68CC8500A088A8 /* Timetable.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6864265A2E68CC8600A088A8 /* TimetableTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6864266B2E68CC8600A088A8 /* Build configuration list for PBXNativeTarget "TimetableTests" */;
+			buildPhases = (
+				686426572E68CC8600A088A8 /* Sources */,
+				686426582E68CC8600A088A8 /* Frameworks */,
+				686426592E68CC8600A088A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6864265E2E68CC8600A088A8 /* PBXTargetDependency */,
+				686426602E68CC8600A088A8 /* PBXTargetDependency */,
+			);
+			name = TimetableTests;
+			packageProductDependencies = (
+			);
+			productName = TimetableTests;
+			productReference = 6864265B2E68CC8600A088A8 /* TimetableTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		686426982E68CCEF00A088A8 /* TimetableUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 686426A12E68CCF000A088A8 /* Build configuration list for PBXNativeTarget "TimetableUI" */;
+			buildPhases = (
+				686426942E68CCEF00A088A8 /* Headers */,
+				686426952E68CCEF00A088A8 /* Sources */,
+				686426962E68CCEF00A088A8 /* Frameworks */,
+				686426972E68CCEF00A088A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				686426C52E68CD4A00A088A8 /* PBXTargetDependency */,
+			);
+			name = TimetableUI;
+			packageProductDependencies = (
+			);
+			productName = TimetableUI;
+			productReference = 686426992E68CCEF00A088A8 /* TimetableUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		68EAC7912E79F5DA00A3F286 /* TimetableIntents */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68EAC79A2E79F5DA00A3F286 /* Build configuration list for PBXNativeTarget "TimetableIntents" */;
+			buildPhases = (
+				68EAC78D2E79F5DA00A3F286 /* Headers */,
+				68EAC78E2E79F5DA00A3F286 /* Sources */,
+				68EAC78F2E79F5DA00A3F286 /* Frameworks */,
+				68EAC7902E79F5DA00A3F286 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				68EAC7AC2E79F60600A3F286 /* PBXTargetDependency */,
+				68EAC7B02E79F60600A3F286 /* PBXTargetDependency */,
+				68EAC7F82E7A094400A3F286 /* PBXTargetDependency */,
+			);
+			name = TimetableIntents;
+			packageProductDependencies = (
+			);
+			productName = TimetableIntents;
+			productReference = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		68EAC7DF2E7A089000A3F286 /* Router */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68EAC7E82E7A089000A3F286 /* Build configuration list for PBXNativeTarget "Router" */;
+			buildPhases = (
+				68EAC7DB2E7A089000A3F286 /* Headers */,
+				68EAC7DC2E7A089000A3F286 /* Sources */,
+				68EAC7DD2E7A089000A3F286 /* Frameworks */,
+				68EAC7DE2E7A089000A3F286 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				68C28A6B2E91A97D0099B6EE /* PBXTargetDependency */,
+			);
+			name = Router;
+			packageProductDependencies = (
+			);
+			productName = Router;
+			productReference = 68EAC7E02E7A089000A3F286 /* Router.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28E310FF2A98E78C00ECC35C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					28E311062A98E78D00ECC35C = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					680D649A2E6778770071DD6B = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					6835EF522E4E7ADD003B15BB = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					684DFF762E56318A00E6C316 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					686426522E68CC8500A088A8 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					6864265A2E68CC8600A088A8 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 28E311062A98E78D00ECC35C;
+					};
+					686426982E68CCEF00A088A8 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					68EAC7912E79F5DA00A3F286 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					68EAC7DF2E7A089000A3F286 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = 28E311022A98E78C00ECC35C /* Build configuration list for PBXProject "My Brighton" */;
+			developmentRegion = "en-GB";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				"en-GB",
+			);
+			mainGroup = 28E310FE2A98E78C00ECC35C;
+			packageReferences = (
+				68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */,
+				689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */,
+				68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */,
+			);
+			preferredProjectObjectVersion = 56;
+			productRefGroup = 28E311082A98E78D00ECC35C /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 683E01982E71DC2F004C2831 /* Products */;
+					ProjectRef = 683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 683E010C2E71DBC3004C2831 /* Products */;
+					ProjectRef = 683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				28E311062A98E78D00ECC35C /* My Brighton */,
+				684DFF762E56318A00E6C316 /* WidgetsExtension */,
+				68EAC7DF2E7A089000A3F286 /* Router */,
+				680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */,
+				6835EF522E4E7ADD003B15BB /* LearnKit */,
+				686426522E68CC8500A088A8 /* Timetable */,
+				6864265A2E68CC8600A088A8 /* TimetableTests */,
+				686426982E68CCEF00A088A8 /* TimetableUI */,
+				68EAC7912E79F5DA00A3F286 /* TimetableIntents */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		683E01372E71DBC3004C2831 /* ICSExporter.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ICSExporter.app;
+			remoteRef = 683E01362E71DBC3004C2831 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		683E026A2E71DC37004C2831 /* ICSExporter.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ICSExporter.app;
+			remoteRef = 683E02692E71DC37004C2831 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		28E311052A98E78D00ECC35C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D64992E6778770071DD6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6835EF512E4E7ADD003B15BB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		684DFF752E56318A00E6C316 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426512E68CC8500A088A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426592E68CC8600A088A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426972E68CCEF00A088A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC7902E79F5DA00A3F286 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC7DE2E7A089000A3F286 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28E311032A98E78D00ECC35C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680D64972E6778770071DD6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6835EF4F2E4E7ADD003B15BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		684DFF732E56318A00E6C316 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6864264F2E68CC8500A088A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426572E68CC8600A088A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		686426952E68CCEF00A088A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC78E2E79F5DA00A3F286 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		68EAC7DC2E7A089000A3F286 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		680D64A12E6778770071DD6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
+			targetProxy = 680D64A02E6778770071DD6B /* PBXContainerItemProxy */;
+		};
+		680D64AD2E677A4D0071DD6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
+			targetProxy = 680D64AC2E677A4D0071DD6B /* PBXContainerItemProxy */;
+		};
+		6835EF582E4E7ADD003B15BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
+			targetProxy = 6835EF572E4E7ADD003B15BB /* PBXContainerItemProxy */;
+		};
+		6835EF6F2E4E7D60003B15BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 6835EF6E2E4E7D60003B15BB /* OpenAPIGenerator */;
+		};
+		684DFF892E56318D00E6C316 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
+			targetProxy = 684DFF882E56318D00E6C316 /* PBXContainerItemProxy */;
+		};
+		686425BF2E68AF9800A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
+			targetProxy = 686425BE2E68AF9800A088A8 /* PBXContainerItemProxy */;
+		};
+		6864265E2E68CC8600A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+			targetProxy = 6864265D2E68CC8600A088A8 /* PBXContainerItemProxy */;
+		};
+		686426602E68CC8600A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			targetProxy = 6864265F2E68CC8600A088A8 /* PBXContainerItemProxy */;
+		};
+		686426652E68CC8600A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+			targetProxy = 686426642E68CC8600A088A8 /* PBXContainerItemProxy */;
+		};
+		6864269E2E68CCF000A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
+			targetProxy = 6864269D2E68CCF000A088A8 /* PBXContainerItemProxy */;
+		};
+		686426C52E68CD4A00A088A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+			targetProxy = 686426C42E68CD4A00A088A8 /* PBXContainerItemProxy */;
+		};
+		68C28A6B2E91A97D0099B6EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
+			targetProxy = 68C28A6A2E91A97D0099B6EE /* PBXContainerItemProxy */;
+		};
+		68EAC7042E79E34200A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+			targetProxy = 68EAC7032E79E34200A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7082E79E34200A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
+			targetProxy = 68EAC7072E79E34200A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7972E79F5DA00A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
+			targetProxy = 68EAC7962E79F5DA00A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7AC2E79F60600A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426522E68CC8500A088A8 /* Timetable */;
+			targetProxy = 68EAC7AB2E79F60600A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7B02E79F60600A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
+			targetProxy = 68EAC7AF2E79F60600A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7E52E7A089000A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+			targetProxy = 68EAC7E42E7A089000A3F286 /* PBXContainerItemProxy */;
+		};
+		68EAC7F82E7A094400A3F286 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+			targetProxy = 68EAC7F72E7A094400A3F286 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		28E311132A98E78F00ECC35C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		28E311142A98E78F00ECC35C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		28E311162A98E78F00ECC35C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "My Brighton";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets *.icon (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.ultra";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSSiriUsageDescription = "My Brighton can provide information about you and your courses to Siri to allow it to facilitate requests.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DENABLE_BSU";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		28E311172A98E78F00ECC35C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "My Brighton";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets *.icon (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.ultra";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSSiriUsageDescription = "My Brighton can provide information about you and your courses to Siri to allow it to facilitate requests.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-DENABLE_BSU";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
+		680D64A42E6778770071DD6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/CoreSpotlightIndexDelegate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoreSpotlightIndexDelegate;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.CoreSpotlightIndexDelegate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		680D64A52E6778770071DD6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/CoreSpotlightIndexDelegate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoreSpotlightIndexDelegate;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.CoreSpotlightIndexDelegate";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6835EF5C2E4E7ADD003B15BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMPILATION_CACHE_ENABLE_CACHING = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.neo.LearnKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		6835EF5D2E4E7ADD003B15BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMPILATION_CACHE_ENABLE_CACHING = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.neo.LearnKit;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		684DFF8B2E56318D00E6C316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		684DFF8C2E56318D00E6C316 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10M20251008;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extensions/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		686426692E68CC8600A088A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Timetable";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		6864266A2E68CC8600A088A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Timetable";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		6864266C2E68CC8600A088A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/My Brighton.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/My Brighton";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		6864266D2E68CC8600A088A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/My Brighton.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/My Brighton";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		686426A22E68CCF000A088A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableUI";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		686426A32E68CCF000A088A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableUI";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		68EAC79B2E79F5DA00A3F286 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableIntents";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		68EAC79C2E79F5DA00A3F286 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.TimetableIntents";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		68EAC7E92E7A089000A3F286 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Router";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		68EAC7EA2E7A089000A3F286 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.neo.My-Brighton.Router";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28E311022A98E78C00ECC35C /* Build configuration list for PBXProject "My Brighton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28E311132A98E78F00ECC35C /* Debug */,
+				28E311142A98E78F00ECC35C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "My Brighton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28E311162A98E78F00ECC35C /* Debug */,
+				28E311172A98E78F00ECC35C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		680D64A32E6778770071DD6B /* Build configuration list for PBXNativeTarget "CoreSpotlightIndexDelegate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680D64A42E6778770071DD6B /* Debug */,
+				680D64A52E6778770071DD6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6835EF5B2E4E7ADD003B15BB /* Build configuration list for PBXNativeTarget "LearnKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6835EF5C2E4E7ADD003B15BB /* Debug */,
+				6835EF5D2E4E7ADD003B15BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		684DFF8D2E56318D00E6C316 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				684DFF8B2E56318D00E6C316 /* Debug */,
+				684DFF8C2E56318D00E6C316 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		686426682E68CC8600A088A8 /* Build configuration list for PBXNativeTarget "Timetable" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				686426692E68CC8600A088A8 /* Debug */,
+				6864266A2E68CC8600A088A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6864266B2E68CC8600A088A8 /* Build configuration list for PBXNativeTarget "TimetableTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6864266C2E68CC8600A088A8 /* Debug */,
+				6864266D2E68CC8600A088A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		686426A12E68CCF000A088A8 /* Build configuration list for PBXNativeTarget "TimetableUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				686426A22E68CCF000A088A8 /* Debug */,
+				686426A32E68CCF000A088A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68EAC79A2E79F5DA00A3F286 /* Build configuration list for PBXNativeTarget "TimetableIntents" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68EAC79B2E79F5DA00A3F286 /* Debug */,
+				68EAC79C2E79F5DA00A3F286 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		68EAC7E82E7A089000A3F286 /* Build configuration list for PBXNativeTarget "Router" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68EAC7E92E7A089000A3F286 /* Debug */,
+				68EAC7EA2E7A089000A3F286 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		6832720A2E453CB800A30317 /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Anthology/SwiftBbML;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+		689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.2;
+			};
+		};
+		689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
+		689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/Glur";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+		68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jds691/SwiftBbML";
+			requirement = {
+				branch = parser;
+				kind = branch;
+			};
+		};
+		68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ramonvasc/MXLCalendarManagerSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+		6835EF692E4E7D4A003B15BB /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+		6835EF6E2E4E7D60003B15BB /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+		68AB39BC2E11C4460039AFC8 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */;
+			productName = Glur;
+		};
+		68E7BBF52E96A38000F91FD0 /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
+			productName = SwiftBbML;
+		};
+		68E7BBF92E96A42300F91FD0 /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
+			productName = SwiftBbML;
+		};
+		68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */;
+			productName = MXLCalendarManagerSwift;
+		};
+		68FF79E62E5516F8000B6F5C /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6832720A2E453CB800A30317 /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */;
+			productName = SwiftBbML;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 28E310FF2A98E78C00ECC35C /* Project object */;
+}

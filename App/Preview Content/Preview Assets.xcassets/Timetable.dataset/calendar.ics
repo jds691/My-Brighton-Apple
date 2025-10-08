@@ -1,0 +1,541 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ddaysoftware.com//NONSGML DDay.iCal 1.0//EN
+X-PUBLISHED-TTL:PT5M
+X-WR-TIMEZONE:Europe/London
+BEGIN:VTIMEZONE
+TZID:GMT Standard Time
+BEGIN:STANDARD
+DTSTART:20241002T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYHOUR=2;BYMINUTE=0;BYMONTH=10
+TZNAME:GMT Standard Time
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0000
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20240301T010000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYHOUR=1;BYMINUTE=0;BYMONTH=3
+TZNAME:GMT Daylight Time
+TZOFFSETFROM:+0000
+TZOFFSETTO:+0100
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTIMEZONE
+TZID:Europe/London
+BEGIN:STANDARD
+DTSTART:16010101T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
+TZOFFSETFROM:+0100
+TZOFFSETTO:-0000
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T010000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
+TZOFFSETFROM:-0000
+TZOFFSETTO:+0100
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI642
+CATEGORIES:Advanced Artificial Intelligence
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Advanced Artificial Intelligence \nCI642 \nMoulsecoomb\, Cockcr
+ oft 206 - AI Lab \nLecture \nUchyigit Gulden \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20251006T180000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251006T160000
+LOCATION:Moulsecoomb\, Cockcroft 206 - AI Lab
+RRULE:FREQ=WEEKLY;COUNT=11;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Advanced Artificial Intelligence 
+UID:0ID498986:2020-04-09T13:50:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI642
+CATEGORIES:Advanced Artificial Intelligence
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Advanced Artificial Intelligence \nCI642 \nMoulsecoomb\, Cockcr
+ oft 206 - AI Lab \nLecture \nUchyigit Gulden \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20260112T180000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260112T160000
+LOCATION:Moulsecoomb\, Cockcroft 206 - AI Lab
+RRULE:FREQ=WEEKLY;COUNT=2;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Advanced Artificial Intelligence 
+UID:1ID498986:2020-04-09T13:50:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Hamie Ali
+CATEGORIES:CI615
+CATEGORIES:Object-Oriented Design And Architecture
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Object-Oriented Design And Architecture \nCI615 \nMoulsecoomb\,
+  Watts 513 \nLecture \nHamie Ali \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20251006T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251006T110000
+LOCATION:Moulsecoomb\, Watts 513
+RRULE:FREQ=WEEKLY;COUNT=11;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Object-Oriented Design And Architecture 
+UID:0ID499450:2020-04-14T17:20:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Hamie Ali
+CATEGORIES:CI615
+CATEGORIES:Object-Oriented Design And Architecture
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Object-Oriented Design And Architecture \nCI615 \nMoulsecoomb\,
+  Watts 513 \nLecture \nHamie Ali \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20260112T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260112T110000
+LOCATION:Moulsecoomb\, Watts 513
+RRULE:FREQ=WEEKLY;COUNT=2;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Object-Oriented Design And Architecture 
+UID:1ID499450:2020-04-14T17:20:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Baimagambetov Almas
+CATEGORIES:CI646
+CATEGORIES:Programming Languages Concurrency And Client Server Computing
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Programming Languages\, Concurrency And Client Server Computing
+  \nCI646 \nMoulsecoomb\, Cockcroft 204 - Game Dev Lab \nLecture \nBaimagam
+ betov Almas \nWks 39 \n
+DTEND;TZID=Europe/London:20260420T140000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260420T120000
+LOCATION:Moulsecoomb\, Cockcroft 204 - Game Dev Lab
+RRULE:FREQ=WEEKLY;COUNT=6;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Programming Languages\, Concurrency And Client Server Computing 
+UID:0ID499452:2020-04-14T17:22:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Baimagambetov Almas
+CATEGORIES:CI646
+CATEGORIES:Programming Languages Concurrency And Client Server Computing
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Programming Languages\, Concurrency And Client Server Computing
+  \nCI646 \nMoulsecoomb\, Watts 201\; Moulsecoomb\, Watts 202 \nLaboratory 
+ \nBaimagambetov Almas \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260209T163000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260209T143000
+LOCATION:Moulsecoomb\, Watts 201\; Moulsecoomb\, Watts 202
+RRULE:FREQ=WEEKLY;COUNT=7;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Programming Languages\, Concurrency And Client Server Computing 
+UID:0ID499455:2020-04-14T17:25:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Baimagambetov Almas
+CATEGORIES:CI646
+CATEGORIES:Programming Languages Concurrency And Client Server Computing
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Programming Languages\, Concurrency And Client Server Computing
+  \nCI646 \nMoulsecoomb\, Watts 201\; Moulsecoomb\, Watts 202 \nLaboratory 
+ \nBaimagambetov Almas \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260420T163000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260420T143000
+LOCATION:Moulsecoomb\, Watts 201\; Moulsecoomb\, Watts 202
+RRULE:FREQ=WEEKLY;COUNT=6;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Programming Languages\, Concurrency And Client Server Computing 
+UID:1ID499455:2020-04-14T17:25:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Hamie Ali
+CATEGORIES:CI615
+CATEGORIES:Object-Oriented Design And Architecture
+CATEGORIES:Group2
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Object-Oriented Design And Architecture \nCI615 \nMoulsecoomb\,
+  Cockcroft 419 Computer Lab \nGroup2 \nLaboratory \nHamie Ali \nWks 11-21\
+ ,25 \n
+DTEND;TZID=Europe/London:20251007T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251007T110000
+LOCATION:Moulsecoomb\, Cockcroft 419 Computer Lab
+RRULE:FREQ=WEEKLY;COUNT=11;BYDAY=TU
+SEQUENCE:0
+SUMMARY:Object-Oriented Design And Architecture 
+UID:0ID500821:2020-04-24T11:50:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Hamie Ali
+CATEGORIES:CI615
+CATEGORIES:Object-Oriented Design And Architecture
+CATEGORIES:Group2
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Object-Oriented Design And Architecture \nCI615 \nMoulsecoomb\,
+  Cockcroft 419 Computer Lab \nGroup2 \nLaboratory \nHamie Ali \nWks 11-21\
+ ,25 \n
+DTEND;TZID=Europe/London:20260113T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260113T110000
+LOCATION:Moulsecoomb\, Cockcroft 419 Computer Lab
+RRULE:FREQ=WEEKLY;COUNT=2;BYDAY=TU
+SEQUENCE:0
+SUMMARY:Object-Oriented Design And Architecture 
+UID:1ID500821:2020-04-24T11:50:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI603
+CATEGORIES:Data Mining
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Data Mining \nCI603 \nMoulsecoomb\, Cockcroft 106 - Computer Ro
+ om \nLecture \nUchyigit Gulden \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260212T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260212T110000
+LOCATION:Moulsecoomb\, Cockcroft 106 - Computer Room
+RRULE:FREQ=WEEKLY;COUNT=7;BYDAY=TH
+SEQUENCE:0
+SUMMARY:Data Mining 
+UID:0ID500866:2020-04-24T13:11:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI603
+CATEGORIES:Data Mining
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Data Mining \nCI603 \nMoulsecoomb\, Cockcroft 106 - Computer Ro
+ om \nLecture \nUchyigit Gulden \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260423T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260423T110000
+LOCATION:Moulsecoomb\, Cockcroft 106 - Computer Room
+RRULE:FREQ=WEEKLY;COUNT=6;BYDAY=TH
+SEQUENCE:0
+SUMMARY:Data Mining 
+UID:1ID500866:2020-04-24T13:11:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI603
+CATEGORIES:Data Mining
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Data Mining \nCI603 \nMoulsecoomb\, Cockcroft 107 - Computer Ro
+ om \nLaboratory \nUchyigit Gulden \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260211T120000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260211T100000
+LOCATION:Moulsecoomb\, Cockcroft 107 - Computer Room
+RRULE:FREQ=WEEKLY;COUNT=7;BYDAY=WE
+SEQUENCE:0
+SUMMARY:Data Mining 
+UID:0ID596506:2023-05-10T11:11:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI603
+CATEGORIES:Data Mining
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Data Mining \nCI603 \nMoulsecoomb\, Cockcroft 107 - Computer Ro
+ om \nLaboratory \nUchyigit Gulden \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260422T120000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260422T100000
+LOCATION:Moulsecoomb\, Cockcroft 107 - Computer Room
+RRULE:FREQ=WEEKLY;COUNT=6;BYDAY=WE
+SEQUENCE:0
+SUMMARY:Data Mining 
+UID:1ID596506:2023-05-10T11:11:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:BB-J4EG047-6
+CATEGORIES:Belong At Brighton
+CATEGORIES:BB-J4EG011-6
+CATEGORIES:BB-J4EG042-6
+CATEGORIES:Timetable event
+DESCRIPTION:Belong At Brighton \nBB-J4EG047-6\; BB-J4EG011-6\; BB-J4EG042-6
+  \nMoulsecoomb\, Watts 314 \nCI601 Project briefing \nHeath Robin \nWk 10 
+ \n
+DTEND;TZID=Europe/London:20250929T130000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20250929T120000
+LOCATION:Moulsecoomb\, Watts 314
+SEQUENCE:0
+SUMMARY:Belong At Brighton 
+UID:0ID626652:2024-05-14T14:08:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:BB-J4EG011-6
+CATEGORIES:Belong At Brighton
+CATEGORIES:BB-J4EG042-6
+CATEGORIES:BB-J4EG047-6
+CATEGORIES:Timetable event
+DESCRIPTION:Belong At Brighton \nBB-J4EG011-6\; BB-J4EG042-6\; BB-J4EG047-6
+  \nMoulsecoomb\, Watts 301 \nIdeas Discussion Activity \nHeath Robin \nWk 
+ 10 \n
+DTEND;TZID=Europe/London:20250929T140000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20250929T130000
+LOCATION:Moulsecoomb\, Watts 301
+SEQUENCE:0
+SUMMARY:Belong At Brighton 
+UID:0ID626653:2024-05-14T14:11:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Pavlidis Michalis
+CATEGORIES:Baimagambetov Almas
+CATEGORIES:Soldar Goran
+CATEGORIES:BB-J4EG042-5
+CATEGORIES:Belong At Brighton
+CATEGORIES:BB-J4EG042-6
+CATEGORIES:BB-J4EG042-4
+CATEGORIES:BB-J4EG047-4
+CATEGORIES:BB-J4EG047-5
+CATEGORIES:BB-J4EG047-6
+CATEGORIES:BB-J4EG007-4
+CATEGORIES:BB-J4EG007-5
+CATEGORIES:BB-J4EG007-6
+CATEGORIES:Timetable event
+DESCRIPTION:Belong At Brighton \nBB-J4EG042-5\; BB-J4EG042-6\; BB-J4EG042-4
+ \; BB-J4EG047-4\; BB-J4EG047-5\; BB-J4EG047-6\; BB-J4EG007-4\; BB-J4EG007-
+ 5\; BB-J4EG007-6 \nMoulsecoomb\, Mithras House G8 \nWhole course activity 
+ \nPavlidis Michalis\, Baimagambetov Almas\, Soldar Goran \nWk 10 \n
+DTEND;TZID=Europe/London:20251003T120000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251003T110000
+LOCATION:Moulsecoomb\, Mithras House G8
+SEQUENCE:0
+SUMMARY:Belong At Brighton 
+UID:0ID626660:2024-05-14T14:33:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Montgomery Andrew
+CATEGORIES:BB-J4EG042-6
+CATEGORIES:Belong At Brighton
+CATEGORIES:Timetable event
+DESCRIPTION:Belong At Brighton \nBB-J4EG042-6 \nMoulsecoomb\, Cockcroft 206
+  - AI Lab \nWelcome L6 \nMontgomery Andrew \nWk 10 \n
+DTEND;TZID=Europe/London:20250929T120000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20250929T110000
+LOCATION:Moulsecoomb\, Cockcroft 206 - AI Lab
+SEQUENCE:0
+SUMMARY:Belong At Brighton 
+UID:0ID628398:2024-05-29T20:05:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Fallahkhair Sanaz
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft 201 \nL
+ ecture \nFallahkhair Sanaz \nWk 20 \n
+DTEND;TZID=Europe/London:20251209T150000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251209T140000
+LOCATION:Moulsecoomb\, Cockcroft 201
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID633211:2024-08-19T19:02:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Huxley 300 \nLect
+ ure \nHeath Robin \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260210T140000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260210T130000
+LOCATION:Moulsecoomb\, Huxley 300
+RRULE:FREQ=WEEKLY;COUNT=7;BYDAY=TU
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID635168:2024-09-18T18:57:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Huxley 300 \nLect
+ ure \nHeath Robin \nWks 29-35\,39 \n
+DTEND;TZID=Europe/London:20260421T140000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260421T130000
+LOCATION:Moulsecoomb\, Huxley 300
+RRULE:FREQ=WEEKLY;COUNT=6;BYDAY=TU
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:1ID635168:2024-09-18T18:57:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI642
+CATEGORIES:Advanced Artificial Intelligence
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Advanced Artificial Intelligence \nCI642 \nLaboratory \nUchyigi
+ t Gulden \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20251006T160000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251006T140000
+RRULE:FREQ=WEEKLY;COUNT=11;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Advanced Artificial Intelligence 
+UID:0ID636037:2024-09-24T09:28:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Uchyigit Gulden
+CATEGORIES:CI642
+CATEGORIES:Advanced Artificial Intelligence
+CATEGORIES:Laboratory
+CATEGORIES:Timetable event
+DESCRIPTION:Advanced Artificial Intelligence \nCI642 \nLaboratory \nUchyigi
+ t Gulden \nWks 11-21\,25 \n
+DTEND;TZID=Europe/London:20260112T160000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260112T140000
+RRULE:FREQ=WEEKLY;COUNT=2;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Advanced Artificial Intelligence 
+UID:1ID636037:2024-09-24T09:28:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Baimagambetov Almas
+CATEGORIES:CI646
+CATEGORIES:Programming Languages Concurrency And Client Server Computing
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:Programming Languages\, Concurrency And Client Server Computing
+  \nCI646 \nMoulsecoomb\, Watts 301 \nLecture \nBaimagambetov Almas \nWks 2
+ 9 \n
+DTEND;TZID=Europe/London:20260209T140000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20260209T120000
+LOCATION:Moulsecoomb\, Watts 301
+RRULE:FREQ=WEEKLY;COUNT=7;BYDAY=MO
+SEQUENCE:0
+SUMMARY:Programming Languages\, Concurrency And Client Server Computing 
+UID:0ID658230:2025-05-27T10:14:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft G24 Lec
+ ture Theatre 1 \nLecture \nHeath Robin \nWks 10-11\,14 \n
+DTEND;TZID=Europe/London:20251001T100000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251001T090000
+LOCATION:Moulsecoomb\, Cockcroft G24 Lecture Theatre 1
+RRULE:FREQ=WEEKLY;COUNT=2;BYDAY=WE
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID659017:2025-06-10T16:48:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Heath Robin
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft G24 Lec
+ ture Theatre 1 \nLecture \nHeath Robin \nWks 10-11\,14 \n
+DTEND;TZID=Europe/London:20251029T100000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251029T090000
+LOCATION:Moulsecoomb\, Cockcroft G24 Lecture Theatre 1
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:1ID659017:2025-06-10T16:48:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Harding Jennie
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft G24 Lec
+ ture Theatre 1 \nLecture \nHarding Jennie \nWks 12\,16 \n
+DTEND;TZID=Europe/London:20251015T100000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251015T090000
+LOCATION:Moulsecoomb\, Cockcroft G24 Lecture Theatre 1
+RRULE:FREQ=WEEKLY;INTERVAL=4;COUNT=2;BYDAY=WE
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID659018:2025-06-10T17:35:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft 201 \nL
+ ecture \nWk 15 \n
+DTEND;TZID=Europe/London:20251104T150000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251104T140000
+LOCATION:Moulsecoomb\, Cockcroft 201
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID659019:2025-06-10T17:39:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Cox Karl
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft 201 \nL
+ ecture \nCox Karl \nWk 17 \n
+DTEND;TZID=Europe/London:20251118T150000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251118T140000
+LOCATION:Moulsecoomb\, Cockcroft 201
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID659020:2025-06-10T17:40:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+BEGIN:VEVENT
+CATEGORIES:Montgomery Andrew
+CATEGORIES:CI601
+CATEGORIES:The Computing Project
+CATEGORIES:Lecture
+CATEGORIES:Timetable event
+DESCRIPTION:The Computing Project \nCI601 \nMoulsecoomb\, Cockcroft 201 \nL
+ ecture \nMontgomery Andrew \nWk 19 \n
+DTEND;TZID=Europe/London:20251202T150000
+DTSTAMP:20250829T190123Z
+DTSTART;TZID=Europe/London:20251202T140000
+LOCATION:Moulsecoomb\, Cockcroft 201
+SEQUENCE:0
+SUMMARY:The Computing Project 
+UID:0ID659021:2025-06-10T17:40:00.0000000+01:00@www.brighton.ac.uk
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,14 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #1C2329;
+        color: white;
+    }
+}

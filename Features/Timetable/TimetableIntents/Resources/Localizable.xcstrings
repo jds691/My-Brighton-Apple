@@ -1,0 +1,178 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%lld more classes later" : {
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld more class later"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld more classes later"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "After" : {
+
+    },
+    "Classes" : {
+
+    },
+    "End Date" : {
+
+    },
+    "Get Timetable" : {
+
+    },
+    "Get timetable for ${date}" : {
+
+    },
+    "Gets your timetable for the given date" : {
+
+    },
+    "GetTimetableIntent.dialog.classes.future" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "There are %1$lld classes on %2$@."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.classes.past" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "There were %1$lld classes on %2$@."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.no-classes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "There are no classes scheduled for %@."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.today.no-classes.full" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "There were %lld classes today. There are no more classes to attend today."
+          }
+        }
+      }
+    },
+    "Location" : {
+
+    },
+    "Module Code" : {
+
+    },
+    "Name" : {
+
+    },
+    "Scheduled Class" : {
+
+    },
+    "Start Date" : {
+
+    },
+    "There are %lld classes today." : {
+
+    },
+    "There are %lld classes today. The next class is %@ at %@ with %lld more classes later in the day." : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+          }
+        }
+      }
+    },
+    "There are %lld today." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There is %lld today."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "There are %lld today."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "There were %lld today." : {
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There was %lld today."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "There were %lld today."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Timetable" : {
+
+    },
+    "Up Next" : {
+
+    },
+    "What day would you like the timetable for?" : {
+
+    },
+    "You'll need to connect your timetable to My Brighton in-app to continue." : {
+
+    }
+  },
+  "version" : "1.1"
+}

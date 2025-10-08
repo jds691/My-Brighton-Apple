@@ -1,0 +1,18 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "prompt.search" : {
+      "comment" : "Represents different things that a user can search for.",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Courses, Content, Societies"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

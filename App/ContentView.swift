@@ -1,0 +1,134 @@
+//
+//  ContentView.swift
+//  My Brighton
+//
+//  Created by Neo on 25/08/2023.
+//
+
+import SwiftUI
+import CoreSpotlight
+import Router
+import Timetable
+
+struct ContentView: View {
+    @Environment(\.openURL) private var openURL
+    @Environment(\.horizontalSizeClass) private var hSizeClass
+
+    @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
+    @Environment(\.openWindow) private var openWindow
+
+    @Environment(Router.self) private var router: Router
+    @Environment(SearchManager.self) private var searchManager: SearchManager
+    @Environment(\.timetableService) private var timetableService
+
+    @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
+
+    var body: some View {
+        @Bindable var router = router
+        
+        root
+            .onContinueRouterUserActivities()
+        // TODO: Don't know where Router sits in the architecture hierarchy so Spotlight Continuation now lives here
+            .onContinueUserActivity(CSQueryContinuationActionType, perform: { userActivity in
+
+                guard let searchString = userActivity.userInfo?[CSSearchQueryString] as? String else {
+                    return
+                }
+
+                router.navigate(to: .route(.search))
+                searchManager.search(for: searchString)
+            })
+            /*.onOpenURL { url in
+                router.navigate(from: url)
+            }*/
+            .sheet(item: $router.rootModal) { requestedModal in
+                Group {
+                    switch (requestedModal) {
+                        case .account:
+                            AccountView()
+                        case .inbox:
+                            InboxView()
+                        case .timetableSetup:
+                            TimetableSetupView()
+                    }
+                }
+            }
+    }
+    
+    @ViewBuilder
+    private var root: some View {
+        @Bindable var router = router
+        @Bindable var searchManager = searchManager
+
+        TabView(selection: $router.currentRoute) {
+            Tab(value: .home(nil)) {
+                NavigationStack(path: $router.path) {
+                    HomeView()
+                }
+            } label: {
+                Navigation.Route.home(nil).label
+            }
+
+            Tab(value: .myStudies(nil)) {
+                NavigationStack(path: $router.path) {
+                    MyStudiesView()
+                }
+            } label: {
+                Navigation.Route.myStudies(nil).label
+            }
+
+            #if ENABLE_BSU
+            Tab(value: .bsu) {
+                NavigationStack(path: $router.path) {
+                    SocietiesView()
+                }
+            } label: {
+                Navigation.Route.bsu.label
+            }
+            #endif
+            //.hidden(hSizeClass != .compact)
+
+            /*TabSection("Modules") {
+                ForEach(Module.modules, id: \.id) { module in
+                    // TODO: Figure out what is going on here
+                    Tab(value: Navigation.Route.myStudies(classId: module.id, feedItemId: nil)) {
+                        NavigationStack {
+                            ModuleView(id: module.id)
+                        }
+                    } label: {
+                        Text(module.name)
+                    }
+                    .contextMenu {
+                        if supportsMultipleWindows {
+                            Button {
+                                openWindow(id: "module", value: module.id)
+                            } label: {
+                                Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                            }
+                        }
+                    }
+                }
+            }
+#if !os(macOS)
+            .hidden(hSizeClass == .compact)
+            .defaultVisibility(.hidden, for: .tabBar)
+#endif*/
+
+            if CSSearchableIndex.isIndexingAvailable() {
+                Tab(value: .search, role: .search) {
+                    NavigationStack(path: $router.path) {
+                        SearchView()
+                    }
+                }
+            }
+        }
+        .tabViewStyle(.sidebarAdaptable)
+#if os(macOS)
+        .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, placement: .sidebar)
+#endif
+    }
+}
+
+#Preview(traits: .environmentObjects) {
+    ContentView()
+}

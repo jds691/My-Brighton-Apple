@@ -1,0 +1,1137 @@
+openapi: 3.0.4
+info:
+  title: "Learn APIs"
+  version: 3900.121.0
+
+servers:
+  - url: "https://localhost/learn/api/public"
+    description: Production Server
+
+paths:
+  # Oauth
+  "/v1/oauth2/authorizationcode":
+    get:
+      deprecated: false
+      tags:
+        - oauth
+      summary: Authorization Code
+      description: >
+        Requests an OAuth 2 authorization code. Use of PKCE standard is optional, but highly recommended.
+
+        **Since**: 3200.7.0
+      parameters:
+        - name: redirect_uri
+          in: query
+          description: The redirectUri to send the end user to once an authorization code response is made in Oauth2 Authorization Code Workflow
+          required: false
+          schema:
+            type: string
+        - name: response_type
+          in: query
+          description: The response_type expected which must to be set to "code"
+          required: true
+          schema:
+            type: string
+            enum:
+              - code
+        - name: client_id
+          in: query
+          description: The client identifier for the registered application.
+          required: true
+          schema:
+            type: string
+        - name: scope
+          in: query
+          description: The space delimited scope(s) being requested for this authorization. Example value "read write offline"
+          required: false
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: Opaque value used by client to maintain state between request and callback. Used to prevent cross-site request forgery.
+          required: false
+          schema:
+            type: string
+        - name: code_challenge
+          in: query
+          description: >
+            A code challenge to verify credentials along with the granted authorization code. It is used with the PKCE standard.
+
+            **Since**: 3700.4.0
+          required: false
+          schema:
+            type: string
+        - name: code_challenge_method
+          in: query
+          description: >
+            This is the method used to verify the code challenge using the PKCE standard. Blackboard only supports s256 as the code challenge method.
+
+            **Since**: 3700.4.0
+          required: false
+          schema:
+            type: string
+        - name: one_time_session_token
+          in: query
+          description: >
+            Token used to retrieve the session that generated this Oauth2 Code request. Used when session cookies are not sent due to privacy settings of the browser.
+
+            **Since**: 3900.13.0
+          required: false
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+  "/v1/oauth2/token":
+    post:
+      deprecated: false
+      tags:
+        - oauth
+      summary: Request Token
+      description: >
+        Requests an OAuth 2 access token.
+
+        **Since**: 2015.11.0
+      security:
+        - bearerAuth: []
+
+      requestBody:
+        content:
+          # TODO: There is no body accepted. But the docs specify it
+          application/x-www-form-urlencoded:
+            schema:
+
+      parameters:
+        - name: grant_type
+          in: query
+          description: The Grant Type.
+          required: false
+          schema:
+            type: string
+            enum:
+              - client_credentials
+              - authorization_code
+              - refresh_token
+        - name: code
+          in: query
+          description: The authorization code granted by an end user for use by an application in Oauth2 Authorization Code Workflow.
+          required: false
+          schema:
+            type: string
+        - name: redirect_uri
+          in: query
+          description: >
+            The redirectUri to send the end user to once an access token response is made in Oauth2 Authorization Code Workflow.
+
+            **Since**: 3200.7.0
+          required: false
+          schema:
+            type: string
+        - name: refresh_token
+          in: query
+          description: >
+            The refresh token granted for use by an application in Oauth2 Refresh Token Workflow
+
+            **Since**: 3200.7.0
+          required: false
+          schema:
+            type: string
+        - name: code_verifier
+          in: query
+          description: >
+            The code_verifier to be passed along with authorization code if PKCE standard was used to grant the authorization code.
+
+            **Since**: 3700.4.0
+          required: false
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - expires_in
+                properties:
+                  access_token:
+                    type: string
+                    description: The access token issued by the authorization server.
+                  token_type:
+                    type: string
+                    description: The type of the token issued.  Value is case insensitive.
+                  expires_in:
+                    type: integer
+                    format: int32
+                    description: The lifetime in seconds of the access token.
+                  refresh_token:
+                    type: string
+                    description: The refresh token issued by the authorization server during OAuth2 authorization code workflow if 'offline' scope was granted.
+                  scope:
+                    type: string
+                    description: The scope of the access granted by this token.
+                  user_id:
+                    type: string
+                    description: The ID of the user granted access via token
+  "/v1/oauth2/tokeninfo":
+    get:
+      deprecated: false
+      tags:
+        - oauth
+      summary: Get Token Info
+      description: >
+        Requests an OAuth 2 access token info.
+
+        **Since**: 3700.6.0
+
+      responses:
+        "200":
+          # TODO: Check this is correct
+          description: Unnamed
+          content:
+            application/json:
+              schema:
+
+  # Adaptive Release
+  "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Get Rules
+      description: >
+        Get all the adaptive release rules associated with the given content in the specified course. Users with all the following entitlements may access this resource:
+          - course.adaptiverelease.VIEW
+        The requesting user must also be enrolled in the course, or have the system.course.MODIFY entitlement.
+
+        **Since**: 3900.23.0
+      parameters:
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/paging.offset"
+        - name: sort
+          in: query
+          description: "Properties to sort by. This is a comma-delimited list of JSON properties, with an optional \"(desc)\" suffix to request a descending sort for that property. e.g. \"title(desc)\" Supported fields are:\n\n- id\n- title\n\n**Since**: 3900.23.0"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: I'm like 99% sure this is actually wrong but they are SO unclear
+                $ref: "#/components/schemas/AdaptiveReleaseRule"
+                #type: object
+                #properties:
+                #  statusCode:
+                #    $ref: "#/components/schemas/HttpStatus"
+                #    readOnly: true
+                #  statusCodeValue:
+                #    type: integer
+                #    format: int32
+                #    readOnly: true
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    post:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Create Rule
+      description: "Create a new adaptive release rule with the given title. Users with all the following entitlements may access this resource:\n\n- course.content.availability.MODIFY\n- course.adaptiverelease.CREATE\nThe requesting user must also be enrolled in the course, or have the system.course.MODIFY entitlement.\n\n**Since**: 3900.23.0"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title given to the adaptive release rule
+                  maxLength: 100
+              required:
+                - title
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                # TODO: This probably returns an AdaptiveReleaseRule, but as you can guess UNDOCUMENTED
+                # blackboard.platform.restspring.http.RestResponseEntity<blackboard.webapps.blackboard.publicapi.v1.adaptiveRelease.AdaptiveReleaseRuleV1>
+                type: object
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "409":
+          description: Cannot create multiple instances of the specified resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+      - $ref: "#/components/parameters/ruleId"
+    get:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Get Rule
+      description: >
+        Get the adaptive release rule associated with the given content in the specified course corresponding to the rule id. Users with all the following entitlements may access this resource:
+
+          - course.adaptiverelease.VIEW
+          The requesting user must also be enrolled in the course, or have the system.course.MODIFY entitlement.
+
+        **Since**: 3900.23.0
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdaptiveReleaseRule"
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    delete:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Delete Rule
+      description: >
+        Delete an adaptive release rule. Users with all the following entitlements may access this resource:
+
+        - course.content.availability.MODIFY
+        - course.adaptiverelease.DELETE
+
+        **Since**: 3900.28.0
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    patch:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Update Rule
+      description: >
+        Updates an adaptive release rule. Users with all the following entitlements may update this resource:
+
+          - course.content.availability.MODIFY
+          - course.adaptiverelease.MODIFY
+          The requesting user must also be enrolled in the course, or have the system.course.MODIFY entitlement in order to update adaptive release rules.
+
+          **Since**: 3900.28.0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title given to the adaptive release rule
+                  maxLength: 100
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdaptiveReleaseRule"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+      - $ref: "#/components/parameters/ruleId"
+    get:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Get Criteria
+      description: >
+        Get the criteria list from the adaptive release rule associated with the given content in the specified course corresponding to the rule id Users with all of the following entitlements may access this resource:
+
+        - course.content.VIEW
+        - course.adaptiverelease.VIEW
+        Note: ACL criteria is not fully supported by this API.
+
+        **Since**: 3900.23.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: sort
+          in: query
+          description: >
+            Properties to sort by. This is a comma-delimited list of JSON properties, with an optional "(desc)" suffix to request a descending sort for that property. e.g. "title(desc)" Supported fields are:
+
+            - id
+
+            **Since**: 3900.23.0
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+                      discriminator:
+                        propertyName: type
+                        mapping:
+                          GradeRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                          GradePercentage: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                          DateRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                          Memberships: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                          ContentComplete: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                          GradeCompleted: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                          ContentReviewed: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    post:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Create Adaptive Release Rule Criteria
+      description: >
+        Create a new adaptive release rule criteria. Users with the following entitlements may create resources. For each criteria type the corresponding entitlement is checked:
+
+        - course.adaptiverelease.CREATE
+        - course.content.availability.MODIFY
+        - course.adaptiverelease.acl.CREATE
+        - course.adaptiverelease.dates.CREATE
+        - course.adaptiverelease.performance.CREATE
+        Note: ACL criteria is not fully supported by this API.
+
+        **Since**: 3900.23.0
+      requestBody:
+        $ref: "#/components/requestBodies/AnyAdaptiveReleaseRuleCriterion"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                  - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+                discriminator:
+                  propertyName: type
+                  mapping:
+                    GradeRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                    GradePercentage: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                    DateRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                    Memberships: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                    ContentComplete: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                    GradeCompleted: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                    ContentReviewed: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "409":
+          description: Cannot create multiple instances of the specified resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+      - $ref: "#/components/parameters/ruleId"
+      - $ref: "#/components/parameters/criterionId"
+    get:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Get Adaptive Release Rule Criterion
+      description: >
+        Get a single criterion by the specified Id, from the adaptive release rule associated to the given content Users with all of the following entitlements may access this resource:
+
+          - course.content.VIEW
+          - course.adaptiverelease.VIEW
+          Note: ACL criteria is not fully supported by this API.
+
+          **Since**: 3900.23.0
+      responses:
+        "200":
+          $ref: "#/components/responses/AnyAdaptiveReleaseRuleCriterion"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    delete:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Delete Adaptive Release Rule Criterion
+      description: >
+        Delete a single criterion by the specified Id, from the adaptive release rule associated to the given content. Users with the following entitlements may delete the resource:
+
+        - system.course.MODIFY
+        - course.adaptiverelease.DELETE
+        - course.content.availability.MODIFY
+        User may need one of the following entitlements depending on the criterion being deleted:
+
+        - course.adaptiverelease.acl.DELETE
+        - course.adaptiverelease.dates.DELETE
+        - course.adaptiverelease.performance.DELETE
+
+        **Since**: 3900.28.0
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+    patch:
+      deprecated: false
+      tags:
+        - adaptive release
+      summary: Update Adaptive Release Rule Criterion
+      description: >
+        Update a single criterion by the specified Id, from the adaptive release rule associated to the given content. Users with the following entitlements may update the resource:
+
+        - system.course.MODIFY
+        - course.adaptiverelease.MODIFY
+        - course.content.availability.MODIFY
+        User may need one of the following entitlements depending on the criterion being updated:
+
+        - course.adaptiverelease.acl.MODIFY
+        - course.adaptiverelease.dates.MODIFY
+        - course.adaptiverelease.performance.MODIFY
+        For updating criteria of type {@link GradeCompletedCriteria}, user may need any one of the following entitlements:
+
+        - course.gradebook-metadata.VIEW
+        - course.gradebook.MODIFY
+        DateRange and DateRange criteria will behave differently if any of the range defining values are set to null, explicitly. For GradeRange criteria:
+
+        - If maxScore is set to null, it will be understood as 'minScore or higher'.
+        - minScore cannot be set to null, regardless of maxScore's value.
+        For DateRange criteria:
+
+        - If startDate is set to null, it will be understood as 'before endDate'.
+        - If endDate is set to null, it will be understood as 'after startDate'.
+        - At least one date must be valid.
+
+        **Since**: 3900.28.0
+      requestBody:
+        $ref: "#/components/requestBodies/AnyAdaptiveReleaseRuleCriterion"
+      responses:
+        "200":
+          $ref: "#/components/responses/AnyAdaptiveReleaseRuleCriterion"
+        "400":
+          description: The supplied values are not correct
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: The current user is not entitled to perform this operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The specified parameter is not associated to any existing resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "409":
+          description: Cannot create multiple instances of the specified resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  # TODO: The following Adaptive Release paths are not properly documented and cannot be accurately implemented
+  #"/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/groups":
+  # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/groups/{groupId}"
+  # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/users"
+  # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/users/{userId}"
+
+  # (System) Announcements
+  "/v1/announcements":
+    parameters:
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - announcements
+      summary: Get Announcements
+      description: >
+        Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
+
+        **Since**: 3100.7.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/includedFields"
+        - name: creatorUserId
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+
+  requestBodies:
+    AnyAdaptiveReleaseRuleCriterion:
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+            discriminator:
+              propertyName: type
+              mapping:
+                GradeRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                GradePercentage: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                DateRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                Memberships: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                ContentComplete: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                GradeCompleted: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                ContentReviewed: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+
+  responses:
+    AnyAdaptiveReleaseRuleCriterion:
+      description: OK
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+              - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+            discriminator:
+              propertyName: type
+              mapping:
+                GradeRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeRange"
+                GradePercentage: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradePercentage"
+                DateRange: "#/components/schemas/AdaptiveReleaseRuleCriterion.DateRange"
+                Memberships: "#/components/schemas/AdaptiveReleaseRuleCriterion.Memberships"
+                ContentComplete: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentComplete"
+                GradeCompleted: "#/components/schemas/AdaptiveReleaseRuleCriterion.GradeCompleted"
+                ContentReviewed: "#/components/schemas/AdaptiveReleaseRuleCriterion.ContentReviewed"
+
+  schemas:
+    # Common
+    RestException:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Represents HTTP Status code in the response header.
+        code:
+          type: string
+          description: The error code specific to a particular REST API. It is usually something that conveys information specific to the problem domain. For cases where the HTTP Status code conveys all the information required (such as a 404-Not Found) then the code may be omitted.
+        message:
+          type: string
+          description: Error message that should be easy to understand and convey a concise reason as to why the error occurred.
+        developerMessage:
+          type: string
+          description: Represents any technical information that a developer calling REST API might find useful.
+        extraInfo:
+          type: string
+          description: Indicates a URL that anyone seeing the error message can click in a browser. The target web page should describe the error condition fully, as well as potential solutions to help them resolve the error condition.
+      required:
+        - message
+    HttpStatus:
+      type: string
+      enum:
+        - CONTINUE
+        - SWITCHING_PROTOCOLS
+        - PROCESSING
+        - CHECKPOINT
+        - OK
+        - CREATED
+        - ACCEPTED
+        - NON_AUTHORITATIVE_INFORMATION
+        - NO_CONTENT
+        - RESET_CONTENT
+        - PARTIAL_CONTENT
+        - MULTI_STATUS
+        - ALREADY_REPORTED
+        - IM_USED
+        - MULTIPLE_CHOICES
+        - MOVED_PERMANENTLY
+        - FOUND
+        - MOVED_TEMPORARILY
+        - SEE_OTHER
+        - NOT_MODIFIED
+        - USE_PROXY
+        - TEMPORARY_REDIRECT
+        - PERMANENT_REDIRECT
+        - BAD_REQUEST
+        - UNAUTHORIZED
+        - PAYMENT_REQUIRED
+        - FORBIDDEN
+        - NOT_FOUND
+        - METHOD_NOT_ALLOWED
+        - NOT_ACCEPTABLE
+        - PROXY_AUTHENTICATION_REQUIRED
+        - REQUEST_TIMEOUT
+        - CONFLICT
+        - GONE
+        - LENGTH_REQUIRED
+        - PRECONDITION_FAILED
+        - PAYLOAD_TOO_LARGE
+        - REQUEST_ENTITY_TOO_LARGE
+        - URI_TOO_LONG
+        - REQUEST_URI_TOO_LONG
+        - UNSUPPORTED_MEDIA_TYPE
+        - REQUESTED_RANGE_NOT_SATISFIABLE
+        - EXPECTATION_FAILED
+        - I_AM_A_TEAPOT
+        - INSUFFICIENT_SPACE_ON_RESOURCE
+        - METHOD_FAILURE
+        - DESTINATION_LOCKED
+        - UNPROCESSABLE_ENTITY
+        - LOCKED
+        - FAILED_DEPENDENCY
+        - TOO_EARLY
+        - UPGRADE_REQUIRED
+        - PRECONDITION_REQUIRED
+        - TOO_MANY_REQUESTS
+        - REQUEST_HEADER_FIELDS_TOO_LARGE
+        - UNAVAILABLE_FOR_LEGAL_REASONS
+        - INTERNAL_SERVER_ERROR
+        - NOT_IMPLEMENTED
+        - BAD_GATEWAY
+        - SERVICE_UNAVAILABLE
+        - GATEWAY_TIMEOUT
+        - HTTP_VERSION_NOT_SUPPORTED
+        - VARIANT_ALSO_NEGOTIATES
+        - INSUFFICIENT_STORAGE
+        - LOOP_DETECTED
+        - BANDWIDTH_LIMIT_EXCEEDED
+        - NOT_EXTENDED
+        - NETWORK_AUTHENTICATION_REQUIRED
+    # Adaptive Release
+    AdaptiveReleaseRule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rule item identifier that indicates the id of the rule item source which the item was created from. (Ex. '_48_1')
+          readOnly: true
+        title:
+          type: string
+          description: Title given to the adaptive release rule
+          maxLength: 100
+    AdaptiveReleaseRuleCriterion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Internal Identifier of the Rule's criteria
+          readOnly: true
+        type:
+          type: string
+          description: The Type of the Criterion
+          enum:
+            - GradeRange
+            - GradePercentage
+            - DateRange
+            - Memberships
+            - ContentComplete
+            - GradeCompleted
+            - ContentReviewed
+      discriminator:
+        propertyName: type
+    AdaptiveReleaseRuleCriterion.GradeRange:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            GradeColumnId:
+              type: string
+            maxScore:
+              type: number
+              format: float
+              description: Should respect the grade scale chosen by the referenced gradebook column. Less than or equal to the max score set in the grade item
+              nullable: true
+            minScore:
+              type: number
+              format: float
+              description: Only one of the scores can be set to null in a particular request. Cannot be negative
+              minimum: 0
+              nullable: true
+    AdaptiveReleaseRuleCriterion.GradePercentage:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            GradeColumnId:
+              type: string
+            maxScore:
+              type: number
+              format: float
+              description: Should respect the grade scale chosen by the referenced gradebook column. Less than or equal to the max score set in the grade item
+              minimum: 0
+              maximum: 100
+              nullable: true
+            minScore:
+              type: number
+              format: float
+              description: Only one of the scores can be set to null in a particular request. Cannot be negative
+              minimum: 0
+              maximum: 100
+              nullable: true
+    AdaptiveReleaseRuleCriterion.DateRange:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            startDate:
+              type: string
+              format: date-time
+              nullable: true
+            endDate:
+              type: string
+              format: date-time
+              nullable: true
+    AdaptiveReleaseRuleCriterion.Memberships:
+      allOf:
+        # Doesn't include any specific fields but worth reserving the name
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+    # Anthology claims that this one isn't supported by the public API
+    AdaptiveReleaseRuleCriterion.ContentComplete:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            contentId:
+              type: string
+    AdaptiveReleaseRuleCriterion.GradeCompleted:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            gradeColumnId:
+              type: string
+    AdaptiveReleaseRuleCriterion.ContentReviewed:
+      allOf:
+        - $ref: "#/components/schemas/AdaptiveReleaseRuleCriterion"
+        - type: object
+          properties:
+            reviewedContentId:
+              type: string
+    # (System) Announcements
+    SystemAnnouncement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Primary key identifier
+          readOnly: true
+        title:
+          type: string
+          description: The title of this System Announcement.
+        body:
+          type: string
+          format: BbML
+          description: The message body of the System Announcement. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
+        #availability:
+        showAtLogin:
+          type: boolean
+          description: Whether this System Announcement should be displayed on the login page.
+        showInCourses:
+          type: boolean
+          description: Whether this System Announcement should be displayed on courses.
+        creatorUserId:
+          type: string
+          description: The user Id who created or last updated the System Announcement.
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          description: The date that the System Announcement was created.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+
+  parameters:
+    # Common
+    includedFields:
+      name: fields
+      in: query
+      description: A comma-delimited list of fields to include in the response. If not specified, all fields will be returned.
+      required: false
+      schema:
+        type: string
+    courseId:
+      name: courseId
+      in: path
+      description: The course or organization ID.  This may be the primary ID, or any of the secondary IDs prefixed with the ID type.
+      required: true
+      schema:
+        type: string
+      examples:
+        primaryId:
+          summary: primary ID type
+          value: "_123_1"
+        externalId:
+          summary: external ID type
+          value: externalId:math101
+        courseId:
+          summary: course ID type
+          value: courseId:math101
+        uuid:
+          summary: uuid ID type
+          value: uuid:915c7567d76d444abf1eed56aad3beb5
+    contentId:
+      name: contentId
+      in: path
+      description: "The Content ID. This may be the primary ID, or any of the following keywords: interactive, indirect, root."
+      required: true
+      schema:
+        type: string
+      examples:
+        primaryId:
+          summary: primary ID type
+          value: "_123_1"
+        keyword:
+          summary: Using one of the predefined keywords
+          value: "root"
+    ruleId:
+      name: ruleId
+      in: path
+      description: The rule ID. This should be the primary ID.
+      required: true
+      schema:
+        type: string
+      example: _123_1
+    criterionId:
+      name: criterionId
+      in: path
+      description: The adaptive release criterion ID. This should be the primary ID.
+      required: true
+      schema:
+        type: string
+      example: _123_1
+    # Paging
+    paging.includePermissions:
+      name: includePermissions
+      in: query
+      description: Flag to indicate whether to include permissions in the response.
+      required: false
+      schema:
+        type: boolean
+    paging.limit:
+      name: limit
+      in: query
+      description: The maximum number of results to be returned. There may be less if the query returned less than the maximum.
+      required: false
+      schema:
+        type: integer
+        format: int32
+    paging.offset:
+      name: offset
+      in: query
+      description: The number of rows to skip before beginning to return rows. An offset of 0 is the same as omitting the offset parameter.
+      required: false
+      schema:
+        type: integer
+        format: int32
