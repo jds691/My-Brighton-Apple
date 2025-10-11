@@ -35,21 +35,21 @@ actor BbCache {
 // MARK: LearnKitAPI
 extension BbCache: LearnKitAPI {
     // MARK: Courses
-    func getAllCourses() {
-
+    public func getAllCourses() async throws -> [Course] {
+        fatalError("\(#function) not implemented :P")
     }
 
-    func getCourse(for id: Course.ID) {
-
+    public func getCourse(for identifier: Course.ID) async throws -> Course {
+        fatalError("\(#function) not implemented :P")
     }
 
-    // MARK: Course Content
-    func getAllContent(for id: Course.ID) {
-
+    // MARK: Terms
+    public func getAllTerms() async throws -> [Term] {
+        fatalError("\(#function) not implemented :P")
     }
 
-    func getContent(for contentId: Content.ID, from courseId: Course.ID) {
-
+    public func getTerm(for identifier: Term.ID) async throws -> Term {
+        fatalError("\(#function) not implemented :P")
     }
 }
 

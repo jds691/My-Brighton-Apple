@@ -75,6 +75,24 @@ extension LearnKitService: LearnKitAPI {
 
         return true
     }
+
+    // MARK: Courses
+    public func getAllCourses() async throws -> [Course] {
+        fatalError("\(#function) not implemented :P")
+    }
+
+    public func getCourse(for identifier: Course.ID) async throws -> Course {
+        fatalError("\(#function) not implemented :P")
+    }
+
+    // MARK: Terms
+    public func getAllTerms() async throws -> [Term] {
+        fatalError("\(#function) not implemented :P")
+    }
+
+    public func getTerm(for identifier: Term.ID) async throws -> Term {
+        fatalError("\(#function) not implemented :P")
+    }
 }
 
 // MARK: Spotlight Indexing

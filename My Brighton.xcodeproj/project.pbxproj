@@ -277,11 +277,11 @@
 				Intents/LearnKitAppIntentsPackage.swift,
 				LearnKitService.swift,
 				Models/Cache/Courses/ContentModel.swift,
-				Models/Cache/Courses/CourseModel.swift,
+				Models/Course.swift,
 				Models/Data/Courses/Content.swift,
-				Models/Data/Courses/Course.swift,
 				Models/Data/IDTypes.swift,
 				Models/Data/SystemAnnouncement.swift,
+				Models/Term.swift,
 				RestError.swift,
 			);
 			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
