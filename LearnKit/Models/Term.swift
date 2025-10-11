@@ -7,12 +7,20 @@
 
 import Foundation
 
+/*
+ (V3 API)
+ Default fields when requesting terms are:
+ - id
+ - name
+ - availability
+ */
+
 public struct Term: Hashable, Identifiable, Sendable {
     public let id: String
-    public let externalId: String
-    public let dataSourceId: String
+    public let externalId: String?
+    public let dataSourceId: String?
     public let name: String
-    public let description: String
+    public let description: String?
     public let availability: Term.Availability
 
     public struct Availability: Hashable, Sendable {
