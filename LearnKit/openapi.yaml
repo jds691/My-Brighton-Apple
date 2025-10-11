@@ -756,6 +756,300 @@ paths:
         "200":
           description: OK
 
+  # Courses
+  "/v3/courses":
+    get:
+      deprecated: false
+      tags:
+        - courses
+      summary: Get Courses
+      description: >
+        Returns a list of courses and organizations.
+
+        To view disabled courses a user must have the entitlement 'system.course.VIEW'.
+        Users with the 'course.configure-properties.EXECUTE' course entitlement, or the 'system.course.properties.MODIFY' system entitlement can access all course properties.
+
+        Users enrolled in the course have read access to all properties except:
+
+        - uuid
+        - externalId
+        - dataSourceId
+        - created
+        - allowGuests
+        - enrollment.accessCode
+        Users who are not enrolled in the course and do not have associated entitlements only have read access to the following properties:
+
+        - id
+        - courseId
+        - name
+        - description
+        - organization
+        - readOnly
+        - termId
+        - availability.available
+        - availability.duration.type
+        - availability.duration.start
+        - availability.duration.end
+        - availability.duration.daysOfUse
+        When courses are child courses, parent course data is also returned to provide a complete data representation of course relationships.
+
+        If the course enrollment is self-enroll, all users can view the course as though they were enrolled.
+
+        **Since**: 3800.1.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/includedFields"
+        - name: modified
+          in: query
+          description: >
+            Search for courses with a modified date relative to this value.  'modifiedCompare' may also be sent to control search behavior.
+
+            **Since**: 3500.4.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter. Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3500.4.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: courseId
+          in: query
+          description: >
+            Search for courses with courseId properties that contain this value.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: >
+            Search for courses with name properties that contain this value.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: >
+            Search for courses with description properties that contain this value.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: externalId
+          in: query
+          description: >
+            Search for courses with externalId properties that contain this value.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for courses with a created date relative to this value.  'createdCompare' may also be sent to control search behavior.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: allowGuests
+          in: query
+          description: >
+            Search for courses which are configured to allow/disallow guest access, based on input.  Default: n/a (return courses regardless of guests allowed)
+
+            **Since**: 3200.3.0
+          required: false
+          schema:
+            type: boolean
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter.  Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3100.0.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: availability.available
+          in: query
+          description: >
+            Search for courses with availability.available properties that contain this value.
+
+            **Since**: 3000.13.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | Yes | Students may access the course. |
+            | No | Students may not access the course. |
+            | Disabled | Disabled by the SIS. Students may not access the course.  **Since**: 3100.0.0 |
+            | Term | Availability is inherited from the term settings. Requires a termId be set. |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - Yes
+              - No
+              - Disabled
+              - Term
+        - name: dataSourceId
+          in: query
+          description: >
+            Search for courses with this dataSourceId.  This may optionally be the data source's externalId using the syntax "externalId:math101".
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: termId
+          in: query
+          description: >
+            Search for courses with this termId.  This may optionally be the term's externalId using the syntax "externalId:spring2015".
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: string
+        - name: organization
+          in: query
+          description: >
+            Search for courses by organization flag.  A value of 'true' indicates that search results should be limited to only Organizations.  A value of 'false' indicates results should be limited to Courses.  Not setting this field indicates that both Courses and Organizations should be returned.
+
+            **Since**: 3100.0.0
+          required: false
+          schema:
+            type: boolean
+        - name: sort
+          in: query
+          description: >
+            Properties to sort by. This is a comma-delimited list of JSON properties, with an optional "(desc)" suffix to request a descending sort for that property. e.g. "name(desc),created" Supported fields are:
+
+            - courseId
+            - name
+            - externalId
+            - created
+            - modified
+
+            **Since**: 3400.8.0
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Course"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+
+  "/v3/courses/{courseId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+    get:
+      deprecated: false
+      tags:
+        - courses
+      summary: Get Course
+      description: >
+        Loads a specific course or organization.
+
+        To view disabled courses a user must have the entitlement 'system.course.VIEW'.
+
+        Users with the 'course.configure-properties.EXECUTE' entitlement can access all course properties.
+
+        Users enrolled in the course have read access to all properties except:
+        - uuid
+        - externalId
+        - dataSourceId
+        - created
+        - allowGuests
+        - enrollment.accessCode
+
+        Users with no access to the course only have read access to the following properties:
+
+        - id
+        - courseId
+        - name
+        - description
+        - organization
+        - closedComplete
+        - termId
+        - availability.available
+        - availability.duration.type
+        - availability.duration.start
+        - availability.duration.end
+        - availability.duration.daysOfUse
+        If the course enrollment is self-enroll, all users can view the course as though they were enrolled.
+
+        **Since**: 3800.1.0
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+        "400":
+          description: Failed to create course; or The request did not specify a valid courseId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: The course is not found or is unavailable and the user does not have the permission to view unavailable courses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1051,6 +1345,232 @@ components:
           type: string
           format: date-time
           readOnly: true
+    # Courses
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The primary ID of the course.
+          readOnly: true
+        uuid:
+          type: string
+          description: A secondary unique ID for the course. Used by LTI launches and other inter-service operations.
+          readOnly: true
+          maxLength: 32
+        externalId:
+          type: string
+          description: >
+            An optional externally-defined unique ID for the course. Defaults to the courseId.
+
+            Formerly known as 'batchUid'.
+        dataSourceId:
+          type: string
+          description: The ID of the data source associated with this course. This may optionally be the data source's externalId using the syntax "externalId:math101".
+        courseId:
+          type: string
+          description: The Course ID attribute, shown to users in the UI.
+          readOnly: true
+          maxLength: 100
+        name:
+          type: string
+          description: The name of the course.
+          maxLength: 333
+        description:
+          type: string
+          description: The description of the course.
+        created:
+          type: string
+          format: date-time
+          description: The date this course was created.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          description: >
+            The date this course was last modified.
+
+            **Since**: 3500.4.0
+          readOnly: true
+        organization:
+          type: boolean
+          description: Whether this object represents an Organization. Defaults to false.
+          readOnly: true
+        ultraStatus:
+          type: string
+          description: >
+            Whether the course is rendered using Classic or Ultra Course View.
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | Undecided | The ultra status is not decided. |
+            | Classic | The course is decided as classic. |
+            | Ultra | The course is decided as ultra |
+            | Ultrapreview | The course is currently in Ultra mode but during the preview state where it may still be reverted via a Restore to the classic state |
+
+          readOnly: true
+          enum:
+            - Undecided
+            - Classic
+            - Ultra
+            - Ultrapreview
+        allowGuests:
+          type: boolean
+          description: Whether guests (users with the role guest) are allowed access to the course. Modifiable only for Classic course. Defaults to {@code true} for Classic Courses and {@code false} for Ultra Courses.
+        allowObservers:
+          type: boolean
+          description: >
+            Whether observers are allowed access to the course. Modifiable only for Classic course. Defaults to {@code false}.
+
+            **Since**: 3900.31.0
+        closedComplete:
+          type: boolean
+          description: This status does not affect availability of the course for viewing in any way. closedComplete is valid for both Ultra and Classic courses. If an Ultra course is in closedComplete mode, updates are not possible. For a Classic course in closedComplete mode, updates are still possible (through Web UI but not through REST i.e. closed is enforced for original courses when updated through REST the same way Ultra courses are blocked) but new notifications are not generated.
+        termId:
+          type: string
+          description: The ID of the term associated to this course. This may optionally be the term's externalId using the syntax "externalId:spring.2016".
+        availability:
+          type: object
+          description: Settings controlling availability of the course to students.
+          title: Course.Availability
+          properties:
+            available:
+              type: string
+              description: >
+                Whether the course is currently available to students. Instructors can always access the course if they have 'Access unavailable course' entitlement. If set to 'Term', the course's parent term availability settings will be used.
+
+
+                | Type      | Description
+                | --------- | --------- |
+                | Yes | Students may access the course. |
+                | No | Students may not access the course. |
+                | Disabled | Disabled by the SIS. Students may not access the course. @since 3100.0.0 |
+                | Term | Availability is inherited from the term settings. Requires a termId be set. |
+              enum:
+                - Yes
+                - No
+                - Disabled
+                - Term
+            # TODO: Clean this up similarly to how AvailabiltyRules were defined for Adaptive Release
+            duration:
+              type: object
+              description: Settings controlling the length of time the course is available.
+              title: Course.Availability.Duration
+              properties:
+                type:
+                  type: string
+                  description: >
+                    The intended length of the course. Possible values are:
+
+                    - Continuous: The course is active on an ongoing basis. This is the default.
+                    - DateRange: The course will only be available between specific date ranges.
+                    - FixedNumDays: The course will only be available for a set number of days.
+                    - Term: The course's parent term duration settings will be used.
+
+
+                    | Type      | Description
+                    | --------- | --------- |
+                    | Continuous | Course is active on an ongoing basis. |
+                    | DateRange | Course is only intended to be available between specific date ranges |
+                    | FixedNumDays | Course is only available for a set number of days |
+                    | UseTerm | Course availablity is dictated by its associated term |
+
+                  enum:
+                    - Continuous
+                    - DateRange
+                    - FixedNumDays
+                    - UseTerm
+                start:
+                  type: string
+                  format: date-time
+                  description: The date this course starts. May only be set if availability.duration.type is DateRange.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date this course ends. May only be set if availability.duration.type is DateRange.
+                daysOfUse:
+                  type: integer
+                  format: int32
+                  description: The number of days this course can be used. May only be set if availability.duration.type is FixedNumDays.
+        enrollment:
+          type: object
+          description: Settings controlling how students may enroll in the course.
+          title: Course.Enrollment
+          properties:
+            type:
+              type: string
+              description: >
+                Specifies the enrollment options for the course. Defaults to InstructorLed.
+
+
+                | Type      | Description
+                | --------- | --------- |
+                | InstructorLed | Enrollment tasks for the course can only performed by the instructor |
+                | SelfEnrollment | Instructors have the ability to enroll users, and students can also enroll themselves in the course |
+                | EmailEnrollment | Instructors have the ability to enroll users, and students can email requests to the instructor for enrollment |
+
+              enum:
+                - InstructorLed
+                - SelfEnrollment
+                - EmailEnrollment
+            start:
+              type: string
+              format: date-time
+              description: The date on which enrollments are allowed for the course. May only be set if enrollment.type is SelfEnrollment.
+            end:
+              type: string
+              format: date-time
+              description: The date on which enrollment in this course ends. May only be set if enrollment.type is SelfEnrollment.
+            accessCode:
+              type: string
+              description: The enrollment access code associated with this course. May only be set if enrollment.type is SelfEnrollment.
+              maxLength: 50
+        locale:
+          type: object
+          description: Settings controlling localization within the course.
+          title: Course.Locale
+          properties:
+            id:
+              type: string
+              description: The locale of this course.
+              maxLength: 20
+            force:
+              type: boolean
+              description: Whether students are forced to use the course's specified locale.
+        hasChildren:
+          type: boolean
+          description: >
+            Whether the course has any cross-listed children.
+
+            **Since**: 3000.11.0
+        parentId:
+          type: string
+          description: >
+            The cross-listed parentId associated with the course, if the course is a child course.
+
+            **Since**: 3000.11.0
+        externalAccessUrl:
+          type: string
+          # TODO: See if the OpenAPI generator actually uses this
+          format: url
+          description: >
+            A URL corresponding to the Course Page for the course.  Formatting varies based on whether the course is rendered using Classic or Ultra Course View
+
+            **Since**: 3200.3.0
+          readOnly: true
+        guestAccessUrl:
+          type: string
+          format: url
+          description: >
+            A URL for viewing the Course Page for the course as a guest.  Formatting varies based on whether the course is rendered using Classic or Ultra Course View
+
+            **Since**: 3200.3.0
+          readOnly: true
+        copyHistory:
+          type: object
+          # TODO: Figure out wtf this actually is
+          description: List of source courses UUIDs, populated only if the current course was created as the result of a course copy.
 
   parameters:
     # Common
