@@ -726,35 +726,35 @@ paths:
   # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/users/{userId}"
 
   # (System) Announcements
-  "/v1/announcements":
-    parameters:
-      - $ref: "#/components/parameters/includedFields"
-    get:
-      deprecated: false
-      tags:
-        - announcements
-      summary: Get Announcements
-      description: >
-        Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
+  #"/v1/announcements":
+  #  parameters:
+  #    - $ref: "#/components/parameters/includedFields"
+  #  get:
+  #    deprecated: false
+  #    tags:
+  #      - announcements
+  #    summary: Get Announcements
+  #    description: >
+  #      Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
 
-        **Since**: 3100.7.0
-      parameters:
-        - $ref: "#/components/parameters/paging.offset"
-        - $ref: "#/components/parameters/paging.includePermissions"
-        - $ref: "#/components/parameters/paging.limit"
-        - $ref: "#/components/parameters/includedFields"
-        - name: creatorUserId
-          in: query
-          description: >
-            Search for announcements with creator user id equal to this value.
+  #      **Since**: 3100.7.0
+  #    parameters:
+  #      - $ref: "#/components/parameters/paging.offset"
+  #      - $ref: "#/components/parameters/paging.includePermissions"
+  #      - $ref: "#/components/parameters/paging.limit"
+  #      - $ref: "#/components/parameters/includedFields"
+  #      - name: creatorUserId
+  #        in: query
+  #        description: >
+  #          Search for announcements with creator user id equal to this value.
 
-            **Since**: 3900.89.0.
-          required: false
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
+  #          **Since**: 3900.89.0.
+  #        required: false
+  #        schema:
+  #          type: string
+  #    responses:
+  #      "200":
+  #        description: OK
 
   # Courses
   "/v3/courses":
