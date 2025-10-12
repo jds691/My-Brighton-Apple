@@ -52,6 +52,15 @@ public struct Term: Hashable, Identifiable, Sendable {
         self.availability = availabilityModel
     }
 
+    init(from cachedTerm: CachedTerm) {
+        self.id = cachedTerm.id
+        self.externalId = cachedTerm.externalId
+        self.dataSourceId = cachedTerm.dataSourceId
+        self.name = cachedTerm.name
+        self.description = cachedTerm.termDescription
+        self.availability = Availability(from: cachedTerm.availability)
+    }
+
     public struct Availability: Hashable, Sendable {
         public let isAvailable: Bool
         public let duration: Availability.Duration
@@ -75,6 +84,11 @@ public struct Term: Hashable, Identifiable, Sendable {
 
             self.isAvailable = available == .yes
             self.duration = durationModel
+        }
+
+        init(from cachedTermAvailability: CachedTerm.Availability) {
+            self.isAvailable = cachedTermAvailability.isAvailable
+            self.duration = Availability.Duration(from: cachedTermAvailability.duration)
         }
 
         public enum Duration: Hashable, Sendable {
@@ -123,6 +137,17 @@ public struct Term: Hashable, Identifiable, Sendable {
                             return nil
                         }
 
+                        self = .numberOfDays(Int(days))
+                }
+            }
+
+            init(from cachedTermAvailabilityDuration: CachedTerm.Availability.Duration) {
+                switch cachedTermAvailabilityDuration {
+                    case .continuous:
+                        self = .continuous
+                    case .dateRange(let startDate, let endDate):
+                        self = .dateRange(start: startDate, end: endDate)
+                    case .numberOfDays(let days):
                         self = .numberOfDays(Int(days))
                 }
             }

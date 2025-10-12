@@ -119,6 +119,39 @@ public struct Course: Hashable, Identifiable, Sendable {
         self.guestAccessUrl = URL(string: courseSchema.guestAccessUrl ?? "")
     }
 
+    init?(from cachedCourse: CachedCourse) {
+        guard let termId = cachedCourse.term?.id else {
+            Self.logger.error("cachedCourse is missing required relationship information for `term`. Unable to construct data model.")
+            #if DEBUG
+            dump(cachedCourse)
+            #endif
+            return nil
+        }
+
+        self.id = cachedCourse.id
+        self.uuid = cachedCourse.uuid
+        self.externalId = cachedCourse.externalId
+        self.dataSourceId = cachedCourse.dataSourceId
+        self.courseId = cachedCourse.courseId
+        self.name = cachedCourse.name
+        self.description = cachedCourse.courseDescription
+        self.creationDate = cachedCourse.creationDate
+        self.lastModified = cachedCourse.lastModified
+        self.isOrganisation = cachedCourse.isOrganisation
+        self.ultraStatus = UltraStatus(from: cachedCourse.ultraStatus)
+        self.allowGuests = cachedCourse.allowGuests
+        self.allowObservers = cachedCourse.allowObservers
+        self.isComplete = cachedCourse.isComplete
+        self.termId = termId
+        self.availability = Availability(from: cachedCourse.availability)
+        self.enrollmentType = Enrollment(from: cachedCourse.enrollmentType)
+        self.localeSettings = LocaleSettings(from: cachedCourse.localeSettings)
+        self.hasChildren = !cachedCourse.children.isEmpty
+        self.parentId = cachedCourse.parent?.id
+        self.externalAccessUrl = cachedCourse.externalAccessUrl
+        self.guestAccessUrl = cachedCourse.guestAccessUrl
+    }
+
     public enum UltraStatus: Hashable, Sendable {
         case unknown
         case classic
@@ -134,6 +167,19 @@ public struct Course: Hashable, Identifiable, Sendable {
                 case .ultra:
                     self = .ultra
                 case .ultrapreview:
+                    self = .ultraPreview
+            }
+        }
+
+        init(from cachedUltraStatus: CachedCourse.UltraStatus) {
+            switch cachedUltraStatus {
+                case .unknown:
+                    self = .unknown
+                case .classic:
+                    self = .classic
+                case .ultra:
+                    self = .ultra
+                case .ultraPreview:
                     self = .ultraPreview
             }
         }
@@ -177,6 +223,17 @@ public struct Course: Hashable, Identifiable, Sendable {
                     self = .instructorLed
             }
         }
+
+        init(from cachedCourseEnrollment: CachedCourse.Enrollment) {
+            switch cachedCourseEnrollment {
+                case .instructorLed:
+                    self = .instructorLed
+                case .selfEnrollment(let enrollmentStart, let enrollmentEnd, let accessCode):
+                    self = .selfEnrollment(enrollmentStart: enrollmentStart, enrollmentEnd: enrollmentEnd, accessCode: accessCode)
+                case .emailEnrollment:
+                    self = .emailEnrollment
+            }
+        }
     }
 
     public struct Availability: Hashable, Sendable {
@@ -205,11 +262,29 @@ public struct Course: Hashable, Identifiable, Sendable {
             self.duration = durationModel
         }
 
+        init(from cachedCourseAvailability: CachedCourse.Availability) {
+            self.status = Status(from: cachedCourseAvailability.status)
+            self.duration = Duration(from: cachedCourseAvailability.duration)
+        }
+
         public enum Status: String, RawRepresentable, Hashable, Sendable {
             case yes = "Yes"
             case no = "No"
             case disabled = "Disabled"
             case inheritFromTerm = "Term"
+
+            init(from cachedCourseAvailabilityStatus: CachedCourse.Availability.Status) {
+                switch cachedCourseAvailabilityStatus {
+                    case .yes:
+                        self = .yes
+                    case .no:
+                        self = .no
+                    case .disabled:
+                        self = .disabled
+                    case .inheritFromTerm:
+                        self = .inheritFromTerm
+                }
+            }
         }
 
         public enum Duration: Hashable, Sendable {
@@ -264,6 +339,19 @@ public struct Course: Hashable, Identifiable, Sendable {
                         self = .inheritFromTerm
                 }
             }
+
+            init(from cachedCourseAvailabilityDuration: CachedCourse.Availability.Duration) {
+                switch cachedCourseAvailabilityDuration {
+                    case .continuous:
+                        self = .continuous
+                    case .dateRange(let start, let end):
+                        self = .dateRange(start: start, end: end)
+                    case .numberOfDays(let days):
+                        self = .numberOfDays(days)
+                    case .inheritFromTerm:
+                        self = .inheritFromTerm
+                }
+            }
         }
     }
 
@@ -285,6 +373,11 @@ public struct Course: Hashable, Identifiable, Sendable {
 
             self.identifier = localeSchema.id
             self.forceLocale = forceLocale
+        }
+
+        init(from cachedCourseLocaleSettings: CachedCourse.LocaleSettings) {
+            self.identifier = cachedCourseLocaleSettings.identifier
+            self.forceLocale = cachedCourseLocaleSettings.isForced
         }
     }
 }
