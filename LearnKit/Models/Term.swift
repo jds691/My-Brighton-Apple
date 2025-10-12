@@ -23,14 +23,39 @@ public struct Term: Hashable, Identifiable, Sendable {
     public let description: String?
     public let availability: Term.Availability
 
+    init(from termSchema: Components.Schemas.Term) {
+        self.id = termSchema.id!
+        self.externalId = termSchema.externalId
+        self.dataSourceId = termSchema.dataSourceId
+        self.name = termSchema.name!
+        self.description = termSchema.description
+        self.availability = Availability(from: termSchema.availability!)
+    }
+
     public struct Availability: Hashable, Sendable {
         public let isAvailable: Bool
         public let duration: Availability.Duration
+
+        init(from termAvailabilitySchema: Components.Schemas.Term.AvailabilityPayload) {
+            self.isAvailable = termAvailabilitySchema.available! == .yes
+            self.duration = Availability.Duration(from: termAvailabilitySchema.duration!)
+        }
 
         public enum Duration: Hashable, Sendable {
             case continuous
             case dateRange(start: Date, end: Date)
             case numberOfDays(_ days: Int)
+
+            init(from termAvailabilityDurationSchema: Components.Schemas.Term.AvailabilityPayload.DurationPayload) {
+                switch termAvailabilityDurationSchema._type! {
+                    case .continuous:
+                        self = .continuous
+                    case .dateRange:
+                        self = .dateRange(start: termAvailabilityDurationSchema.start!, end: termAvailabilityDurationSchema.end!)
+                    case .fixedNumDays:
+                        self = .numberOfDays(Int(termAvailabilityDurationSchema.daysOfUse!))
+                }
+            }
         }
     }
 }
