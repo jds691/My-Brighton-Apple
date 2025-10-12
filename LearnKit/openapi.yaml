@@ -987,7 +987,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RestException"
-
   "/v3/courses/{courseId}":
     parameters:
       - $ref: "#/components/parameters/courseId"
@@ -1050,6 +1049,145 @@ paths:
               schema:
                 $ref: "#/components/schemas/RestException"
 
+  # Terms
+  "/v1/terms":
+    get:
+      deprecated: false
+      tags:
+        - terms
+      summary: Get Terms
+      description: >
+        Returns a list of terms.
+
+        Properties returned for each term will depend on whether or not the caller has one of the term entitlements.
+
+        Callers without either the entitlements 'term.VIEW' or 'term.MODIFY' will always get a minimal set of core properties:
+
+        - id
+        - name
+        - description
+        - availability.*
+
+        If the user has one of the entitlements, they will also get the following properties:
+
+        - externalId
+        - dataSourceId
+
+        **Since**: 3000.1.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/includedFields"
+        - name: externalId
+          in: query
+          description: >
+            Search for term with externalId properties that contain this value.
+
+            **Since**: 3100.6.0
+          required: false
+          schema:
+            type: string
+        - name: dataSourceId
+          in: query
+          description: >
+            Search for term with this dataSourceId.
+
+            **Since**: 3100.6.0
+          required: false
+          schema:
+            type: string
+        - name: availability.available
+          in: query
+          description: >
+            Search for users with availability.available properties that contain this value.
+
+            **Since**: 3100.6.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | Yes | Students may access the term and the courses it contains. |
+            | No | Students may not access the term or the courses it contains. |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - Yes
+              - No
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Term"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/terms/{termId}":
+    parameters:
+      - $ref: "#/components/parameters/termId"
+    get:
+      deprecated: false
+      tags:
+        - terms
+      summary: Get Term
+      description: >
+        Loads a term.
+
+        Properties returned will depend on whether or not the caller has one of the term entitlements.
+
+        Callers without either the entitlements 'term.VIEW' or 'term.MODIFY' will always get a minimal set of core properties:
+
+        - id
+        - name
+        - description
+        - availability.*
+
+        If the user has one of the entitlements, they will also get the following properties:
+
+        - externalId
+        - dataSourceId
+
+        **Since**: 2015.11.0
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Term"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
 components:
   securitySchemes:
     bearerAuth:
@@ -1571,6 +1709,85 @@ components:
           type: object
           # TODO: Figure out wtf this actually is
           description: List of source courses UUIDs, populated only if the current course was created as the result of a course copy.
+    # Terms
+    Term:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The primary ID of the term.
+          readOnly: true
+        externalId:
+          type: string
+          description: >
+            An externally-defined unique ID for the term.
+
+            Formerly known as 'sourcedidId'.
+          maxLength: 256
+        dataSourceId:
+          type: string
+          description: The ID of the data source associated with this term.  This may optionally be the data source's externalId using the syntax "externalId:math101".
+        name:
+          type: string
+          description: The name of the term.
+          maxLength: 333
+        description:
+          type: string
+          format: BbML
+          description: The description of the term. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
+          example: "<!-- {\"bbMLEditorVersion\":1} --><div data-bbid=\"bbml-editor-id_9c6a9556-80a5-496c-b10d-af2a9ab22d45\"> <h4>Header Large</h4>  <h5>Header Medium</h5>  <h6>Header Small</h6>  <p><strong>Bold&nbsp;</strong><em>Italic&nbsp;<span style=\"text-decoration: underline;\">Italic Underline</span></em></p> <ul>   <li><span style=\"text-decoration: underline;\"><em></em></span>Bullet 1</li>  <li>Bullet 2</li> </ul> <p>  <img src=\"@X@EmbeddedFile.requestUrlStub@X@bbcswebdav/xid-1217_1\">   <span>\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"</span> </p>  <p><span>&lt;braces test=\"values\" other=\"strange things\"&gt;</span></p> <p>Header Small</p> <ol>   <li>Number 1</li>   <li>Number 2</li> </ol>  <p>Just words followed by a formula</p>  <p><img align=\"middle\" alt=\"3 divided by 4 2 root of 7\" class=\"Wirisformula\" src=\"@X@EmbeddedFile.requestUrlStub@X@sessions/EA5F7FF3DF32D271D0E54AF0150D924A/anonymous/wiris/49728c9f5b4091622e2f4d183d857d35.png\" data-mathml=\"\u00abmath xmlns=\u00a8http://www.w3.org/1998/Math/MathML\u00a8\u00bb\u00abmn\u00bb3\u00ab/mn\u00bb\u00abmo\u00bb/\u00ab/mo\u00bb\u00abmn\u00bb4\u00ab/mn\u00bb\u00abmroot\u00bb\u00abmn\u00bb7\u00ab/mn\u00bb\u00abmn\u00bb2\u00ab/mn\u00bb\u00ab/mroot\u00bb\u00ab/math\u00bb\"></p> <p><a href=\"http://www.blackboard.com\">Blackboard</a></p> </div>"
+        availability:
+          type: object
+          title: Term.Availability
+          description: Settings controlling availability of the term to students.
+          properties:
+            available:
+              type: string
+              description: >
+                Whether the term and the courses it contains are available to students.  Instructors can always access their courses.
+
+
+                | Type      | Description
+                | --------- | --------- |
+                | Yes | Students may access the term and the courses it contains. |
+                | No | Students may not access the term or the courses it contains. |
+
+              enum:
+                - Yes
+                - No
+            duration:
+              type: object
+              title: Term.Availability.Duration
+              description: Settings controlling the length of time the term is available.
+              properties:
+                type:
+                  type: string
+                  description: >
+                    The intended length of the term.  Possible values are:
+
+
+                    | Type      | Description
+                    | --------- | --------- |
+                    | Continuous | The term is active on an ongoing basis. This is the default. |
+                    | DateRange | The term will only be available between specific date ranges. |
+                    | FixedNumDays | The term will only be available for a set number of days. |
+
+                  enum:
+                    - Continuous
+                    - DateRange
+                    - FixedNumDays
+                start:
+                  type: string
+                  format: date-time
+                  description: The date this term starts.  May only be set if availability.duration.type is DateRange.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date this term ends.  May only be set if availability.duration.type is DateRange.
+                daysOfUse:
+                  type: integer
+                  format: int32
+                  description: The number of days courses within this term can be used.  May only be set if availability.duration.type is FixedNumDays.
 
   parameters:
     # Common
@@ -1581,6 +1798,31 @@ components:
       required: false
       schema:
         type: string
+    # Paging
+    paging.includePermissions:
+      name: includePermissions
+      in: query
+      description: Flag to indicate whether to include permissions in the response.
+      required: false
+      schema:
+        type: boolean
+    paging.limit:
+      name: limit
+      in: query
+      description: The maximum number of results to be returned. There may be less if the query returned less than the maximum.
+      required: false
+      schema:
+        type: integer
+        format: int32
+    paging.offset:
+      name: offset
+      in: query
+      description: The number of rows to skip before beginning to return rows. An offset of 0 is the same as omitting the offset parameter.
+      required: false
+      schema:
+        type: integer
+        format: int32
+
     courseId:
       name: courseId
       in: path
@@ -1631,27 +1873,17 @@ components:
       schema:
         type: string
       example: _123_1
-    # Paging
-    paging.includePermissions:
-      name: includePermissions
-      in: query
-      description: Flag to indicate whether to include permissions in the response.
-      required: false
+    termId:
+      name: termId
+      in: path
+      description: The term ID. This may be the primary ID, or the secondary ID prefixed with the ID type.
+      required: true
       schema:
-        type: boolean
-    paging.limit:
-      name: limit
-      in: query
-      description: The maximum number of results to be returned. There may be less if the query returned less than the maximum.
-      required: false
-      schema:
-        type: integer
-        format: int32
-    paging.offset:
-      name: offset
-      in: query
-      description: The number of rows to skip before beginning to return rows. An offset of 0 is the same as omitting the offset parameter.
-      required: false
-      schema:
-        type: integer
-        format: int32
+        type: string
+      examples:
+        primary:
+          summary: Primary ID type.
+          value: _123_1
+        externalId:
+          summary: Secondary ID, prefixed with the ID type.
+          value: externalId:spring.2016
