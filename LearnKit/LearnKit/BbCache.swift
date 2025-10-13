@@ -10,6 +10,11 @@ import SwiftData
 import os
 import CoreSpotlight
 
+/// Handles all SwiftData and offline caching operations.
+///
+/// BbCache manages all offline operations for Learn API REST information. It will:
+/// - Indexes information received from the API into SwiftData
+/// - Indexes SwiftData information into CoreSpotlight
 actor BbCache {
     private static let logger: Logger = Logger(subsystem: "com.neo.LearnKit", category: "BbCache")
 
@@ -19,7 +24,8 @@ actor BbCache {
     private let modelExecutor: any ModelExecutor
     private let modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
-
+    
+    /// Initialises the cache database with the current schema version.
     init() {
         do {
             let schemaV1: Schema = .init([
@@ -34,7 +40,9 @@ actor BbCache {
             fatalError("Failed to initialise modelContainer, unable to continue.")
         }
     }
-
+    
+    /// Initialises a version of the cache database designed for testing and previews.
+    /// - Parameter inMemoryOnly: Indicates if the database is in-memory only, useful for initialising many instances in test suites,
     init(inMemoryOnly: Bool) {
         do {
             let schemaV1: Schema = .init([
@@ -51,6 +59,8 @@ actor BbCache {
     }
 
     // MARK: Courses
+    /// Indexes the provided courses into SwiftData and CoreSpotlight.
+    /// - Parameter courses: Courses to index.
     func indexCourses(_ courses: [Course]) async {
         for course in courses {
             do {
@@ -76,6 +86,8 @@ actor BbCache {
     }
 
     // MARK: Terms
+    /// Indexes the provided terms into SwiftData and CoreSpotlight.
+    /// - Parameter courses: Terms to index.
     func indexTerms(_ terms: [Term]) async {
         for term in terms {
             do {

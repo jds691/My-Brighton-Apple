@@ -11,14 +11,17 @@ import SwiftUI
 import AuthenticationServices
 import os
 
+/// Overarching service to perform requests against LearnKit.
+///
+/// All requests must be made through the service as it performs a lot of work in the backend for Spotlight and offline caching.
 public final class LearnKitService: Sendable {
     private let baseURL: URL?
     private let client: any APIProtocol
     private let cache: BbCache
 
-    private static let logger: Logger = .init(subsystem: "com.neo.My-Brighton.LearnKit", category: "LearnKitService")
+    private static let logger: Logger = .init(subsystem: "com.neo.LearnKit", category: "LearnKitService")
 
-    ///
+    /// Initialises the service with a Learn instance URL to connect to.
     ///
     /// - Parameter learnInstanceURL: The URL for the Blackboard Learn instance. The instance URL should end with "/learn/api/public".
     public init(learnInstanceURL: URL) {
@@ -77,6 +80,8 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: Courses
+    /// Refreshes the local cache of courses by communicating with the Learn instance and returns newer course data.
+    /// - Returns: List of courses with newer content than what was previously cached.
     @discardableResult
     public func refreshCourses() async throws -> [Course] {
         // TODO: Keep track of the last time courses were fetched and add the modified param to the request
@@ -112,6 +117,8 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: Terms
+    /// Refreshes the local cache of terms by communicating with the Learn instance and returns newer term data.
+    /// - Returns: List of terms with newer content than what was previously cached.
     @discardableResult
     public func refreshTerms() async throws -> [Term] {
         // TODO: Keep track of the last time courses were fetched and add the modified param to the request

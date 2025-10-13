@@ -16,16 +16,25 @@ import os
  - availability
  */
 
+/// The course data model used by the service.
 public struct Term: Hashable, Identifiable, Sendable {
     private static let logger = Logger(subsystem: "com.neo.LearnKit", category: "Term")
 
+    /// The unique identifier of the term.
     public let id: String
+    /// An optional secondary ID for the course.
     public let externalId: String?
+    /// The ID of the data source this course belongs to.
     public let dataSourceId: String?
+    /// The name of the term./
     public let name: String
+    /// An optional description of the course.
     public let description: String?
+    /// The availability settings of this term.
     public let availability: Term.Availability
 
+    /// Initialises a term from a remote term from the Learn API.
+    /// - Parameter termSchema: OpenAPI schema that the term is modeled after.
     init?(from termSchema: Components.Schemas.Term) {
         guard
             // Term Fields
@@ -52,6 +61,8 @@ public struct Term: Hashable, Identifiable, Sendable {
         self.availability = availabilityModel
     }
 
+    /// Initialises a term from a cached instance.
+    /// - Parameter cachedTerm: Cached instance of the term.
     init(from cachedTerm: CachedTerm) {
         self.id = cachedTerm.id
         self.externalId = cachedTerm.externalId
@@ -61,6 +72,9 @@ public struct Term: Hashable, Identifiable, Sendable {
         self.availability = Availability(from: cachedTerm.availability)
     }
 
+    /// Initialises a new term from its raw fields.
+    ///
+    /// This is only intended for use in testing or previews.
     init(id: String, externalId: String?, dataSourceId: String?, name: String, description: String?, availability: Term.Availability) {
         self.id = id
         self.externalId = externalId
@@ -70,10 +84,15 @@ public struct Term: Hashable, Identifiable, Sendable {
         self.availability = availability
     }
 
+    /// Indicates the availability status of a term.
     public struct Availability: Hashable, Sendable {
+        /// Indicates if the term is currently available.
         public let isAvailable: Bool
+        /// Indicates how long the term is available for.
         public let duration: Availability.Duration
 
+        /// Initialises the availablility information from a value from the Learn API.
+        /// - Parameter availabilitySchema: OpenAPI schema that availability data is modeled after.
         init?(from termAvailabilitySchema: Components.Schemas.Term.AvailabilityPayload) {
             guard
                 // Availability Fields
@@ -95,21 +114,35 @@ public struct Term: Hashable, Identifiable, Sendable {
             self.duration = durationModel
         }
 
+        /// Initialises availability information from a cached instance.
+        /// - Parameter cachedCourseEnrollment: Cached instance of the availability information.
         init(from cachedTermAvailability: CachedTerm.Availability) {
             self.isAvailable = cachedTermAvailability.isAvailable
             self.duration = Availability.Duration(from: cachedTermAvailability.duration)
         }
 
+        /// Initialises a new availability instance from its raw fields.
+        ///
+        /// This is only intended for use in testing or previews.
         init(isAvailable: Bool, duration: Availability.Duration) {
             self.isAvailable = isAvailable
             self.duration = duration
         }
 
+        /// Represents the duration types for a courses availability.
         public enum Duration: Hashable, Sendable {
+            /// The course is always available.
             case continuous
+            /// The course is available between the specified start and end dates.
+            /// - Parameter start: The start date at which the course is available.
+            /// - Parameter end: The end date at which the course is no longer available.
             case dateRange(start: Date, end: Date)
+            ///  The course is available for the specified number of days.
+            ///  - Parameter days: The number of days for which the course is available.
             case numberOfDays(_ days: Int)
 
+            /// Initialises the availablility duration from a value from the Learn API.
+            /// - Parameter termAvailabilityDurationSchema: OpenAPI schema that duration is modeled after.
             init?(from termAvailabilityDurationSchema: Components.Schemas.Term.AvailabilityPayload.DurationPayload) {
                 guard
                     let durationType = termAvailabilityDurationSchema._type
@@ -155,6 +188,8 @@ public struct Term: Hashable, Identifiable, Sendable {
                 }
             }
 
+            /// Initialises availability duration from a cached instance.
+            /// - Parameter cachedTermAvailabilityDuration: Cached instance of the availability duration.
             init(from cachedTermAvailabilityDuration: CachedTerm.Availability.Duration) {
                 switch cachedTermAvailabilityDuration {
                     case .continuous:

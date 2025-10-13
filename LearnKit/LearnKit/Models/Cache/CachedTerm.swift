@@ -32,6 +32,8 @@ class CachedTerm {
         self.availability = Availability(from: termModel.availability)
     }
 
+    /// Copys the values from a term data model into the cached instance.
+    /// - Parameter termModel: Data model to copy.
     func copyValues(from termModel: Term) {
         self.id = termModel.id
         self.externalId = termModel.externalId

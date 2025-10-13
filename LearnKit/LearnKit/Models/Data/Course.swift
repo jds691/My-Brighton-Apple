@@ -27,32 +27,58 @@ import os
  - copyHistory
 */
 
+/// The course data model used by the service.
 public struct Course: Hashable, Identifiable, Sendable {
     private static let logger = Logger(subsystem: "com.neo.LearnKit", category: "Course")
 
+    /// The unique identifier of the course.
     public let id: String
+    /// An optional secondary ID for the course.
     public let uuid: UUID?
+    /// An optional secondary ID for the course.
     public let externalId: String?
+    /// The ID of the data source this course belongs to.
     public let dataSourceId: String?
+    /// The user-defined ID of the course, suitable to be displayed to users.
     public let courseId: String
+    /// The name of the course.
     public let name: String
+    /// An optional description of the course.
     public let description: String?
+    /// The creation date of the course, if it is available.
     public let creationDate: Date?
+    /// The date that the data for this course was last modified.
     public let lastModified: Date
+    /// Indicates if this course is an organisation.
     public let isOrganisation: Bool
+    /// The status of this course, indicating if it is an Ultra course or not.
     public let ultraStatus: Course.UltraStatus
+    /// Indicates if this course allows guests to view or join it.
     public let allowGuests: Bool?
     public let allowObservers: Bool?
+    /// Indicates if this course is finished.
+    ///
+    /// Ultra courses will no longer be able to received updates if it is complete, classic courses can still be updated but no notifications are generated.
     public let isComplete: Bool
+    /// The ID of the term this course belongs to.
     public let termId: Term.ID
+    /// The availability settings of this course.
     public let availability: Course.Availability
+    /// The enrollment style for this course.
     public let enrollmentType: Course.Enrollment
+    /// The locale settings for this course.
     public let localeSettings: Course.LocaleSettings
+    /// Indicates if this course has children.
     public let hasChildren: Bool?
+    /// The parent ID of this course, if it is a child course.
     public let parentId: Course.ID?
+    /// The URL that can be used externally to access this course online.
     public let externalAccessUrl: URL
+    /// The URL that guests can use to access this course online.
     public let guestAccessUrl: URL?
-
+    
+    /// Initialises a course from a remote course from the Learn API.
+    /// - Parameter courseSchema: OpenAPI schema that the course is modeled after.
     init?(from courseSchema: Components.Schemas.Course) {
         guard
             // Course Fields
@@ -118,7 +144,9 @@ public struct Course: Hashable, Identifiable, Sendable {
 
         self.guestAccessUrl = URL(string: courseSchema.guestAccessUrl ?? "")
     }
-
+    
+    /// Initialises a course from a cached instance.
+    /// - Parameter cachedCourse: Cached instance of the course.
     init?(from cachedCourse: CachedCourse) {
         guard let termId = cachedCourse.term?.id else {
             Self.logger.error("cachedCourse is missing required relationship information for `term`. Unable to construct data model.")
@@ -151,7 +179,10 @@ public struct Course: Hashable, Identifiable, Sendable {
         self.externalAccessUrl = cachedCourse.externalAccessUrl
         self.guestAccessUrl = cachedCourse.guestAccessUrl
     }
-
+    
+    /// Initialises a new course from its raw fields.
+    ///
+    /// This is only intended for use in testing or previews.
     init(id: String, uuid: UUID?, externalId: String?, dataSourceId: String?, courseId: String, name: String, description: String?, creationDate: Date?, lastModified: Date, isOrganisation: Bool, ultraStatus: Course.UltraStatus, allowGuests: Bool?, allowObservers: Bool?, isComplete: Bool, termId: Term.ID, availability: Course.Availability, enrollmentType: Course.Enrollment, localeSettings: Course.LocaleSettings, hasChildren: Bool?, parentId: Course.ID?, externalAccessUrl: URL, guestAccessUrl: URL?) {
         self.id = id
         self.uuid = uuid
@@ -176,13 +207,20 @@ public struct Course: Hashable, Identifiable, Sendable {
         self.externalAccessUrl = externalAccessUrl
         self.guestAccessUrl = guestAccessUrl
     }
-
+    
+    /// Indicates if a course is an Ultra course or not.
     public enum UltraStatus: Hashable, Sendable {
+        /// It is unknown if the course is an Ultra course.
         case unknown
+        /// The course is a Classic course.
         case classic
+        /// The course is an Ultra course.
         case ultra
+        /// The course is a classic course but it is being previewed in the Ultra UI.
         case ultraPreview
-
+        
+        /// Initialises an Ultra status instances from a remote Ultra status value from the Learn API.
+        /// - Parameter ultraStatusSchema: OpenAPI schema that status is modeled after.
         init(from ultraStatusSchema: Components.Schemas.Course.UltraStatusPayload) {
             switch ultraStatusSchema {
                 case .undecided:
@@ -196,6 +234,8 @@ public struct Course: Hashable, Identifiable, Sendable {
             }
         }
 
+        /// Initialises an Ultra status value from a cached instance.
+        /// - Parameter cachedUltraStatus: Cached instance of the status.
         init(from cachedUltraStatus: CachedCourse.UltraStatus) {
             switch cachedUltraStatus {
                 case .unknown:
@@ -209,12 +249,23 @@ public struct Course: Hashable, Identifiable, Sendable {
             }
         }
     }
-
+    
+    /// Indicates the enrollment type for the course.
     public enum Enrollment: Hashable, Sendable {
+        /// The course is instructor led.
+        ///
+        /// Students must be added to the course by an instructor.
         case instructorLed
+        /// Students can enroll themself into the course.
+        /// - Parameter enrollmentStart: The date from which students can start enrolling themselves onto this course.
+        /// - Parameter enrollmentEnd: The date at which students can no longer enroll themselves onto this course.
+        /// - Parameter accessCode: The accesss code required to access the course.
         case selfEnrollment(enrollmentStart: Date, enrollmentEnd: Date, accessCode: String?)
+        /// Students can be enrolled via email invite.
         case emailEnrollment
 
+        /// Initialises an enrollment type from a remote value from the Learn API.
+        /// - Parameter enrollmentSchema: OpenAPI schema that enrollment types are modeled after.
         init?(from enrollmentSchema: Components.Schemas.Course.EnrollmentPayload) {
             guard
                 let enrollmentType = enrollmentSchema._type
@@ -249,6 +300,8 @@ public struct Course: Hashable, Identifiable, Sendable {
             }
         }
 
+        /// Initialises an enrollment type from a cached instance.
+        /// - Parameter cachedCourseEnrollment: Cached instance of the enrollment type.
         init(from cachedCourseEnrollment: CachedCourse.Enrollment) {
             switch cachedCourseEnrollment {
                 case .instructorLed:
@@ -260,11 +313,16 @@ public struct Course: Hashable, Identifiable, Sendable {
             }
         }
     }
-
+    
+    /// Indicates the availability status of a course.
     public struct Availability: Hashable, Sendable {
+        /// The status for if the course is available or not.
         public let status: Self.Status
+        /// Indicates how long the course is available for.
         public let duration: Self.Duration
 
+        /// Initialises the availablility information from a value from the Learn API.
+        /// - Parameter availabilitySchema: OpenAPI schema that availability data is modeled after.
         init?(from availabilitySchema: Components.Schemas.Course.AvailabilityPayload) {
             guard
                 // Availability Fields
@@ -287,22 +345,33 @@ public struct Course: Hashable, Identifiable, Sendable {
             self.duration = durationModel
         }
 
+        /// Initialises availability information from a cached instance.
+        /// - Parameter cachedCourseEnrollment: Cached instance of the availability information.
         init(from cachedCourseAvailability: CachedCourse.Availability) {
             self.status = Status(from: cachedCourseAvailability.status)
             self.duration = Duration(from: cachedCourseAvailability.duration)
         }
 
+        /// Initialises a new availability instance from its raw fields.
+        ///
+        /// This is only intended for use in testing or previews.
         init(status: Availability.Status, duration: Availability.Duration) {
             self.status = status
             self.duration = duration
         }
-
+        
+        /// Represents the status types for course availability.
         public enum Status: String, RawRepresentable, Hashable, Sendable {
+            /// The course is available.
             case yes = "Yes"
+            /// The course is not available.
             case no = "No"
             case disabled = "Disabled"
+            /// Course availability is determined by its associated term.
             case inheritFromTerm = "Term"
 
+            /// Initialises availability status from a cached instance.
+            /// - Parameter cachedCourseEnrollment: Cached instance of the availability status.
             init(from cachedCourseAvailabilityStatus: CachedCourse.Availability.Status) {
                 switch cachedCourseAvailabilityStatus {
                     case .yes:
@@ -316,13 +385,23 @@ public struct Course: Hashable, Identifiable, Sendable {
                 }
             }
         }
-
+        
+        /// Represents the duration types for a courses availability.
         public enum Duration: Hashable, Sendable {
+            /// The course is always available.
             case continuous
+            /// The course is available between the specified start and end dates.
+            /// - Parameter start: The start date at which the course is available.
+            /// - Parameter end: The end date at which the course is no longer available.
             case dateRange(start: Date, end: Date)
+            ///  The course is available for the specified number of days.
+            ///  - Parameter days: The number of days for which the course is available.
             case numberOfDays(_ days: Int)
+            /// The duration for which the course available is determined by its associated term.
             case inheritFromTerm
 
+            /// Initialises the availablility duration from a value from the Learn API.
+            /// - Parameter durationSchema: OpenAPI schema that duration is modeled after.
             init?(from durationSchema: Components.Schemas.Course.AvailabilityPayload.DurationPayload) {
                 guard
                     let durationType = durationSchema._type
@@ -370,6 +449,8 @@ public struct Course: Hashable, Identifiable, Sendable {
                 }
             }
 
+            /// Initialises availability duration from a cached instance.
+            /// - Parameter cachedCourseEnrollment: Cached instance of the availability duration.
             init(from cachedCourseAvailabilityDuration: CachedCourse.Availability.Duration) {
                 switch cachedCourseAvailabilityDuration {
                     case .continuous:
@@ -385,10 +466,15 @@ public struct Course: Hashable, Identifiable, Sendable {
         }
     }
 
+    /// Indicates the locale settings of a course.
     public struct LocaleSettings: Hashable, Sendable {
+        /// The identifier of the locale that the course prefers.
         public let identifier: String?
+        /// Indicates if the course must be viewed in the specified locale.
         public let forceLocale: Bool
 
+        /// Initialises the locale settings from a value from the Learn API.
+        /// - Parameter localeSchema: OpenAPI schema that locale settings are modeled after.
         init?(from localeSchema: Components.Schemas.Course.LocalePayload) {
             guard
                 let forceLocale = localeSchema.force
@@ -405,11 +491,16 @@ public struct Course: Hashable, Identifiable, Sendable {
             self.forceLocale = forceLocale
         }
 
+        /// Initialises locale settings from a cached instance.
+        /// - Parameter cachedCourseLocaleSettings: Cached instance of the locale settings.
         init(from cachedCourseLocaleSettings: CachedCourse.LocaleSettings) {
             self.identifier = cachedCourseLocaleSettings.identifier
             self.forceLocale = cachedCourseLocaleSettings.isForced
         }
 
+        /// Initialises a new set of locale settings from its raw fields.
+        ///
+        /// This is only intended for use in testing or previews.
         init(identifier: String?, forceLocale: Bool) {
             self.identifier = identifier
             self.forceLocale = forceLocale

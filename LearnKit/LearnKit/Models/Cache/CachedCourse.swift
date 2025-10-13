@@ -58,7 +58,9 @@ class CachedCourse {
         self.localeSettings = LocaleSettings(from: courseModel.localeSettings)
         self.availability = Availability(from: courseModel.availability)
     }
-
+    
+    /// Copys the values from a course data model into the cached instance.
+    /// - Parameter courseModel: Data model to copy.
     func copyValues(from courseModel: Course) {
         self.id = courseModel.id
         self.uuid = courseModel.uuid
