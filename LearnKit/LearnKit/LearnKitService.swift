@@ -121,7 +121,7 @@ extension LearnKitService: LearnKitAPI {
     /// - Returns: List of terms with newer content than what was previously cached.
     @discardableResult
     public func refreshTerms() async throws -> [Term] {
-        // TODO: Keep track of the last time courses were fetched and add the modified param to the request
+        // TODO: Keep track of the last time terms were fetched and add the modified param to the request
         let clientOutput = try await client.getV1Terms(.init())
 
         let results: Operations.GetV1Terms.Output.Ok.Body.JsonPayload?

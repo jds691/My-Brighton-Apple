@@ -26,7 +26,7 @@ public struct Term: Hashable, Identifiable, Sendable {
     public let externalId: String?
     /// The ID of the data source this course belongs to.
     public let dataSourceId: String?
-    /// The name of the term./
+    /// The name of the term.
     public let name: String
     /// An optional description of the course.
     public let description: String?
@@ -92,7 +92,7 @@ public struct Term: Hashable, Identifiable, Sendable {
         public let duration: Availability.Duration
 
         /// Initialises the availablility information from a value from the Learn API.
-        /// - Parameter availabilitySchema: OpenAPI schema that availability data is modeled after.
+        /// - Parameter termAvailabilitySchema: OpenAPI schema that availability data is modeled after.
         init?(from termAvailabilitySchema: Components.Schemas.Term.AvailabilityPayload) {
             guard
                 // Availability Fields
@@ -115,7 +115,7 @@ public struct Term: Hashable, Identifiable, Sendable {
         }
 
         /// Initialises availability information from a cached instance.
-        /// - Parameter cachedCourseEnrollment: Cached instance of the availability information.
+        /// - Parameter cachedTermAvailability: Cached instance of the availability information.
         init(from cachedTermAvailability: CachedTerm.Availability) {
             self.isAvailable = cachedTermAvailability.isAvailable
             self.duration = Availability.Duration(from: cachedTermAvailability.duration)
@@ -129,15 +129,15 @@ public struct Term: Hashable, Identifiable, Sendable {
             self.duration = duration
         }
 
-        /// Represents the duration types for a courses availability.
+        /// Represents the duration types for a terms availability.
         public enum Duration: Hashable, Sendable {
-            /// The course is always available.
+            /// The term is always available.
             case continuous
-            /// The course is available between the specified start and end dates.
+            /// The term is available between the specified start and end dates.
             /// - Parameter start: The start date at which the course is available.
             /// - Parameter end: The end date at which the course is no longer available.
             case dateRange(start: Date, end: Date)
-            ///  The course is available for the specified number of days.
+            ///  The term is available for the specified number of days.
             ///  - Parameter days: The number of days for which the course is available.
             case numberOfDays(_ days: Int)
 
