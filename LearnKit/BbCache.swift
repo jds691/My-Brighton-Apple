@@ -10,25 +10,78 @@ import SwiftData
 import os
 import CoreSpotlight
 
-//@ModelActor
 actor BbCache {
-    private static let logger: Logger = Logger(subsystem: "com.neo.My-Brighton.LearnKit", category: "BbCache")
+    private static let logger: Logger = Logger(subsystem: "com.neo.LearnKit", category: "BbCache")
 
     // TODO: Consider protection class
     private let searchableIndex: CSSearchableIndex = CSSearchableIndex(name: "LearnKit")
 
+    private let modelExecutor: any ModelExecutor
+    private let modelContainer: ModelContainer
+    private var modelContext: ModelContext { modelExecutor.modelContext }
+
     init() {
-        /*do {
-            self.init(modelContainer: try .init(
-                for:
-                    CourseModel.self,
-                    ContentModel.self,
-                configurations: .init(isStoredInMemoryOnly: true)
-            ))
+        do {
+            let schemaV1: Schema = .init([
+                CachedCourse.self,
+                CachedTerm.self
+            ])
+            let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.com.neo.My-Brighton"))
+
+            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
         } catch {
-            Self.logger.fault("Failed to initialise modelContainer for BbCache")
-            fatalError()
-        }*/
+            fatalError("Failed to initialise modelContainer, unable to continue.")
+        }
+    }
+
+    // MARK: Courses
+    func indexCourses(_ courses: [Course]) async {
+        for course in courses {
+            do {
+                let cachedCourse: CachedCourse? = try await getCourse(for: course.id)
+
+                if let cachedCourse {
+                    cachedCourse.copyValues(from: course)
+                } else {
+                    let newCachedCourse = CachedCourse(from: course)
+                    newCachedCourse.term = try await getTerm(for: course.termId)
+                    modelContext.insert(newCachedCourse)
+                }
+            } catch {
+                Self.logger.error("Error while indexing course '\(course.id)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during course index: \(error)")
+        }
+    }
+
+    // MARK: Terms
+    func indexTerms(_ terms: [Term]) async {
+        for term in terms {
+            do {
+                let cachedTerm: CachedTerm? = try await getTerm(for: term.id)
+
+                if let cachedTerm {
+                    cachedTerm.copyValues(from: term)
+                } else {
+                    let newCachedTerm = CachedTerm(from: term)
+                    modelContext.insert(newCachedTerm)
+                }
+            } catch {
+                Self.logger.error("Error while indexing term '\(term.id)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during term index: \(error)")
+        }
     }
 }
 
@@ -36,20 +89,64 @@ actor BbCache {
 extension BbCache: LearnKitAPI {
     // MARK: Courses
     public func getAllCourses() async throws -> [Course] {
-        fatalError("\(#function) not implemented :P")
+        return try modelContext.fetch(FetchDescriptor<CachedCourse>()).compactMap({ Course(from: $0) })
     }
 
-    public func getCourse(for identifier: Course.ID) async throws -> Course {
-        fatalError("\(#function) not implemented :P")
+    public func getCourse(for identifier: Course.ID) async throws -> Course? {
+        var descriptor = FetchDescriptor<CachedCourse>(predicate: #Predicate<CachedCourse>{ $0.id == identifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstCourse = results.first, let course = Course(from: firstCourse) {
+            return course
+        } else {
+            return nil
+        }
+    }
+
+    func getCourse(for identifier: Course.ID) async throws -> CachedCourse? {
+        var descriptor = FetchDescriptor<CachedCourse>(predicate: #Predicate<CachedCourse>{ $0.id == identifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstCourse = results.first {
+            return firstCourse
+        } else {
+            return nil
+        }
     }
 
     // MARK: Terms
     public func getAllTerms() async throws -> [Term] {
-        fatalError("\(#function) not implemented :P")
+        return try modelContext.fetch(FetchDescriptor<CachedTerm>()).compactMap({ Term(from: $0) })
     }
 
-    public func getTerm(for identifier: Term.ID) async throws -> Term {
-        fatalError("\(#function) not implemented :P")
+    public func getTerm(for identifier: Term.ID) async throws -> Term? {
+        var descriptor = FetchDescriptor<CachedTerm>(predicate: #Predicate<CachedTerm>{ $0.id == identifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstTerm = results.first {
+            return Term(from: firstTerm)
+        } else {
+            return nil
+        }
+    }
+
+    func getTerm(for identifier: Term.ID) async throws -> CachedTerm? {
+        var descriptor = FetchDescriptor<CachedTerm>(predicate: #Predicate<CachedTerm>{ $0.id == identifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstTerm = results.first {
+            return firstTerm
+        } else {
+            return nil
+        }
     }
 }
 

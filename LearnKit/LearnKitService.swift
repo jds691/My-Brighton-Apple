@@ -77,21 +77,74 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: Courses
-    public func getAllCourses() async throws -> [Course] {
-        fatalError("\(#function) not implemented :P")
+    @discardableResult
+    public func refreshCourses() async throws -> [Course] {
+        // TODO: Keep track of the last time courses were fetched and add the modified param to the request
+        let clientOutput = try await client.getV3Courses(.init())
+
+        let results: Operations.GetV3Courses.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, let error):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
+
+        Task {
+            await cache.indexCourses(modelCourses)
+        }
+
+        return modelCourses
     }
 
-    public func getCourse(for identifier: Course.ID) async throws -> Course {
-        fatalError("\(#function) not implemented :P")
+    public func getAllCourses() async throws -> [Course] {
+        return try await cache.getAllCourses()
+    }
+
+    public func getCourse(for identifier: Course.ID) async throws -> Course? {
+        return try await cache.getCourse(for: identifier)
     }
 
     // MARK: Terms
-    public func getAllTerms() async throws -> [Term] {
-        fatalError("\(#function) not implemented :P")
+    @discardableResult
+    public func refreshTerms() async throws -> [Term] {
+        // TODO: Keep track of the last time courses were fetched and add the modified param to the request
+        let clientOutput = try await client.getV1Terms(.init())
+
+        let results: Operations.GetV1Terms.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, let error):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteTerms = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+
+        let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
+
+        Task {
+            await cache.indexTerms(modelTerms)
+        }
+
+        return modelTerms
     }
 
-    public func getTerm(for identifier: Term.ID) async throws -> Term {
-        fatalError("\(#function) not implemented :P")
+    public func getAllTerms() async throws -> [Term] {
+        return try await cache.getAllTerms()
+    }
+
+    public func getTerm(for identifier: Term.ID) async throws -> Term? {
+        return try await cache.getTerm(for: identifier)
     }
 }
 

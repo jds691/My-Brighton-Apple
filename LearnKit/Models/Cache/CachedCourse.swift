@@ -59,6 +59,29 @@ class CachedCourse {
         self.availability = Availability(from: courseModel.availability)
     }
 
+    func copyValues(from courseModel: Course) {
+        self.id = courseModel.id
+        self.uuid = courseModel.uuid
+        self.externalId = courseModel.externalId
+        self.dataSourceId = courseModel.dataSourceId
+        self.courseId = courseModel.courseId
+        self.name = courseModel.name
+        self.courseDescription = courseModel.description
+        self.creationDate = courseModel.creationDate
+        self.lastModified = courseModel.lastModified
+        self.isOrganisation = courseModel.isOrganisation
+        self.ultraStatus = UltraStatus(from: courseModel.ultraStatus)
+        self.allowGuests = courseModel.allowGuests
+        self.allowObservers = courseModel.allowObservers
+        self.isComplete = courseModel.isComplete
+        self.enrollmentType = Enrollment(from: courseModel.enrollmentType)
+        self.externalAccessUrl = courseModel.externalAccessUrl
+        self.guestAccessUrl = courseModel.guestAccessUrl
+
+        self.localeSettings = LocaleSettings(from: courseModel.localeSettings)
+        self.availability = Availability(from: courseModel.availability)
+    }
+
     enum UltraStatus: String, Hashable, Codable, Sendable {
         case unknown = "Undecided"
         case classic = "Classic"

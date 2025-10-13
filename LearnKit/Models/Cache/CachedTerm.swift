@@ -32,6 +32,16 @@ class CachedTerm {
         self.availability = Availability(from: termModel.availability)
     }
 
+    func copyValues(from termModel: Term) {
+        self.id = termModel.id
+        self.externalId = termModel.externalId
+        self.dataSourceId = termModel.dataSourceId
+        self.name = termModel.name
+        self.termDescription = termModel.description
+
+        self.availability = Availability(from: termModel.availability)
+    }
+
     struct Availability: Hashable, Codable, Sendable {
         let isAvailable: Bool
         let duration: Availability.Duration

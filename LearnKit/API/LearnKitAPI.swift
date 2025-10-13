@@ -12,9 +12,9 @@
 protocol LearnKitAPI {
     // MARK: Courses
     func getAllCourses() async throws -> [Course]
-    func getCourse(for identifier: Course.ID) async throws -> Course
+    func getCourse(for identifier: Course.ID) async throws -> Course?
 
     // MARK: Terms
     func getAllTerms() async throws -> [Term]
-    func getTerm(for identifier: Term.ID) async throws -> Term
+    func getTerm(for identifier: Term.ID) async throws -> Term?
 }
