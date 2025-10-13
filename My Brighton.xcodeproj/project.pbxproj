@@ -283,6 +283,13 @@
 			);
 			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
 		};
+		684E07592E9D631E001041CD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LearnKitTests/BbCacheTests.swift,
+			);
+			target = 68F19A142E9D1DD9009701FD /* LearnKitTests */;
+		};
 		686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -433,7 +440,7 @@
 				"LearnKit/openapi-generator-config.yaml",
 				LearnKit/openapi.yaml,
 				LearnKit/RestError.swift,
-				LearnKitTests/LearnKitTests.swift,
+				LearnKitTests/BbCacheTests.swift,
 			);
 			target = 28E311062A98E78D00ECC35C /* My Brighton */;
 		};
@@ -458,7 +465,7 @@
 				"LearnKit/openapi-generator-config.yaml",
 				LearnKit/openapi.yaml,
 				LearnKit/RestError.swift,
-				LearnKitTests/LearnKitTests.swift,
+				LearnKitTests/BbCacheTests.swift,
 			);
 			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
 		};
@@ -483,13 +490,6 @@
 			);
 			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
 		};
-		68F19A5C2E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				LearnKitTests/LearnKitTests.swift,
-			);
-			target = 68F19A142E9D1DD9009701FD /* LearnKitTests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -509,7 +509,7 @@
 		68C863632E969F950023B0AD /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 		68C863E52E96A03C0023B0AD /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
 		68EAC7472E79EBFC00A3F286 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
-		68F19A2A2E9D1E11009701FD /* LearnKit */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68F19A582E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A592E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5A2E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5B2E9D1E12009701FD /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 68F19A5C2E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LearnKit; sourceTree = "<group>"; };
+		68F19A2A2E9D1E11009701FD /* LearnKit */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68F19A582E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A592E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5A2E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5B2E9D1E12009701FD /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 684E07592E9D631E001041CD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LearnKit; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

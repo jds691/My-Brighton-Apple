@@ -61,6 +61,15 @@ public struct Term: Hashable, Identifiable, Sendable {
         self.availability = Availability(from: cachedTerm.availability)
     }
 
+    init(id: String, externalId: String?, dataSourceId: String?, name: String, description: String?, availability: Term.Availability) {
+        self.id = id
+        self.externalId = externalId
+        self.dataSourceId = dataSourceId
+        self.name = name
+        self.description = description
+        self.availability = availability
+    }
+
     public struct Availability: Hashable, Sendable {
         public let isAvailable: Bool
         public let duration: Availability.Duration
@@ -89,6 +98,11 @@ public struct Term: Hashable, Identifiable, Sendable {
         init(from cachedTermAvailability: CachedTerm.Availability) {
             self.isAvailable = cachedTermAvailability.isAvailable
             self.duration = Availability.Duration(from: cachedTermAvailability.duration)
+        }
+
+        init(isAvailable: Bool, duration: Availability.Duration) {
+            self.isAvailable = isAvailable
+            self.duration = duration
         }
 
         public enum Duration: Hashable, Sendable {

@@ -35,6 +35,21 @@ actor BbCache {
         }
     }
 
+    init(inMemoryOnly: Bool) {
+        do {
+            let schemaV1: Schema = .init([
+                CachedCourse.self,
+                CachedTerm.self
+            ])
+            let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.com.neo.My-Brighton"))
+
+            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
+        } catch {
+            fatalError("Failed to initialise modelContainer, unable to continue.")
+        }
+    }
+
     // MARK: Courses
     func indexCourses(_ courses: [Course]) async {
         for course in courses {

@@ -152,6 +152,31 @@ public struct Course: Hashable, Identifiable, Sendable {
         self.guestAccessUrl = cachedCourse.guestAccessUrl
     }
 
+    init(id: String, uuid: UUID?, externalId: String?, dataSourceId: String?, courseId: String, name: String, description: String?, creationDate: Date?, lastModified: Date, isOrganisation: Bool, ultraStatus: Course.UltraStatus, allowGuests: Bool?, allowObservers: Bool?, isComplete: Bool, termId: Term.ID, availability: Course.Availability, enrollmentType: Course.Enrollment, localeSettings: Course.LocaleSettings, hasChildren: Bool?, parentId: Course.ID?, externalAccessUrl: URL, guestAccessUrl: URL?) {
+        self.id = id
+        self.uuid = uuid
+        self.externalId = externalId
+        self.dataSourceId = dataSourceId
+        self.courseId = courseId
+        self.name = name
+        self.description = description
+        self.creationDate = creationDate
+        self.lastModified = lastModified
+        self.isOrganisation = isOrganisation
+        self.ultraStatus = ultraStatus
+        self.allowGuests = allowGuests
+        self.allowObservers = allowObservers
+        self.isComplete = isComplete
+        self.termId = termId
+        self.availability = availability
+        self.enrollmentType = enrollmentType
+        self.localeSettings = localeSettings
+        self.hasChildren = hasChildren
+        self.parentId = parentId
+        self.externalAccessUrl = externalAccessUrl
+        self.guestAccessUrl = guestAccessUrl
+    }
+
     public enum UltraStatus: Hashable, Sendable {
         case unknown
         case classic
@@ -267,6 +292,11 @@ public struct Course: Hashable, Identifiable, Sendable {
             self.duration = Duration(from: cachedCourseAvailability.duration)
         }
 
+        init(status: Availability.Status, duration: Availability.Duration) {
+            self.status = status
+            self.duration = duration
+        }
+
         public enum Status: String, RawRepresentable, Hashable, Sendable {
             case yes = "Yes"
             case no = "No"
@@ -378,6 +408,11 @@ public struct Course: Hashable, Identifiable, Sendable {
         init(from cachedCourseLocaleSettings: CachedCourse.LocaleSettings) {
             self.identifier = cachedCourseLocaleSettings.identifier
             self.forceLocale = cachedCourseLocaleSettings.isForced
+        }
+
+        init(identifier: String?, forceLocale: Bool) {
+            self.identifier = identifier
+            self.forceLocale = forceLocale
         }
     }
 }
