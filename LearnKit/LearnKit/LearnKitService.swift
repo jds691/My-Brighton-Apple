@@ -11,14 +11,17 @@ import SwiftUI
 import AuthenticationServices
 import os
 
+/// Overarching service to perform requests against LearnKit.
+///
+/// All requests must be made through the service as it performs a lot of work in the backend for Spotlight and offline caching.
 public final class LearnKitService: Sendable {
     private let baseURL: URL?
     private let client: any APIProtocol
     private let cache: BbCache
 
-    private static let logger: Logger = .init(subsystem: "com.neo.My-Brighton.LearnKit", category: "LearnKitService")
+    private static let logger: Logger = .init(subsystem: "com.neo.LearnKit", category: "LearnKitService")
 
-    ///
+    /// Initialises the service with a Learn instance URL to connect to.
     ///
     /// - Parameter learnInstanceURL: The URL for the Blackboard Learn instance. The instance URL should end with "/learn/api/public".
     public init(learnInstanceURL: URL) {
@@ -74,6 +77,81 @@ extension LearnKitService: LearnKitAPI {
         )
 
         return true
+    }
+
+    // MARK: Courses
+    /// Refreshes the local cache of courses by communicating with the Learn instance and returns newer course data.
+    /// - Returns: List of courses with newer content than what was previously cached.
+    @discardableResult
+    public func refreshCourses() async throws -> [Course] {
+        // TODO: Keep track of the last time courses were fetched and add the modified param to the request
+        let clientOutput = try await client.getV3Courses(.init())
+
+        let results: Operations.GetV3Courses.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, let error):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
+
+        Task {
+            await cache.indexCourses(modelCourses)
+        }
+
+        return modelCourses
+    }
+
+    public func getAllCourses() async throws -> [Course] {
+        return try await cache.getAllCourses()
+    }
+
+    public func getCourse(for identifier: Course.ID) async throws -> Course? {
+        return try await cache.getCourse(for: identifier)
+    }
+
+    // MARK: Terms
+    /// Refreshes the local cache of terms by communicating with the Learn instance and returns newer term data.
+    /// - Returns: List of terms with newer content than what was previously cached.
+    @discardableResult
+    public func refreshTerms() async throws -> [Term] {
+        // TODO: Keep track of the last time terms were fetched and add the modified param to the request
+        let clientOutput = try await client.getV1Terms(.init())
+
+        let results: Operations.GetV1Terms.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, let error):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteTerms = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+
+        let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
+
+        Task {
+            await cache.indexTerms(modelTerms)
+        }
+
+        return modelTerms
+    }
+
+    public func getAllTerms() async throws -> [Term] {
+        return try await cache.getAllTerms()
+    }
+
+    public func getTerm(for identifier: Term.ID) async throws -> Term? {
+        return try await cache.getTerm(for: identifier)
     }
 }
 
