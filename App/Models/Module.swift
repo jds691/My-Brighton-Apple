@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated, renamed: "Course", message: "LearnKit Course is now implemented")
 nonisolated
 struct Module: Identifiable {
     var id: String { courseId }

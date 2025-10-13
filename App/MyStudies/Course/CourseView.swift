@@ -12,15 +12,15 @@ import LearnKit
 import Router
 import AppIntents
 
-struct ModuleView: View {
-    private let id: Module.ID
-    private let name: String
-    private let image: Module.Image
-    private let displayId: String
-
+struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.learnKitService) private var learnKit
+
+    private var courseId: Course.ID
+
+    @State private var course: Course? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -39,17 +39,8 @@ struct ModuleView: View {
     }
     #endif
 
-    init(id: Module.ID) {
-        self.id = id
-        
-        //TODO: Just for testing
-        let module = Module.modules.first(where: { $0.id == id })
-        
-        guard let module else { fatalError() }
-
-        name = module.name
-        image = module.image
-        displayId = module.displayId
+    init(id: Course.ID) {
+        self.courseId = id
     }
     
     var body: some View {
@@ -78,7 +69,7 @@ struct ModuleView: View {
             .ignoresSafeArea(edges: [.top])
             .navigationBarTitleDisplayMode(.inline)
 #endif
-            .focusedSceneValue(\.courseId, self.id)
+            .focusedSceneValue(\.courseId, self.courseId)
             .myBrightonBackground()
 #if os(iOS)
             .coordinateSpace(.named("scroll"))
@@ -107,15 +98,15 @@ struct ModuleView: View {
                     $0
                 }
             }
-            .navigationTitle(name)
+            .navigationTitle(course?.name ?? courseId)
             .userActivity("com.neo.My-Brighton.course.view") { userActivity in
-                
-                userActivity.title = "Viewing content in \(name)"
+
+                userActivity.title = "Viewing content in \(course?.name ?? courseId)"
                 // To later be replaced with the externalUrl property from the response
-                userActivity.webpageURL = URL(string: "https://studentcentral.brighton.ac.uk/ultra/courses/\(id)/outline")
+                userActivity.webpageURL = course?.externalAccessUrl ?? URL(string: "https://studentcentral.brighton.ac.uk/ultra/courses/\(courseId)/outline")
                 userActivity.isEligibleForHandoff = true
                 if #available(iOS 18.2, macOS 15.2, *) {
-                    userActivity.appEntityIdentifier = .init(for: CourseEntity.self, identifier: id)
+                    userActivity.appEntityIdentifier = .init(for: CourseEntity.self, identifier: courseId)
                 }
             }
         // TODO: Add back when working
@@ -207,7 +198,7 @@ struct ModuleView: View {
                         .toolbar {
                             ToolbarItem(placement: .title) {
                                 if showTitle {
-                                    Text(name)
+                                    Text(course?.name ?? courseId)
                                         .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
                                         .lineLimit(1)
                                 } else {
@@ -278,17 +269,32 @@ struct ModuleView: View {
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
                 }
             }
+            .task {
+                do {
+                    course = try await learnKit.getCourse(for: courseId)
+
+                    print("Loadded course")
+                } catch {
+                    print("FUCK")
+                }
+            }
     }
 
     @ViewBuilder
     private var header: some View {
-        ModuleImageView(image: image) {
+        Rectangle()
+            .aspectRatio(contentMode: .fill)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+            .foregroundStyle(.brightonSecondary)
+            .clipped()
+        // TODO: Add image back
+        /*ModuleImageView(image: image) {
             $0
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .clipped()
-        }
+        }*/
         .headerBlur()
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {
@@ -300,11 +306,21 @@ struct ModuleView: View {
         }
         .overlay(alignment: .bottomLeading) {
             VStack(alignment: .leading) {
-                Text(displayId)
-                    .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
-                Text(name)
-                    .lineLimit(2)
-                    .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                if let course {
+                    Text(course.courseId)
+                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                    Text(course.name)
+                        .lineLimit(2)
+                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                } else {
+                    Text(courseId)
+                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                        .redacted(reason: .placeholder)
+                    Text("YEAR MODULE LONG COURSE NAME")
+                        .lineLimit(2)
+                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                        .redacted(reason: .placeholder)
+                }
             }
             .foregroundStyle(.white)
             .scenePadding()
@@ -410,11 +426,12 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-#Preview {
+#Preview(traits: .learnKit) {
     TabView {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {
-                ModuleView(id: "0")
+                // Final Year Computing Project
+                CourseView(id: "_130430_1")
             }
         }
     }

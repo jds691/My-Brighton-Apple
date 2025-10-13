@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
-import Glur
+import LearnKit
 
 // Fuck GeometryReader
 
-struct MyStudiesModuleCard: View {
-    let name: String
-    let image: Module.Image
-    let displayId: String
-    
+struct MyStudiesCourseCard: View {
+    @State private var course: Course
+
     @State private var isFavourite: Bool = false
-    
+
+    init(course: Course) {
+        self.course = course
+    }
+
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            ModuleImageView(image: image) { result in
+            // TODO: Add image back when possible
+            /*ModuleImageView(image: image) { result in
                 result
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -33,13 +36,27 @@ struct MyStudiesModuleCard: View {
                     .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .contentShape(RoundedRectangle(cornerRadius: 16))
-            }
+            }*/
+
+            RoundedRectangle(cornerRadius: 16)
+                .aspectRatio(contentMode: .fill)
+                .frame(
+                    minWidth: 0,
+                    maxWidth: .infinity,
+                    minHeight: 0,
+                    maxHeight: .infinity
+                )
+                .foregroundStyle(.brightonSecondary)
+                .aspectRatio(aspectRatio, contentMode: .fit)
+                .clipped()
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .contentShape(RoundedRectangle(cornerRadius: 16))
 
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading) {
-                    Text(displayId)
+                    Text(course.courseId)
                         .foregroundStyle(.white)
-                    Text(name)
+                    Text(course.name)
                         .font(.title3.bold())
                         .foregroundStyle(.white)
                         .lineLimit(2)
@@ -65,9 +82,4 @@ struct MyStudiesModuleCard: View {
     private var aspectRatio: CGFloat {
         361 / 185
     }
-}
-
-#Preview(traits: .sizeThatFitsLayout) {
-    // 20 seems to cause particular issue
-    MyStudiesModuleCard(name: "VeryShort Module Name", image: .named("Thumbnails/nature20_thumb"), displayId: "CI001")
 }
