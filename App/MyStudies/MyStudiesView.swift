@@ -28,7 +28,7 @@ struct MyStudiesView: View {
     var body: some View {
         ScrollView(.vertical) {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(terms, id: \.id) { term in
+                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
                     Section {
                         ForEach(courses.filter({ $0.termId == term.id }), id: \.id) { course in
                             NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
