@@ -273,9 +273,20 @@ struct CourseView: View {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
 
-                    print("Loadded course")
+                    print("Loaded course")
                 } catch {
-                    print("FUCK")
+                    print(error)
+                }
+            }
+            .refreshable {
+                do {
+                    let updatedCourses = try await learnKit.refreshCourses()
+
+                    if let updatedPresentedCourse = updatedCourses.first(where: { $0.id == courseId }) {
+                        course = updatedPresentedCourse
+                    }
+                } catch {
+                    print(error)
                 }
             }
     }

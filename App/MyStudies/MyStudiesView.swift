@@ -75,23 +75,38 @@ struct MyStudiesView: View {
             async let cachedCourses: [Course] = learnKitService.getAllCourses()
 
             do {
-                if try await cachedTerms.isEmpty {
-                    terms = try await learnKitService.refreshTerms()
-                } else {
-                    terms = try await cachedTerms
-                }
+                terms = try await cachedTerms
+                courses = try await cachedCourses
             } catch {
-
+                print(error)
             }
-
+        }
+        .refreshable {
             do {
-                if try await cachedCourses.isEmpty {
-                    courses = try await learnKitService.refreshCourses()
-                } else {
-                    courses = try await cachedCourses
-                }
+                updateAndReplaceTerms(try await learnKitService.refreshTerms())
+                updateAndReplaceCourses(try await learnKitService.refreshCourses())
             } catch {
+                print(error)
+            }
+        }
+    }
 
+    private func updateAndReplaceTerms(_ newTerms: [Term]) {
+        for newTerm in newTerms {
+            if let termsIndex = terms.firstIndex(where: { $0.id == newTerm.id }) {
+                terms[termsIndex] = newTerm
+            } else {
+                terms.append(newTerm)
+            }
+        }
+    }
+
+    private func updateAndReplaceCourses(_ newCourses: [Course]) {
+        for newCourse in newCourses {
+            if let coursesIndex = courses.firstIndex(where: { $0.id == newCourse.id }) {
+                courses[coursesIndex] = newCourse
+            } else {
+                courses.append(newCourse)
             }
         }
     }
