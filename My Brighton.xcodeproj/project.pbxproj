@@ -290,6 +290,20 @@
 			);
 			target = 68F19A142E9D1DD9009701FD /* LearnKitTests */;
 		};
+		685270BC2E9DE34900F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				PreviewClient.swift,
+			);
+			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
+		};
+		685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				PreviewClient.swift,
+			);
+			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
+		};
 		686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -505,7 +519,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		686425762E68A07800A088A8 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
-		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (685270BC2E9DE34900F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		68C863632E969F950023B0AD /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 		68C863E52E96A03C0023B0AD /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
 		68EAC7472E79EBFC00A3F286 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
@@ -1442,7 +1456,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1494,7 +1508,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1543,7 +1557,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1583,7 +1597,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1723,7 +1737,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1767,7 +1781,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251014;
+				CURRENT_PROJECT_VERSION = 10F20251014;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;

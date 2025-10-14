@@ -79,12 +79,6 @@ struct DebugOptionsView: View {
                         searchManager.search(for: "Test")
                     }
 
-                    Button("Create fake Spotlight data") {
-                        Task {
-                            await fakeSpotlightData()
-                        }
-                    }
-
                     Button("Erase Spotlight Contents") {
                         CSSearchableIndex.default().deleteAllSearchableItems()
                     }
@@ -106,27 +100,6 @@ struct DebugOptionsView: View {
                     }
                 }
             }
-        }
-    }
-
-    private func fakeSpotlightData() async {
-        let exampleCourseAttributes = CSSearchableItemAttributeSet()
-        exampleCourseAttributes.title = "Integrated Group Project"
-        exampleCourseAttributes.contentDescription = "CI536"
-        #if os(iOS)
-        exampleCourseAttributes.thumbnailData = UIImage(named: "Thumbnails/nature14_thumb")?.pngData()
-        #else
-        exampleCourseAttributes.thumbnailData = NSImage(named: "Thumbnails/nature14_thumb")?.tiffRepresentation
-        #endif
-
-        let exampleCourseItem = CSSearchableItem(uniqueIdentifier: "course/\(3)", domainIdentifier: nil, attributeSet: exampleCourseAttributes)
-        exampleCourseItem.associateAppEntity(CourseEntity(id: "3", name: "Integrated Group Project", imageName: "Thumbnails/nature14_thumb"))
-
-        do {
-            try await CSSearchableIndex.default().indexSearchableItems([exampleCourseItem])
-            print("Indexed example info")
-        } catch {
-            print(error)
         }
     }
 }

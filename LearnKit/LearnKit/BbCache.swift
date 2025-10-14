@@ -9,6 +9,7 @@ import Foundation
 import SwiftData
 import os
 import CoreSpotlight
+import AppIntents
 
 /// Handles all SwiftData and offline caching operations.
 ///
@@ -62,6 +63,8 @@ actor BbCache {
     /// Indexes the provided courses into SwiftData and CoreSpotlight.
     /// - Parameter courses: Courses to index.
     func indexCourses(_ courses: [Course]) async {
+        async let courseIndexing: () = indexCoursesIntoSpotlight(courses)
+
         for course in courses {
             do {
                 let cachedCourse: CachedCourse? = try await getCourse(for: course.id)
@@ -82,6 +85,43 @@ actor BbCache {
             try modelContext.save()
         } catch {
             Self.logger.error("Error while saving modelContext during course index: \(error)")
+        }
+
+        await courseIndexing
+    }
+
+    private func indexCoursesIntoSpotlight(_ courses: [Course]) async {
+        var csItems: [CSSearchableItem] = []
+        for course in courses {
+            async let courseAppEntity = CourseEntity(from: course)
+            let courseAttributes = CSSearchableItemAttributeSet()
+
+            courseAttributes.title = course.name
+            courseAttributes.displayName = course.name
+            courseAttributes.contentDescription = course.description
+            courseAttributes.alternateNames = [
+                course.id,
+                course.courseId,
+                course.externalAccessUrl.absoluteString
+            ]
+            courseAttributes.keywords = [
+                "course",
+                "module",
+                "My Studies",
+                course.courseId
+            ]
+            courseAttributes.metadataModificationDate = course.lastModified
+
+            let courseCsItem = CSSearchableItem(uniqueIdentifier: "course/\(course.id)", domainIdentifier: nil, attributeSet: courseAttributes)
+            await courseCsItem.associateAppEntity(courseAppEntity)
+
+            csItems.append(courseCsItem)
+        }
+
+        do {
+            try await searchableIndex.indexSearchableItems(csItems)
+        } catch {
+            Self.logger.error("Spotlight indexing error for courses: \(error)")
         }
     }
 
@@ -183,7 +223,12 @@ extension BbCache {
     ///
     /// >important: Reindexing is only performed using the locally persisted cache. If there are remote changes not yet fetched they will not be reflected in newly indexed content.
     func reindexAllContent() async throws {
-        //self.modelContainer.mainContext.fetch(T##descriptor: FetchDescriptor<PersistentModel>##FetchDescriptor<PersistentModel>)
+        let coursesFetchDescriptor = FetchDescriptor<CachedCourse>()
+
+        let courses = try modelContext.fetch(coursesFetchDescriptor).compactMap({ Course(from: $0) })
+        async let courseIndexing: () = indexCoursesIntoSpotlight(courses)
+
+        await courseIndexing
     }
 
     /// Reindexes all content stored in the cache for the given identifiers back into CoreSpotlight.
@@ -191,6 +236,60 @@ extension BbCache {
     /// >important: Reindexing is only performed using the locally persisted cache. If there are remote changes not yet fetched they will not be reflected in newly indexed content.
     /// - Parameter identifiers: Identifiers of the content that should be reindexed.
     func reindexContent(withIdentifiers identifiers: [String]) async throws {
+        let spotlightItems: [SpotlightContentType] = identifiers.compactMap({ SpotlightContentType(from: $0) })
 
+        let courseItems = spotlightItems.filter({
+            if case .course(let id) = $0 {
+                return true
+            } else {
+                return false
+            }
+        })
+
+        async let courseIndexing: () = reindexCourseItems(courseItems)
+
+        try await courseIndexing
+    }
+
+    func reindexCourseItems(_ identifiers: [SpotlightContentType]) async throws {
+        let courseIdentifiers: [Course.ID] = identifiers.compactMap({
+            guard case .course(id: let id) = $0 else { return nil }
+
+            return id
+        })
+
+        let fetchPredicate = #Predicate<CachedCourse> {
+            courseIdentifiers.contains($0.id)
+        }
+        let fetchDescriptor = FetchDescriptor<CachedCourse>(predicate: fetchPredicate)
+
+        let courses = try modelContext.fetch(fetchDescriptor).compactMap({ Course(from: $0) })
+        await indexCoursesIntoSpotlight(courses)
+    }
+
+    enum SpotlightContentType {
+        case course(id: Course.ID)
+
+        init?(from spotlightIdentifier: String) {
+            let path = spotlightIdentifier.split(separator: "/")
+
+            guard path.count > 0 else { return nil }
+
+            switch path[0] {
+                case "course":
+                    guard path.count == 2 else {
+                        BbCache.logger.warning("Course Spotlight item is missing ID, unable to index.")
+                        return nil
+                    }
+
+                    self = .course(id: String(path[1]))
+                    break
+                default:
+                    BbCache.logger.warning("Unknown Spotlight identifier group '\(path[0])'")
+                    return nil
+            }
+
+            return nil
+        }
     }
 }

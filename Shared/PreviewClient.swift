@@ -5,6 +5,7 @@
 //  Created by Neo Salmon on 13/10/2025.
 //
 
+import Foundation
 import LearnKit
 
 struct PreviewClient: APIProtocol {

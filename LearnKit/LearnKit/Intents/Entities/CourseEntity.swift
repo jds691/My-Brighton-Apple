@@ -12,23 +12,20 @@ public struct CourseEntity: AppEntity {
     }
     
     public var displayRepresentation: DisplayRepresentation {
-        .init(title: "\(name)", image: .init(named: imageName))
+        .init(title: "\(name)", image: .init(systemName: "books.vertical", isTemplate: true))
     }
     
     public static let defaultQuery = CourseEntityQuery()
 
     @Property(title: "ID")
-    public var id: String
+    public var id: Course.ID
 
     @Property(title: "Name")
     public var name: String
-    @Property(title: "Image Name")
-    public var imageName: String
 
-    public init(id: String, name: String, imageName: String) {
-        self.id = id
-        self.name = name
-        self.imageName = imageName
+    public init(from courseModel: Course) async {
+        self.id = courseModel.id
+        self.name = courseModel.name
     }
 }
 
