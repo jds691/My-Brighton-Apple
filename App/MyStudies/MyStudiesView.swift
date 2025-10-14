@@ -7,52 +7,52 @@
 
 import SwiftUI
 import Router
-
-// TODO: Navigating to this twice causes a rendering cycle on macOS
-// https://github.com/users/jds691/projects/11/views/3?pane=issue&itemId=129420628
+import LearnKit
 
 struct MyStudiesView: View {
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
     @Environment(\.openWindow) private var openWindow
     @Environment(Router.self) private var router
-    
+    @Environment(\.learnKitService) private var learnKitService
+
     let columns = [
         // My personally preferred size, 3 cards when the sidebar is open
         GridItem(.adaptive(minimum: 300))
     ]
-    
+
+    @State private var terms: [Term] = []
+    @State private var courses: [Course] = []
+
     @State private var searchTerm: String = ""
-    
-    var filteredModules: [Module] {
-        Module.modules.filter({ searchTerm.isEmpty ? true : $0.name.lowercased().contains(searchTerm.lowercased()) })
-    }
     
     var body: some View {
         ScrollView(.vertical) {
-            LazyVGrid(columns: columns) {
-                Section {
-                    ForEach(filteredModules, id: \.id) { module in
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(module.id, nil)) {
-                            MyStudiesModuleCard(name: module.name, image: module.image, displayId: module.displayId)
-                        }
-                        .buttonStyle(.plain)
-                        .listRowSeparator(.hidden)
-                        .contextMenu {
-                            if supportsMultipleWindows {
-                                Button {
-                                    openWindow(id: "module", value: module.id)
-                                } label: {
-                                    Label("Open in New Window", systemImage: "macwindow.badge.plus")
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
+                    Section {
+                        ForEach(courses.filter({ $0.termId == term.id }), id: \.id) { course in
+                            NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
+                                MyStudiesCourseCard(course: course)
+                            }
+                            .buttonStyle(.plain)
+                            .listRowSeparator(.hidden)
+                            .contextMenu {
+                                if supportsMultipleWindows {
+                                    Button {
+                                        openWindow(id: "module", value: "0")
+                                    } label: {
+                                        Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                                    }
+
+                                    Divider()
                                 }
-                                
-                                Divider()
                             }
                         }
+                    } header: {
+                        Text(term.name)
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                } header: {
-                    Text("2024-25")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
             .scenePadding()
@@ -67,14 +67,53 @@ struct MyStudiesView: View {
         .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.self) { subroute in
             switch subroute {
                 case .module(let moduleId, _):
-                    ModuleView(id: moduleId)
+                    CourseView(id: moduleId)
+            }
+        }
+        .task {
+            async let cachedTerms: [Term] = learnKitService.getAllTerms()
+            async let cachedCourses: [Course] = learnKitService.getAllCourses()
+
+            do {
+                terms = try await cachedTerms
+                courses = try await cachedCourses
+            } catch {
+                print(error)
+            }
+        }
+        .refreshable {
+            do {
+                updateAndReplaceTerms(try await learnKitService.refreshTerms())
+                updateAndReplaceCourses(try await learnKitService.refreshCourses())
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    private func updateAndReplaceTerms(_ newTerms: [Term]) {
+        for newTerm in newTerms {
+            if let termsIndex = terms.firstIndex(where: { $0.id == newTerm.id }) {
+                terms[termsIndex] = newTerm
+            } else {
+                terms.append(newTerm)
+            }
+        }
+    }
+
+    private func updateAndReplaceCourses(_ newCourses: [Course]) {
+        for newCourse in newCourses {
+            if let coursesIndex = courses.firstIndex(where: { $0.id == newCourse.id }) {
+                courses[coursesIndex] = newCourse
+            } else {
+                courses.append(newCourse)
             }
         }
     }
 }
 
 @available(iOS 18.0, macOS 15.0, *)
-#Preview(traits: .environmentObjects) {
+#Preview(traits: .environmentObjects, .learnKit) {
     @Previewable @State var router = Router.shared
     
     TabView {

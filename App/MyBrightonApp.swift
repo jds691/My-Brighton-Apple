@@ -30,7 +30,8 @@ struct MyBrightonApp: App {
 #endif
     
     init() {
-        self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())
+        self.learnKitService = LearnKitService(client: PreviewClient())
+        //self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())
         self.timetableService = TimetableService()
 
         // Taken from sample code, idk why it's like this but I shall accept it
@@ -112,7 +113,7 @@ struct MyBrightonApp: App {
             Group {
                 if let id = $id.wrappedValue {
                     NavigationStack {
-                        ModuleView(id: id)
+                        CourseView(id: id)
                     }
                 } else {
                     ContentUnavailableView("¯\\_(ツ)_/¯", systemImage: "xmark")

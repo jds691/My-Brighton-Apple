@@ -9,6 +9,7 @@ import SwiftUI
 import CoreSpotlight
 import Router
 import Timetable
+import LearnKit
 
 struct ContentView: View {
     @Environment(\.openURL) private var openURL
@@ -20,8 +21,11 @@ struct ContentView: View {
     @Environment(Router.self) private var router: Router
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.timetableService) private var timetableService
+    @Environment(\.learnKitService) private var learnKit
 
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
+
+    @State private var courses: [Course] = []
 
     var body: some View {
         @Bindable var router = router
@@ -88,20 +92,19 @@ struct ContentView: View {
             #endif
             //.hidden(hSizeClass != .compact)
 
-            /*TabSection("Modules") {
-                ForEach(Module.modules, id: \.id) { module in
-                    // TODO: Figure out what is going on here
-                    Tab(value: Navigation.Route.myStudies(classId: module.id, feedItemId: nil)) {
-                        NavigationStack {
-                            ModuleView(id: module.id)
+            TabSection("Courses") {
+                ForEach(courses, id: \.id) { course in
+                    Tab(value: Navigation.Route.myStudies(.module(course.id, nil))) {
+                        NavigationStack(path: $router.path) {
+                            CourseView(id: course.id)
                         }
                     } label: {
-                        Text(module.name)
+                        Text(course.name)
                     }
                     .contextMenu {
                         if supportsMultipleWindows {
                             Button {
-                                openWindow(id: "module", value: module.id)
+                                openWindow(id: "module", value: course.id)
                             } label: {
                                 Label("Open in New Window", systemImage: "macwindow.badge.plus")
                             }
@@ -112,7 +115,7 @@ struct ContentView: View {
 #if !os(macOS)
             .hidden(hSizeClass == .compact)
             .defaultVisibility(.hidden, for: .tabBar)
-#endif*/
+#endif
 
             if CSSearchableIndex.isIndexingAvailable() {
                 Tab(value: .search, role: .search) {
@@ -126,9 +129,23 @@ struct ContentView: View {
 #if os(macOS)
         .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, placement: .sidebar)
 #endif
+        .task {
+            do {
+                // TODO: Attempt to remove this later on
+                try await learnKit.refreshTerms()
+                courses = try await learnKit.getAllCourses()
+
+                if courses.isEmpty {
+                    // TODO: Check this is correct :P
+                    courses = try await learnKit.refreshCourses()
+                }
+            } catch {
+                // TODO:
+            }
+        }
     }
 }
 
-#Preview(traits: .environmentObjects) {
+#Preview(traits: .environmentObjects, .learnKit) {
     ContentView()
 }
