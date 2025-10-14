@@ -7,56 +7,86 @@
 
 import AppIntents
 
-public struct FavouriteCourseEntityQuery: EntityStringQuery {
-    let demoCourses: [CourseEntity] = [
-        .init(id: "0", name: "Intelligent Systems 1", imageName: "Thumbnails/nature5_thumb"),
-        .init(id: "1", name: "Intelligent Systems 2", imageName: "Thumbnails/nature1_thumb"),
-        .init(id: "2", name: "Embedded Systems", imageName: "Thumbnails/nature11_thumb")
-    ]
-
+/*public struct FavouriteCourseEntityQuery: EntityStringQuery {
     public init() {
 
     }
 
     public func entities(matching string: String) async throws -> [CourseEntity] {
-        return demoCourses.filter { $0.name.contains(string) }
+        return []
     }
     
     public func entities(for identifiers: [Course.ID]) async throws -> [CourseEntity] {
-        return demoCourses.filter { identifiers.contains($0.id) }
+        return []
     }
     
     public func suggestedEntities() async throws -> [Entity] {
-        return demoCourses
+        return []
     }
     
     public typealias Entity = CourseEntity
-}
+}*/
 
 public struct CourseEntityQuery: EntityStringQuery {
-    let demoCourses: [CourseEntity] = [
-        .init(id: "0", name: "Intelligent Systems 1", imageName: "Thumbnails/nature5_thumb"),
-        .init(id: "1", name: "Intelligent Systems 2", imageName: "Thumbnails/nature1_thumb"),
-        .init(id: "2", name: "Embedded Systems", imageName: "Thumbnails/nature11_thumb"),
-        .init(id: "3", name: "Integrated Group Project", imageName: "Thumbnails/nature14_thumb"),
-        .init(id: "4", name: "Object orientated development and testing", imageName: "Thumbnails/nature1_thumb"),
-        .init(id: "5", name: "Data Structures and Operating Systems", imageName: "Thumbnails/nature20_thumb")
-    ]
+    @AppDependency
+    private var learnKit: LearnKitService
 
     public init() {
 
     }
 
     public func entities(matching string: String) async throws -> [CourseEntity] {
-        return demoCourses.filter { $0.name.contains(string) }
+        return try await withThrowingTaskGroup(of: CourseEntity.self, returning: [CourseEntity].self) { group in
+            let courseModels = try await learnKit.getAllCourses().filter { $0.name.lowercased().contains(string.lowercased()) }
+
+            for model in courseModels {
+                group.addTask {
+                    await CourseEntity(from: model)
+                }
+            }
+
+            var entities = [CourseEntity]()
+            for try await result in group {
+                entities.append(result)
+            }
+            return entities
+        }
     }
     
     public func entities(for identifiers: [Course.ID]) async throws -> [CourseEntity] {
-        return demoCourses.filter { identifiers.contains($0.id) }
+        return try await withThrowingTaskGroup(of: CourseEntity.self, returning: [CourseEntity].self) { group in
+            let courseModels = try await learnKit.getAllCourses().filter { identifiers.contains($0.id) }
+
+            for model in courseModels {
+                group.addTask {
+                    await CourseEntity(from: model)
+                }
+            }
+
+            var entities = [CourseEntity]()
+            for try await result in group {
+                entities.append(result)
+            }
+            return entities
+        }
     }
     
     public func suggestedEntities() async throws -> [Entity] {
-        return demoCourses
+        return try await withThrowingTaskGroup(of: CourseEntity.self, returning: [CourseEntity].self) { group in
+            let courseModels = try await learnKit.getAllCourses()
+
+            for model in courseModels {
+                group.addTask {
+                    await CourseEntity(from: model)
+                }
+            }
+
+            var entities = [CourseEntity]()
+            for try await result in group {
+                entities.append(result)
+            }
+            return entities
+        }
     }
     
     public typealias Entity = CourseEntity

@@ -29,13 +29,13 @@ final class MyBrightonAppShortcuts: AppShortcutsProvider {
                 "Open \(\.$target) course in \(.applicationName)"
             ],
             shortTitle: "Open Course",
-            systemImageName: "book",
+            systemImageName: "books.vertical",
             parameterPresentation: ParameterPresentation(
                 for: \.$target,
                 summary: Summary("Open \(\.$target)"),
                 optionsCollections: {
-                    OptionsCollection(FavouriteCourseEntityQuery(), title: "Favourite Courses", systemImageName: "star")
-                    OptionsCollection(CourseEntityQuery(), title: "Current Courses", systemImageName: "book")
+                    //OptionsCollection(FavouriteCourseEntityQuery(), title: "Favourite Courses", systemImageName: "star")
+                    OptionsCollection(CourseEntityQuery(), title: "Current Courses", systemImageName: "books.vertical")
                 }
             )
         )

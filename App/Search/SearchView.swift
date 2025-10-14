@@ -24,22 +24,7 @@ struct SearchView: View {
     var body: some View {
         @Bindable var searchManager = searchManager
         
-        List {
-            ForEach(searchResults, id: \.id) { result in
-                Button {
-                    searchManager.currentQuery.userEngaged(result, visibleItems: searchResults, interaction: .select)
-                    if let route = Navigation.Route(spotlightIdentifier: result.item.uniqueIdentifier) {
-                        router.navigate(to: .route(route))
-                    } else {
-                        invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
-                        showNavigationError = true
-                    }
-                } label: {
-                    SearchItemRowView(item: result.item)
-                }
-                .buttonStyle(.plain)
-            }
-        }
+        root
         .myBrightonBackground()
         .navigationTitle("Search")
 #if !os(macOS)
@@ -97,7 +82,41 @@ struct SearchView: View {
             }
         }
     }
-    
+
+    @ViewBuilder
+    private var root: some View {
+        @Bindable var searchManager = searchManager
+
+        if searchManager.searchTerm.isEmpty {
+            // TODO: Keep a history of previous search results
+            List {
+
+            }
+        } else if searchResults.isEmpty {
+            VStack {
+                ContentUnavailableView.search
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            List {
+                ForEach(searchResults, id: \.id) { result in
+                    Button {
+                        searchManager.currentQuery.userEngaged(result, visibleItems: searchResults, interaction: .select)
+                        if let route = Navigation.Route(spotlightIdentifier: result.item.uniqueIdentifier) {
+                            router.navigate(to: .route(route))
+                        } else {
+                            invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+                            showNavigationError = true
+                        }
+                    } label: {
+                        SearchItemRowView(item: result.item)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
     // MARK: Localisation
     private let searchPrompt: String = .init(
         localized: "prompt.search",

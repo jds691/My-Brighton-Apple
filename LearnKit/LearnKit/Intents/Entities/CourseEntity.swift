@@ -12,7 +12,7 @@ public struct CourseEntity: AppEntity {
     }
     
     public var displayRepresentation: DisplayRepresentation {
-        .init(title: "\(name)", image: .init(systemName: "graduationcap", isTemplate: true))
+        .init(title: "\(name)", image: .init(systemName: "books.vertical", isTemplate: true))
     }
     
     public static let defaultQuery = CourseEntityQuery()
