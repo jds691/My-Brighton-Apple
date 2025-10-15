@@ -134,7 +134,7 @@ struct TimetableHomeWidgetView: View {
                 // TODO: Always called even if the view is not visible at all
                 do {
                     // isLoading is not reset to true otherwise it causes infinite calls
-                    currentDisplayDate = context.date
+                    currentDisplayDate = startDateOverride ?? context.date
                     classes = try await timetableService.getClasses(after: startDateOverride?.withoutTime ?? context.date.withoutTime)
                     hadClassesToday = classes.count > 0
                     isLoading = false

@@ -115,27 +115,80 @@ public final class TimetableService: @unchecked Sendable {
     public func getClasses(after date: Date) async throws -> [ScheduledClass] {
         if let calendar {
             // 86400 = 1 day in seconds
-            var events = [MXLCalendarEvent]()
+            var events = [ScheduledClass]()
             for event in calendar.events {
                 // TODONT: The check fails if the times don't match *IF* the event is not a recurrence e.g. the first event defined for the rule
 
                 // This checks handles the fact that the library does not match events that start on the date passed in
                 if let startDate = event.eventStartDate, startDate >= date && startDate < date.withoutTime.addingTimeInterval(86400) {
-                    events.append(event)
+                    events.append(ScheduledClass(from: event))
                 } else if event.checkDate(date: date) {
-                    events.append(event)
+                    let newStartTime = adjustEventDate(event.eventStartDate!, targetDate: date)
+                    let newEndTime = adjustEventDate(event.eventEndDate!, targetDate: date)
+
+                    // I hate the ICS file format and this damn library I picked
+                    var scheduledClass = ScheduledClass(from: event)
+                    if let newStartTime {
+                        scheduledClass.startDate = newStartTime
+                    }
+                    if let newEndTime {
+                        scheduledClass.endDate = newEndTime
+                    }
+
+                    events.append(scheduledClass)
                 }
             }
 
             Self.logger.info("Found \(events.count) class(es) for \(date)")
 
-            return events.sorted(by: { $0.eventStartDate!.compare($1.eventStartDate!) == .orderedAscending }).map { ScheduledClass(from: $0) }
+            return events.sorted(by: { $0.startDate.compare($1.startDate) == .orderedAscending })
         } else {
             try await initialiseCalendar()
             return try await getClasses(after: date)
         }
     }
-    
+
+    func adjustEventDate(_ eventDate: Date, targetDate: Date) -> Date? {
+        let calendar = Calendar.current
+
+        let targetComponents = calendar.dateComponents([.day, .month, .year], from: targetDate)
+
+        guard
+            let targetDay = targetComponents.day,
+            let targetMonth = targetComponents.month,
+            let targetYear = targetComponents.year
+        else {
+            Self.logger.error("Unable to extract date from target date")
+
+            return nil
+        }
+
+        let originalTimeComponents = calendar.dateComponents([.hour, .minute, .second], from: eventDate)
+
+        guard
+            let originalHour = originalTimeComponents.hour,
+            let originalMinute = originalTimeComponents.minute,
+            let originalSecond = originalTimeComponents.second
+        else {
+            Self.logger.error("Unable to extract time from event date")
+
+            return nil
+        }
+
+
+        let adjustedDateComponents = DateComponents(
+            year: targetYear,
+            month: targetMonth,
+            day: targetDay,
+
+            hour: originalHour,
+            minute: originalMinute,
+            second: originalSecond
+        )
+
+        return calendar.date(from: adjustedDateComponents)
+    }
+
     /// Returns a list of classes corresponding to the identifiers passed on based on each events iCalendar UID property.
     ///
     /// This method is intended to be used by the `TimetableIntents` framework only.

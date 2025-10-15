@@ -13,23 +13,23 @@ public struct ScheduledClass: Identifiable, Hashable, Sendable {
     /// The unique identifier for the original event of this class.
     ///
     /// Corresponds to iCalendar `UID:`.
-    public private(set) var id: String
+    public internal(set) var id: String
     /// The name of the class.
     ///
     /// Corresponds to iCalendar `SUMMARY:`.
-    public private(set) var name: String
+    public internal(set) var name: String
     /// The location of the class.
     ///
     /// Corresponds to iCalendar `LOCATION:`.
-    public private(set) var location: String
+    public internal(set) var location: String
     /// The time the class starts at.
     ///
     /// Corresponds to iCalendar `DTSTART:`.
-    public private(set) var startDate: Date
+    public internal(set) var startDate: Date
     /// The time the class ends at.
     ///
     /// Corresponds to iCalendar `DTEND:`.
-    public private(set) var endDate: Date
+    public internal(set) var endDate: Date
     /// The module code for the class.
     ///
     /// This is extracted from the iCalendar `DESCRIPTION:` property.
@@ -37,8 +37,8 @@ public struct ScheduledClass: Identifiable, Hashable, Sendable {
     /// Valid module codes are recognised as:
     /// - Starting with 2 letters, ending with 3 numbers, 5 characters long.
     /// - Starting with 3 letters, ending with 2 numbers, 5 characters long.
-    public private(set) var moduleCode: String
-    
+    public internal(set) var moduleCode: String
+
     /// Creates a scheduled class from its main components.
     /// - Parameters:
     ///   - id: Unique identifier for the class.
