@@ -50,17 +50,7 @@ struct HomeView: View {
                     splitSpacing: 16
                 ) {
                     VStack(alignment: .leading, spacing: 16) {
-                        let date: Date = {
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                            dateFormatter.timeZone = .init(identifier: "GMT")
-                            dateFormatter.locale = Locale.current
-                            return dateFormatter.date(from: "2025-10-14T00:00:00")! // replace Date String
-                        }()
-
-                        TimetableHomeWidgetView(for: date)
-
-                        //TimetableHomeWidgetView()
+                        TimetableHomeWidgetView()
                     }
                 } secondaryContent: {
                     VStack(alignment: .leading, spacing: 16) {
