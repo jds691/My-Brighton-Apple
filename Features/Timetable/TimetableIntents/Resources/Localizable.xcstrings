@@ -2,7 +2,7 @@
   "sourceLanguage" : "en-GB",
   "strings" : {
     "%@" : {
-
+      "shouldTranslate" : false
     },
     "%lld more classes later" : {
       "localizations" : {
@@ -26,10 +26,10 @@
         }
       }
     },
-    "After" : {
+    "Classes" : {
 
     },
-    "Classes" : {
+    "Classes Finished for Today" : {
 
     },
     "End Date" : {
@@ -88,6 +88,9 @@
         }
       }
     },
+    "Later" : {
+
+    },
     "Location" : {
 
     },
@@ -95,6 +98,9 @@
 
     },
     "Name" : {
+
+    },
+    "No Classes Today" : {
 
     },
     "Scheduled Class" : {
@@ -112,29 +118,6 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
-          }
-        }
-      }
-    },
-    "There are %lld today." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en-GB" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "There is %lld today."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "new",
-                  "value" : "There are %lld today."
-                }
-              }
-            }
           }
         }
       }

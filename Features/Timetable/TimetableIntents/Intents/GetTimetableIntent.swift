@@ -47,13 +47,7 @@ public struct GetTimetableIntent: AppIntent {
             }
         }
 
-        let fetchDate: Date
-
-        if date.withoutTime != .now.withoutTime {
-            fetchDate = date.withoutTime
-        } else {
-            fetchDate = date
-        }
+        let fetchDate: Date = date.withoutTime
 
         let classes = try await timetableService.getClasses(after: fetchDate).map { ScheduledClassEntity(from: $0) }
 
@@ -70,7 +64,7 @@ public struct GetTimetableIntent: AppIntent {
         // MARK: Localisation
         let noClassesDialogString: LocalizedStringResource = .init(
             "GetTimetableIntent.dialog.no-classes",
-            defaultValue: "There are no classes scheduled for \(dateFormatter.string(from: date)).",
+            defaultValue: "There are no classes scheduled for \(dateFormatter.string(from: fetchDate)).",
             //table: "Intents"
             bundle: #bundle
         )
@@ -84,14 +78,14 @@ public struct GetTimetableIntent: AppIntent {
 
         let classesPastDialogString: LocalizedStringResource = .init(
             "GetTimetableIntent.dialog.classes.past",
-            defaultValue: "There were \(classes.count) classes on \(dateFormatter.string(from: date)).",
+            defaultValue: "There were \(classes.count) classes on \(dateFormatter.string(from: fetchDate)).",
             //table: "Intents"
             bundle: #bundle
         )
 
         let classesFutureDialogString: LocalizedStringResource = .init(
             "GetTimetableIntent.dialog.classes.future",
-            defaultValue: "There are \(classes.count) classes on \(dateFormatter.string(from: date)).",
+            defaultValue: "There are \(classes.count) classes on \(dateFormatter.string(from: fetchDate)).",
             //table: "Intents"
             bundle: #bundle
         )
@@ -100,13 +94,14 @@ public struct GetTimetableIntent: AppIntent {
         if classes.isEmpty {
             return .result(
                 value: [],
-                dialog: .init(noClassesDialogString)
+                dialog: .init(noClassesDialogString),
+                view: NoContentSnippetView("No Classes Today")
             )
         } else {
             // TODO: Check if this dialog is natural
             let resultDialog: IntentDialog
 
-            if date.withoutTime == .now.withoutTime { // Date is Today
+            if fetchDate == .now.withoutTime { // Date is Today
                 if .now > classes.last!.endDate { // No more classes later
                     resultDialog = IntentDialog(full: noMoreClassesTodayFullDialogString, supporting: "There were \(classes.count) today.")
                 } else { // More classes later
@@ -117,7 +112,7 @@ public struct GetTimetableIntent: AppIntent {
                     let remainingClasses = classes.count - (nextClassIndex + 1)
                     resultDialog = IntentDialog(full: "There are \(classes.count) classes today. The next class is \(nextClass.name) at \(timeFormatter.string(from: nextClass.startDate)) with \(remainingClasses) more classes later in the day.", supporting: "There are \(classes.count) classes today.")
                 }
-            } else if date.withoutTime < .now.withoutTime { // Date is in the past
+            } else if fetchDate < .now.withoutTime { // Date is in the past
                 resultDialog = IntentDialog(classesPastDialogString)
             } else { // Date is in the future
                 resultDialog = IntentDialog(classesFutureDialogString)
