@@ -359,6 +359,7 @@
 				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
 				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
 				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/TimetableIntents/Snippet Views/ModifierBranch.swift",
 				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
 				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
 				Timetable/TimetableTests/TimetableTests.swift,
@@ -428,6 +429,7 @@
 				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
 				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
 				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/TimetableIntents/Snippet Views/ModifierBranch.swift",
 				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
 				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
 			);
