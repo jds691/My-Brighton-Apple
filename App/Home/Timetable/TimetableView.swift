@@ -129,8 +129,8 @@ struct TimetableView: View {
                         let isToday = currentDate == .now.withoutTime
 
                         if isToday {
-                            let earlierClasses = classes.filter({ $0.endDate <= .now })
-                            let laterClasses = classes.filter({ $0.startDate <= .now && $0.endDate > .now })
+                            let earlierClasses = classes.filter({ .now > $0.endDate })
+                            let laterClasses = classes.filter({ $0.endDate >= .now })
 
                             if !earlierClasses.isEmpty {
                                 Text("Earlier")
@@ -267,7 +267,24 @@ struct TimetableView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItemGroup(placement: .primaryAction) {
+                #if os(macOS)
+                Button {
+                    // TODO: Eventually try to replace with environment refresh
+                    Task {
+                        do {
+                            try await timetableService.refresh()
+                            await refreshClassesForCurrentDate()
+                        } catch {
+                            Self.logger.error("Refresh eror: \(error)")
+                        }
+                    }
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+                .keyboardShortcut("r", modifiers: [.command])
+                #endif
+
                 Button("Today") {
                     currentDate = .now.withoutTime
                     scrollToCurrentDate()
