@@ -58,7 +58,7 @@ public struct TimetableRowView: View {
                     .font(isProminent ? .title.bold() : .headline)
                 // Don't ask me why they formatted the locations like this
                 Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
-                    .lineLimit(1)
+                    .lineLimit(2)
                 //.foregroundStyle(appearance == .app ? Color("BrightonSecondary") : .secondary)
             }
             Spacer()

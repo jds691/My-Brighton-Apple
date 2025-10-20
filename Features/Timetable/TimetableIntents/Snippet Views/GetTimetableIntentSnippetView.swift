@@ -19,13 +19,13 @@ public struct GetTimetableIntentSnippetView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text("Up Next")
-                .font(.title3.bold())
+                .bold()
             TimetableRowView(entities.first!, prominent: true)
                 .appearance(.system)
 
             if entities.count > 1 {
                 Text("After")
-                    .font(.title3.bold())
+                    .bold()
                 HStack {
                     HStack(spacing: 4) {
                         ForEach(entities.dropFirst(1), id: \.id) { entity in
@@ -44,6 +44,7 @@ public struct GetTimetableIntentSnippetView: View {
                     }
 
                     Text("\(entities.count - 1) more classes later")
+                        .font(.caption)
                         .foregroundStyle(.secondary)
                 }
                 .fixedSize(horizontal: false, vertical: true)
