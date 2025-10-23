@@ -417,6 +417,7 @@
 			membershipExceptions = (
 				Widgets/Assets.xcassets,
 				Widgets/NoContentView.swift,
+				Widgets/Resources/Localizable.xcstrings,
 				Widgets/Timetable/ExtraClassesView.swift,
 				Widgets/Timetable/MediumTimetableWidgetView.swift,
 				Widgets/Timetable/TimetableWidget.swift,

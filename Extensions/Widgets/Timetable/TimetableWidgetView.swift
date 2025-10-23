@@ -143,7 +143,7 @@ struct TimetableWidgetView: View {
                         case .systemSmall:
                             // TODO: We may be able to fit a 2nd if we're careful
                             VStack(alignment: .leading) {
-                                Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                                widgetTitle
                                     .font(.headline)
                                 SmallTimetableRowView(entry.classes.first!)
 
@@ -164,7 +164,7 @@ struct TimetableWidgetView: View {
                         case .systemExtraLarge:
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                                    widgetTitle
                                         .font(.headline)
                                     ExtraLargeTimetableRowView(entry.classes.first!)
                                 }
@@ -202,6 +202,13 @@ struct TimetableWidgetView: View {
                 SmallTimetableRowView(scheduledClass)
             }
         }
+    }
+
+    private var widgetTitle: some View {
+        Text(
+            isShowingTomorrow ? "timetable.tomorrow.label" : "timetable.up-next.label",
+            comment: "Indicates what state the widget it in. Is it displaying today's classes or previewing tomorrows?"
+        )
     }
 }
 

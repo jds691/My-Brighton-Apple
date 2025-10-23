@@ -1,7 +1,96 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "%@-%@" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@-%2$@"
+          }
+        }
+      }
+    },
+    "at %@" : {
 
+    },
+    "Classes Finished for Today" : {
+
+    },
+    "ends %@" : {
+
+    },
+    "Later" : {
+
+    },
+    "No Classes Today" : {
+
+    },
+    "No Content" : {
+
+    },
+    "timetable.%lld.classes.later" : {
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld more class later"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld more classes later"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "timetable.tomorrow.label" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        }
+      }
+    },
+    "timetable.up-next.label" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up Next"
+          }
+        }
+      }
+    },
+    "timetable.widget.description" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep track of your upcoming classes for the day."
+          }
+        }
+      }
+    },
+    "timetable.widget.name" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timetable"
+          }
+        }
+      }
+    }
   },
   "version" : "1.1"
 }

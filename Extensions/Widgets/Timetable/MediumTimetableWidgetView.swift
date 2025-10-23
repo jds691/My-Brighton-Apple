@@ -34,7 +34,7 @@ struct MediumTimetableWidgetView: View {
     var body: some View {
         ViewThatFits(in: .vertical) {
             VStack(alignment: .leading) {
-                Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                widgetTitle
                     .font(.headline)
                 verticalList(Array(entry.classes.prefix(2)))
 
@@ -48,7 +48,7 @@ struct MediumTimetableWidgetView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
             VStack(alignment: .leading) {
-                Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                widgetTitle
                     .font(.headline)
                 verticalList(Array(entry.classes.prefix(2)))
             }
@@ -56,7 +56,7 @@ struct MediumTimetableWidgetView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
             VStack(alignment: .leading) {
-                Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                widgetTitle
                     .font(.headline)
                 verticalList(Array(entry.classes.prefix(1)))
 
@@ -70,7 +70,7 @@ struct MediumTimetableWidgetView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
             VStack(alignment: .leading) {
-                Text(isShowingTomorrow ? "Tomorrow" : "Up Next")
+                widgetTitle
                     .font(.headline)
                 verticalList(Array(entry.classes.prefix(1)))
             }
@@ -112,6 +112,13 @@ struct MediumTimetableWidgetView: View {
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    private var widgetTitle: some View {
+        Text(
+            isShowingTomorrow ? "timetable.tomorrow.label" : "timetable.up-next.label",
+            comment: "Indicates what state the widget it in. Is it displaying today's classes or previewing tomorrows?"
+        )
     }
 }
 
