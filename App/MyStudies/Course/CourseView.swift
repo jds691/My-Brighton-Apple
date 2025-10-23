@@ -66,13 +66,19 @@ struct CourseView: View {
             }
             .flexibleHeaderScrollView()
             .ignoresSafeArea(edges: [.top])
-#if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-#endif
             .focusedSceneValue(\.courseId, self.courseId)
             .myBrightonBackground()
 #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
             .coordinateSpace(.named("scroll"))
+            .modifierBranch { // Hiding the scroll edge effect for the header
+                if #available(iOS 26, macOS 26, *) {
+                    $0
+                        .scrollEdgeEffectHidden(!showTitle, for: [.top])
+                } else {
+                    $0
+                }
+            }
 
             // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
             .onChange(of: scrollPosition.y) {
@@ -86,14 +92,6 @@ struct CourseView: View {
                     withAnimation {
                         showTitle = false
                     }
-                }
-            }
-            .modifierBranch { // Hiding the scroll edge effect for the header
-                if #available(iOS 26, macOS 26, *) {
-                    $0
-                        .scrollEdgeEffectHidden(!showTitle, for: [.top])
-                } else {
-                    $0
                 }
             }
 #endif
