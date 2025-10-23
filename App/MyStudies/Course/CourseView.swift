@@ -65,8 +65,8 @@ struct CourseView: View {
                 #endif
             }
             .flexibleHeaderScrollView()
-#if os(iOS)
             .ignoresSafeArea(edges: [.top])
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
 #endif
             .focusedSceneValue(\.courseId, self.courseId)
@@ -88,16 +88,15 @@ struct CourseView: View {
                     }
                 }
             }
-#endif
             .modifierBranch { // Hiding the scroll edge effect for the header
                 if #available(iOS 26, macOS 26, *) {
                     $0
-                        .scrollEdgeEffectStyle(.soft, for: .top)
                         .scrollEdgeEffectHidden(!showTitle, for: [.top])
                 } else {
                     $0
                 }
             }
+#endif
             .navigationTitle(course?.name ?? courseId)
             .userActivity("com.neo.My-Brighton.course.view") { userActivity in
 

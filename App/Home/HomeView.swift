@@ -124,8 +124,8 @@ struct HomeView: View {
             .scrollClipDisabled()
         }
         .flexibleHeaderScrollView()
-        #if os(iOS)
         .ignoresSafeArea(edges: .top)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(removing: .title)
         #endif

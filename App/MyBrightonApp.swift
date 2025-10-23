@@ -71,7 +71,6 @@ struct MyBrightonApp: App {
                 .onAppear {
                     NSWindow.allowsAutomaticWindowTabbing = false
                 }
-                .containerBackground(.brightonBackground, for: .window)
             #endif
                 .task {
                     do {
@@ -123,7 +122,6 @@ struct MyBrightonApp: App {
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
             }
-            .containerBackground(.brightonBackground, for: .window)
 #endif
             .handlesExternalEvents(preferring: [], allowing: [])
         }
@@ -133,7 +131,6 @@ struct MyBrightonApp: App {
         #if os(macOS)
         Settings {
             AccountView()
-                .containerBackground(.brightonBackground, for: .window)
                 .scenePadding()
                 .environment(router)
                 .environment(searchManager)
@@ -150,7 +147,6 @@ struct MyBrightonApp: App {
                 .environment(searchManager)
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
-                .containerBackground(.brightonBackground, for: .window)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
         .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
@@ -162,7 +158,6 @@ struct MyBrightonApp: App {
                 .environment(searchManager)
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
-                .containerBackground(.brightonBackground, for: .window)
                 .handlesExternalEvents(preferring: ["timetable="], allowing: ["timetable="])
         }
         .windowResizability(.contentSize)
