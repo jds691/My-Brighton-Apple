@@ -25,6 +25,9 @@ struct HomeView: View {
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.learnKitService) private var learnKitService
 
+    @State private var scrollPosition: CGPoint = .zero
+    @State private var showTitle: Bool = false
+
     @State private var showInboxView: Bool = false
     @State private var showStudentView: Bool = false
     @State private var showYourWellbeing: Bool = false
@@ -122,22 +125,66 @@ struct HomeView: View {
             }
             .padding(.horizontal, 16)
             .scrollClipDisabled()
+#if os(iOS)
+            // TODO: Check if this can be replaced with onScrollViewGeometryChanged?
+            .background(GeometryReader { geometry in
+                Color.clear
+                    .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+            })
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                self.scrollPosition = value
+            }
+#endif
         }
         .flexibleHeaderScrollView()
         .ignoresSafeArea(edges: .top)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar(removing: .title)
-        #endif
-        .modifierBranch {
+        .coordinateSpace(.named("scroll"))
+        .modifierBranch { // Hiding the scroll edge effect for the header
             if #available(iOS 26, macOS 26, *) {
                 $0
-                    .scrollEdgeEffectStyle(.soft, for: .all)
-                    //.scrollEdgeEffectHidden(true, for: .top)
+                    .scrollEdgeEffectHidden(!showTitle, for: [.top])
             } else {
                 $0
             }
         }
+
+        // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
+        .onChange(of: scrollPosition.y) {
+            // TODO: Sync with FlexibleHeader?
+            //print(scrollPosition.y)
+            if scrollPosition.y < 10 && !showTitle {
+                withAnimation {
+                    showTitle = true
+                }
+            } else if scrollPosition.y >= 10 && showTitle {
+                withAnimation {
+                    showTitle = false
+                }
+            }
+        }
+        .modifierBranch {
+            if #available(iOS 26, macOS 26, *) {
+                $0
+                    .toolbar {
+                        ToolbarItem(placement: .title) {
+                            if showTitle {
+                                Text("Home")
+                                    .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
+                                    .lineLimit(1)
+                            } else {
+                                Text("")
+                            }
+                        }
+                    }
+            } else {
+                $0
+                    .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
+                //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
+            }
+        }
+        #endif
         .myBrightonBackground()
         .navigationTitle("Home")
         .navigationDestination(for: Navigation.Route.HomeSubRoute.self) { subroute in
