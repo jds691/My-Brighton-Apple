@@ -30,27 +30,62 @@ struct SmallTimetableRowView: View {
     }
 
     var body: some View {
-        HStack {
-            if displayColourBar {
-                Color("AccentColor")
-                    .frame(maxWidth: 3)
-                    .clipShape(RoundedRectangle(cornerRadius: 1000))
+        ViewThatFits(in: .horizontal) {
+            HStack {
+                if displayColourBar {
+                    Color("AccentColor")
+                        .frame(maxWidth: 3)
+                        .clipShape(RoundedRectangle(cornerRadius: 1000))
+                }
+
+                VStack(alignment: .leading) {
+                    Text(scheduledClass.name)
+                        .lineLimit(1)
+                        .font(.subheadline.bold())
+                    // Don't ask me why they formatted the locations like this
+                    Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
+                        .font(.caption)
+                        .lineLimit(2)
+                        .foregroundStyle(.secondary)
+                    //.foregroundStyle(appearance == .app ? .brightonSecondary : .secondary)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("at \(timeFormatter.string(from: scheduledClass.startDate))")
+                        .font(.caption)
+                    Text("ends \(timeFormatter.string(from: scheduledClass.endDate))")
+                        .foregroundStyle(.brightonSecondary)
+                        .font(.caption)
+                }
+                .frame(minWidth: 91, alignment: .trailing)
             }
-            
-            VStack(alignment: .leading) {
-                Text(scheduledClass.name)
-                    .lineLimit(1)
-                    .font(.headline)
-                Text(timeFormatter.string(from: scheduledClass.startDate))
-                // Don't ask me why they formatted the locations like this
-                Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
-                    .font(.caption)
-                    .lineLimit(1)
-                    .foregroundStyle(.secondary)
-                //.foregroundStyle(appearance == .app ? .brightonSecondary : .secondary)
+            .fixedSize(horizontal: false, vertical: true)
+
+            HStack {
+                if displayColourBar {
+                    Color("AccentColor")
+                        .frame(maxWidth: 3)
+                        .clipShape(RoundedRectangle(cornerRadius: 1000))
+                }
+
+                VStack(alignment: .leading) {
+                    Text(scheduledClass.name)
+                        .lineLimit(1)
+                        .font(.subheadline.bold())
+                    Text("\(timeFormatter.string(from: scheduledClass.startDate))-\(timeFormatter.string(from: scheduledClass.endDate))")
+                        .font(.caption)
+                    // Don't ask me why they formatted the locations like this
+                    Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
+                        .font(.caption)
+                        .lineLimit(2)
+                        .foregroundStyle(.secondary)
+                    //.foregroundStyle(appearance == .app ? .brightonSecondary : .secondary)
+                }
             }
+            .fixedSize(horizontal: false, vertical: true)
         }
-        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
@@ -70,39 +105,12 @@ struct ExtraLargeTimetableRowView: View {
             VStack(alignment: .leading) {
                 Text(scheduledClass.name)
                     .font(.largeTitle.bold())
-                Text(timeFormatter.string(from: scheduledClass.startDate))
+                Text("\(timeFormatter.string(from: scheduledClass.startDate))-\(timeFormatter.string(from: scheduledClass.endDate))")
                 // Don't ask me why they formatted the locations like this
                 Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
                     .foregroundStyle(.secondary)
                 //.foregroundStyle(appearance == .app ? .brightonSecondary : .secondary)
             }
-        }
-        .fixedSize(horizontal: false, vertical: true)
-    }
-}
-
-struct ExtraClassesView: View {
-    private var scheduledClasses: [ScheduledClass]
-
-    init(_ scheduledClasses: [ScheduledClass]) {
-        self.scheduledClasses = scheduledClasses
-    }
-
-    var body: some View {
-        HStack {
-            HStack(spacing: 4) {
-                ForEach(scheduledClasses, id: \.id) { entity in
-                    //Color("Course Colour/\(entity.colourIndex)")
-                    // TODO: Look up colour from LearnKit
-                    Color("AccentColor")
-                        .frame(maxWidth: 3)
-                        .clipShape(RoundedRectangle(cornerRadius: 1000))
-                }
-            }
-
-            Text("\(scheduledClasses.count) more classes later")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -148,9 +156,7 @@ struct TimetableWidgetView: View {
                             .padding(widgetMargins)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         case .systemMedium:
-                            verticalList(Array(entry.classes.prefix(2)))
-                                .padding(widgetMargins)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            MediumTimetableWidgetView(entry: entry)
                         case .systemLarge:
                             verticalList(Array(entry.classes.prefix(5)))
                                 .padding(widgetMargins)
@@ -191,7 +197,7 @@ struct TimetableWidgetView: View {
     }
 
     func verticalList(_ classes: [ScheduledClass]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             ForEach(classes, id: \.id) { scheduledClass in
                 SmallTimetableRowView(scheduledClass)
             }
@@ -199,7 +205,7 @@ struct TimetableWidgetView: View {
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     TimetableWidget()
 } timeline: {
     TimetableWidgetProviderEntry(
@@ -209,7 +215,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI512",
                 name: "Data Structures and Operating Systems",
-                location: "G20",
+                location: "Moulsecoomb, Cockroft G20",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 11),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 13),
                 moduleCode: "CI512"
@@ -217,7 +223,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI583",
                 name: "Data Structures and Operating Systems",
-                location: "Mithras G8",
+                location: "Moulsecoomb, Mithras G8",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 13),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 15),
                 moduleCode: "CI583"
@@ -225,7 +231,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI514",
                 name: "Data Structures and Operating Systems",
-                location: "C207",
+                location: "Moulsecoomb, Cockroft 207",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 15),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 17),
                 moduleCode: "CI514"
@@ -261,7 +267,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI583",
                 name: "Data Structures and Operating Systems",
-                location: "Mithras G8",
+                location: "Moulsecoomb, Mithras G8",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 13),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 15),
                 moduleCode: "CI583"
@@ -269,7 +275,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI514",
                 name: "Embedded Systems",
-                location: "C207",
+                location: "Moulsecoomb, Cockroft 207",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 15),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 17),
                 moduleCode: "CI514"
@@ -284,7 +290,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI514",
                 name: "Embedded Systems",
-                location: "C207",
+                location: "Moulsecoomb, Cockroft 207",
                 startDate: .now.withoutTime.addingTimeInterval(60 * 60 * 15),
                 endDate: .now.withoutTime.addingTimeInterval(60 * 60 * 17),
                 moduleCode: "CI514"
@@ -299,7 +305,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI512",
                 name: "Data Structures and Operating Systems",
-                location: "G20",
+                location: "Moulsecoomb, Cockroft G20",
                 startDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 11),
                 endDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 13),
                 moduleCode: "CI512"
@@ -307,7 +313,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI583",
                 name: "Data Structures and Operating Systems",
-                location: "Mithras G8",
+                location: "Moulsecoomb, Mithras G8",
                 startDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 13),
                 endDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 15),
                 moduleCode: "CI583"
@@ -315,7 +321,7 @@ struct TimetableWidgetView: View {
             .init(
                 id: "CI514",
                 name: "Data Structures and Operating Systems",
-                location: "C207",
+                location: "Moulsecoomb, Cockroft 207",
                 startDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 15),
                 endDate: .now.withoutTime.addingTimeInterval(86400).addingTimeInterval(60 * 60 * 17),
                 moduleCode: "CI514"
