@@ -141,20 +141,7 @@ struct TimetableWidgetView: View {
                 Group {
                     switch sizeFamily {
                         case .systemSmall:
-                            // TODO: We may be able to fit a 2nd if we're careful
-                            VStack(alignment: .leading) {
-                                widgetTitle
-                                    .font(.headline)
-                                SmallTimetableRowView(entry.classes.first!)
-
-                                let remainingClasses = Array(entry.classes.dropFirst())
-
-                                if !remainingClasses.isEmpty {
-                                    ExtraClassesView(remainingClasses)
-                                }
-                            }
-                            .padding(widgetMargins)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            SmallTimetableWidgetView(entry: entry)
                         case .systemMedium:
                             MediumTimetableWidgetView(entry: entry)
                         case .systemLarge:
@@ -212,7 +199,7 @@ struct TimetableWidgetView: View {
     }
 }
 
-#Preview(as: .systemMedium) {
+#Preview(as: .systemSmall) {
     TimetableWidget()
 } timeline: {
     TimetableWidgetProviderEntry(

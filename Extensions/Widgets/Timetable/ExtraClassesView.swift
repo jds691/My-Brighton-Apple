@@ -28,6 +28,7 @@ struct ExtraClassesView: View {
             }
 
             Text("timetable.\(scheduledClasses.count).classes.later")
+                .lineLimit(1)
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
