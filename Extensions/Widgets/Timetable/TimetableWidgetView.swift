@@ -119,6 +119,7 @@ struct ExtraLargeTimetableRowView: View {
 struct TimetableWidgetView: View {
     @Environment(\.widgetContentMargins) private var widgetMargins
     @Environment(\.widgetFamily) private var sizeFamily
+    @Environment(\.showsWidgetContainerBackground) private var showsBackground
 
     var entry: TimetableWidgetProvider.Entry
 
@@ -133,9 +134,20 @@ struct TimetableWidgetView: View {
     var body: some View {
         Group {
             if entry.classes.isEmpty {
-                NoContentView {
-                    Text(entry.hadClassesToday ? "Classes Finished for Today" : "No Classes Today")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                if showsBackground {
+                    NoContentView {
+                        Text(entry.hadClassesToday ? "Classes Finished for Today" : "No Classes Today")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    }
+                } else {
+                    VStack(alignment: .leading) {
+                        Text("Timetable")
+                            .bold()
+                        Text(entry.hadClassesToday ? "Classes Finished for Today" : "No Classes Today")
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(widgetMargins)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 }
             } else {
                 Group {
