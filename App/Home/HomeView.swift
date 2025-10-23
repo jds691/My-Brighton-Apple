@@ -182,6 +182,9 @@ struct HomeView: View {
                 $0
                     .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
                 //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
+                    .legacyToolbar(visible: !showTitle, showBackButton: false) {
+                        primaryMenu
+                    }
             }
         }
         #endif
@@ -195,57 +198,7 @@ struct HomeView: View {
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Button {
-
-                    } label: {
-                        Label("Edit Sections", systemImage: "checklist")
-                    }
-
-                    Button {
-                        router.navigate(to: .modal(.account))
-                    } label: {
-                        Label("Settings", systemImage: "gear")
-                    }
-
-                    Divider()
-
-                    Button {
-
-                    } label: {
-                        Label("Send Feedback", systemImage: "bubble.and.pencil")
-                    }
-
-                    Button(role: .destructive) {
-                        showSignOut = true
-                    } label: {
-                        Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.forward")
-                    }
-
-#if DEBUG
-                    Divider()
-
-                    Button {
-                        showDebugView = true
-                    } label: {
-                        Label("Debug", systemImage: "wrench")
-                    }
-#endif
-                } label: {
-                    if #available(iOS 26, macOS 26, *) {
-                        Label("More Options", systemImage: "ellipsis")
-                    } else {
-                        Label("More Options", systemImage: "ellipsis.circle")
-                    }
-                }
-                .confirmationDialog("Sign Out", isPresented: $showSignOut) {
-                    Button(role: .destructive) {
-                    } label: {
-                        Text("Sign Out")
-                    }
-                } message: {
-                    Text(signOutMessage)
-                }
+                primaryMenu
             }
         }
         
@@ -282,6 +235,60 @@ struct HomeView: View {
         table: "Account",
         comment: "Shown in an alert when the user signs out. Signing out removes their student ID from Apple Wallet and disables auto top-up if it is set up via Apple Pay."
     )
+
+    private var primaryMenu: some View {
+        Menu {
+            Button {
+
+            } label: {
+                Label("Edit Sections", systemImage: "checklist")
+            }
+
+            Button {
+                router.navigate(to: .modal(.account))
+            } label: {
+                Label("Settings", systemImage: "gear")
+            }
+
+            Divider()
+
+            Button {
+
+            } label: {
+                Label("Send Feedback", systemImage: "bubble.and.pencil")
+            }
+
+            Button(role: .destructive) {
+                showSignOut = true
+            } label: {
+                Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.forward")
+            }
+
+#if DEBUG
+            Divider()
+
+            Button {
+                showDebugView = true
+            } label: {
+                Label("Debug", systemImage: "wrench")
+            }
+#endif
+        } label: {
+            if #available(iOS 26, macOS 26, *) {
+                Label("More Options", systemImage: "ellipsis")
+            } else {
+                Label("More Options", systemImage: "ellipsis.circle")
+            }
+        }
+        .confirmationDialog("Sign Out", isPresented: $showSignOut) {
+            Button(role: .destructive) {
+            } label: {
+                Text("Sign Out")
+            }
+        } message: {
+            Text(signOutMessage)
+        }
+    }
 }
 
 #Preview(traits: .environmentObjects, .learnKit, .timetableService) {

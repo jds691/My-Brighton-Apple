@@ -25,20 +25,6 @@ struct CourseView: View {
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
 
-    #if os(iOS)
-    private var legacyToolbarRequiresTopPadding: Bool {
-        return UIDevice.current.userInterfaceIdiom == .pad
-    }
-
-    private var legacyToolbarIgnoresEdges: Edge.Set {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            return [.top]
-        }
-
-        return []
-    }
-    #endif
-
     init(id: Course.ID) {
         self.courseId = id
     }
@@ -116,21 +102,7 @@ struct CourseView: View {
             }*/
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Button {
-
-                        } label: {
-                            Label("Create Content", systemImage: "doc")
-                        }
-
-                        Button {
-
-                        } label: {
-                            Label("Create Discussion", systemImage: "message")
-                        }
-                    } label: {
-                        Label("Add", systemImage: "plus")
-                    }
+                    addContentMenu
                 }
                 // Layout breaks when put in ToolbarItemGroup instead
                 ToolbarItemGroup(placement: .secondaryAction) {
@@ -207,56 +179,67 @@ struct CourseView: View {
                     $0
                         .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
                         //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
-                }
-            }
-            .modifierBranch {
-                if #unavailable(iOS 26) {
-                    $0
-                        .overlay(alignment: .top) {
-                            if !showTitle {
-                                HStack {
-                                    Button {
-                                        dismiss()
-                                    } label: {
-                                        Label("Back", systemImage: "chevron.left")
+                        .legacyToolbar(visible: !showTitle, showBackButton: true) {
+                            addContentMenu
+
+                            Menu {
+                                Section {
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades) {
+                                        Label("Grades", systemImage: "checkmark.seal.text.page")
                                     }
 
-                                    Spacer()
-
-                                    Menu {
-                                        Button("Add") {
-
-                                        }
-                                    } label: {
-                                        Label("Add Content", systemImage: "plus")
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.dueDates) {
+                                        Label("Due Dates", systemImage: "calendar.badge.clock")
                                     }
-                                    .labelStyle(.iconOnly)
 
-                                    Menu {
-                                        Button("Add") {
-
-                                        }
-                                    } label: {
-                                        Label("Add Something", systemImage: "ellipsis.circle")
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.messages(nil)) {
+                                        Label("Messages", systemImage: "envelope")
                                     }
-                                    .labelStyle(.iconOnly)
-
-                                    //optionsMenu
-                                    //    .labelStyle(.iconOnly)
                                 }
-                                .buttonStyle(.floating)
-                                .scenePadding(.horizontal)
-                                // Correctly aligns the buttons to the floating tab bar on iPadOS
-                                .padding(.top, legacyToolbarRequiresTopPadding ? 32 : 0)
-                                .transition(.opacity)
-                                .ignoresSafeArea(edges: legacyToolbarIgnoresEdges)
-                                .fixedSize(horizontal: false, vertical: true)
+
+                                Button {
+
+                                } label: {
+                                    Label("Favourite", systemImage: "star")
+                                        .font(.custom("Avenir-Medium", size: 17, relativeTo: .body))
+                                }
+
+                                Section("People") {
+                                    Button {
+
+                                    } label: {
+                                        Label("Course Staff", systemImage: "graduationcap")
+                                    }
+
+                                    Button {
+
+                                    } label: {
+                                        Label("Class Register", systemImage: "person.2")
+                                    }
+                                }
+
+                                Menu {
+                                    Section("Available Tools") {
+                                        Button {
+
+                                        } label: {
+                                            Label {
+                                                Text("Panopto")
+                                            } icon: {
+                                                Image("panopto.logo")
+                                            }
+                                        }
+                                    }
+                                } label: {
+                                    Label("Teaching Tools", systemImage: "wrench.adjustable")
+                                }
+                            } label: {
+                                Label("More Options", systemImage: "ellipsis.circle")
                             }
                         }
-                } else {
-                    $0
                 }
             }
+            
 #endif
             .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
                 switch route {
@@ -425,6 +408,24 @@ struct CourseView: View {
             }
         }
     }*/
+
+    private var addContentMenu: some View {
+        Menu {
+            Button {
+
+            } label: {
+                Label("Create Content", systemImage: "doc")
+            }
+
+            Button {
+
+            } label: {
+                Label("Create Discussion", systemImage: "message")
+            }
+        } label: {
+            Label("Add", systemImage: "plus")
+        }
+    }
 }
 
 struct ScrollOffsetPreferenceKey: PreferenceKey {
