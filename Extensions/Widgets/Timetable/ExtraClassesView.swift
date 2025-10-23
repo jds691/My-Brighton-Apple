@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 import Timetable
 
 struct ExtraClassesView: View {
@@ -24,13 +25,14 @@ struct ExtraClassesView: View {
                     Color("AccentColor")
                         .frame(maxWidth: 3)
                         .clipShape(RoundedRectangle(cornerRadius: 1000))
+                        .widgetAccentable()
                 }
             }
 
             Text("timetable.\(scheduledClasses.count).classes.later")
                 .lineLimit(1)
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.brightonSecondary)
         }
         .fixedSize(horizontal: false, vertical: true)
     }

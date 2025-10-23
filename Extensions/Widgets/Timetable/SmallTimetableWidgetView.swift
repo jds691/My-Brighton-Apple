@@ -42,6 +42,7 @@ struct SmallTimetableWidgetView: View {
                     Color("AccentColor")
                         .frame(maxWidth: 3)
                         .clipShape(RoundedRectangle(cornerRadius: 1000))
+                        .widgetAccentable()
 
                     VStack(alignment: .leading) {
                         Text(scheduledClass.name)
@@ -54,7 +55,7 @@ struct SmallTimetableWidgetView: View {
                             .font(.caption)
                             .minimumScaleFactor(0.5)
                             .lineLimit(2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.brightonSecondary)
                         //.foregroundStyle(appearance == .app ? .brightonSecondary : .secondary)
                     }
                 }
