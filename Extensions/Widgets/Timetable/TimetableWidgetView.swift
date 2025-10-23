@@ -145,9 +145,7 @@ struct TimetableWidgetView: View {
                         case .systemMedium:
                             MediumTimetableWidgetView(entry: entry)
                         case .systemLarge:
-                            verticalList(Array(entry.classes.prefix(5)))
-                                .padding(widgetMargins)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            LargeTimetableWidgetView(entry: entry)
                         case .systemExtraLarge:
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -199,7 +197,7 @@ struct TimetableWidgetView: View {
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemLarge) {
     TimetableWidget()
 } timeline: {
     TimetableWidgetProviderEntry(
