@@ -112,9 +112,7 @@ struct SocietiesView: View {
             .scenePadding(.horizontal)
         }
         .flexibleHeaderScrollView()
-        #if os(iOS)
         .ignoresSafeArea(edges: .top)
-        #endif
         .myBrightonBackground()
         .navigationTitle("Societies")
         .toolbarTitleDisplayMode(.inlineLarge)

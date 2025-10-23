@@ -12,8 +12,9 @@ struct MyBrightonBackgroundViewModifier: ViewModifier {
         content
         #if os(iOS)
             .containerBackground(.brightonBackground, for: .navigation)
+        #else
+            .background(.brightonBackground)
         #endif
-        // Does nothing on macOS as it is applied at the global level
     }
 }
 
