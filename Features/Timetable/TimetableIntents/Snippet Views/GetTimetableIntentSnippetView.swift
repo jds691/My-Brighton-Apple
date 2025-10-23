@@ -30,7 +30,7 @@ public struct GetTimetableIntentSnippetView: View {
                 Text("Up Next")
                     .bold()
                 TimetableRowView(upcomingOrLaterEntities.first!, prominent: true)
-                    .appearance(.system)
+                    .appearance(.intents)
 
                 let evenLaterClasses = upcomingOrLaterEntities.dropFirst()
 
@@ -68,7 +68,7 @@ public struct GetTimetableIntentSnippetView: View {
                 // TODO: Can badly overflow even with only 3 classes
                 ForEach(entities, id: \.id) { scheduledClass in
                     TimetableRowView(scheduledClass)
-                        .appearance(.system)
+                        .appearance(.intents)
                 }
             }
         }
