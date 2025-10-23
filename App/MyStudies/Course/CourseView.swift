@@ -44,7 +44,7 @@ struct CourseView: View {
     }
     
     var body: some View {
-            ScrollView(showsIndicators: false) {
+        ScrollView(.vertical) {
                 header
                     .flexibleHeaderContent()
                 VStack(alignment: .leading, spacing: 16) {
