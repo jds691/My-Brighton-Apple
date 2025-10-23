@@ -17,8 +17,7 @@ struct TimetableWidget: Widget {
         var families: [WidgetFamily] = [
             .systemSmall,
             .systemMedium,
-            .systemLarge,
-            .systemExtraLarge
+            .systemLarge
         ]
 
 
