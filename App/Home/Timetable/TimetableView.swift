@@ -115,38 +115,61 @@ struct TimetableView: View {
     }
 
     var body: some View {
-        // TODO: If is today, also accounted for classes earlier in the day
         ScrollView(.vertical) {
-            if classes.isEmpty {
-                ZStack {
-                    Spacer()
-                        .containerRelativeFrame([.horizontal, .vertical])
+            Group {
+                if classes.isEmpty {
+                    ZStack {
+                        Spacer()
+                            .containerRelativeFrame([.vertical])
 
-                    ContentUnavailableView("No Classes Today", systemImage: "calendar")
-                }
-            } else {
-                VStack(alignment: .leading, spacing: 16) {
-                    let isToday = currentDate == .now.withoutTime
-
-                    if isToday && classes.count >= 1 {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Up Next")
-                                .font(.title3.bold())
-                            TimetableRowView(classes.first!, prominent: true)
-                        }
+                        ContentUnavailableView("No Classes Today", systemImage: "calendar")
                     }
-
+                } else {
                     VStack(alignment: .leading, spacing: 8) {
+                        let isToday = currentDate == .now.withoutTime
+
                         if isToday {
-                            Text("Later")
-                                .font(.title3.bold())
-                        }
-                        ForEach(classes.dropFirst(isToday ? 1 : 0), id: \.id) { scheduledClass in
-                            TimetableRowView(scheduledClass)
+                            let earlierClasses = classes.filter({ .now > $0.endDate })
+                            let laterClasses = classes.filter({ $0.endDate >= .now })
+
+                            if !earlierClasses.isEmpty {
+                                Text("Earlier")
+                                    .font(.title3.bold())
+                                ForEach(earlierClasses, id: \.id) { scheduledClass in
+                                    TimetableRowView(scheduledClass)
+                                }
+                                .padding(.bottom, 8)
+                            }
+
+                            if !laterClasses.isEmpty {
+                                Text("Up Next")
+                                    .font(.title3.bold())
+                                TimetableRowView(laterClasses.first!, prominent: true)
+                                    .padding(.bottom, 8)
+
+                                let evenLaterClasses = laterClasses.dropFirst()
+                                Text("Later")
+                                    .font(.title3.bold())
+
+                                if evenLaterClasses.isEmpty {
+                                    NoContentView("Classes Finished for Today")
+                                } else {
+                                    ForEach(evenLaterClasses, id: \.id) { scheduledClass in
+                                        TimetableRowView(scheduledClass)
+                                    }
+                                }
+                            } else {
+                                Text("Later")
+                                    .font(.title3.bold())
+                                NoContentView("Classes Finished for Today")
+                            }
+                        } else {
+                            ForEach(classes, id: \.id) { scheduledClass in
+                                TimetableRowView(scheduledClass)
+                            }
                         }
                     }
                 }
-                .padding(.horizontal, 16)
             }
         }
         .refreshable {
@@ -157,6 +180,7 @@ struct TimetableView: View {
                 Self.logger.error("Refresh eror: \(error)")
             }
         }
+        .contentMargins(16, for: .scrollContent)
         .safeAreaInset(edge: .top) {
             header
         }
@@ -243,7 +267,24 @@ struct TimetableView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItemGroup(placement: .primaryAction) {
+                #if os(macOS)
+                Button {
+                    // TODO: Eventually try to replace with environment refresh
+                    Task {
+                        do {
+                            try await timetableService.refresh()
+                            await refreshClassesForCurrentDate()
+                        } catch {
+                            Self.logger.error("Refresh eror: \(error)")
+                        }
+                    }
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                }
+                .keyboardShortcut("r", modifiers: [.command])
+                #endif
+
                 Button("Today") {
                     currentDate = .now.withoutTime
                     scrollToCurrentDate()
@@ -425,7 +466,12 @@ struct TimetableView: View {
 }
 
 #Preview(traits: .timetableService) {
-    NavigationStack {
-        TimetableView()
+    TabView {
+        Tab {
+            NavigationStack {
+                TimetableView()
+            }
+        }
     }
+    .tabViewStyle(.sidebarAdaptable)
 }

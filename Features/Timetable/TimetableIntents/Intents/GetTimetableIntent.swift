@@ -41,8 +41,15 @@ public struct GetTimetableIntent: AppIntent {
 
     @MainActor
     public func perform() async throws -> some IntentResult & ShowsSnippetView & ProvidesDialog & ReturnsValue<[ScheduledClassEntity]> {
+        let timetableNotSetupDialogString: LocalizedStringResource = .init(
+            "GetTimetableIntent.error.timetable-not-setup",
+            defaultValue: "You'll need to connect your timetable to My Brighton in-app to continue.",
+            //table: "Intents"
+            bundle: #bundle
+        )
+
         guard timetableService.canFetchTimetable else {
-            throw needsToContinueInForegroundError("You'll need to connect your timetable to My Brighton in-app to continue.") {
+            throw needsToContinueInForegroundError(IntentDialog(timetableNotSetupDialogString)) {
                 router.navigate(to: .modal(.timetableSetup))
             }
         }
@@ -75,9 +82,32 @@ public struct GetTimetableIntent: AppIntent {
             bundle: #bundle
         )
 
+        let noMoreClassesTodayDialogString: LocalizedStringResource = .init(
+            "GetTimetableIntent.dialog.today.no-classes",
+            defaultValue: "There were \(classes.count) classes today.",
+            //table: "Intents"
+            bundle: #bundle
+        )
+
         let noMoreClassesTodayFullDialogString: LocalizedStringResource = .init(
             "GetTimetableIntent.dialog.today.no-classes.full",
             defaultValue: "There were \(classes.count) classes today. There are no more classes to attend today.",
+            //table: "Intents"
+            bundle: #bundle
+        )
+
+        func moreClassesTodayFullDialogString(nextClass: ScheduledClassEntity, remainingClasses: Int) -> LocalizedStringResource {
+            .init(
+                "GetTimetableIntent.dialog.today.more-classes.full",
+                defaultValue: "There are \(classes.count) classes today. The next class is \(nextClass.name) at \(timeFormatter.string(from: nextClass.startDate)) with \(remainingClasses) more classes later in the day.",
+                //table: "Intents"
+                bundle: #bundle
+            )
+        }
+
+        let moreClassesTodayDialogString: LocalizedStringResource = .init(
+            "GetTimetableIntent.dialog.today.more-classes",
+            defaultValue: "There are \(classes.count) classes today.",
             //table: "Intents"
             bundle: #bundle
         )
@@ -108,14 +138,14 @@ public struct GetTimetableIntent: AppIntent {
 
             if date.withoutTime == .now.withoutTime { // Date is Today
                 if .now > classes.last!.endDate { // No more classes later
-                    resultDialog = IntentDialog(full: noMoreClassesTodayFullDialogString, supporting: "There were \(classes.count) today.")
+                    resultDialog = IntentDialog(full: noMoreClassesTodayFullDialogString, supporting: noMoreClassesTodayDialogString)
                 } else { // More classes later
-                    // Mmmmm, I love force unwrapping
-                    // * The air crackles with confidence
+                         // Mmmmm, I love force unwrapping
+                         // * The air crackles with confidence
                     let nextClass = classes.first(where: { $0.startDate > .now })!
                     let nextClassIndex = classes.firstIndex(where: { $0.startDate > .now })!
                     let remainingClasses = classes.count - (nextClassIndex + 1)
-                    resultDialog = IntentDialog(full: "There are \(classes.count) classes today. The next class is \(nextClass.name) at \(timeFormatter.string(from: nextClass.startDate)) with \(remainingClasses) more classes later in the day.", supporting: "There are \(classes.count) classes today.")
+                    resultDialog = IntentDialog(full: moreClassesTodayFullDialogString(nextClass: nextClass, remainingClasses: remainingClasses), supporting: moreClassesTodayDialogString)
                 }
             } else if date.withoutTime < .now.withoutTime { // Date is in the past
                 resultDialog = IntentDialog(classesPastDialogString)
@@ -144,9 +174,9 @@ extension GetTimetableIntent: PredictableIntent {
 
             return formatter
         }()
-        
+
         IntentPrediction(parameters: \.$date, displayRepresentation: { date in
-            .init(stringLiteral: "Get timetable for \(namedRelativeFormatter.format(date))")
+                .init(stringLiteral: "Get timetable for \(namedRelativeFormatter.format(date))")
         })
     }
 }

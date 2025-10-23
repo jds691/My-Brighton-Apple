@@ -55,22 +55,43 @@ public struct TimetableRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(scheduledClass.name)
                     .lineLimit(2)
-                    .font(isProminent ? .title.bold() : .headline)
+                    .font(classNameFont)
                 // Don't ask me why they formatted the locations like this
                 Text(scheduledClass.location.replacingOccurrences(of: "\\", with: ""))
-                    .lineLimit(1)
-                //.foregroundStyle(appearance == .app ? Color("BrightonSecondary") : .secondary)
+                    .lineLimit(2)
+                    .font(standardFont)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
                 Text("at \(timeFormatter.string(from: scheduledClass.startDate))")
+                    .font(standardFont)
                 Text("ends \(timeFormatter.string(from: scheduledClass.endDate))")
-                    //.foregroundStyle(.secondary)
-                    .foregroundStyle(appearance == .app ? Color("BrightonSecondary") : .secondary)
+                    .foregroundStyle(appearance == .system ? .secondary : Color("BrightonSecondary"))
+                    .font(standardFont)
             }
             .frame(minWidth: 91, alignment: .trailing)
         }
         .fixedSize(horizontal: false, vertical: true)
+    }
+
+    private var classNameFont: Font {
+        if isProminent {
+            return .title.bold()
+        }
+
+        if appearance == .intents {
+            return .caption.bold()
+        } else {
+            return .headline
+        }
+    }
+
+    private var standardFont: Font {
+        if appearance == .intents {
+            return .caption
+        } else {
+            return .body
+        }
     }
 
     /// Represents the different styles this view can appear as.
@@ -79,6 +100,8 @@ public struct TimetableRowView: View {
         case app
         /// Adjusts the appearance to match system components.
         case system
+        /// Adjusts the appearance to make the view suitable for being displayed within App Intent Snippet views.
+        case intents
     }
 }
 

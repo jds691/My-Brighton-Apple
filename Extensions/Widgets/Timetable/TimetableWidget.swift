@@ -17,8 +17,7 @@ struct TimetableWidget: Widget {
         var families: [WidgetFamily] = [
             .systemSmall,
             .systemMedium,
-            .systemLarge,
-            .systemExtraLarge
+            .systemLarge
         ]
 
 
@@ -34,8 +33,8 @@ struct TimetableWidget: Widget {
             TimetableWidgetView(entry: entry)
                 .widgetURL(URL(string: "mybrighton://home/timetable")!)
         }
-        .configurationDisplayName("Timetable")
-        .description(Text("Keep track of your upcoming classes for the day."))
+        .configurationDisplayName("timetable.widget.name")
+        .description(Text("timetable.widget.description"))
         .supportedFamilies(supportedFamilies)
         .contentMarginsDisabled()
     }
