@@ -26,6 +26,9 @@
     "No Content" : {
 
     },
+    "Timetable" : {
+
+    },
     "timetable.%lld.classes.later" : {
       "localizations" : {
         "en-GB" : {

@@ -17,7 +17,7 @@
               },
               "other" : {
                 "stringUnit" : {
-                  "state" : "new",
+                  "state" : "translated",
                   "value" : "%lld more classes later"
                 }
               }
@@ -49,7 +49,7 @@
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "There are %1$lld classes on %2$@."
           }
         }
@@ -60,7 +60,7 @@
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "There were %1$lld classes on %2$@."
           }
         }
@@ -71,8 +71,41 @@
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "There are no classes scheduled for %@."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.today.more-classes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are %lld classes today."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.today.more-classes.full" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.dialog.today.no-classes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There were %lld classes today."
           }
         }
       }
@@ -82,8 +115,19 @@
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "There were %lld classes today. There are no more classes to attend today."
+          }
+        }
+      }
+    },
+    "GetTimetableIntent.error.timetable-not-setup" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You'll need to connect your timetable to My Brighton in-app to continue."
           }
         }
       }
@@ -100,9 +144,6 @@
     "Name" : {
 
     },
-    "No Classes Today" : {
-
-    },
     "Scheduled Class" : {
 
     },
@@ -110,19 +151,6 @@
 
     },
     "There are %lld classes today." : {
-
-    },
-    "There are %lld classes today. The next class is %@ at %@ with %lld more classes later in the day." : {
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
-          }
-        }
-      }
-    },
-    "There were %lld today." : {
       "localizations" : {
         "en-GB" : {
           "variations" : {
@@ -130,16 +158,26 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "There was %lld today."
+                  "value" : "There is %lld class today."
                 }
               },
               "other" : {
                 "stringUnit" : {
-                  "state" : "new",
-                  "value" : "There were %lld today."
+                  "state" : "translated",
+                  "value" : "There are %lld classes today."
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "There are %lld classes today. The next class is %@ at %@ with %lld more classes later in the day." : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
           }
         }
       }
@@ -151,9 +189,6 @@
 
     },
     "What day would you like the timetable for?" : {
-
-    },
-    "You'll need to connect your timetable to My Brighton in-app to continue." : {
 
     }
   },
