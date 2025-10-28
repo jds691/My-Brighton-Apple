@@ -32,17 +32,21 @@ public struct BbMLView: View {
             case .text(let string):
                 Text(string)
                     .frame(maxWidth: .infinity, alignment: .leading)
-            case .image(let url, let altDescription, let decorative):
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity, alignment: .center)
+            case .image(let url, let altDescription):
+                if let url {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .accessibilityValue(Text(altDescription ?? ""))
+                            .accessibilityShowsLargeContentViewer()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                } else {
+                    Image(systemName: "photo")
                         .accessibilityValue(Text(altDescription ?? ""))
-                        .accessibilityHidden(decorative)
-                        .accessibilityShowsLargeContentViewer()
-                } placeholder: {
-                    ProgressView()
                 }
 
             //case .document(let url):
