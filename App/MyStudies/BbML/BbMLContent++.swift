@@ -21,21 +21,18 @@ extension BbMLContent {
             
             <h6>Header Small</h6>
             
-            <p>
-            <strong>Bold</strong>
+            <p><strong>Bold</strong>
             <em>Italic<span style="text-decoration: underline">Italic Underline</span></em>
             </p>
             
-            <ul>
-            <li><span style="text-decoration: underline"><em></em></span>Bullet 1</li>
+            <ul><li><span style="text-decoration: underline"><em></em></span>Bullet 1</li>
             
             <li>Bullet 2</li>
             </ul>
             
             <p><img /></p>
             
-            <p>
-            <span
+            <p><span
             >"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris."</span
