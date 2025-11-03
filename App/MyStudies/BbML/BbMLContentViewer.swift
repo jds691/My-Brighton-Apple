@@ -247,6 +247,6 @@ extension Locale.Language {
 
 #Preview {
     NavigationStack {
-        BbMLContentViewer(.exampleDocument, title: "Preview")
+        BbMLContentViewer(.examplePost, title: "Preview")
     }
 }

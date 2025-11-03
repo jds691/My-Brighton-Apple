@@ -17,16 +17,19 @@ import AppKit
 fileprivate typealias ViewRepresentable = NSViewRepresentable
 #endif
 
-struct BbMLText: ViewRepresentable {
+fileprivate struct BbMLTextInterior: ViewRepresentable {
     private let text: AttributedString
+    @Binding
+    private var height: CGFloat
 
-    init(_ text: AttributedString) {
+    init(_ text: AttributedString, height: Binding<CGFloat>) {
         self.text = text
+        self._height = height
     }
 
     #if canImport(UIKit)
     func makeUIView(context: Context) -> UITextView {
-        let view = UITextView(frame: .zero)
+        let view = UITextView()
         view.isScrollEnabled = false
         view.isEditable = false
         view.showsVerticalScrollIndicator = false
@@ -35,12 +38,20 @@ struct BbMLText: ViewRepresentable {
         view.font = UIFont.preferredFont(forTextStyle: .body)
         view.adjustsFontForContentSizeCategory = true
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return view
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
-        uiView.attributedText = NSAttributedString(text)
+        DispatchQueue.main.async {
+            uiView.attributedText = NSAttributedString(text)
+
+            let fixedWidth = uiView.frame.size.width
+            let newSize = uiView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+
+            self.height = newSize.height
+        }
     }
     #endif
 
@@ -59,5 +70,19 @@ struct BbMLText: ViewRepresentable {
         nsView.sizeToFit()
     }
     #endif
+}
+
+struct BbMLText: View {
+    @State private var height: CGFloat = .zero
+    private let text: AttributedString
+
+    init(_ text: AttributedString) {
+        self.text = text
+    }
+
+    var body: some View {
+        BbMLTextInterior(text, height: $height)
+            .frame(height: height)
+    }
 }
 
