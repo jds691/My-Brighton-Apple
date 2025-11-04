@@ -44,6 +44,8 @@ fileprivate struct BbMLTextInterior: ViewRepresentable {
         view.backgroundColor = UIColor.clear
         view.font = UIFont.preferredFont(forTextStyle: .body)
         view.adjustsFontForContentSizeCategory = true
+        view.textContainer.lineFragmentPadding = 0
+        view.textContainerInset = .zero
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         view.setContentCompressionResistancePriority(.required, for: .vertical)
 
@@ -71,6 +73,8 @@ fileprivate struct BbMLTextInterior: ViewRepresentable {
         view.textColor = .controlTextColor
         view.font = NSFont.preferredFont(forTextStyle: .body)
         view.isRichText = true
+        view.textContainer?.lineFragmentPadding = 0
+        view.textContainerInset = .zero
         view.isVerticallyResizable = false
         view.isHorizontallyResizable = false
 
