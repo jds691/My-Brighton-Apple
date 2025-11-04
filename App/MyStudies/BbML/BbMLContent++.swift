@@ -7,10 +7,16 @@
 
 import SwiftBbML
 
-nonisolated
+@MainActor
 extension BbMLContent {
+    private static var parsedExampleDocument: BbMLContent?
+    private static var parsedExamplePost: BbMLContent?
+
     public static var exampleDocument: BbMLContent {
-        try! BbMLParser().parse(
+        if let document = parsedExampleDocument {
+            return document
+        } else {
+            parsedExampleDocument = try! BbMLParser().parse(
             """
             <!-- {"bbMLEditorVersion":1} -->
             
@@ -65,13 +71,19 @@ extension BbMLContent {
             >
             </p>
             </div>
-
+            
             """
-        )
+            )
+
+            return BbMLContent.parsedExampleDocument!
+        }
     }
 
     public static var examplePost: BbMLContent {
-        try! BbMLParser().parse(
+        if let post = parsedExamplePost {
+            return post
+        } else {
+            parsedExamplePost = try! BbMLParser().parse(
             """
             <div data-bbid="bbml-editor-id_e8f01344-60df-43ef-a2eb-8c5468de4aed">
             <h4>
@@ -385,8 +397,11 @@ extension BbMLContent {
             have learned in your Learning Journal.
             </p>
             </div>
-
+            
             """
-        )
+            )
+
+            return parsedExamplePost!
+        }
     }
 }

@@ -22,9 +22,16 @@ fileprivate struct BbMLTextInterior: ViewRepresentable {
     @Binding
     private var height: CGFloat
 
+    @available(iOS 18, *)
     init(_ text: AttributedString, height: Binding<CGFloat>) {
         self.text = text
         self._height = height
+    }
+
+    @available(macOS 15, *)
+    init(_ text: AttributedString) {
+        self.text = text
+        self._height = .constant(0)
     }
 
     #if canImport(UIKit)
@@ -57,17 +64,48 @@ fileprivate struct BbMLTextInterior: ViewRepresentable {
 
     #if canImport(AppKit)
     func makeNSView(context: Context) -> NSTextView {
-        let view = NSTextView()
+        let view = InternalTextView()
         view.isEditable = false
         view.drawsBackground = false
+        view.usesAdaptiveColorMappingForDarkAppearance = true
         view.textColor = .controlTextColor
+        view.font = NSFont.preferredFont(forTextStyle: .body)
+        view.isRichText = true
+        view.isVerticallyResizable = false
+        view.isHorizontallyResizable = false
+
+        view.textStorage?.setAttributedString(NSMutableAttributedString(text))
 
         return view
     }
 
     func updateNSView(_ nsView: NSTextView, context: Context) {
-        nsView.textStorage?.setAttributedString(NSAttributedString(text))
-        nsView.sizeToFit()
+    }
+
+    // FML: https://stackoverflow.com/q/74045727
+    class InternalTextView: NSTextView {
+        init() {
+            super.init(frame: NSRect.zero)
+            setContentHuggingPriority(.defaultHigh, for: .vertical)
+        }
+
+        override init(frame frameRect: NSRect, textContainer container: NSTextContainer?) {
+            super.init(frame: frameRect, textContainer: container)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        override func layout() {
+            invalidateIntrinsicContentSize()
+            super.layout()
+        }
+
+        override var intrinsicContentSize: NSSize {
+            layoutManager!.ensureLayout(for: textContainer!)
+            return CGSize(width: -1.0, height: ceil(layoutManager!.usedRect(for: textContainer!).size.height))
+        }
     }
     #endif
 }
@@ -81,8 +119,12 @@ struct BbMLText: View {
     }
 
     var body: some View {
+        #if os(iOS)
         BbMLTextInterior(text, height: $height)
             .frame(height: height)
+        #elseif os(macOS)
+        BbMLTextInterior(text)
+        #endif
     }
 }
 
