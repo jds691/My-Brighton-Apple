@@ -13,12 +13,7 @@ struct ModuleAnnouncementCard: View {
         VStack(alignment: .leading, spacing: 8) {
             header
             BbMLView(
-                BbMLContent(
-                    header: .init(),
-                    chunks: [
-                        .text("Body text")
-                    ]
-                )
+                try! BbMLParser().parse("<p>Body text</p>")
             )
             .lineLimit(3, reservesSpace: true)
             Divider()
