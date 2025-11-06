@@ -54,7 +54,6 @@ public struct BbMLView: View {
     private func makeViewForChunk(_ chunk: BbMLContent.Chunk) -> some View {
         switch chunk {
             case .text(let string):
-                //Text(string)
                 BbMLText(string)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
@@ -75,8 +74,8 @@ public struct BbMLView: View {
                         .accessibilityValue(Text(altDescription ?? ""))
                 }
 
-            //case .document(let url):
-
+            case .document(let url, let attachmentInfo):
+                BbMLAttachmentView(url: url, renderInfo: attachmentInfo)
             case .math(let mathML):
                 MathMLView(mathML: mathML)
             //case .video(let url):
