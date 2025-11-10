@@ -36,10 +36,7 @@ public struct BbMLView: View {
             }
         }
 
-        if !currentString.characters.isEmpty {
-            print("currentString contents: \(String(describing: currentString))")
-            chunks.append(.text(currentString))
-        }
+        chunks.append(.text(currentString))
     }
 
     public var body: some View {
