@@ -57,7 +57,7 @@ public struct BbMLView: View {
                 BbMLText(string)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
-            case .image(let url, let altDescription):
+            case .image(let url, let altDescription, _):
                 if let url {
                     AsyncImage(url: url) { image in
                         image
