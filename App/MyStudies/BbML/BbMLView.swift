@@ -76,8 +76,17 @@ public struct BbMLView: View {
 
             case .document(let url, let attachmentInfo):
                 BbMLAttachmentView(url: url, renderInfo: attachmentInfo)
-            case .math(let mathML):
-                MathMLView(mathML: mathML)
+            case .math(let math):
+                if case .mathMl(let mathMl) = math {
+                    MathMLView(mathML: mathMl)
+                } else {
+                    Text("Unable to render math.")
+                        .onAppear {
+                            assert(false)
+                        }
+                }
+
+
             //case .video(let url):
 
             default:

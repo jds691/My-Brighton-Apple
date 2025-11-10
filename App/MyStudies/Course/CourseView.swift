@@ -340,7 +340,7 @@ struct CourseView: View {
                             chunks: [
                                 .text("Hello?"),
                                 .text("I'm attempting to render some maths now:"),
-                                .math(mathML:
+                                .math(.mathMl(
                     """
                     <mrow>
                     <mi>x</mi>
@@ -376,7 +376,7 @@ struct CourseView: View {
                     </mrow>
                     </mfrac>
                     </mrow>
-                    """),
+                    """)),
                                 //.text("Here is now Peter Griffen from hit show Family Guy:"),
                                 //.image(url: URL(string: "https://upload.wikimedia.org/wikipedia/en/c/c2/Peter_Griffin.png")!, altDescription: "Peter Griffen", decorative: false),
                                     .text("Here is now a dog in the water:"),

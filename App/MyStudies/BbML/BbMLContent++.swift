@@ -16,7 +16,7 @@ extension BbMLContent {
         if let document = parsedExampleDocument {
             return document
         } else {
-            parsedExampleDocument = try! BbMLParser().parse(
+            parsedExampleDocument = try! BbMLParser.default.parse(
             """
             <!-- {"bbMLEditorVersion":1} -->
             
@@ -83,7 +83,7 @@ extension BbMLContent {
         if let post = parsedExamplePost {
             return post
         } else {
-            parsedExamplePost = try! BbMLParser().parse(
+            parsedExamplePost = try! BbMLParser.default.parse(
             """
             <div data-bbid="bbml-editor-id_e8f01344-60df-43ef-a2eb-8c5468de4aed">
             <h4>

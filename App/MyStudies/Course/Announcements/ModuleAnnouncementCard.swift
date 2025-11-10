@@ -13,7 +13,7 @@ struct ModuleAnnouncementCard: View {
         VStack(alignment: .leading, spacing: 8) {
             header
             BbMLView(
-                try! BbMLParser().parse("<p>Body text</p>")
+                try! BbMLParser.default.parse("<p>Body text</p>")
             )
             .lineLimit(3, reservesSpace: true)
             Divider()
