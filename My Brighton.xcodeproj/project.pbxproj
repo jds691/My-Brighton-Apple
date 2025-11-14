@@ -1033,7 +1033,7 @@
 				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
 				6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */,
-				6899FD602EAD8F4D0054B1DA /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */,
+				683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */,
 			);
 			preferredProjectObjectVersion = 56;
 			productRefGroup = 28E311082A98E78D00ECC35C /* Products */;
@@ -2439,6 +2439,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 24.0.0;
+			};
+		};
+		683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jds691/SwiftBbML";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "16be4520285dcf533e3a838c48024927b4e52413aa174b11c5799e9073e77a25",
+  "originHash" : "0adc8921b8f0c356704b56607cad6c286b5cdd03aee60fd57ab5b704480b6013",
   "pins" : [
     {
       "identity" : "glur",
@@ -125,6 +125,15 @@
       "state" : {
         "revision" : "6fac6f7c428d5feea2639b5f5c8b06ddfb79434b",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swiftbbml",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jds691/SwiftBbML",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bb1b108eb72b11687594e15d8795296c98042947"
       }
     },
     {
