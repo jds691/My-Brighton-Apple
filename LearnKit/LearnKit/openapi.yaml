@@ -756,6 +756,173 @@ paths:
   #      "200":
   #        description: OK
 
+  # Content
+  "/v1/courses/{courseId}/contents":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+    get:
+      deprecated: false
+      tags:
+        - content
+      summary: Get Contents
+      description: >
+        List top-level content items in a course.
+
+        Users with at least one of the following entitlements may access any content item:
+
+        - course.adaptiverelease.CREATE
+        - course.adaptiverelease.DELETE
+        - course.adaptiverelease.MODIFY
+        - course.adaptiverelease.VIEW
+        - course.configure-areas.EXECUTE
+        - course.content-item.copy.EXECUTE
+        - course.content.DELETE
+        - course.content.MODIFY
+        - course.learningstandards.alignment.CREATE
+        - course.performance.dashboard.VIEW
+        </p>
+
+        For other users, permission to view the content item will depend on the availability settings of the course and  the content item.  The following fields will be filtered out:
+
+        - availability.available
+        - availability.allowGuests
+        - availability.adaptiveRelease
+        </p>
+
+        **Since**: 3000.1.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/includedFields"
+        - name: recursive
+          in: query
+          description: >
+            Search for child content recursively.  A value of 'true' indicates that search results should include all content descendants within the hierarchy of the specified parent.  A value of 'false' indicates results should be limited to immediate children only.  Not setting this field defaults to 'false' behavior; only including immediate children.
+
+            **Since**: 3100.2.0
+          required: false
+          schema:
+            type: boolean
+        - name: title
+          in: query
+          description: >
+            Search for content title. Will return all Content items whose title contains the supplied search value.
+
+            **Since**: 3900.10.0
+          required: false
+          schema:
+            type: string
+        - name: contentHandler
+          in: query
+          description: >
+            Search for the specific content handler.  Not setting this field will return all content handlers.
+
+            **Since**: 3400.5.0
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for contents with a created date relative to this value.  'createdCompare' may also be sent to control search behavior.
+
+            **Since**: 3700.1.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter.  Supported values:
+
+            - lessThan
+            - greaterOrEqual
+
+            Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3700.1.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: modified
+          in: query
+          description: >
+            Search for contents with a modified date relative to this value.  'modifiedCompare' may also be sent to control search behavior.
+
+            **Since**: 3700.4.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter.  Supported values:
+
+            - lessThan
+            - greaterOrEqual
+
+            Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3700.4.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: reviewable
+          in: query
+          description: >
+            Search contents by whether they are reviewable or not.
+
+            **Since**: 3700.15.0
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Content"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+
   # Courses
   "/v3/courses":
     get:
@@ -1483,6 +1650,182 @@ components:
           type: string
           format: date-time
           readOnly: true
+    # Content
+    # TODO: This is likely incorrect
+    ContentLink:
+      type: object
+      properties:
+        href:
+          type: string
+        rel:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+    ContentHandler:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >
+            The content handler's ID.
+
+            Publicly supported handlers:
+
+            | ID                                 | Documentation                   | Since     |
+            |------------------------------------|---------------------------------|-----------|
+            | resource/x-bb-document             | ContentItemTOPubV1              |  3000.1.0 |
+            | resource/x-bb-externallink         | ExternalLinkTOPubV1             |  3000.1.0 |
+            | resource/x-bb-folder               | ContentFolderTOPubV1            |  3000.1.0 |
+            | resource/x-bb-courselink           | CourseLinkTOPubV1               |  3100.5.0 |
+            | resource/x-bb-forumlink            | DiscussionLinkTOPubV1           |  3100.6.0 |
+            | resource/x-bb-blti-link            | BasicLTITOPubV1                 |  3200.6.0 |
+            | resource/x-bb-file                 | ContentFileTOPubV1              |  3200.6.0 |
+            | resource/x-bb-asmt-test-link       | TestLinkTOPubV1                 |  3300.5.0 |
+            | resource/x-bb-assignment           | AssignmentTOPubV1               |  3400.9.0 |
+            | resource/x-bb-blti-bltiplacement-* | BasicLTIPlacementContentTOPubV1 |  3600.0.0 |
+
+
+            For handlers that are not publicly supported yet, their ID will be shown here, and updates to common content attributes are allowed, but extended handler-specific attributes will not be visible.
+          readOnly: true
+    Content:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the content.
+          readOnly: true
+        parentId:
+          type: string
+          # Whyyyyyyyy did they do this, it never gets set to null in a GET just *some* ID
+          description: The ID of the content's parent.  Note that top-level contents do not have parents. The 'parentId' field is a writable field as of the Bb Learn 3200.6.0 release.  Specifying a new value in PATCH requests allows the Content object to be moved from one parent to another.
+        title:
+          type: string
+          description: The title or name of this content. Typically shown as the main text to click in the course outline when accessing the content.
+        body:
+          type: string
+          format: BbML
+          description: The body text associated with this content. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
+        description:
+          type: string
+          description: >
+            The short description of this content.
+
+            This field is not used in Classic courses.  For Ultra courses this is used to show information directly on the course outline.
+          maxLength: 750
+        created:
+          type: string
+          format: date-time
+          description: The date this content was created.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          description: >
+            The date this content was modified.
+
+            **Since**: 3700.4.0
+          readOnly: true
+        position:
+          type: integer
+          format: int32
+          description: The position of this content within its parent folder. Position values are zero-based (the first element has a position value of zero, not one). Default position is last in the list of child contents under the parent.
+        hasChildren:
+          type: boolean
+          description: Indicates whether this content is allowed to have child content items.
+          readOnly: true
+        hasGradebookColumns:
+          type: boolean
+          description: >
+            Indicates whether this content item has one or more gradebook columns.
+
+            Associated gradebook columns can be accessed via /learn/api/public/v1/courses/$courseId/gradebook/columns?contentId=$contentId
+
+            **Since**: 3000.11.0
+          readOnly: true
+        hasAssociatedGroups:
+          type: boolean
+          description: >
+            Indicates whether this content item has one or more associated groups.
+
+            Associated groups can be accessed via /learn/api/public/v1/courses/$courseId/contents/$contentId/groups
+
+            **Since**: 3100.4.0
+        launchInNewWindow:
+          type: boolean
+          description: >
+            Indicates whether the content is going to open in a new window.
+
+            **Since**: 3800.10.0
+        reviewable:
+          type: boolean
+          description: >
+            Indicates whether Review Status is enabled for this content. Content items with review status enabled can be marked as reviewed by students in classic courses and content items with review status enabled in Ultra are either in a Forced Sequence or content that should be counted towards the progress tracking feature as of 3900.19 This can be used to track performance and in Adaptive Release rules to control the release of other content.
+
+            **Since**: 3700.15.0
+        availability:
+          type: object
+          description: Settings controlling availability of the content to students.
+          title: Content.Availability
+          properties:
+            available:
+              type: string
+              description: >
+                Whether the content is currently available to students.  Instructors can always access the content.  If set to 'PartiallyVisible', the title will be available to students but the body will not.  Defaults to Yes.
+
+
+                | Type      | Description
+                | --------- | --------- |
+                | Yes |  |
+                | No |  |
+                | PartiallyVisible |  |
+              enum:
+                - Yes
+                - No
+                - PartiallyVisible
+            allowGuests:
+              type: boolean
+              description: Whether this content is available to users with the 'guest' role. Defaults to true.
+            allowObservers:
+              type: boolean
+              description: >
+                Whether or not "observers" are allowed access to this Content. Defaults to true.
+
+                **Since**: 3900.31.0
+            adaptiveRelease:
+              type: object
+              description: Settings controlling adaptive release of the content to students.
+              title: Content.Availability.AdaptiveRelease
+              properties:
+                start:
+                  type: string
+                  format: date-time
+                  description: The date when this content will become available to students.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date when this content will no longer be available to students.
+        contentHandler:
+          description: Extended settings specific to this content item's content handler.
+          $ref: "#/components/schemas/ContentHandler"
+        # TODO: Replace with array
+        copyHistory:
+          description: A list of Content History entities in representation of the copy process the current content item might have if is an LTI content, ordered from newest to oldest content and its respective source course from which current object is a copy of.
+          type: object
+        links:
+          description: >
+            A list of links to resources related to this content item. Supported relation types include:
+
+            - alternate
+
+            **Since**: 3900.0.0
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentLink"
+        subtype:
+          type: string
+          description: Optional assessment subtype for further differentiation. For example, a test can have the subtype 'assignment' in Ultra, alongside AI conversations and knowledge checks, ensuring type-agnostic categorization.
     # Courses
     Course:
       type: object
@@ -1798,6 +2141,8 @@ components:
       required: false
       schema:
         type: string
+      style: form
+      explode: false
     # Paging
     paging.includePermissions:
       name: includePermissions
