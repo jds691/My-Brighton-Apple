@@ -340,7 +340,7 @@ struct CourseView: View {
                             chunks: [
                                 .text("Hello?"),
                                 .text("I'm attempting to render some maths now:"),
-                                .math(mathML:
+                                .math(.mathMl(
                     """
                     <mrow>
                     <mi>x</mi>
@@ -376,11 +376,11 @@ struct CourseView: View {
                     </mrow>
                     </mfrac>
                     </mrow>
-                    """),
+                    """)),
                                 //.text("Here is now Peter Griffen from hit show Family Guy:"),
                                 //.image(url: URL(string: "https://upload.wikimedia.org/wikipedia/en/c/c2/Peter_Griffin.png")!, altDescription: "Peter Griffen", decorative: false),
                                     .text("Here is now a dog in the water:"),
-                                .image(url: URL(string: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Retriever_in_water.jpg")!, altDescription: "Retriever in water", decorative: false),
+                                .image(url: URL(string: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Retriever_in_water.jpg")!, altDescription: "Retriever in water", renderMode: .inline),
                                 .text("This is the Wikipedia link:"),
                                 .text(linkAttributedString)
                             ]
@@ -388,6 +388,13 @@ struct CourseView: View {
                     )
                 } label: {
                     ModuleContentCard(title: "BbMLContentView", description: "Debugging document", action: {})
+                }
+                .buttonStyle(.plain)
+
+                NavigationLink {
+                    BbMLContentViewer(.exampleDocument, title: "Example Document")
+                } label: {
+                    ModuleContentCard(title: "Example Document", description: "Parser example document from Anthology", action: {})
                 }
                 .buttonStyle(.plain)
             }

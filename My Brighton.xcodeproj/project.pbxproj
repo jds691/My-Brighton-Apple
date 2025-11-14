@@ -24,10 +24,10 @@
 		6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
 		686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
+		6899FD622EAD8F4D0054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD612EAD8F4D0054B1DA /* SwiftBbML */; };
+		6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD662EAD8FB70054B1DA /* SwiftBbML */; };
 		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
-		68E7BBF62E96A38000F91FD0 /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68E7BBF52E96A38000F91FD0 /* SwiftBbML */; };
-		68E7BBFA2E96A42300F91FD0 /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68E7BBF92E96A42300F91FD0 /* SwiftBbML */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
 		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		68EAC7052E79E34200A3F286 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
@@ -547,7 +547,7 @@
 				686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */,
 				681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */,
 				68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */,
-				68E7BBFA2E96A42300F91FD0 /* SwiftBbML in Frameworks */,
+				6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */,
 				68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */,
 				68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */,
 				68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */,
@@ -570,7 +570,7 @@
 				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
 				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
 				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
-				68E7BBF62E96A38000F91FD0 /* SwiftBbML in Frameworks */,
+				6899FD622EAD8F4D0054B1DA /* SwiftBbML in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,7 +813,7 @@
 				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
 				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
 				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
-				68E7BBF52E96A38000F91FD0 /* SwiftBbML */,
+				6899FD612EAD8F4D0054B1DA /* SwiftBbML */,
 			);
 			productName = LearnKit;
 			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
@@ -1033,7 +1033,7 @@
 				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
 				6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */,
-				68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */,
+				683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */,
 			);
 			preferredProjectObjectVersion = 56;
 			productRefGroup = 28E311082A98E78D00ECC35C /* Products */;
@@ -1469,7 +1469,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1521,7 +1521,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1570,7 +1570,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1610,7 +1610,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1750,7 +1750,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -1794,7 +1794,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10D20251023;
+				CURRENT_PROJECT_VERSION = 10A20251104;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
@@ -2426,6 +2426,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Anthology/SwiftBbML;
 		};
+		6899FD602EAD8F4D0054B1DA /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Anthology/SwiftBbML;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -2435,6 +2439,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 24.0.0;
+			};
+		};
+		683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jds691/SwiftBbML";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
@@ -2469,14 +2481,6 @@
 				minimumVersion = 1.0.4;
 			};
 		};
-		68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jds691/SwiftBbML";
-			requirement = {
-				branch = parser;
-				kind = branch;
-			};
-		};
 		68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ramonvasc/MXLCalendarManagerSwift.git";
@@ -2508,20 +2512,19 @@
 			package = 689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
 			productName = "plugin:OpenAPIGenerator";
 		};
+		6899FD612EAD8F4D0054B1DA /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftBbML;
+		};
+		6899FD662EAD8FB70054B1DA /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6899FD602EAD8F4D0054B1DA /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */;
+			productName = SwiftBbML;
+		};
 		68AB39BC2E11C4460039AFC8 /* Glur */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */;
 			productName = Glur;
-		};
-		68E7BBF52E96A38000F91FD0 /* SwiftBbML */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
-			productName = SwiftBbML;
-		};
-		68E7BBF92E96A42300F91FD0 /* SwiftBbML */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68E7BBF42E96A38000F91FD0 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
-			productName = SwiftBbML;
 		};
 		68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -9,9 +9,9 @@ import SwiftUI
 import WebKit
 
 #if os(iOS)
-typealias ViewRepresentable = UIViewRepresentable
+fileprivate typealias ViewRepresentable = UIViewRepresentable
 #elseif os(macOS)
-typealias ViewRepresentable = NSViewRepresentable
+fileprivate typealias ViewRepresentable = NSViewRepresentable
 #endif
 
 fileprivate struct MathMLInteriorView: ViewRepresentable {

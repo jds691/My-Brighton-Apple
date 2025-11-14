@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicklockwood/LRUCache.git",
       "state" : {
-        "revision" : "e0e9e039b33db8f2ef39b8e25607e38f46b13584",
-        "version" : "1.1.2"
+        "revision" : "0d91406ecd4d6c1c56275866f00508d9aeacc92a",
+        "version" : "1.2.0"
       }
     },
     {
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jds691/SwiftBbML",
       "state" : {
-        "branch" : "parser",
-        "revision" : "d8aa9b4ed5f999c1ff2bcd68575824983eb30580"
+        "branch" : "main",
+        "revision" : "bb1b108eb72b11687594e15d8795296c98042947"
       }
     },
     {

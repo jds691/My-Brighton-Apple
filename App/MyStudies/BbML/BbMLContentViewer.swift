@@ -247,53 +247,6 @@ extension Locale.Language {
 
 #Preview {
     NavigationStack {
-        BbMLContentViewer(
-            BbMLContent(
-                header: .init(),
-                chunks: [
-                    .text("Hello?"),
-                    .text("I'm attempting to render some maths now:"),
-                    .math(mathML:
-                    """
-                    <mrow>
-                    <mi>x</mi>
-                    <mo>=</mo>
-                    <mfrac>
-                    <mrow>
-                    <mrow>
-                    <mo>−</mo>
-                    <mi>b</mi>
-                    </mrow>
-                    <mo>±</mo>
-                    <msqrt>
-                    <mrow>
-                    <msup>
-                    <mi>b</mi>
-                    <mn>2</mn>
-                    </msup>
-                    <mo>−</mo>
-                    <mrow>
-                    <mn>4</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    <mo>⁢</mo>
-                    <mi>c</mi>
-                    </mrow>
-                    </mrow>
-                    </msqrt>
-                    </mrow>
-                    <mrow>
-                    <mn>2</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    </mrow>
-                    </mfrac>
-                    </mrow>
-                    """),
-                    .text("Here is now Peter Griffen from hit show Family Guy:"),
-                    .image(url: URL(string: "https://upload.wikimedia.org/wikipedia/en/c/c2/Peter_Griffin.png")!, altDescription: "Peter Griffen", decorative: false)
-                ]
-            ), title: "Preview"
-        )
+        BbMLContentViewer(.examplePost, title: "Preview")
     }
 }
