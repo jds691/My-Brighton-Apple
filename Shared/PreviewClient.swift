@@ -150,6 +150,14 @@ struct PreviewClient: APIProtocol {
         )
     ]
 
+    let courseContents: Dictionary<String, [Components.Schemas.Content]> = [
+        "_130430_1": [],
+        "_130438_1": [],
+        "_130441_1": [],
+
+        "_129556_1": []
+    ]
+
     func getV1TermsTermId(_ input: LearnKit.Operations.GetV1TermsTermId.Input) async throws -> LearnKit.Operations.GetV1TermsTermId.Output {
         if terms.contains(where: { $0.id == input.path.termId }) {
             return .ok(.init(body: .json(terms.first(where: { $0.id == input.path.termId })!)))
@@ -172,6 +180,14 @@ struct PreviewClient: APIProtocol {
 
     func getV3Courses(_ input: LearnKit.Operations.GetV3Courses.Input) async throws -> LearnKit.Operations.GetV3Courses.Output {
         return .ok(.init(body: .json(.init(results: courses))))
+    }
+
+    func getV1CoursesCourseIdContents(_ input: LearnKit.Operations.GetV1CoursesCourseIdContents.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContents.Output {
+        if !courseContents.keys.contains(input.path.courseId) {
+            return .forbidden(.init(body: .json(.init(status: "Idk", code: nil, message: "User not enrolled in course", developerMessage: nil, extraInfo: nil))))
+        }
+
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]))))
     }
 
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {
