@@ -31,6 +31,7 @@ actor BbCache {
         do {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
+                CachedContent.self,
                 CachedTerm.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.com.neo.My-Brighton"))
@@ -48,6 +49,7 @@ actor BbCache {
         do {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
+                CachedContent.self,
                 CachedTerm.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.com.neo.My-Brighton"))
@@ -127,7 +129,41 @@ actor BbCache {
 
     // MARK: Content
     func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
-        
+        for item in content {
+            do {
+                let cachedCourse: CachedCourse? = try await getCourse(for: courseIdentifier)
+                let parentContent: CachedContent? = item.parentId != nil ? try await getContent(for: item.parentId!, in: courseIdentifier) : nil
+                let cachedContent: CachedContent? = try await getContent(for: item.id, in: courseIdentifier)
+
+#if DEBUG
+                assert(cachedCourse != nil)
+                if item.parentId != nil {
+                    assert(parentContent != nil)
+                }
+#endif
+
+                if let existingCachedContent = cachedContent {
+                    existingCachedContent.copyValues(from: item)
+                } else {
+                    let newCachedContent = CachedContent(from: item)
+                    newCachedContent.course = cachedCourse
+
+                    if let existingParentContent = parentContent {
+                        newCachedContent.parent = existingParentContent
+                    }
+
+                    modelContext.insert(newCachedContent)
+                }
+            } catch {
+                Self.logger.error("Error while indexing content '\(item.id)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during content index: \(error)")
+        }
     }
 
     // MARK: Terms
@@ -201,6 +237,19 @@ extension BbCache: LearnKitAPI {
 
     public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
         return nil
+    }
+
+    func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> CachedContent? {
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first {
+            return firstContent
+        } else {
+            return nil
+        }
     }
 
     // MARK: Terms

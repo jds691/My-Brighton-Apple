@@ -22,7 +22,9 @@ protocol LearnKitAPI {
     /// - Returns: All root content stored in the course.
     func getAllContent(in course: Course.ID) async throws -> [Content]
     /// Gets a list of all child content within a parent content item.
-    /// - Parameter content: Identifier of the parent content item to load children of.
+    /// - Parameters:
+    ///   - identifier: Identifier of the parent content item to load children of.
+    ///   - course: Identifier of the course this content belongs to.
     /// - Returns: All children of the parent content item.
     func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content]
     /// Gets a content item, specified by its ID, from the service.

@@ -121,8 +121,9 @@ extension LearnKitService: LearnKitAPI {
     /// - Parameters:
     ///   - identifier: Identifier of the content to refresh.
     ///   - includeChildren: Indicates if the children of this content should also be refreshed. Default: true.
+    ///   - courseIdentifier: Course that the content belongs to.
     /// - Returns: List of modified content items.
-    public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true) async throws -> [Content] {
+    public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true, in courseIdentifier: Course.ID) async throws -> [Content] {
         []
     }
     
