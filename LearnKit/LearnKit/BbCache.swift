@@ -125,6 +125,11 @@ actor BbCache {
         }
     }
 
+    // MARK: Content
+    func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
+        
+    }
+
     // MARK: Terms
     /// Indexes the provided terms into SwiftData and CoreSpotlight.
     /// - Parameter courses: Terms to index.
@@ -183,6 +188,19 @@ extension BbCache: LearnKitAPI {
         } else {
             return nil
         }
+    }
+
+    // MARK: Content
+    public func getAllContent(in course: Course.ID) async throws -> [Content] {
+        return []
+    }
+
+    public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
+        return []
+    }
+
+    public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
+        return nil
     }
 
     // MARK: Terms

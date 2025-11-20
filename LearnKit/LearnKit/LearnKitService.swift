@@ -116,6 +116,59 @@ extension LearnKitService: LearnKitAPI {
         return try await cache.getCourse(for: identifier)
     }
 
+    // MARK: Content
+    /// Refreshes the local cache version of the content for the given identifier.
+    /// - Parameters:
+    ///   - identifier: Identifier of the content to refresh.
+    ///   - includeChildren: Indicates if the children of this content should also be refreshed. Default: true.
+    /// - Returns: List of modified content items.
+    public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true) async throws -> [Content] {
+        []
+    }
+    
+    /// Refreshes the local cache version of the root content of the course for the given identifier.
+    /// - Parameter courseIdentifier: Identifier of the course to refresh.
+    /// - Returns: List of modified content items.
+    public func refreshContentRoot(in courseIdentifier: Course.ID) async throws -> [Content] {
+        // TODO: Keep track of the last time content was fetched and add the modified param to the request
+        let clientOutput = try await client.getV1CoursesCourseIdContents(.init(path: .init(courseId: courseIdentifier)))
+
+        let results: Operations.GetV1CoursesCourseIdContents.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteContent = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+
+        let modelContent = remoteContent.compactMap({ Content(from: $0) })
+
+        Task {
+            await cache.indexContent(modelContent, for: courseIdentifier)
+        }
+
+        return modelContent
+    }
+
+    public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
+        return try await cache.getChildContent(for: identifier, in: course)
+    }
+
+    public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
+        return try await cache.getContent(for: identifier, in: course)
+    }
+
+    func getAllContent(in course: Course.ID) async throws -> [Content] {
+        return try await cache.getAllContent(in: course)
+    }
+
     // MARK: Terms
     /// Refreshes the local cache of terms by communicating with the Learn instance and returns newer term data.
     /// - Returns: List of terms with newer content than what was previously cached.
