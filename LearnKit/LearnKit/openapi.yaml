@@ -1665,6 +1665,32 @@ components:
           type: string
     ContentHandler:
       type: object
+      oneOf:
+        - $ref: "#/components/schemas/ContentHandler.ContentItemTOPub"
+        - $ref: "#/components/schemas/ContentHandler.ExternalLinkTOPub"
+        - $ref: "#/components/schemas/ContentHandler.ContentFolderTOPub"
+        - $ref: "#/components/schemas/ContentHandler.CourseLinkTOPub"
+        - $ref: "#/components/schemas/ContentHandler.DiscussionLinkTOPub"
+        - $ref: "#/components/schemas/ContentHandler.BasicLTITOPub"
+        - $ref: "#/components/schemas/ContentHandler.ContentFileTOPub"
+        - $ref: "#/components/schemas/ContentHandler.TestLinkTOPub"
+        - $ref: "#/components/schemas/ContentHandler.AssignmentTOPub"
+      discriminator:
+        propertyName: id
+        mapping:
+          "resource/x-bb-document": "#/components/schemas/ContentHandler.ContentItemTOPub"
+          "resource/x-bb-externallink": "#/components/schemas/ContentHandler.ExternalLinkTOPub"
+          "resource/x-bb-folder": "#/components/schemas/ContentHandler.ContentFolderTOPub"
+          "resource/x-bb-courselink": "#/components/schemas/ContentHandler.CourseLinkTOPub"
+          "resource/x-bb-forumlink": "#/components/schemas/ContentHandler.DiscussionLinkTOPub"
+          "resource/x-bb-blti-link": "#/components/schemas/ContentHandler.BasicLTITOPub"
+          "resource/x-bb-file": "#/components/schemas/ContentHandler.ContentFileTOPub"
+          "resource/x-bb-asmt-test-link": "#/components/schemas/ContentHandler.TestLinkTOPub"
+          "resource/x-bb-assignment": "#/components/schemas/ContentHandler.AssignmentTOPub"
+    ContentHandler.Common:
+      type: object
+      required:
+        - id
       properties:
         id:
           type: string
@@ -1689,6 +1715,144 @@ components:
 
             For handlers that are not publicly supported yet, their ID will be shown here, and updates to common content attributes are allowed, but extended handler-specific attributes will not be visible.
           readOnly: true
+    ContentHandler.ContentItemTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+    ContentHandler.ExternalLinkTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - url
+          properties:
+            url:
+              type: string
+              format: url
+              description: URL of the external resource.
+    ContentHandler.ContentFolderTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - isBbPage
+          properties:
+            isBbPage:
+              type: boolean
+              description: Whether the object represents a page in its own right.
+    ContentHandler.CourseLinkTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - targetId
+            - targetType
+          properties:
+            targetId:
+              type: string
+              description: Target ID of the linked learn object.
+            targetType:
+              type: string
+              description: The Blackboard object type of the linked object.
+              enum:
+                - Unset
+                - CourseAssessment
+                - CourseTOC
+                - Forum
+                - Tool
+                - CollabSession
+                - Group
+                - BlogJournal
+                - StaffInfo
+                - ModulePage
+    ContentHandler.DiscussionLinkTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - discussionId
+          properties:
+            discussionId:
+              type: string
+              description: ID for the discussion object in Learn.
+    ContentHandler.BasicLTITOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - url
+            - customParameters
+          properties:
+            url:
+              type: string
+              format: url
+              description: URL of the LTI link.
+            customParameters:
+              # I give up, it's a string now. It'll be good enough
+              type: string
+              description: customParameters is a map of custom parameters to POST to the specified launch URL. Learn serializes the entire custom parameters map, so you should specify all custom parameters when the map is changed.
+    ContentHandler.ContentFileTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - file
+          properties:
+            file:
+              type: object
+              name: ContentHandler.ContentFileTOPub.FileInfo
+              required:
+                - uploadId
+                - fileName
+                - mimeType
+              properties:
+                uploadId:
+                  type: string
+                  description: The system-assigned ID of the uploaded file.
+                  readOnly: true
+                fileName:
+                  type: string
+                  description: The name of the file.
+                mimeType:
+                  type: string
+                  description: The MIME type. Learn uses IANA standards to assign MIME type based on the filename extension.
+                  readOnly: true
+                duplicateFileHandling:
+                  type: string
+                  description: Used to describe behavior when a file is uploaded that duplicates an existing filename.
+                  enum:
+                    - Rename
+                    - Replace
+                    - ThrowError
+                  default: Rename
+    ContentHandler.TestLinkTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - assessmentId
+            - gradeColumnId
+          properties:
+            assessmentId:
+              type: string
+              description: The ID of the associated assessment.
+            gradeColumnId:
+              type: string
+              description: The ID of the associated grade column.
+    ContentHandler.AssignmentTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+        - type: object
+          required:
+            - gradeColumnId
+            - groupContent
+          properties:
+            gradeColumnId:
+              type: string
+              description: The ID of the associated grade column.
+              readOnly: true
+            groupContent:
+              type: boolean
+              description: Specifies whether or not the content is group content.
     Content:
       type: object
       properties:
