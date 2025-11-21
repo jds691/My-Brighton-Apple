@@ -227,16 +227,25 @@ extension BbCache: LearnKitAPI {
     }
 
     // MARK: Content
-    public func getAllContent(in course: Course.ID) async throws -> [Content] {
-        return []
+    public func getAllRootContent(in course: Course.ID) async throws -> [Content] {
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nil && $0.course?.id == course })).compactMap({ Content(from: $0) })
     }
 
     public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
-        return []
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == identifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
     }
 
     public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
-        return nil
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first, let content = Content(from: firstContent) {
+            return content
+        } else {
+            return nil
+        }
     }
 
     func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> CachedContent? {

@@ -91,6 +91,26 @@ public struct Content: Hashable, Identifiable, Sendable {
         self.subType = contentSchema.subtype
     }
 
+    init?(from cachedContent: CachedContent) {
+        self.id = cachedContent.id
+        self.parentId = cachedContent.parent?.id
+        self.title = cachedContent.title
+        self.body = cachedContent.body
+        self.description = cachedContent._description
+        self.creationDate = cachedContent.creationDate
+        self.lastModified = cachedContent.lastModified
+        self.positionIndex = cachedContent.positionIndex
+        self.hasChildren = !cachedContent.children.isEmpty
+        self.hasGradebookColumns = cachedContent.hasGradebookColumns
+        self.hasAssociatedGroups = cachedContent.hasAssociatedGroups
+        self.shouldLaunchInNewWindow = cachedContent.shouldLaunchInNewWindow
+        self.isReviewable = cachedContent.isReviewable
+        self.availability = Availability(from: cachedContent.availability)
+        self.handler = Handler(from: cachedContent.handler)
+        self.links = cachedContent.links.map { Link(from: $0) }
+        self.subType = cachedContent.subType
+    }
+
     public enum Handler: Hashable, Sendable {
         case contentItem
         case externalLink(_ url: URL)
@@ -133,6 +153,31 @@ public struct Content: Hashable, Identifiable, Sendable {
             }
         }
 
+        init(from cachedContentHandler: CachedContent.Handler) {
+            switch cachedContentHandler {
+                case .contentItem:
+                    self = .contentItem
+                case .externalLink(let url):
+                    self = .externalLink(url)
+                case .contentFolder(let isBbPage):
+                    self = .contentFolder(isBbPage: isBbPage)
+                case .courseLink(let target):
+                    self = .courseLink(target: target)
+                case .discussionLink(let target):
+                    self = .discussionLink(target: target)
+                case .ltiLink(let url, let parameters):
+                    self = .ltiLink(url, parameters: parameters)
+                case .contentFile(let uploadId, let fileName, let mimeType, let duplicateFileHandling):
+                    self = .contentFile(uploadId: uploadId, fileName: fileName, mimeType: mimeType, duplicateFileHandling: duplicateFileHandling == nil ? nil : ContentFileDuplicateFileHandelingType(from: duplicateFileHandling!))
+                case .testLink(let target, let gradeColumn):
+                    self = .testLink(target: target, gradeColumn: gradeColumn)
+                case .assignment(let gradeColumn, let isGroup):
+                    self = .assignment(gradeColumn: gradeColumn, isGroup: isGroup)
+                case .ltiPlacement:
+                    self = .ltiPlacement
+            }
+        }
+
         public enum ContentFileDuplicateFileHandelingType: String, RawRepresentable, Hashable, Sendable {
             case rename = "Rename"
             case replace = "Replace"
@@ -146,6 +191,17 @@ public struct Content: Hashable, Identifiable, Sendable {
                         self = .throwError
                     default:
                         self = .rename
+                }
+            }
+
+            init(from cachedContentHandlerFileDuplicateHandelingTypeModel: CachedContent.Handler.ContentFileDuplicateFileHandelingType) {
+                switch cachedContentHandlerFileDuplicateHandelingTypeModel {
+                    case .rename:
+                        self = .rename
+                    case .replace:
+                        self = .replace
+                    case .throwError:
+                        self = .throwError
                 }
             }
         }
@@ -189,6 +245,13 @@ public struct Content: Hashable, Identifiable, Sendable {
             self.adaptiveReleaseSettings = adaptiveReleaseSettingsModel
         }
 
+        init(from cachedContentAvailability: CachedContent.Availability) {
+            self.status = Availability.Status(from: cachedContentAvailability.status)
+            self.allowsGuests = cachedContentAvailability.allowsGuests
+            self.allowsObservers = cachedContentAvailability.allowsObservers
+            self.adaptiveReleaseSettings = Availability.AdaptiveReleaseSettings(from: cachedContentAvailability.adaptiveReleaseSettings)
+        }
+
         public enum Status: String, RawRepresentable, Hashable, Sendable {
             case yes = "Yes"
             case no = "No"
@@ -204,6 +267,17 @@ public struct Content: Hashable, Identifiable, Sendable {
                         self = .partial
                 }
             }
+
+            init(from cachedContentAvailabilityStatus: CachedContent.Availability.Status) {
+                switch cachedContentAvailabilityStatus {
+                    case .yes:
+                        self = .yes
+                    case .no:
+                        self = .no
+                    case .partial:
+                        self = .partial
+                }
+            }
         }
 
         public struct AdaptiveReleaseSettings: Hashable, Sendable {
@@ -213,6 +287,11 @@ public struct Content: Hashable, Identifiable, Sendable {
             init?(from availabilityAdaptiveReleaseSettingsSchema: Components.Schemas.Content.AvailabilityPayload.AdaptiveReleasePayload) {
                 self.availabilityStart = availabilityAdaptiveReleaseSettingsSchema.start
                 self.availabilityEnd = availabilityAdaptiveReleaseSettingsSchema.end
+            }
+
+            init(from cachedContentAvailabilityAdaptiveSettings: CachedContent.Availability.AdaptiveReleaseSettings) {
+                self.availabilityStart = cachedContentAvailabilityAdaptiveSettings.availabilityStart
+                self.availabilityEnd = cachedContentAvailabilityAdaptiveSettings.availabilityEnd
             }
         }
     }
@@ -242,6 +321,13 @@ public struct Content: Hashable, Identifiable, Sendable {
             self.rel = rel
             self.title = title
             self.type = type
+        }
+
+        init(from cachedContentLink: CachedContent.Link) {
+            self.href = cachedContentLink.href
+            self.rel = cachedContentLink.rel
+            self.title = cachedContentLink.title
+            self.type = cachedContentLink.type
         }
     }
 }

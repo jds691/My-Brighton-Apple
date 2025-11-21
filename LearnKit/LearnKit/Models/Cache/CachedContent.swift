@@ -122,8 +122,8 @@ class CachedContent {
             case replace = "Replace"
             case throwError = "ThrowError"
 
-            init(from courseHandlerFileDuplicateHandelingTypeModel: Content.Handler.ContentFileDuplicateFileHandelingType) {
-                switch courseHandlerFileDuplicateHandelingTypeModel {
+            init(from contentHandlerFileDuplicateHandelingTypeModel: Content.Handler.ContentFileDuplicateFileHandelingType) {
+                switch contentHandlerFileDuplicateHandelingTypeModel {
                     case .rename:
                         self = .rename
                     case .replace:

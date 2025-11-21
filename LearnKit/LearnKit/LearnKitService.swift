@@ -166,8 +166,8 @@ extension LearnKitService: LearnKitAPI {
         return try await cache.getContent(for: identifier, in: course)
     }
 
-    func getAllContent(in course: Course.ID) async throws -> [Content] {
-        return try await cache.getAllContent(in: course)
+    func getAllRootContent(in course: Course.ID) async throws -> [Content] {
+        return try await cache.getAllRootContent(in: course)
     }
 
     // MARK: Terms
