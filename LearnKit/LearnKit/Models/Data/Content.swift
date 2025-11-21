@@ -331,3 +331,9 @@ public struct Content: Hashable, Identifiable, Sendable {
         }
     }
 }
+
+extension Content: Comparable {
+    public static func < (lhs: Content, rhs: Content) -> Bool {
+        return lhs.positionIndex < rhs.positionIndex
+    }
+}
