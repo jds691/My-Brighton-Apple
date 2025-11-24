@@ -21,6 +21,7 @@ struct CourseView: View {
     private var courseId: Course.ID
 
     @State private var course: Course? = nil
+    @State private var contents: [Content] = []
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -252,6 +253,7 @@ struct CourseView: View {
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
+                    contents = try await learnKit.getAllRootContent(in: courseId)
 
                     print("Loaded course")
                 } catch {
@@ -326,95 +328,15 @@ struct CourseView: View {
     private var content: some View {
         Section {
             LazyVStack(alignment: .leading) {
-                let linkAttributedString: AttributedString = {
-                    var string = AttributedString("Dog (Wikipedia)")
-                    string.link = URL(string: "https://en.wikipedia.org/wiki/Dog")!
-
-                    return string
-                }()
-                
-                NavigationLink {
-                    BbMLContentViewer(
-                        BbMLContent(
-                            header: .init(),
-                            chunks: [
-                                .text("Hello?"),
-                                .text("I'm attempting to render some maths now:"),
-                                .math(.mathMl(
-                    """
-                    <mrow>
-                    <mi>x</mi>
-                    <mo>=</mo>
-                    <mfrac>
-                    <mrow>
-                    <mrow>
-                    <mo>−</mo>
-                    <mi>b</mi>
-                    </mrow>
-                    <mo>±</mo>
-                    <msqrt>
-                    <mrow>
-                    <msup>
-                    <mi>b</mi>
-                    <mn>2</mn>
-                    </msup>
-                    <mo>−</mo>
-                    <mrow>
-                    <mn>4</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    <mo>⁢</mo>
-                    <mi>c</mi>
-                    </mrow>
-                    </mrow>
-                    </msqrt>
-                    </mrow>
-                    <mrow>
-                    <mn>2</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    </mrow>
-                    </mfrac>
-                    </mrow>
-                    """)),
-                                //.text("Here is now Peter Griffen from hit show Family Guy:"),
-                                //.image(url: URL(string: "https://upload.wikimedia.org/wikipedia/en/c/c2/Peter_Griffin.png")!, altDescription: "Peter Griffen", decorative: false),
-                                    .text("Here is now a dog in the water:"),
-                                .image(url: URL(string: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Retriever_in_water.jpg")!, altDescription: "Retriever in water", renderMode: .inline),
-                                .text("This is the Wikipedia link:"),
-                                .text(linkAttributedString)
-                            ]
-                        ), title: "Debug Preview"
-                    )
-                } label: {
-                    ModuleContentCard(title: "BbMLContentView", description: "Debugging document", action: {})
+                if contents.isEmpty {
+                    ContentUnavailableView("No Content", image: "list.bullet")
                 }
-                .buttonStyle(.plain)
-
-                NavigationLink {
-                    BbMLContentViewer(.exampleDocument, title: "Example Document")
-                } label: {
-                    ModuleContentCard(title: "Example Document", description: "Parser example document from Anthology", action: {})
-                }
-                .buttonStyle(.plain)
             }
         } header: {
             Text("Content")
                 .font(.title3.bold())
         }
     }
-
-    /*private var optionsMenu: some View {
-        Menu {
-            optionsMenuContent
-        } label: {
-            if #available(iOS 26, macOS 26, *) {
-                Label("More Options", systemImage: "ellipsis")
-            } else {
-                Label("More Options", systemImage: "ellipsis.circle")
-            }
-        }
-    }*/
 
     private var addContentMenu: some View {
         Menu {

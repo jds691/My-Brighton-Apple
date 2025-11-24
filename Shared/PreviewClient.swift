@@ -190,7 +190,48 @@ struct PreviewClient: APIProtocol {
     ]
 
     let courseContents: Dictionary<String, [Components.Schemas.Content]> = [
-        "_0_1": [],
+        "_0_1": [
+            .init(
+                id: "0_0",
+                parentId: nil,
+                title: "Example Document",
+                body: nil,
+                description: "Example debugging document from Anthology",
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: true))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+            .init(
+                id: "0_1",
+                parentId: "0_0",
+                title: "ultraDocumentBody",
+                body: "",
+                description: "Example debugging document from Anthology",
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbDocument(.init(value1: .init(id: "resource/x-bb-document"))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+        ],
 
         "_130430_1": [],
         "_130438_1": [],
