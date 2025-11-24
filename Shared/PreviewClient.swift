@@ -7,9 +7,40 @@
 
 import Foundation
 import LearnKit
+internal import OpenAPIRuntime
 
 struct PreviewClient: APIProtocol {
     let courses: [Components.Schemas.Course] = [
+        // Debug
+        .init(
+            id: "_0_1",
+            uuid: nil,
+            externalId: nil,
+            dataSourceId: nil,
+            courseId: "MB_DEBUG",
+            name: "Debugging Course",
+            description: nil,
+            created: .now,
+            modified: .now,
+            organization: false,
+            ultraStatus: .ultra,
+            allowGuests: nil,
+            allowObservers: nil,
+            closedComplete: false,
+            termId: "_0_1",
+            availability:
+                    .init(
+                        available: .term,
+                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                    ),
+            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
+            locale: .init(id: nil, force: false),
+            hasChildren: nil,
+            parentId: nil,
+            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra",
+            guestAccessUrl: nil,
+            copyHistory: nil
+        ),
         // Final Year
         .init(
             id: "_130430_1",
@@ -133,6 +164,14 @@ struct PreviewClient: APIProtocol {
 
     let terms: [Components.Schemas.Term] = [
         .init(
+            id: "_0_1",
+            externalId: nil,
+            dataSourceId: nil,
+            name: "DEBUG",
+            description: nil,
+            availability: .init(available: .yes, duration: .init(_type: .dateRange, start: .now, end: .now, daysOfUse: nil))
+        ),
+        .init(
             id: "_290_1",
             externalId: nil,
             dataSourceId: nil,
@@ -151,6 +190,8 @@ struct PreviewClient: APIProtocol {
     ]
 
     let courseContents: Dictionary<String, [Components.Schemas.Content]> = [
+        "_0_1": [],
+
         "_130430_1": [],
         "_130438_1": [],
         "_130441_1": [],
@@ -187,7 +228,37 @@ struct PreviewClient: APIProtocol {
             return .forbidden(.init(body: .json(.init(status: "Idk", code: nil, message: "User not enrolled in course", developerMessage: nil, extraInfo: nil))))
         }
 
-        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]))))
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]?.filter({ $0.parentId == nil })))))
+    }
+
+    func getV1CoursesCourseIdContentsContentId(_ input: LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Output {
+        if !courseContents.keys.contains(input.path.courseId) {
+            return .undocumented(statusCode: 404, .init())
+        }
+
+        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == input.path.contentId }) ?? true) {
+            return .undocumented(statusCode: 404, .init())
+        }
+
+        return .ok(.init(body: .json(courseContents[input.path.courseId]!.first(where: { $0.id == input.path.contentId })!)))
+    }
+
+    func getV1CoursesCourseIdContentsContentIdChildren(_ input: LearnKit.Operations.GetV1CoursesCourseIdContentsContentIdChildren.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContentsContentIdChildren.Output {
+        if !courseContents.keys.contains(input.path.courseId) {
+            return .undocumented(statusCode: 404, .init())
+        }
+
+        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == input.path.contentId }) ?? true) {
+            return .undocumented(statusCode: 404, .init())
+        }
+
+        let content = courseContents[input.path.courseId]!.first(where: { $0.id == input.path.contentId })!
+
+        if !(content.hasChildren ?? true) {
+            return .ok(.init(body: .json(.init(results: []))))
+        }
+
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]!.filter({ $0.parentId == input.path.contentId })))))
     }
 
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {

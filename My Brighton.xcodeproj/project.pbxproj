@@ -24,7 +24,6 @@
 		6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
 		686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
-		6899FD622EAD8F4D0054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD612EAD8F4D0054B1DA /* SwiftBbML */; };
 		6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD662EAD8FB70054B1DA /* SwiftBbML */; };
 		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
@@ -573,7 +572,6 @@
 				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
 				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
 				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
-				6899FD622EAD8F4D0054B1DA /* SwiftBbML in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,7 +814,6 @@
 				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
 				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
 				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
-				6899FD612EAD8F4D0054B1DA /* SwiftBbML */,
 			);
 			productName = LearnKit;
 			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
@@ -2514,10 +2511,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
 			productName = "plugin:OpenAPIGenerator";
-		};
-		6899FD612EAD8F4D0054B1DA /* SwiftBbML */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftBbML;
 		};
 		6899FD662EAD8FB70054B1DA /* SwiftBbML */ = {
 			isa = XCSwiftPackageProductDependency;
