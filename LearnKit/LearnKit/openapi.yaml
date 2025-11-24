@@ -922,6 +922,209 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RestException"
+  "/v1/courses/{courseId}/contents/{contentId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+    get:
+      deprecated: false
+      tags:
+        - content
+      summary: Get Content
+      description: >
+        Load a specific content item from a course.
+
+        Users with at least one of the following entitlements may access any content item:
+
+        - course.adaptiverelease.CREATE
+        - course.adaptiverelease.DELETE
+        - course.adaptiverelease.MODIFY
+        - course.adaptiverelease.VIEW
+        - course.configure-areas.EXECUTE
+        - course.content-item.copy.EXECUTE
+        - course.content.DELETE
+        - course.content.MODIFY
+        - course.learningstandards.alignment.CREATE
+        - course.performance.dashboard.VIEW
+
+
+        For other users, permission to view the content item will depend on the availability settings of the course and the content item.  The following fields will be filtered out:
+
+        - availability.available
+        - availability.allowGuests
+        - availability.adaptiveRelease
+
+        Include includeInActivityTracking to define if the content should be included in the activity tracking. By default, this value is true so the content will be included in the activity tracking.
+
+        **Since**: 3000.1.0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+  "/v1/courses/{courseId}/contents/{contentId}/children":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/contentId"
+    get:
+      deprecated: false
+      tags:
+        - content
+      summary: Get Content Children
+      description: >
+        List all child content items directly beneath another content item.  This is only valid for content items that are allowed to have children (e.g. Folders).
+
+        Users with at least one of the following entitlements may access all child contents from a content item:
+
+        - course.adaptiverelease.CREATE
+        - course.adaptiverelease.DELETE
+        - course.adaptiverelease.MODIFY
+        - course.adaptiverelease.VIEW
+        - course.configure-areas.EXECUTE
+        - course.content-item.copy.EXECUTE
+        - course.content.DELETE
+        - course.content.MODIFY
+        - course.learningstandards.alignment.CREATE
+        - course.performance.dashboard.VIEW
+        In any of the following cases, the user may also get the child contents from a content item.
+
+        - The user has a role in the course other than guest or observer, and doesn't have any of the previously mentioned entitlements.
+        - The user has the role of observer, and both the course and the underlying content allow observer access.
+        - The user accesses the course as guest, both the course and the underlying content allow guest access, further, the course content menu allows guest access as well for the original courses.
+
+
+        For other users, permission to view the content item will depend on the availability settings of the course and  the content item. The following fields will be filtered out:
+
+        - availability.available
+        - availability.allowGuests
+        - availability.adaptiveRelease
+        Include includeInActivityTracking to define if the content should be included in the activity tracking.  By default, this value is true so the content will be included in the activity tracking.
+
+        Usage of userMessageState field into expand, is only legal with a limit up to 10 items, a protection was set so that users can request the field  setting a limit &lt;= 10. In all the other cases, status BAD_REQUEST (400) will be returns to the client.
+
+        **Since**: 3000.1.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: recursive
+          in: query
+          description: >
+            Search for child content recursively.  A value of 'true' indicates that search results should include all content descendants within the hierarchy of the specified parent.  A value of 'false' indicates results should be limited to immediate children only.  Not setting this field defaults to 'false' behavior; only including immediate children.
+
+            **Since**: 3100.2.0
+          required: false
+          schema:
+            type: boolean
+        - name: title
+          in: query
+          description: >
+            Search for content title. Will return all Content items whose title contains the supplied search value.
+
+            **Since**: 3900.10.0
+          required: false
+          schema:
+            type: string
+          # TODO: See if there is a way to make this an enum
+        - name: contentHandler
+          in: query
+          description: >
+            Search for the specific content handler.  Not setting this field will return all content handlers.
+
+            **Since**: 3400.5.0
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for contents with a created date relative to this value.  'createdCompare' may also be sent to control search behavior.
+
+            **Since**: 3700.1.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter.  Supported values:
+
+            - lessThan
+            - greaterOrEqual
+
+            Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3700.1.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: modified
+          in: query
+          description: >
+            Search for contents with a modified date relative to this value.  'modifiedCompare' may also be sent to control search behavior.
+
+            **Since**: 3700.4.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter.  Supported values:
+
+            - lessThan
+            - greaterOrEqual
+
+            Defaults to greaterOrEqual if not specified.
+
+            **Since**: 3700.4.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+        - name: reviewable
+          in: query
+          description: >
+            Search contents by whether they are reviewable or not.
+
+            **Since**: 3700.15.0
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Content"
 
   # Courses
   "/v3/courses":

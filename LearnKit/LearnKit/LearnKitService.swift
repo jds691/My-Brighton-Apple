@@ -124,7 +124,52 @@ extension LearnKitService: LearnKitAPI {
     ///   - courseIdentifier: Course that the content belongs to.
     /// - Returns: List of modified content items.
     public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true, in courseIdentifier: Course.ID) async throws -> [Content] {
-        []
+        let clientContentOutput = try await client.getV1CoursesCourseIdContentsContentId(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
+
+        let foundContent = try clientContentOutput.ok.body.json
+
+        if !includeChildren {
+            if let content = Content(from: foundContent) {
+                Task {
+                    await cache.indexContent([content], for: courseIdentifier)
+                }
+
+                return [content]
+            } else {
+                return []
+            }
+        }
+
+        if let hasChildren = foundContent.hasChildren, !hasChildren {
+            if let content = Content(from: foundContent) {
+                Task {
+                    await cache.indexContent([content], for: courseIdentifier)
+                }
+
+                return [content]
+            } else {
+                return []
+            }
+        }
+
+        let clientChildrenOutput = try await client.getV1CoursesCourseIdContentsContentIdChildren(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
+
+        guard let foundChildren = try clientChildrenOutput.ok.body.json.results else {
+            throw LearnKitError.unknown(statusCode: nil)
+        }
+
+        let finalResults: [Content]
+        if let content = Content(from: foundContent) {
+            finalResults = [content] + foundChildren.compactMap { Content(from: $0) }
+        } else {
+            finalResults = foundChildren.compactMap { Content(from: $0) }
+        }
+
+        Task {
+            await cache.indexContent(finalResults, for: courseIdentifier)
+        }
+
+        return finalResults
     }
     
     /// Refreshes the local cache version of the root content of the course for the given identifier.
