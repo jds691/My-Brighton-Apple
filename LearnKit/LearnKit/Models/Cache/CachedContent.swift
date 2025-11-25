@@ -59,8 +59,6 @@ class CachedContent {
 
     func copyValues(from contentModel: Content) {
         self.id = contentModel.id
-        // Explicitly set by BbCache
-        self.parent = nil
         self.title = contentModel.title
         self.body = contentModel.body
         self._description = contentModel.description

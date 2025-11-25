@@ -144,6 +144,11 @@ actor BbCache {
 
                 if let existingCachedContent = cachedContent {
                     existingCachedContent.copyValues(from: item)
+                    existingCachedContent.course = cachedCourse
+
+                    if let existingParentContent = parentContent {
+                        existingCachedContent.parent = existingParentContent
+                    }
                 } else {
                     let newCachedContent = CachedContent(from: item)
                     newCachedContent.course = cachedCourse

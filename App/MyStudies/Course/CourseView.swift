@@ -54,6 +54,7 @@ struct CourseView: View {
             .flexibleHeaderScrollView()
             .ignoresSafeArea(edges: [.top])
             .focusedSceneValue(\.courseId, self.courseId)
+            .environment(\.courseId, self.courseId)
             .myBrightonBackground()
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -244,8 +245,12 @@ struct CourseView: View {
 #endif
             .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
                 switch route {
+                    case .content(let contentId):
+                        BbMLContentViewer(contentId: contentId)
+                            .environment(\.courseId, self.courseId)
                     case .grades:
                         ModuleGradesView()
+                            .environment(\.courseId, self.courseId)
                     default:
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
                 }
@@ -253,6 +258,7 @@ struct CourseView: View {
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
+                    let _ = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId)
 
                     print("Loaded course")
                 } catch {
@@ -366,7 +372,6 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     TabView {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {
-                // Final Year Computing Project
                 CourseView(id: "_0_1")
             }
         }

@@ -9,14 +9,21 @@
 import SwiftBbML
 import SwiftUI
 import Router
+import LearnKit
 
 struct BbMLContentViewer: View {
+    @Environment(Router.self) private var router
+    @Environment(\.learnKitService) private var learnKit
+    @Environment(\.courseId) private var courseId
     @Environment(\.locale) private var currentLocale
 
-    private let title: LocalizedStringResource
-    private let bbML: BbMLContent
+    @State private var contentId: Content.ID
 
-    @State private var displayBbML: BbMLContent
+    @State private var title: String = ""
+    @State private var bbML: BbMLContent = BbMLContent(header: nil, chunks: [])
+    @State private var displayBbML: BbMLContent = BbMLContent(header: nil, chunks: [])
+
+    @State private var isLoading: Bool = true
 
     @State private var showTranslationErrorAlert: Bool = false
     @State private var lastTranslationError: String? = nil
@@ -24,11 +31,11 @@ struct BbMLContentViewer: View {
     //@AppStorage("MyStudies.Translation.targetLanguage")
     @State private var targetLanguage: Locale.Language = .contentLanguage
 
-    public init(_ bbML: BbMLContent, title: LocalizedStringResource) {
-        self.bbML = bbML
-        self.title = title
+    @State private var showLoadFailedMessage: Bool = false
+    @State private var loadFailedMessage: String = ""
 
-        self._displayBbML = State(initialValue: self.bbML)
+    public init(contentId: Content.ID) {
+        self.contentId = contentId
     }
 
     var body: some View {
@@ -47,6 +54,27 @@ struct BbMLContentViewer: View {
             // TODO: Add button that clears error message and resets translation
         } message: {
             Text(lastTranslationError ?? "")
+        }
+        .alert("Unable to load content", isPresented: $showLoadFailedMessage) {
+            // TODO: Add button that clears error message and resets translation
+            Button("Retry") {
+                showLoadFailedMessage = false
+                loadFailedMessage = ""
+
+                Task {
+                    try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
+                    await loadView()
+                }
+            }
+
+            Button("Cancel") {
+                showLoadFailedMessage = false
+                loadFailedMessage = ""
+
+                router.path.removeLast()
+            }
+        } message: {
+            Text(loadFailedMessage)
         }
         .myBrightonBackground()
         .navigationTitle(title)
@@ -133,6 +161,9 @@ struct BbMLContentViewer: View {
             }
         }
         .task {
+            await loadView()
+        }
+        .task {
             let availability = LanguageAvailability()
             let allLanguages = await availability.supportedLanguages
 
@@ -146,6 +177,66 @@ struct BbMLContentViewer: View {
         }
         .translationTask(source: .contentLanguage, target: targetLanguage) { session in
             await translateContent(using: session)
+        }
+    }
+
+    private func loadView() async {
+        do {
+            guard let content = try await learnKit.getContent(for: contentId, in: courseId) else {
+                loadFailedMessage = "No content for the specified ID could be found."
+                showLoadFailedMessage = true
+                return
+            }
+
+            switch content.handler {
+                case .contentItem:
+                    guard let contentBody = content.body else {
+                        loadFailedMessage = "The content is empty."
+                        showLoadFailedMessage = true
+
+                        return
+                    }
+
+                    if title.isEmpty {
+                        title = content.title
+                    }
+
+                    bbML = try BbMLParser.default.parse(contentBody)
+                    displayBbML = bbML
+
+                    isLoading = false
+
+                    break
+                case .contentFolder(isBbPage: let isBbPage):
+                    guard isBbPage else {
+                        loadFailedMessage = "The content is not a BbML document."
+                        showLoadFailedMessage = true
+
+                        return
+                    }
+
+                    title = content.title
+
+                    if let childId = try await learnKit.getChildContent(for: contentId, in: courseId).first?.id {
+                        contentId = childId
+                        await loadView()
+                    } else {
+                        let updatedContent = try await learnKit.refreshContent(for: contentId, in: courseId)
+                        if updatedContent.isEmpty {
+                            loadFailedMessage = "The content is empty."
+                            showLoadFailedMessage = true
+                            return
+                        } else {
+                            await loadView()
+                        }
+                    }
+
+                    break
+                default:
+                    break
+            }
+        } catch {
+
         }
     }
 
@@ -245,8 +336,9 @@ extension Locale.Language {
     }
 }
 
-#Preview {
+#Preview(traits: .environmentObjects, .learnKit) {
     NavigationStack {
-        BbMLContentViewer(.examplePost, title: "Preview")
+        BbMLContentViewer(contentId: "0_0")
+            .environment(\.courseId, "_0_1")
     }
 }
