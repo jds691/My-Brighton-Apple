@@ -101,10 +101,7 @@ extension LearnKitService: LearnKitAPI {
         guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
         let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
 
-        Task {
-            await cache.indexCourses(modelCourses)
-        }
-
+        await cache.indexCourses(modelCourses)
         return modelCourses
     }
 
@@ -131,10 +128,7 @@ extension LearnKitService: LearnKitAPI {
 
         if !includeChildren {
             if let content = Content(from: foundContent) {
-                Task {
-                    await cache.indexContent([content], for: courseIdentifier)
-                }
-
+                await cache.indexContent([content], for: courseIdentifier)
                 return [content]
             } else {
                 return []
@@ -143,10 +137,7 @@ extension LearnKitService: LearnKitAPI {
 
         if let hasChildren = foundContent.hasChildren, !hasChildren {
             if let content = Content(from: foundContent) {
-                Task {
-                    await cache.indexContent([content], for: courseIdentifier)
-                }
-
+                await cache.indexContent([content], for: courseIdentifier)
                 return [content]
             } else {
                 return []
@@ -166,10 +157,7 @@ extension LearnKitService: LearnKitAPI {
             finalResults = foundChildren.compactMap { Content(from: $0) }
         }
 
-        Task {
-            await cache.indexContent(finalResults, for: courseIdentifier)
-        }
-
+        await cache.indexContent(finalResults, for: courseIdentifier)
         return finalResults
     }
     
@@ -198,10 +186,7 @@ extension LearnKitService: LearnKitAPI {
 
         let modelContent = remoteContent.compactMap({ Content(from: $0) })
 
-        Task {
-            await cache.indexContent(modelContent, for: courseIdentifier)
-        }
-
+        await cache.indexContent(modelContent, for: courseIdentifier)
         return modelContent
     }
 
@@ -250,10 +235,7 @@ extension LearnKitService: LearnKitAPI {
 
         let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
 
-        Task {
-            await cache.indexTerms(modelTerms)
-        }
-
+        await cache.indexTerms(modelTerms)
         return modelTerms
     }
 

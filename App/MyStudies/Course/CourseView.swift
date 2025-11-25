@@ -246,8 +246,14 @@ struct CourseView: View {
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
-                    let _ = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId)
-                    rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
+
+                    do {
+                        rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
+                    } catch {
+                        rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
+                    }
+
+                    assert(rootContent != nil)
 
                     print("Loaded course")
                 } catch {
@@ -325,7 +331,7 @@ struct CourseView: View {
     private var content: some View {
         Section {
             if let rootContent {
-                ContentChildrenListView(for: "ROOT", in: courseId)
+                ContentChildrenListView(for: rootContent.id, in: courseId)
             } else {
                 HStack {
                     Spacer()
