@@ -253,7 +253,6 @@ struct CourseView: View {
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
-                    contents = try await learnKit.getAllRootContent(in: courseId)
 
                     print("Loaded course")
                 } catch {
@@ -262,11 +261,14 @@ struct CourseView: View {
             }
             .refreshable {
                 do {
-                    let updatedCourses = try await learnKit.refreshCourses()
+                    async let updatedRootContent = try learnKit.refreshContent(for: "ROOT", in: courseId)
+                    async let updatedCourses = try learnKit.refreshCourses()
 
-                    if let updatedPresentedCourse = updatedCourses.first(where: { $0.id == courseId }) {
+                    if let updatedPresentedCourse = try await updatedCourses.first(where: { $0.id == courseId }) {
                         course = updatedPresentedCourse
                     }
+
+                    try await updatedRootContent
                 } catch {
                     print(error)
                 }
@@ -327,11 +329,7 @@ struct CourseView: View {
     @ViewBuilder
     private var content: some View {
         Section {
-            LazyVStack(alignment: .leading) {
-                if contents.isEmpty {
-                    ContentUnavailableView("No Content", image: "list.bullet")
-                }
-            }
+            ContentChildrenListView(for: "ROOT", in: courseId)
         } header: {
             Text("Content")
                 .font(.title3.bold())
@@ -369,7 +367,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {
                 // Final Year Computing Project
-                CourseView(id: "_130430_1")
+                CourseView(id: "_0_1")
             }
         }
     }

@@ -192,8 +192,28 @@ struct PreviewClient: APIProtocol {
     let courseContents: Dictionary<String, [Components.Schemas.Content]> = [
         "_0_1": [
             .init(
-                id: "0_0",
+                id: "0",
                 parentId: nil,
+                title: "ROOT",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+            .init(
+                id: "0_0",
+                parentId: "0",
                 title: "Example Document",
                 body: nil,
                 description: "Example debugging document from Anthology",
@@ -233,11 +253,95 @@ struct PreviewClient: APIProtocol {
             ),
         ],
 
-        "_130430_1": [],
-        "_130438_1": [],
-        "_130441_1": [],
+        "_130430_1": [
+            .init(
+                id: "0",
+                parentId: nil,
+                title: "ROOT",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+        ],
+        "_130438_1": [
+            .init(
+                id: "0",
+                parentId: nil,
+                title: "ROOT",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+        ],
+        "_130441_1": [
+            .init(
+                id: "0",
+                parentId: nil,
+                title: "ROOT",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+        ],
 
-        "_129556_1": []
+        "_129556_1": [
+            .init(
+                id: "0",
+                parentId: nil,
+                title: "ROOT",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 0,
+                hasChildren: true,
+                hasGradebookColumns: nil,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
+        ]
     ]
 
     func getV1TermsTermId(_ input: LearnKit.Operations.GetV1TermsTermId.Input) async throws -> LearnKit.Operations.GetV1TermsTermId.Output {
@@ -269,7 +373,7 @@ struct PreviewClient: APIProtocol {
             return .forbidden(.init(body: .json(.init(status: "Idk", code: nil, message: "User not enrolled in course", developerMessage: nil, extraInfo: nil))))
         }
 
-        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]?.filter({ $0.parentId == nil })))))
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]?.filter({ $0.parentId == "0" })))))
     }
 
     func getV1CoursesCourseIdContentsContentId(_ input: LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Output {
@@ -277,11 +381,20 @@ struct PreviewClient: APIProtocol {
             return .undocumented(statusCode: 404, .init())
         }
 
-        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == input.path.contentId }) ?? true) {
+        // Special cases
+        let identifier: String?
+        if input.path.contentId == "ROOT" {
+            identifier = courseContents[input.path.courseId]!.filter({ $0.parentId == nil }).first!.id
+            //return .ok(.init(body: .json()))
+        } else {
+            identifier = input.path.contentId
+        }
+
+        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == identifier }) ?? false) {
             return .undocumented(statusCode: 404, .init())
         }
 
-        return .ok(.init(body: .json(courseContents[input.path.courseId]!.first(where: { $0.id == input.path.contentId })!)))
+        return .ok(.init(body: .json(courseContents[input.path.courseId]!.first(where: { $0.id == identifier })!)))
     }
 
     func getV1CoursesCourseIdContentsContentIdChildren(_ input: LearnKit.Operations.GetV1CoursesCourseIdContentsContentIdChildren.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContentsContentIdChildren.Output {
@@ -289,17 +402,26 @@ struct PreviewClient: APIProtocol {
             return .undocumented(statusCode: 404, .init())
         }
 
-        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == input.path.contentId }) ?? true) {
+        // Special cases
+        let identifier: String?
+        if input.path.contentId == "ROOT" {
+            identifier = courseContents[input.path.courseId]!.filter({ $0.parentId == nil }).first!.id
+            //return .ok(.init(body: .json()))
+        } else {
+            identifier = input.path.contentId
+        }
+
+        if !(courseContents[input.path.courseId]?.contains(where: { $0.id == identifier }) ?? false) {
             return .undocumented(statusCode: 404, .init())
         }
 
-        let content = courseContents[input.path.courseId]!.first(where: { $0.id == input.path.contentId })!
+        let content = courseContents[input.path.courseId]!.first(where: { $0.id == identifier })!
 
-        if !(content.hasChildren ?? true) {
+        if !(content.hasChildren ?? false) {
             return .ok(.init(body: .json(.init(results: []))))
         }
 
-        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]!.filter({ $0.parentId == input.path.contentId })))))
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]!.filter({ $0.parentId == identifier })))))
     }
 
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {

@@ -15,7 +15,7 @@ public struct Content: Hashable, Identifiable, Sendable {
     public let parentId: String?
     public let title: String
     public let body: String?
-    public let description: String
+    public let description: String?
     public let creationDate: Date
     public let lastModified: Date
     public let positionIndex: Int
@@ -34,7 +34,6 @@ public struct Content: Hashable, Identifiable, Sendable {
             // Content Fields
             let id = contentSchema.id,
             let title = contentSchema.title,
-            let description = contentSchema.description,
             let creationDate = contentSchema.created,
             let lastModified = contentSchema.modified,
             let positionIndex = contentSchema.position,
@@ -61,7 +60,7 @@ public struct Content: Hashable, Identifiable, Sendable {
         self.parentId = contentSchema.parentId
         self.title = title
         self.body = contentSchema.body
-        self.description = description
+        self.description = contentSchema.description
         self.creationDate = creationDate
         self.lastModified = lastModified
         self.positionIndex = Int(positionIndex)

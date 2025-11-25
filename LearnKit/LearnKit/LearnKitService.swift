@@ -123,6 +123,7 @@ extension LearnKitService: LearnKitAPI {
     ///   - includeChildren: Indicates if the children of this content should also be refreshed. Default: true.
     ///   - courseIdentifier: Course that the content belongs to.
     /// - Returns: List of modified content items.
+    @discardableResult
     public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true, in courseIdentifier: Course.ID) async throws -> [Content] {
         let clientContentOutput = try await client.getV1CoursesCourseIdContentsContentId(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
 
@@ -175,6 +176,7 @@ extension LearnKitService: LearnKitAPI {
     /// Refreshes the local cache version of the root content of the course for the given identifier.
     /// - Parameter courseIdentifier: Identifier of the course to refresh.
     /// - Returns: List of modified content items.
+    @discardableResult
     public func refreshContentRoot(in courseIdentifier: Course.ID) async throws -> [Content] {
         // TODO: Keep track of the last time content was fetched and add the modified param to the request
         let clientOutput = try await client.getV1CoursesCourseIdContents(.init(path: .init(courseId: courseIdentifier)))
@@ -212,7 +214,17 @@ extension LearnKitService: LearnKitAPI {
     }
 
     public func getAllRootContent(in course: Course.ID) async throws -> [Content] {
-        return try await cache.getAllRootContent(in: course)
+        do {
+            return try await cache.getAllRootContent(in: course)
+        } catch {
+            if let lkError = error as? LearnKitError, case .rootNodeMissing = lkError {
+                try await refreshContent(for: "ROOT", includeChildren: false, in: course)
+
+                return try await getAllRootContent(in: course)
+            } else {
+                throw error
+            }
+        }
     }
 
     // MARK: Terms

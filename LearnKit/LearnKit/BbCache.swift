@@ -227,15 +227,53 @@ extension BbCache: LearnKitAPI {
     }
 
     // MARK: Content
+    func getSpecialContentNode(for identifier: String, in course: Course.ID) async throws -> Content? {
+        switch identifier {
+            case "ROOT":
+                return try await getRootNode(for: course)
+            default:
+                return nil
+        }
+    }
+
+    func getRootNode(for courseIdentifier: Course.ID) async throws -> Content? {
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent == nil && $0.course?.id == courseIdentifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first, let content = Content(from: firstContent) {
+            return content
+        } else {
+            return nil
+        }
+    }
+
     public func getAllRootContent(in course: Course.ID) async throws -> [Content] {
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nil && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        guard let rootNode = try await getRootNode(for: course) else { throw LearnKitError.rootNodeMissing }
+        // I have no idea why this was needed, but it is
+        let nodeId: String = rootNode.id
+
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course })).compactMap({ Content(from: $0) })
     }
 
     public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == identifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        let parentIdentifier: Content.ID
+
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            parentIdentifier = specialContent.id
+        } else {
+            parentIdentifier = identifier
+        }
+
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
     }
 
     public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            return specialContent
+        }
+
         var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
         descriptor.fetchLimit = 1
 
@@ -249,6 +287,10 @@ extension BbCache: LearnKitAPI {
     }
 
     func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> CachedContent? {
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            return CachedContent(from: specialContent)
+        }
+
         var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
         descriptor.fetchLimit = 1
 

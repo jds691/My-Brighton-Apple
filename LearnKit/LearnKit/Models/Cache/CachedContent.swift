@@ -16,7 +16,7 @@ class CachedContent {
     var parent: CachedContent?
     var title: String
     var body: String?
-    var _description: String
+    var _description: String?
     var creationDate: Date
     var lastModified: Date
     var positionIndex: Int
