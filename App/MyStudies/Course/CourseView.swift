@@ -21,7 +21,7 @@ struct CourseView: View {
     private var courseId: Course.ID
 
     @State private var course: Course? = nil
-    @State private var contents: [Content] = []
+    @State private var rootContent: Content? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -54,7 +54,6 @@ struct CourseView: View {
             .flexibleHeaderScrollView()
             .ignoresSafeArea(edges: [.top])
             .focusedSceneValue(\.courseId, self.courseId)
-            .environment(\.courseId, self.courseId)
             .myBrightonBackground()
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -243,22 +242,12 @@ struct CourseView: View {
             }
             
 #endif
-            .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
-                switch route {
-                    case .content(let contentId):
-                        BbMLContentViewer(contentId: contentId)
-                            .environment(\.courseId, self.courseId)
-                    case .grades:
-                        ModuleGradesView()
-                            .environment(\.courseId, self.courseId)
-                    default:
-                        NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
-                }
-            }
+            .moduleSubrouteNavigationDestination(courseId: self.courseId)
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
                     let _ = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId)
+                    rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
 
                     print("Loaded course")
                 } catch {
@@ -335,7 +324,15 @@ struct CourseView: View {
     @ViewBuilder
     private var content: some View {
         Section {
-            ContentChildrenListView(for: "ROOT", in: courseId)
+            if let rootContent {
+                ContentChildrenListView(for: "ROOT", in: courseId)
+            } else {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+            }
         } header: {
             Text("Content")
                 .font(.title3.bold())

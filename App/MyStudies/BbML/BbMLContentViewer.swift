@@ -14,10 +14,11 @@ import LearnKit
 struct BbMLContentViewer: View {
     @Environment(Router.self) private var router
     @Environment(\.learnKitService) private var learnKit
-    @Environment(\.courseId) private var courseId
     @Environment(\.locale) private var currentLocale
 
-    @State private var contentId: Content.ID
+    private let courseId: Course.ID
+
+    @Binding private var content: Content
 
     @State private var title: String = ""
     @State private var bbML: BbMLContent = BbMLContent(header: nil, chunks: [])
@@ -34,8 +35,9 @@ struct BbMLContentViewer: View {
     @State private var showLoadFailedMessage: Bool = false
     @State private var loadFailedMessage: String = ""
 
-    public init(contentId: Content.ID) {
-        self.contentId = contentId
+    public init(content: Binding<Content>, courseId: Course.ID) {
+        self._content = content
+        self.courseId = courseId
     }
 
     var body: some View {
@@ -62,8 +64,8 @@ struct BbMLContentViewer: View {
                 loadFailedMessage = ""
 
                 Task {
-                    try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
-                    await loadView()
+                    try await learnKit.refreshContent(for: content.id, includeChildren: true, in: courseId)
+                    await loadView(target: content)
                 }
             }
 
@@ -161,7 +163,7 @@ struct BbMLContentViewer: View {
             }
         }
         .task {
-            await loadView()
+            await loadView(target: content)
         }
         .task {
             let availability = LanguageAvailability()
@@ -180,17 +182,11 @@ struct BbMLContentViewer: View {
         }
     }
 
-    private func loadView() async {
+    private func loadView(target: Content) async {
         do {
-            guard let content = try await learnKit.getContent(for: contentId, in: courseId) else {
-                loadFailedMessage = "No content for the specified ID could be found."
-                showLoadFailedMessage = true
-                return
-            }
-
-            switch content.handler {
+            switch target.handler {
                 case .contentItem:
-                    guard let contentBody = content.body else {
+                    guard let contentBody = target.body else {
                         loadFailedMessage = "The content is empty."
                         showLoadFailedMessage = true
 
@@ -215,19 +211,18 @@ struct BbMLContentViewer: View {
                         return
                     }
 
-                    title = content.title
+                    title = target.title
 
-                    if let childId = try await learnKit.getChildContent(for: contentId, in: courseId).first?.id {
-                        contentId = childId
-                        await loadView()
+                    if let childContent = try await learnKit.getChildContent(for: target.id, in: courseId).first {
+                        await loadView(target: childContent)
                     } else {
-                        let updatedContent = try await learnKit.refreshContent(for: contentId, in: courseId)
+                        let updatedContent = try await learnKit.refreshContent(for: target.id, in: courseId)
                         if updatedContent.isEmpty {
                             loadFailedMessage = "The content is empty."
                             showLoadFailedMessage = true
                             return
                         } else {
-                            await loadView()
+                            await loadView(target: content)
                         }
                     }
 
@@ -336,9 +331,9 @@ extension Locale.Language {
     }
 }
 
-#Preview(traits: .environmentObjects, .learnKit) {
+/*#Preview(traits: .environmentObjects, .learnKit) {
     NavigationStack {
         BbMLContentViewer(contentId: "0_0")
             .environment(\.courseId, "_0_1")
     }
-}
+}*/
