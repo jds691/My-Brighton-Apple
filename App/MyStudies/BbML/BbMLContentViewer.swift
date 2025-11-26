@@ -20,7 +20,6 @@ struct BbMLContentViewer: View {
 
     @Binding private var content: Content
 
-    @State private var title: String = ""
     @State private var bbML: BbMLContent = BbMLContent(header: nil, chunks: [])
     @State private var displayBbML: BbMLContent = BbMLContent(header: nil, chunks: [])
 
@@ -58,7 +57,6 @@ struct BbMLContentViewer: View {
             Text(lastTranslationError ?? "")
         }
         .alert("Unable to load content", isPresented: $showLoadFailedMessage) {
-            // TODO: Add button that clears error message and resets translation
             Button("Retry") {
                 showLoadFailedMessage = false
                 loadFailedMessage = ""
@@ -79,12 +77,12 @@ struct BbMLContentViewer: View {
             Text(loadFailedMessage)
         }
         .myBrightonBackground()
-        .navigationTitle(title)
+        .navigationTitle(content.title)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .userActivity(UserActivity.MyStudies.Content.view) {
-            $0.title = "\(title) in {Module name}"
+            $0.title = "\(content.title) in {Module name}"
             // Spotlight
             $0.isEligibleForSearch = true
             // App Intents
@@ -193,10 +191,6 @@ struct BbMLContentViewer: View {
                         return
                     }
 
-                    if title.isEmpty {
-                        title = content.title
-                    }
-
                     bbML = try BbMLParser.default.parse(contentBody)
                     displayBbML = bbML
 
@@ -210,8 +204,6 @@ struct BbMLContentViewer: View {
 
                         return
                     }
-
-                    title = target.title
 
                     if let childContent = try await learnKit.getChildContent(for: target.id, in: courseId).first {
                         await loadView(target: childContent)
@@ -331,9 +323,8 @@ extension Locale.Language {
     }
 }
 
-/*#Preview(traits: .environmentObjects, .learnKit) {
+#Preview(traits: .environmentObjects, .learnKit) {
     NavigationStack {
-        BbMLContentViewer(contentId: "0_0")
-            .environment(\.courseId, "_0_1")
+        ContentWrapperView(for: "0_0", courseId: "_0_1")
     }
-}*/
+}

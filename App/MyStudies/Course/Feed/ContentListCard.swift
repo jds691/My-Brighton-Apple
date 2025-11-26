@@ -49,7 +49,7 @@ struct ContentListCard: View {
                     .resizable()
                     .scaledToFit()
             default:
-                Image(systemName: "doc")
+                Image(systemName: "questionmark.text.page")
                     .resizable()
                     .scaledToFit()
         }

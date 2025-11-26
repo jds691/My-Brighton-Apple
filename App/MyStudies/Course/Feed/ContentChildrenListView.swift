@@ -25,7 +25,7 @@ struct ContentChildrenListView: View {
     var body: some View {
         Group {
             if children.isEmpty {
-                Text("No Children")
+                NoContentView("No Content")
             } else {
                 LazyVStack(alignment: .leading, spacing: 8) {
                     ForEach(children, id: \.id) { child in
@@ -39,13 +39,18 @@ struct ContentChildrenListView: View {
         }
         .task(id: contentId) {
             do {
-                async let modifiedChildren = try learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
-
+                try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
                 children = try await learnKit.getChildContent(for: contentId, in: courseId)
+            } catch {
+                print(error)
+            }
+        }
+        .refreshable {
+            do {
+                let modifiedChildren = try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
+                if modifiedChildren.isEmpty { return }
 
-                if try await modifiedChildren.isEmpty { return }
-
-                try await mergeChildren(with: modifiedChildren)
+                mergeChildren(with: modifiedChildren)
             } catch {
                 print(error)
             }

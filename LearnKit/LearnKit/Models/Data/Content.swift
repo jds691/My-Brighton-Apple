@@ -225,10 +225,7 @@ public struct Content: Hashable, Identifiable, Sendable {
                 let status = availabilitySchema.available,
                 let allowGuests = availabilitySchema.allowGuests,
                 let allowObservers = availabilitySchema.allowObservers,
-                let adaptiveReleaseSettings = availabilitySchema.adaptiveRelease,
-
-                // Required Data Models
-                let adaptiveReleaseSettingsModel = Self.AdaptiveReleaseSettings(from: adaptiveReleaseSettings)
+                let adaptiveReleaseSettings = availabilitySchema.adaptiveRelease
             else {
                 Content.logger.error("availabilitySchema is missing minimum required fields, unable to construct data model.")
 #if DEBUG
@@ -241,7 +238,7 @@ public struct Content: Hashable, Identifiable, Sendable {
             self.status = Status(from: status)
             self.allowsGuests = allowGuests
             self.allowsObservers = allowObservers
-            self.adaptiveReleaseSettings = adaptiveReleaseSettingsModel
+            self.adaptiveReleaseSettings = Self.AdaptiveReleaseSettings(from: adaptiveReleaseSettings)
         }
 
         init(from cachedContentAvailability: CachedContent.Availability) {
@@ -283,7 +280,7 @@ public struct Content: Hashable, Identifiable, Sendable {
             public let availabilityStart: Date?
             public let availabilityEnd: Date?
 
-            init?(from availabilityAdaptiveReleaseSettingsSchema: Components.Schemas.Content.AvailabilityPayload.AdaptiveReleasePayload) {
+            init(from availabilityAdaptiveReleaseSettingsSchema: Components.Schemas.Content.AvailabilityPayload.AdaptiveReleasePayload) {
                 self.availabilityStart = availabilityAdaptiveReleaseSettingsSchema.start
                 self.availabilityEnd = availabilityAdaptiveReleaseSettingsSchema.end
             }

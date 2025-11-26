@@ -126,16 +126,9 @@ extension LearnKitService: LearnKitAPI {
 
         let foundContent = try clientContentOutput.ok.body.json
 
-        if !includeChildren {
-            if let content = Content(from: foundContent) {
-                await cache.indexContent([content], for: courseIdentifier)
-                return [content]
-            } else {
-                return []
-            }
-        }
+        let hasChildren = foundContent.hasChildren ?? true
 
-        if let hasChildren = foundContent.hasChildren, !hasChildren {
+        if !includeChildren || !hasChildren {
             if let content = Content(from: foundContent) {
                 await cache.indexContent([content], for: courseIdentifier)
                 return [content]
