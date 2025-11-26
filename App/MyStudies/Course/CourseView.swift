@@ -21,6 +21,7 @@ struct CourseView: View {
     private var courseId: Course.ID
 
     @State private var course: Course? = nil
+    @State private var rootContent: Content? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -241,17 +242,18 @@ struct CourseView: View {
             }
             
 #endif
-            .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
-                switch route {
-                    case .grades:
-                        ModuleGradesView()
-                    default:
-                        NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
-                }
-            }
+            .moduleSubrouteNavigationDestination(courseId: self.courseId)
             .task {
                 do {
                     course = try await learnKit.getCourse(for: courseId)
+
+                    do {
+                        rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
+                    } catch {
+                        rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
+                    }
+
+                    assert(rootContent != nil)
 
                     print("Loaded course")
                 } catch {
@@ -260,11 +262,14 @@ struct CourseView: View {
             }
             .refreshable {
                 do {
-                    let updatedCourses = try await learnKit.refreshCourses()
+                    async let updatedRootContent = try learnKit.refreshContent(for: "ROOT", in: courseId)
+                    async let updatedCourses = try learnKit.refreshCourses()
 
-                    if let updatedPresentedCourse = updatedCourses.first(where: { $0.id == courseId }) {
+                    if let updatedPresentedCourse = try await updatedCourses.first(where: { $0.id == courseId }) {
                         course = updatedPresentedCourse
                     }
+
+                    try await updatedRootContent
                 } catch {
                     print(error)
                 }
@@ -325,96 +330,20 @@ struct CourseView: View {
     @ViewBuilder
     private var content: some View {
         Section {
-            LazyVStack(alignment: .leading) {
-                let linkAttributedString: AttributedString = {
-                    var string = AttributedString("Dog (Wikipedia)")
-                    string.link = URL(string: "https://en.wikipedia.org/wiki/Dog")!
-
-                    return string
-                }()
-                
-                NavigationLink {
-                    BbMLContentViewer(
-                        BbMLContent(
-                            header: .init(),
-                            chunks: [
-                                .text("Hello?"),
-                                .text("I'm attempting to render some maths now:"),
-                                .math(.mathMl(
-                    """
-                    <mrow>
-                    <mi>x</mi>
-                    <mo>=</mo>
-                    <mfrac>
-                    <mrow>
-                    <mrow>
-                    <mo>−</mo>
-                    <mi>b</mi>
-                    </mrow>
-                    <mo>±</mo>
-                    <msqrt>
-                    <mrow>
-                    <msup>
-                    <mi>b</mi>
-                    <mn>2</mn>
-                    </msup>
-                    <mo>−</mo>
-                    <mrow>
-                    <mn>4</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    <mo>⁢</mo>
-                    <mi>c</mi>
-                    </mrow>
-                    </mrow>
-                    </msqrt>
-                    </mrow>
-                    <mrow>
-                    <mn>2</mn>
-                    <mo>⁢</mo>
-                    <mi>a</mi>
-                    </mrow>
-                    </mfrac>
-                    </mrow>
-                    """)),
-                                //.text("Here is now Peter Griffen from hit show Family Guy:"),
-                                //.image(url: URL(string: "https://upload.wikimedia.org/wikipedia/en/c/c2/Peter_Griffin.png")!, altDescription: "Peter Griffen", decorative: false),
-                                    .text("Here is now a dog in the water:"),
-                                .image(url: URL(string: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Retriever_in_water.jpg")!, altDescription: "Retriever in water", renderMode: .inline),
-                                .text("This is the Wikipedia link:"),
-                                .text(linkAttributedString)
-                            ]
-                        ), title: "Debug Preview"
-                    )
-                } label: {
-                    ModuleContentCard(title: "BbMLContentView", description: "Debugging document", action: {})
+            if let rootContent {
+                ContentChildrenListView(for: rootContent.id, in: courseId)
+            } else {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
                 }
-                .buttonStyle(.plain)
-
-                NavigationLink {
-                    BbMLContentViewer(.exampleDocument, title: "Example Document")
-                } label: {
-                    ModuleContentCard(title: "Example Document", description: "Parser example document from Anthology", action: {})
-                }
-                .buttonStyle(.plain)
             }
         } header: {
             Text("Content")
                 .font(.title3.bold())
         }
     }
-
-    /*private var optionsMenu: some View {
-        Menu {
-            optionsMenuContent
-        } label: {
-            if #available(iOS 26, macOS 26, *) {
-                Label("More Options", systemImage: "ellipsis")
-            } else {
-                Label("More Options", systemImage: "ellipsis.circle")
-            }
-        }
-    }*/
 
     private var addContentMenu: some View {
         Menu {
@@ -446,8 +375,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     TabView {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {
-                // Final Year Computing Project
-                CourseView(id: "_130430_1")
+                CourseView(id: "_0_1")
             }
         }
     }

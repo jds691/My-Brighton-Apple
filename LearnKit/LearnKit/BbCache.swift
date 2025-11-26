@@ -31,6 +31,7 @@ actor BbCache {
         do {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
+                CachedContent.self,
                 CachedTerm.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.com.neo.My-Brighton"))
@@ -48,6 +49,7 @@ actor BbCache {
         do {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
+                CachedContent.self,
                 CachedTerm.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.com.neo.My-Brighton"))
@@ -125,6 +127,50 @@ actor BbCache {
         }
     }
 
+    // MARK: Content
+    func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
+        for item in content {
+            do {
+                let cachedCourse: CachedCourse? = try await getCourse(for: courseIdentifier)
+                let parentContent: CachedContent? = item.parentId != nil ? try await getContent(for: item.parentId!, in: courseIdentifier) : nil
+                let cachedContent: CachedContent? = try await getContent(for: item.id, in: courseIdentifier)
+
+#if DEBUG
+                assert(cachedCourse != nil)
+                if item.parentId != nil {
+                    assert(parentContent != nil)
+                }
+#endif
+
+                if let existingCachedContent = cachedContent {
+                    existingCachedContent.copyValues(from: item)
+                    existingCachedContent.course = cachedCourse
+
+                    if let existingParentContent = parentContent {
+                        existingCachedContent.parent = existingParentContent
+                    }
+                } else {
+                    let newCachedContent = CachedContent(from: item)
+                    newCachedContent.course = cachedCourse
+
+                    if let existingParentContent = parentContent {
+                        newCachedContent.parent = existingParentContent
+                    }
+
+                    modelContext.insert(newCachedContent)
+                }
+            } catch {
+                Self.logger.error("Error while indexing content '\(item.id)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during content index: \(error)")
+        }
+    }
+
     // MARK: Terms
     /// Indexes the provided terms into SwiftData and CoreSpotlight.
     /// - Parameter courses: Terms to index.
@@ -180,6 +226,83 @@ extension BbCache: LearnKitAPI {
 
         if let firstCourse = results.first {
             return firstCourse
+        } else {
+            return nil
+        }
+    }
+
+    // MARK: Content
+    func getSpecialContentNode(for identifier: String, in course: Course.ID) async throws -> Content? {
+        switch identifier {
+            case "ROOT":
+                return try await getRootNode(for: course)
+            default:
+                return nil
+        }
+    }
+
+    func getRootNode(for courseIdentifier: Course.ID) async throws -> Content? {
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent == nil && $0.course?.id == courseIdentifier })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first, let content = Content(from: firstContent) {
+            return content
+        } else {
+            return nil
+        }
+    }
+
+    public func getAllRootContent(in course: Course.ID) async throws -> [Content] {
+        guard let rootNode = try await getRootNode(for: course) else { throw LearnKitError.rootNodeMissing }
+        // I have no idea why this was needed, but it is
+        let nodeId: String = rootNode.id
+
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course })).compactMap({ Content(from: $0) })
+    }
+
+    public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
+        let parentIdentifier: Content.ID
+
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            parentIdentifier = specialContent.id
+        } else {
+            parentIdentifier = identifier
+        }
+
+        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
+    }
+
+    public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            return specialContent
+        }
+
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first, let content = Content(from: firstContent) {
+            return content
+        } else {
+            return nil
+        }
+    }
+
+    func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> CachedContent? {
+        if let specialContent = try await getSpecialContentNode(for: identifier, in: course) {
+            return CachedContent(from: specialContent)
+        }
+
+        var descriptor = FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstContent = results.first {
+            return firstContent
         } else {
             return nil
         }

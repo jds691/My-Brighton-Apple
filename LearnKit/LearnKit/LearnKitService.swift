@@ -101,10 +101,7 @@ extension LearnKitService: LearnKitAPI {
         guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
         let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
 
-        Task {
-            await cache.indexCourses(modelCourses)
-        }
-
+        await cache.indexCourses(modelCourses)
         return modelCourses
     }
 
@@ -114,6 +111,98 @@ extension LearnKitService: LearnKitAPI {
 
     public func getCourse(for identifier: Course.ID) async throws -> Course? {
         return try await cache.getCourse(for: identifier)
+    }
+
+    // MARK: Content
+    /// Refreshes the local cache version of the content for the given identifier.
+    /// - Parameters:
+    ///   - identifier: Identifier of the content to refresh.
+    ///   - includeChildren: Indicates if the children of this content should also be refreshed. Default: true.
+    ///   - courseIdentifier: Course that the content belongs to.
+    /// - Returns: List of modified content items.
+    @discardableResult
+    public func refreshContent(for identifier: Content.ID, includeChildren: Bool = true, in courseIdentifier: Course.ID) async throws -> [Content] {
+        let clientContentOutput = try await client.getV1CoursesCourseIdContentsContentId(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
+
+        let foundContent = try clientContentOutput.ok.body.json
+
+        let hasChildren = foundContent.hasChildren ?? true
+
+        if !includeChildren || !hasChildren {
+            if let content = Content(from: foundContent) {
+                await cache.indexContent([content], for: courseIdentifier)
+                return [content]
+            } else {
+                return []
+            }
+        }
+
+        let clientChildrenOutput = try await client.getV1CoursesCourseIdContentsContentIdChildren(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
+
+        guard let foundChildren = try clientChildrenOutput.ok.body.json.results else {
+            throw LearnKitError.unknown(statusCode: nil)
+        }
+
+        let finalResults: [Content]
+        if let content = Content(from: foundContent) {
+            finalResults = [content] + foundChildren.compactMap { Content(from: $0) }
+        } else {
+            finalResults = foundChildren.compactMap { Content(from: $0) }
+        }
+
+        await cache.indexContent(finalResults, for: courseIdentifier)
+        return finalResults
+    }
+    
+    /// Refreshes the local cache version of the root content of the course for the given identifier.
+    /// - Parameter courseIdentifier: Identifier of the course to refresh.
+    /// - Returns: List of modified content items.
+    @discardableResult
+    public func refreshContentRoot(in courseIdentifier: Course.ID) async throws -> [Content] {
+        // TODO: Keep track of the last time content was fetched and add the modified param to the request
+        let clientOutput = try await client.getV1CoursesCourseIdContents(.init(path: .init(courseId: courseIdentifier)))
+
+        let results: Operations.GetV1CoursesCourseIdContents.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results, let remoteContent = results.results else { throw LearnKitError.unknown(statusCode: nil) }
+
+        let modelContent = remoteContent.compactMap({ Content(from: $0) })
+
+        await cache.indexContent(modelContent, for: courseIdentifier)
+        return modelContent
+    }
+
+    public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
+        return try await cache.getChildContent(for: identifier, in: course)
+    }
+
+    public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
+        return try await cache.getContent(for: identifier, in: course)
+    }
+
+    public func getAllRootContent(in course: Course.ID) async throws -> [Content] {
+        do {
+            return try await cache.getAllRootContent(in: course)
+        } catch {
+            if let lkError = error as? LearnKitError, case .rootNodeMissing = lkError {
+                try await refreshContent(for: "ROOT", includeChildren: false, in: course)
+
+                return try await getAllRootContent(in: course)
+            } else {
+                throw error
+            }
+        }
     }
 
     // MARK: Terms
@@ -139,10 +228,7 @@ extension LearnKitService: LearnKitAPI {
 
         let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
 
-        Task {
-            await cache.indexTerms(modelTerms)
-        }
-
+        await cache.indexTerms(modelTerms)
         return modelTerms
     }
 

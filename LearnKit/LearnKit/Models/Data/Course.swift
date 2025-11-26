@@ -174,7 +174,7 @@ public struct Course: Hashable, Identifiable, Sendable {
         self.availability = Availability(from: cachedCourse.availability)
         self.enrollmentType = Enrollment(from: cachedCourse.enrollmentType)
         self.localeSettings = LocaleSettings(from: cachedCourse.localeSettings)
-        self.hasChildren = !cachedCourse.children.isEmpty
+        self.hasChildren = !cachedCourse.childCourses.isEmpty
         self.parentId = cachedCourse.parent?.id
         self.externalAccessUrl = cachedCourse.externalAccessUrl
         self.guestAccessUrl = cachedCourse.guestAccessUrl
