@@ -245,7 +245,14 @@ struct CourseView: View {
             .moduleSubrouteNavigationDestination(courseId: self.courseId)
             .task {
                 do {
+                    #if DEBUG
+                    if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                        try await learnKit.refreshCourses()
+                    }
+                    #endif
                     course = try await learnKit.getCourse(for: courseId)
+                    print("Loaded course")
+                    print(course)
 
                     do {
                         rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
@@ -371,7 +378,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-#Preview(traits: .learnKit) {
+#Preview(traits: .learnKit, .environmentObjects) {
     TabView {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {
