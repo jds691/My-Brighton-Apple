@@ -108,7 +108,7 @@ struct MyBrightonApp: App {
         }
         #endif
 
-        WindowGroup(id: "module", for: Module.ID.self) { $id in
+        WindowGroup(id: "module", for: Course.ID.self) { $id in
             Group {
                 if let id = $id.wrappedValue {
                     NavigationStack {
@@ -118,6 +118,10 @@ struct MyBrightonApp: App {
                     ContentUnavailableView("¯\\_(ツ)_/¯", systemImage: "xmark")
                 }
             }
+            .environment(router)
+            .environment(searchManager)
+            .environment(\.learnKitService, learnKitService)
+            .environment(\.timetableService, timetableService)
 #if os(macOS)
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
