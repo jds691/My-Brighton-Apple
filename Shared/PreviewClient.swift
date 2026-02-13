@@ -379,7 +379,7 @@ struct PreviewClient: APIProtocol {
             return .forbidden(.init(body: .json(.init(status: "Idk", code: nil, message: "User not enrolled in course", developerMessage: nil, extraInfo: nil))))
         }
 
-        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]?.filter({ $0.parentId == "0" })))))
+        return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]!.filter({ $0.parentId == "0" })))))
     }
 
     func getV1CoursesCourseIdContentsContentId(_ input: LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdContentsContentId.Output {

@@ -480,6 +480,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -893,6 +895,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1060,6 +1064,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1275,6 +1281,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1501,6 +1509,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1649,6 +1659,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array

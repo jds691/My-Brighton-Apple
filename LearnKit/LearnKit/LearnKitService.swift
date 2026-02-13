@@ -98,8 +98,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-        let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourses = results.results.compactMap({ Course(from: $0) })
 
         await cache.indexCourses(modelCourses)
         return modelCourses
@@ -139,7 +139,11 @@ extension LearnKitService: LearnKitAPI {
 
         let clientChildrenOutput = try await client.getV1CoursesCourseIdContentsContentIdChildren(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
 
-        guard let foundChildren = try clientChildrenOutput.ok.body.json.results else {
+        let foundChildren: [Components.Schemas.Content]
+
+        do {
+            foundChildren = try clientChildrenOutput.ok.body.json.results
+        } catch {
             throw LearnKitError.unknown(statusCode: nil)
         }
 
@@ -175,9 +179,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteContent = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-
-        let modelContent = remoteContent.compactMap({ Content(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelContent = results.results.compactMap({ Content(from: $0) })
 
         await cache.indexContent(modelContent, for: courseIdentifier)
         return modelContent
@@ -224,9 +227,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteTerms = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-
-        let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelTerms = results.results.compactMap({ Term(from: $0) })
 
         await cache.indexTerms(modelTerms)
         return modelTerms
