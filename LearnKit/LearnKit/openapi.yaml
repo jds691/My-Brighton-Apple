@@ -726,35 +726,190 @@ paths:
   # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/users/{userId}"
 
   # (System) Announcements
-  #"/v1/announcements":
-  #  parameters:
-  #    - $ref: "#/components/parameters/includedFields"
-  #  get:
-  #    deprecated: false
-  #    tags:
-  #      - announcements
-  #    summary: Get Announcements
-  #    description: >
-  #      Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
+  "/v1/announcements":
+    parameters:
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - announcements
+      summary: Get Announcements
+      description: >
+        Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
 
-  #      **Since**: 3100.7.0
-  #    parameters:
-  #      - $ref: "#/components/parameters/paging.offset"
-  #      - $ref: "#/components/parameters/paging.includePermissions"
-  #      - $ref: "#/components/parameters/paging.limit"
-  #      - $ref: "#/components/parameters/includedFields"
-  #      - name: creatorUserId
-  #        in: query
-  #        description: >
-  #          Search for announcements with creator user id equal to this value.
+        **Since**: 3100.7.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: creatorUserId
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
 
-  #          **Since**: 3900.89.0.
-  #        required: false
-  #        schema:
-  #          type: string
-  #    responses:
-  #      "200":
-  #        description: OK
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: creatorUsername
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: modified
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: title
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SystemAnnouncement"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
 
   # Content
   "/v1/courses/{courseId}/contents":
@@ -1833,7 +1988,38 @@ components:
           type: string
           format: BbML
           description: The message body of the System Announcement. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
-        #availability:
+        availability:
+          type: object
+          description: Settings controlling availability of the System Announcement.
+          title: SystemAnnouncement.Availability
+          properties:
+            duration:
+              type: object
+              description: Duration indicates when the System Announcement is Available based on whether it is Permanent or if the date/time of the request falls within its Start & End dates.
+              title: SystemAnnouncement.Availability.Duration
+              properties:
+                type:
+                  type: string
+                  description: >
+                    Indicates whether this System Announcement is always displayed (Permanent) or if it is shown only between the Start and End dates (Restricted).
+
+
+                    | Type      | Description
+                    | --------- | --------- |
+                    | Permanent | The Announcement will always be displayed. |
+                    | Restricted | The Announcement will start being displayed on Duration.Start and stop being displayed on Duration.End |
+
+                  enum:
+                    - Permanent
+                    - Restricted
+                start:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement starts being Available.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement stops being Available.
         showAtLogin:
           type: boolean
           description: Whether this System Announcement should be displayed on the login page.

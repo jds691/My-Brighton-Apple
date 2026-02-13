@@ -10,6 +10,8 @@ import LearnKit
 internal import OpenAPIRuntime
 
 struct PreviewClient: APIProtocol {
+    let systemAnnouncements: [Components.Schemas.SystemAnnouncement] = []
+
     let courses: [Components.Schemas.Course] = [
         // Debug
         .init(
@@ -343,6 +345,10 @@ struct PreviewClient: APIProtocol {
             ),
         ]
     ]
+
+    func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
+        return .ok(.init(body: .json(.init(results: systemAnnouncements))))
+    }
 
     func getV1TermsTermId(_ input: LearnKit.Operations.GetV1TermsTermId.Input) async throws -> LearnKit.Operations.GetV1TermsTermId.Output {
         if terms.contains(where: { $0.id == input.path.termId }) {
