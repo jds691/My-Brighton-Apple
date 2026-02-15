@@ -32,7 +32,8 @@ actor BbCache {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
                 CachedContent.self,
-                CachedTerm.self
+                CachedTerm.self,
+                CachedSystemAnnouncement.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.com.neo.My-Brighton"))
 
@@ -50,7 +51,8 @@ actor BbCache {
             let schemaV1: Schema = .init([
                 CachedCourse.self,
                 CachedContent.self,
-                CachedTerm.self
+                CachedTerm.self,
+                CachedSystemAnnouncement.self
             ])
             let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.com.neo.My-Brighton"))
 

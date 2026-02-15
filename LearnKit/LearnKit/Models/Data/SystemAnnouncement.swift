@@ -57,6 +57,18 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
         self.lastModified = lastModified
     }
 
+    init(from cachedSystemAnnouncement: CachedSystemAnnouncement) {
+        self.id = cachedSystemAnnouncement.id
+        self.title = cachedSystemAnnouncement.title
+        self.body = cachedSystemAnnouncement.body
+        self.availability = SystemAnnouncement.Availability(from: cachedSystemAnnouncement.availability)
+        self.showAtLogin = cachedSystemAnnouncement.showAtLogin
+        self.showInCourses = cachedSystemAnnouncement.showInCourses
+        self.creatorID = cachedSystemAnnouncement.creatorID
+        self.creationDate = cachedSystemAnnouncement.creationDate
+        self.lastModified = cachedSystemAnnouncement.lastModified
+    }
+
     public enum Availability: Hashable, Sendable {
         case permenant
         case restricted(start: Date, end: Date)
@@ -91,6 +103,15 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
                     }
 
                     self = .restricted(start: startDate, end: endDate)
+            }
+        }
+
+        init(from cachedSystemAnnouncementAvailability: CachedSystemAnnouncement.Availability) {
+            switch cachedSystemAnnouncementAvailability {
+                case .permenant:
+                    self = .permenant
+                case .restricted(let start, let end):
+                    self = .restricted(start: start, end: end)
             }
         }
     }
