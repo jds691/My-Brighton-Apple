@@ -16,7 +16,7 @@ import os
  - availability
  */
 
-/// The course data model used by the service.
+/// The term data model used by the service.
 public struct Term: Hashable, Identifiable, Sendable {
     private static let logger = Logger(subsystem: "com.neo.LearnKit", category: "Term")
 

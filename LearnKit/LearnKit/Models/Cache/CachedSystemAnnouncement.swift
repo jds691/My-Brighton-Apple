@@ -16,6 +16,7 @@ class CachedSystemAnnouncement {
     var availability: CachedSystemAnnouncement.Availability
     var showAtLogin: Bool
     var showInCourses: Bool
+    // TODO: Potentialy replace with a CachedCreator model at some point as a relationship
     var creatorID: String
     var creationDate: Date
     var lastModified: Date

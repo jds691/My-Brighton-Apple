@@ -8,22 +8,38 @@
 import Foundation
 import os
 
-// TODO: DocC comments
+/// The system announcement data model used by the service.
 public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
     private static let logger = Logger(subsystem: "com.neo.LearnKit", category: "SystemAnnouncement")
 
+    /// The unique identifier of the system announcement.
     public let id: String
+    /// The title of the system announcement.
     public let title: String
+    /// The text body of the system announcement.
+    ///
+    /// This is stored and formatted in BbML.
     public let body: String
+    /// Indicates the availability of this system announcement.
     public let availability: Availability
+    /// Indicates if the announcement should be shown on the login page.
+    ///
+    /// This doesn't apply to the My Brighton client so if this field is set to true it might be best to display it elsewhere.
     public let showAtLogin: Bool
+    /// Indicates if the announcement should be shown alongside course announcements.
     public let showInCourses: Bool
+    /// The ID of the user that created this announcement.
     public let creatorID: String
+    /// The date on which this announcement was created.
     public let creationDate: Date
+    /// The date on which this announcement was last edited.
     public let lastModified: Date
 
     // On My Brighton no system announcements are actually available, so it's not possible to see the default fields.
     // These requirements are modelled after course announcements
+
+    /// Initialises a system announcement from a remote system announcement from the Learn API.
+    /// - Parameter termSchema: OpenAPI schema that the system announcement is modeled after.
     init?(systemAnnouncementSchema: Components.Schemas.SystemAnnouncement) {
         guard
             // System Announcement Fields
@@ -57,6 +73,8 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
         self.lastModified = lastModified
     }
 
+    /// Initialises a system announcement from a cached instance.
+    /// - Parameter cachedTerm: Cached instance of the system announcement.
     init(from cachedSystemAnnouncement: CachedSystemAnnouncement) {
         self.id = cachedSystemAnnouncement.id
         self.title = cachedSystemAnnouncement.title
@@ -69,10 +87,15 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
         self.lastModified = cachedSystemAnnouncement.lastModified
     }
 
+    /// Represents the types of availability for a system announcement.
     public enum Availability: Hashable, Sendable {
+        /// The system announcement is always available.
         case permenant
+        /// The system announcement is only available for a fixed duration.
         case restricted(start: Date, end: Date)
 
+        /// Initialises the availablility information from a value from the Learn API.
+        /// - Parameter termAvailabilitySchema: OpenAPI schema that availability data is modeled after.
         init?(from systemAnnouncementAvailabilitySchema: Components.Schemas.SystemAnnouncement.AvailabilityPayload) {
             guard
                 let duration = systemAnnouncementAvailabilitySchema.duration,
@@ -106,6 +129,8 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
             }
         }
 
+        /// Initialises availability information from a cached instance.
+        /// - Parameter cachedTermAvailability: Cached instance of the availability information.
         init(from cachedSystemAnnouncementAvailability: CachedSystemAnnouncement.Availability) {
             switch cachedSystemAnnouncementAvailability {
                 case .permenant:
