@@ -12,15 +12,15 @@ import os
 public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
     private static let logger = Logger(subsystem: "com.neo.LearnKit", category: "SystemAnnouncement")
 
-    public var id: String
-    public var title: String
-    public var body: String
-    public var availability: Availability
-    public var showAtLogin: Bool
-    public var showInCourses: Bool
-    public var creatorID: String
-    public var creationDate: Date
-    public var lastModified: Date
+    public let id: String
+    public let title: String
+    public let body: String
+    public let availability: Availability
+    public let showAtLogin: Bool
+    public let showInCourses: Bool
+    public let creatorID: String
+    public let creationDate: Date
+    public let lastModified: Date
 
     // On My Brighton no system announcements are actually available, so it's not possible to see the default fields.
     // These requirements are modelled after course announcements
