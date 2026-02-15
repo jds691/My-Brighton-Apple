@@ -45,7 +45,7 @@ class CachedSystemAnnouncement {
         self.lastModified = systemAnnouncementModel.lastModified
     }
 
-    public enum Availability: Hashable, Sendable {
+    public enum Availability: Hashable, Sendable, Codable {
         case permenant
         case restricted(start: Date, end: Date)
 
