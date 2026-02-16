@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class CachedSystemAnnouncement {
-    var id: String
+    var id: SystemAnnouncement.ID
     var title: String
     var body: String
     var availability: CachedSystemAnnouncement.Availability
