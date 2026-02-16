@@ -19,6 +19,12 @@ protocol Announcement: Identifiable {
     var creatorId: String { get }
 }
 
+extension CourseAnnouncement: Announcement {
+    var position: Int {
+        positionIndex
+    }
+}
+
 extension SystemAnnouncement: Announcement {
     var lastModifiedDate: Date {
         lastModified
