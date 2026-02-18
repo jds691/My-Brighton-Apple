@@ -346,8 +346,20 @@ struct PreviewClient: APIProtocol {
         ]
     ]
 
+    let courseAnnouncements: Dictionary<String, [Components.Schemas.CourseAnnouncement]> = [
+        :
+    ]
+
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
         return .ok(.init(body: .json(.init(results: systemAnnouncements))))
+    }
+
+    func getV1AnnouncementsAnnouncementId(_ input: LearnKit.Operations.GetV1AnnouncementsAnnouncementId.Input) async throws -> LearnKit.Operations.GetV1AnnouncementsAnnouncementId.Output {
+        if systemAnnouncements.contains(where: { $0.id == input.path.announcementId }) {
+            return .ok(.init(body: .json(systemAnnouncements.first(where: { $0.id == input.path.announcementId })!)))
+        } else {
+            return .notFound(.init(body: .json(.init(message: "Announcement for id could not be found."))))
+        }
     }
 
     func getV1TermsTermId(_ input: LearnKit.Operations.GetV1TermsTermId.Input) async throws -> LearnKit.Operations.GetV1TermsTermId.Output {
@@ -428,6 +440,26 @@ struct PreviewClient: APIProtocol {
         }
 
         return .ok(.init(body: .json(.init(results: courseContents[input.path.courseId]!.filter({ $0.parentId == identifier })))))
+    }
+
+    func getV1CoursesCourseIdAnnouncementsAnnouncementId(_ input: LearnKit.Operations.GetV1CoursesCourseIdAnnouncementsAnnouncementId.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdAnnouncementsAnnouncementId.Output {
+        if let announcements = courseAnnouncements[input.path.courseId] {
+            if let announcement = announcements.first(where: { $0.id == input.path.announcementId }) {
+                return .ok(.init(body: .json(announcement)))
+            } else {
+                return .notFound(.init(body: .json(.init(message: "Unable to find course announcement for id"))))
+            }
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
+    }
+
+    func getV1CoursesCourseIdAnnouncements(_ input: LearnKit.Operations.GetV1CoursesCourseIdAnnouncements.Input) async throws -> LearnKit.Operations.GetV1CoursesCourseIdAnnouncements.Output {
+        if let announcements = courseAnnouncements[input.path.courseId] {
+            return .ok(.init(body: .json(.init(results: announcements))))
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
     }
 
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {
