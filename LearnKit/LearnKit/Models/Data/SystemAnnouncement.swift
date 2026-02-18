@@ -40,7 +40,7 @@ public struct SystemAnnouncement: Hashable, Identifiable, Sendable {
 
     /// Initialises a system announcement from a remote system announcement from the Learn API.
     /// - Parameter termSchema: OpenAPI schema that the system announcement is modeled after.
-    init?(systemAnnouncementSchema: Components.Schemas.SystemAnnouncement) {
+    init?(from systemAnnouncementSchema: Components.Schemas.SystemAnnouncement) {
         guard
             // System Announcement Fields
             let id = systemAnnouncementSchema.id,

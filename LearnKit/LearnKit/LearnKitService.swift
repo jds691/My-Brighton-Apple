@@ -80,6 +80,30 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: (System) Announcements
+    @discardableResult
+    public func refreshSystemAnnouncements(for courseIdentifier: Course.ID) async throws -> [SystemAnnouncement] {
+        let clientOutput = try await client.getV1Announcements()
+
+        let results: Operations.GetV1Announcements.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelSystemAnnouncements = results.results.compactMap({ SystemAnnouncement(from: $0) })
+
+        await cache.indexSystemAnnouncements(modelSystemAnnouncements)
+        return modelSystemAnnouncements
+    }
+
     public func getAllSystemAnnouncements() async throws -> [SystemAnnouncement] {
         return try await cache.getAllSystemAnnouncements()
     }
@@ -123,6 +147,30 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: Course Announcements
+    @discardableResult
+    public func refreshCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement] {
+        let clientOutput = try await client.getV1CoursesCourseIdAnnouncements(.init(path: .init(courseId: courseIdentifier)))
+
+        let results: Operations.GetV1CoursesCourseIdAnnouncements.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourseAnnouncements = results.results.compactMap({ CourseAnnouncement(from: $0) })
+
+        await cache.indexCourseAnnouncements(modelCourseAnnouncements, for: courseIdentifier)
+        return modelCourseAnnouncements
+    }
+
     public func getAllCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement] {
         return try await cache.getAllCourseAnnouncements(for: courseIdentifier)
     }
