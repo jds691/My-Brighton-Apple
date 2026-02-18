@@ -7,6 +7,10 @@
 
 /// Collection of methods required to be implemented by the service and offline cache actor.
 protocol LearnKitAPI {
+    // MARK: (System) Announcements
+    func getAllSystemAnnouncements() async throws -> [SystemAnnouncement]
+    func getSystemAnnouncement(for identifier: SystemAnnouncement.ID) async throws -> SystemAnnouncement?
+
     // MARK: Courses
     /// Gets a list of all courses stored in the service.
     /// - Returns: All courses stored into the service.
@@ -15,6 +19,10 @@ protocol LearnKitAPI {
     /// - Parameter identifier: Identifier of the course.
     /// - Returns: The course, if found, or nil.
     func getCourse(for identifier: Course.ID) async throws -> Course?
+
+    // MARK: Course Announcements
+    func getAllCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement]
+    func getCourseAnnouncement(for identifier: CourseAnnouncement.ID, in course: Course.ID) async throws -> CourseAnnouncement?
 
     // MARK: Content
     /// Gets a list of all root content inside of the course.

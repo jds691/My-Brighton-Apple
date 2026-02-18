@@ -11,6 +11,7 @@
 		680D64AA2E677A4D0071DD6B /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		681667142E67C1230089CE9A /* LearnKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		68278E9B2F467E0000C4A6EA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68278E9A2F467E0000C4A6EA /* SwiftBbML */; };
 		6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */; };
 		6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */; };
 		6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF692E4E7D4A003B15BB /* KeychainSwift */; };
@@ -578,6 +579,7 @@
 				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
 				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
 				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
+				68278E9B2F467E0000C4A6EA /* SwiftBbML in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +822,7 @@
 				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
 				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
 				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
+				68278E9A2F467E0000C4A6EA /* SwiftBbML */,
 			);
 			productName = LearnKit;
 			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
@@ -2528,6 +2531,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		68278E9A2F467E0000C4A6EA /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
+			productName = SwiftBbML;
+		};
 		6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;

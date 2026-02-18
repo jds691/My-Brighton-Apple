@@ -70,6 +70,20 @@ public struct CourseAnnouncement: Hashable, Identifiable, Sendable {
         }
     }
 
+    init(from cachedCourseAnnouncement: CachedCourseAnnouncement) {
+        self.id = cachedCourseAnnouncement.id
+        self.title = cachedCourseAnnouncement.title
+        self.body = cachedCourseAnnouncement.body
+        self.isDraft = cachedCourseAnnouncement.isDraft
+        self.availability = Availability(from: cachedCourseAnnouncement.availability)
+        self.creatorId = cachedCourseAnnouncement.creatorId
+        self.creationDate = cachedCourseAnnouncement.creationDate
+        self.lastModifiedDate = cachedCourseAnnouncement.lastModifiedDate
+        self.reachedUsersCount = cachedCourseAnnouncement.reachedUsersCount
+        self.positionIndex = cachedCourseAnnouncement.positionIndex
+        self.readCount = cachedCourseAnnouncement.readCount
+    }
+
     public enum Availability: Hashable, Sendable {
         case permanent
         case restricted(start: Date, end: Date)
@@ -104,6 +118,15 @@ public struct CourseAnnouncement: Hashable, Identifiable, Sendable {
                     }
 
                     self = .restricted(start: startDate, end: endDate)
+            }
+        }
+
+        init(from cachedCourseAnnouncementAvailability: CachedCourseAnnouncement.Availability) {
+            switch cachedCourseAnnouncementAvailability {
+                case .permanent:
+                    self = .permanent
+                case .restricted(start: let start, end: let end):
+                    self = .restricted(start: start, end: end)
             }
         }
     }

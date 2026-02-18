@@ -79,6 +79,15 @@ extension LearnKitService: LearnKitAPI {
         return true
     }
 
+    // MARK: (System) Announcements
+    public func getAllSystemAnnouncements() async throws -> [SystemAnnouncement] {
+        return try await cache.getAllSystemAnnouncements()
+    }
+
+    public func getSystemAnnouncement(for identifier: SystemAnnouncement.ID) async throws -> SystemAnnouncement? {
+        return try await cache.getSystemAnnouncement(for: identifier)
+    }
+
     // MARK: Courses
     /// Refreshes the local cache of courses by communicating with the Learn instance and returns newer course data.
     /// - Returns: List of courses with newer content than what was previously cached.
@@ -111,6 +120,15 @@ extension LearnKitService: LearnKitAPI {
 
     public func getCourse(for identifier: Course.ID) async throws -> Course? {
         return try await cache.getCourse(for: identifier)
+    }
+
+    // MARK: Course Announcements
+    public func getAllCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement] {
+        return try await cache.getAllCourseAnnouncements(for: courseIdentifier)
+    }
+
+    public func getCourseAnnouncement(for identifier: CourseAnnouncement.ID, in course: Course.ID) async throws -> CourseAnnouncement? {
+        return try await cache.getCourseAnnouncement(for: identifier, in: course)
     }
 
     // MARK: Content
