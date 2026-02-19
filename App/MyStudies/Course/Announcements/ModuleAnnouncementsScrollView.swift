@@ -10,7 +10,14 @@ import Router
 
 struct ModuleAnnouncementsScrollView: View {
     @Environment(\.horizontalSizeClass) private var hSizeClass
+
     @Binding var announcements: [any Announcement]?
+    private var onAnnouncementTapped: (any Announcement) -> Void
+
+    init(announcements: Binding<[any Announcement]?>, onAnnouncementTapped: @escaping ((any Announcement) -> Void)) {
+        self._announcements = announcements
+        self.onAnnouncementTapped = onAnnouncementTapped
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,6 +41,9 @@ struct ModuleAnnouncementsScrollView: View {
                             ForEach(announcements, id: \.id) { announcement in
                                 ModuleAnnouncementCard(announcement: announcement)
                                     .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
+                                    .onTapGesture {
+                                        onAnnouncementTapped(announcement)
+                                    }
                             }
                         }
                         .fixedSize()
@@ -65,7 +75,9 @@ struct ModuleAnnouncementsScrollView: View {
 }
 
 #Preview {
-    ModuleAnnouncementsScrollView(announcements: .constant([]))
-        .scenePadding()
-        .scrollClipDisabled()
+    ModuleAnnouncementsScrollView(announcements: .constant([])) { _ in
+
+    }
+    .scenePadding()
+    .scrollClipDisabled()
 }

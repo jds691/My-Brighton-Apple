@@ -16,13 +16,18 @@ struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.learnKitService) private var learnKit
 
     private var courseId: Course.ID
 
     @State private var course: Course? = nil
     @State private var rootContent: Content? = nil
+
+    @State private var showAnnouncementModal: Bool = false
     @State private var announcements: [any Announcement]? = nil
+    @State private var selectedAnnouncement: (any Announcement)? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -37,7 +42,7 @@ struct CourseView: View {
                     .flexibleHeaderContent()
                 VStack(alignment: .leading, spacing: 16) {
                     ModuleAssignmentsScrollView()
-                    ModuleAnnouncementsScrollView(announcements: $announcements)
+                    ModuleAnnouncementsScrollView(announcements: $announcements, onAnnouncementTapped: presentAnnouncement)
                     content
                 }
                 .scenePadding(.horizontal)
@@ -293,6 +298,16 @@ struct CourseView: View {
                     print(error)
                 }
             }
+            .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
+                if let selectedAnnouncement {
+                    AnnouncementView(announcement: selectedAnnouncement)
+                } else {
+                    EmptyView()
+                        .onAppear {
+                            dismiss()
+                        }
+                }
+            }
     }
 
     @ViewBuilder
@@ -394,6 +409,16 @@ struct CourseView: View {
         }
 
         announcements.sort(by: { $0.position < $1.position })
+    }
+
+    private func presentAnnouncement(_ announcement: any Announcement) {
+        showAnnouncementModal = false
+        /*if supportsMultipleWindows {
+
+         } else {*/
+        selectedAnnouncement = announcement
+        showAnnouncementModal = true
+        //}
     }
 }
 

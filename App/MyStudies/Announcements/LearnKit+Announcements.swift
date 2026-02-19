@@ -8,7 +8,8 @@
 import Foundation
 import LearnKit
 
-protocol Announcement: Identifiable {
+nonisolated
+protocol Announcement: Identifiable, Equatable {
     var id: String { get }
     var title: String { get }
     var body: String { get }
