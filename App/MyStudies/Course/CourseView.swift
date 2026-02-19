@@ -22,6 +22,7 @@ struct CourseView: View {
 
     @State private var course: Course? = nil
     @State private var rootContent: Content? = nil
+    @State private var announcements: [any Announcement]? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -36,7 +37,7 @@ struct CourseView: View {
                     .flexibleHeaderContent()
                 VStack(alignment: .leading, spacing: 16) {
                     ModuleAssignmentsScrollView()
-                    ModuleAnnouncementsScrollView(announcements: .constant([]))
+                    ModuleAnnouncementsScrollView(announcements: $announcements)
                     content
                 }
                 .scenePadding(.horizontal)
@@ -251,7 +252,6 @@ struct CourseView: View {
                     }
                     #endif
                     course = try await learnKit.getCourse(for: courseId)
-                    print("Loaded course")
                     print(course)
 
                     do {
@@ -262,6 +262,14 @@ struct CourseView: View {
 
                     assert(rootContent != nil)
 
+                    do {
+                        announcements = try await learnKit.refreshCourseAnnouncements(for: courseId)
+                    } catch {
+                        announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
+                    }
+
+                    assert(announcements != nil)
+
                     print("Loaded course")
                 } catch {
                     print(error)
@@ -271,12 +279,16 @@ struct CourseView: View {
                 do {
                     async let updatedRootContent = try learnKit.refreshContent(for: "ROOT", in: courseId)
                     async let updatedCourses = try learnKit.refreshCourses()
+                    async let updatedAnnouncements = try learnKit.refreshCourseAnnouncements(for: courseId)
 
                     if let updatedPresentedCourse = try await updatedCourses.first(where: { $0.id == courseId }) {
                         course = updatedPresentedCourse
                     }
 
+                    try await mergeAnnouncements(with: updatedAnnouncements)
+
                     try await updatedRootContent
+
                 } catch {
                     print(error)
                 }
@@ -368,6 +380,20 @@ struct CourseView: View {
         } label: {
             Label("Add", systemImage: "plus")
         }
+    }
+
+    private func mergeAnnouncements(with newAnnonucements: [CourseAnnouncement]) {
+        guard var announcements else { return }
+
+        for newContent in newAnnonucements {
+            if let replacementIndex = announcements.firstIndex(where: { $0.id == newContent.id }) {
+                announcements[replacementIndex] = newContent
+            } else {
+                announcements.append(newContent)
+            }
+        }
+
+        announcements.sort(by: { $0.position < $1.position })
     }
 }
 

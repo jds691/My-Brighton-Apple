@@ -10,7 +10,7 @@ import Router
 
 struct ModuleAnnouncementsScrollView: View {
     @Environment(\.horizontalSizeClass) private var hSizeClass
-    @Binding var announcements: [any Announcement]
+    @Binding var announcements: [any Announcement]?
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,23 +25,35 @@ struct ModuleAnnouncementsScrollView: View {
             }
             .buttonStyle(.plain)
 
-            if !announcements.isEmpty {
-                // According to Apple the scroll view has to be touching the sidebar for it to count
-                // Padding it else where might be causing problems?
-                ScrollView(.horizontal) {
-                    LazyHStack {
-                        ForEach(announcements, id: \.id) { announcement in
-                            ModuleAnnouncementCard(announcement: announcement)
-                                .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
+            if let announcements {
+                if !announcements.isEmpty {
+                    // According to Apple the scroll view has to be touching the sidebar for it to count
+                    // Padding it else where might be causing problems?
+                    ScrollView(.horizontal) {
+                        LazyHStack {
+                            ForEach(announcements, id: \.id) { announcement in
+                                ModuleAnnouncementCard(announcement: announcement)
+                                    .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
+                            }
                         }
+                        .fixedSize()
+                        .scrollTargetLayout()
                     }
-                    .fixedSize()
-                    .scrollTargetLayout()
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollIndicators(.hidden)
+                } else {
+                    NoContentView("No Recent Announcements")
                 }
-                .scrollTargetBehavior(.viewAligned)
-                .scrollIndicators(.hidden)
             } else {
-                NoContentView("No Recent Announcements")
+                ProgressView()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(16)
+                    .background(.brightonBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16, style: .circular)
+                            .strokeBorder(lineWidth: 3, antialiased: true)
+                    }
             }
         }
         .scrollClipDisabled()

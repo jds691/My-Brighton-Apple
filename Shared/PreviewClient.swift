@@ -347,7 +347,68 @@ struct PreviewClient: APIProtocol {
     ]
 
     let courseAnnouncements: Dictionary<String, [Components.Schemas.CourseAnnouncement]> = [
-        :
+        "_0_1" : [
+            .init(
+                id: "_0_1",
+                title: "Test announcement #1",
+                body: "<p><strong>PLEASE</strong> work.</p>",
+                draft: false,
+                availability: .init(
+                    duration: .init(
+                        _type: .permanent,
+                        start: nil,
+                        end: nil
+                    )
+                ),
+                creatorUserId: "_691_1",
+                created: .now,
+                modified: .now,
+                participants: nil,
+                position: 0,
+                readCount: nil,
+                creator: nil
+            ),
+            .init(
+                id: "_1_1",
+                title: "Test announcement #2",
+                body: "<p>Omg it does.</p>",
+                draft: false,
+                availability: .init(
+                    duration: .init(
+                        _type: .permanent,
+                        start: nil,
+                        end: nil
+                    )
+                ),
+                creatorUserId: "_691_1",
+                created: .now,
+                modified: .now,
+                participants: nil,
+                position: 1,
+                readCount: nil,
+                creator: nil
+            ),
+            .init(
+                id: "_2_1",
+                title: "Test announcement #3",
+                body: "<h4><strong>YIPPEE :3</strong></h4>",
+                draft: false,
+                availability: .init(
+                    duration: .init(
+                        _type: .permanent,
+                        start: nil,
+                        end: nil
+                    )
+                ),
+                creatorUserId: "_691_1",
+                created: .now,
+                modified: .now,
+                participants: nil,
+                position: 2,
+                readCount: nil,
+                creator: nil
+            )
+        ]
     ]
 
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
