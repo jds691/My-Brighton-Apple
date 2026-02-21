@@ -26,6 +26,7 @@ struct AnnouncementView: View {
     private var hideDismissButton: Bool = false
 
     @State private var bbML: BbMLContent? = nil
+    @State private var showLoadFailedMessage: Bool = false
 
     private var dateAndTime: String {
         if announcement.creationDate != announcement.lastModifiedDate {
@@ -69,8 +70,16 @@ struct AnnouncementView: View {
             do {
                 bbML = try BbMLParser.default.parse(announcement.body)
             } catch {
-
+                showLoadFailedMessage = true
             }
+        }
+        .alert("Unable to load announcement", isPresented: $showLoadFailedMessage) {
+            Button("OK") {
+                showLoadFailedMessage = false
+                dismiss()
+            }
+        } message: {
+            Text("Unable to parse announcement content. Try viewing this content on the My Studies website.")
         }
     }
 
