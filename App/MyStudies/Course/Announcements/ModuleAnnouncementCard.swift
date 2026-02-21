@@ -44,9 +44,17 @@ struct ModuleAnnouncementCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             header
-            if let bbML = try? BbMLParser.default.parse(bodyText) {
-                BbMLView(bbML)
-                    .lineLimit(3, reservesSpace: true)
+            if let bbML = try? BbMLParser.default.parse(bodyText), let summary = createCardSummary(bbML) {
+                if !summary.isEmpty {
+                    Text(summary)
+                        .lineLimit(3, reservesSpace: true)
+                } else {
+                    Text(announcementContainsNoTextError)
+                        .italic()
+                        .foregroundStyle(.brightonSecondary)
+                        .lineLimit(3, reservesSpace: true)
+                }
+
             } else {
                 Label("Unable to display content", systemImage: "xmark.circle")
                     .foregroundStyle(.red)
@@ -97,6 +105,31 @@ struct ModuleAnnouncementCard: View {
             dateFormatter.string(from: createdAt)
         }
     }
+
+    private func createCardSummary(_ bbML: BbMLContent) -> String? {
+        let textChunks = bbML.filter({
+            if case .text(_) = $0 {
+                return true
+            } else {
+                return false
+            }
+        })
+
+        var attrString = AttributedString()
+        for textChunk in textChunks {
+            if !attrString.characters.isEmpty {
+                attrString.append(AttributedString("\n"))
+            }
+
+            guard case .text(let chunkText) = textChunk else {
+                return nil
+            }
+
+            attrString.append(chunkText)
+        }
+
+        return String(attrString.characters)
+    }
 }
 
 extension ModuleAnnouncementCard {
@@ -104,6 +137,18 @@ extension ModuleAnnouncementCard {
         var view = self
         view.markAsReadAction = action
         return view
+    }
+}
+
+// MARK: Localisation
+extension ModuleAnnouncementCard {
+    private var announcementContainsNoTextError: LocalizedStringResource {
+        .init(
+            "course.announcements.no-preview-text",
+            defaultValue: "This announcement contains no text.\nTap to open content.",
+            table: "My Studies",
+            comment: "Shown in announcement cards when the shown announcement does not contain any displayable text."
+        )
     }
 }
 

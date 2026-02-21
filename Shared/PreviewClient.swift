@@ -407,6 +407,26 @@ struct PreviewClient: APIProtocol {
                 position: 2,
                 readCount: nil,
                 creator: nil
+            ),
+            .init(
+                id: "_3_1",
+                title: "Test announcement #4",
+                body: "<math><mrow></mrow></math>",
+                draft: false,
+                availability: .init(
+                    duration: .init(
+                        _type: .permanent,
+                        start: nil,
+                        end: nil
+                    )
+                ),
+                creatorUserId: "_691_1",
+                created: .now,
+                modified: .now,
+                participants: nil,
+                position: 2,
+                readCount: nil,
+                creator: nil
             )
         ]
     ]

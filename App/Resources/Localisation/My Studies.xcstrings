@@ -1,0 +1,29 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "course.announcements.no-preview-text" : {
+      "comment" : "Shown in announcement cards when the shown announcement does not contain any displayable text.",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "device" : {
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This announcement contains no text.\nClick to open content."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "This announcement contains no text.\nTap to open content."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

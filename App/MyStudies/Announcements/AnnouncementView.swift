@@ -84,6 +84,7 @@ struct AnnouncementView: View {
                 .font(.caption2)
                 .foregroundStyle(.brightonSecondary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
