@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AppIntents
 import LearnKit
 import SwiftBbML
 import Router
@@ -82,6 +83,9 @@ struct AnnouncementView: View {
                     "announcementID": announcement.id,
                     "courseID": courseId
                 ]
+                if #available(iOS 18.2, macOS 15.2, *) {
+                    $0.appEntityIdentifier = EntityIdentifier(for: CourseAnnouncementEntity.self, identifier: "\(courseId)/\(announcement.id)")
+                }
             } else {
                 $0.targetContentIdentifier = "announcementID=\(announcement.id)"
                 $0.userInfo = [
