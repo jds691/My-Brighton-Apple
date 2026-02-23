@@ -413,12 +413,18 @@ struct CourseView: View {
 
     private func presentAnnouncement(_ announcement: any Announcement) {
         showAnnouncementModal = false
-        /*if supportsMultipleWindows {
-
-         } else {*/
+        
+        #if os(macOS)
+        if supportsMultipleWindows {
+            openWindow(id: "course-announcement", value: CourseAnnouncementIDUnion(courseId: courseId, announcementId: announcement.id))
+        } else {
+            selectedAnnouncement = announcement
+            showAnnouncementModal = true
+        }
+        #else
         selectedAnnouncement = announcement
         showAnnouncementModal = true
-        //}
+        #endif
     }
 }
 

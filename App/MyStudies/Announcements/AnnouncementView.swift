@@ -24,9 +24,12 @@ struct AnnouncementView: View {
 
     var announcement: any Announcement
     private var hideDismissButton: Bool = false
+    private var headerUsesSystemLocation: Bool = false
 
     @State private var bbML: BbMLContent? = nil
     @State private var showLoadFailedMessage: Bool = false
+
+    @State private var viewDismissAction: (() -> Void)?
 
     private var dateAndTime: String {
         if announcement.creationDate != announcement.lastModifiedDate {
@@ -36,8 +39,9 @@ struct AnnouncementView: View {
         }
     }
 
-    init(announcement: any Announcement) {
+    init(announcement: any Announcement, onDismiss: (() -> Void)? = nil) {
         self.announcement = announcement
+        self.viewDismissAction = onDismiss
     }
 
     var body: some View {
@@ -45,7 +49,9 @@ struct AnnouncementView: View {
             Group {
                 if let bbML {
                     ScrollView(.vertical) {
-                        header
+                        if !headerUsesSystemLocation {
+                            header
+                        }
                         BbMLView(bbML)
                     }
                     .contentMargins(16, for: .scrollContent)
@@ -66,7 +72,25 @@ struct AnnouncementView: View {
                 }
             }
         }
+        .modifierBranch {
+            if headerUsesSystemLocation {
+                if #available(iOS 26, macOS 11, *) {
+                    $0
+                        .navigationTitle(announcement.title)
+                        .navigationSubtitle(dateAndTime)
+                } else {
+                    $0
+                        .navigationTitle(announcement.title)
+                }
+            } else {
+                $0
+            }
+        }
         .onAppear {
+            if viewDismissAction == nil {
+                viewDismissAction = { dismiss() }
+            }
+
             do {
                 bbML = try BbMLParser.default.parse(announcement.body)
             } catch {
@@ -76,7 +100,8 @@ struct AnnouncementView: View {
         .alert("Unable to load announcement", isPresented: $showLoadFailedMessage) {
             Button("OK") {
                 showLoadFailedMessage = false
-                dismiss()
+                // Should never actually be a problem but what if
+                (viewDismissAction ?? dismiss.callAsFunction)()
             }
         } message: {
             Text("Unable to parse announcement content. Try viewing this content on the My Studies website.")
@@ -95,12 +120,24 @@ struct AnnouncementView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    enum HeaderLocation: Hashable, Sendable {
+        case inline
+        case navigationBar
+    }
 }
 
 extension AnnouncementView {
     func hidesDismissButton(_ hide: Bool = true) -> Self {
         var view = self
         view.hideDismissButton = hide
+
+        return view
+    }
+
+    func headerLocation(_ location: HeaderLocation) -> Self {
+        var view = self
+        view.headerUsesSystemLocation = location == .navigationBar
 
         return view
     }
