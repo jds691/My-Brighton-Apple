@@ -12,8 +12,8 @@ import LearnKit
 struct AnnouncementWindowView: View {
     @Environment(\.dismissWindow) private var dismiss
     @Environment(\.learnKitService) private var learnKit
+    @Environment(\.courseId) private var courseId
 
-    var courseId: Course.ID?
     var announcementId: String
 
     @State private var announcement: (any Announcement)? = nil
@@ -24,8 +24,7 @@ struct AnnouncementWindowView: View {
         self.announcementId = sAnnouncementId
     }
 
-    init(cAnnouncementId: CourseAnnouncement.ID, for courseId: Course.ID) {
-        self.courseId = courseId
+    init(cAnnouncementId: CourseAnnouncement.ID) {
         self.announcementId = cAnnouncementId
     }
 

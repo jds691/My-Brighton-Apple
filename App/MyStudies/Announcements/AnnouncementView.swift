@@ -9,9 +9,11 @@ import Foundation
 import SwiftUI
 import LearnKit
 import SwiftBbML
+import Router
 
 struct AnnouncementView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.courseId) private var courseId
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -71,6 +73,23 @@ struct AnnouncementView: View {
                     }
                 }
             }
+        }
+        .userActivity(UserActivity.MyStudies.Course.Announcement.view) {
+            $0.title = "Viewing announcement '\(announcement.title)'"
+            if let courseId {
+                $0.targetContentIdentifier = "announcementID=\(announcement.id)&courseID=\(courseId)"
+                $0.userInfo = [
+                    "announcementID": announcement.id,
+                    "courseID": courseId
+                ]
+            } else {
+                $0.targetContentIdentifier = "announcementID=\(announcement.id)"
+                $0.userInfo = [
+                    "announcementID": announcement.id
+                ]
+            }
+            $0.isEligibleForHandoff = true
+            $0.requiredUserInfoKeys = ["announcementID"]
         }
         .modifierBranch {
             if headerUsesSystemLocation {

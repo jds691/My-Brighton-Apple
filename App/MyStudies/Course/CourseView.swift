@@ -89,16 +89,6 @@ struct CourseView: View {
             }
 #endif
             .navigationTitle(course?.name ?? courseId)
-            .userActivity("com.neo.My-Brighton.course.view") { userActivity in
-
-                userActivity.title = "Viewing content in \(course?.name ?? courseId)"
-                // To later be replaced with the externalUrl property from the response
-                userActivity.webpageURL = course?.externalAccessUrl ?? URL(string: "https://studentcentral.brighton.ac.uk/ultra/courses/\(courseId)/outline")
-                userActivity.isEligibleForHandoff = true
-                if #available(iOS 18.2, macOS 15.2, *) {
-                    userActivity.appEntityIdentifier = .init(for: CourseEntity.self, identifier: courseId)
-                }
-            }
         // TODO: Add back when working
             /*.task {
                 do {
@@ -248,7 +238,7 @@ struct CourseView: View {
             }
             
 #endif
-            .moduleSubrouteNavigationDestination(courseId: self.courseId)
+            .moduleSubrouteNavigationDestination()
             .task {
                 do {
                     #if DEBUG
@@ -301,6 +291,7 @@ struct CourseView: View {
             .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
                 if let selectedAnnouncement {
                     AnnouncementView(announcement: selectedAnnouncement)
+                        .environment(\.courseId, courseId)
                 } else {
                     EmptyView()
                         .onAppear {
@@ -308,6 +299,7 @@ struct CourseView: View {
                         }
                 }
             }
+            .environment(\.courseId, courseId)
     }
 
     @ViewBuilder
@@ -365,7 +357,7 @@ struct CourseView: View {
     private var content: some View {
         Section {
             if let rootContent {
-                ContentChildrenListView(for: rootContent.id, in: courseId)
+                ContentChildrenListView(for: rootContent.id)
             } else {
                 HStack {
                     Spacer()

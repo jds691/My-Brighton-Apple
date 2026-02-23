@@ -8,16 +8,17 @@
 import SwiftUI
 import LearnKit
 
+// TODO: Remove forced unwraps
 struct ContentWrapperView: View {
     @Environment(\.learnKitService) private var learnKit
-    private let courseId: Course.ID
+    @Environment(\.courseId) private var courseId
+
     private let contentId: Content.ID
 
     @State private var content: Content? = nil
 
-    init(for contentIdentifier: Content.ID, courseId: Course.ID) {
+    init(for contentIdentifier: Content.ID) {
         self.contentId = contentIdentifier
-        self.courseId = courseId
     }
 
     var body: some View {
@@ -25,12 +26,12 @@ struct ContentWrapperView: View {
             if let content, let contentBinding = Binding<Content>($content) {
                 switch content.handler {
                     case .contentItem:
-                        BbMLContentViewer(content: contentBinding, courseId: courseId)
+                        BbMLContentViewer(content: contentBinding)
                     case .contentFolder(isBbPage: let isBbPage):
                         if isBbPage {
-                            BbMLContentViewer(content: contentBinding, courseId: courseId)
+                            BbMLContentViewer(content: contentBinding)
                         } else {
-                            ContentFolderView(content: contentBinding, courseId: courseId)
+                            ContentFolderView(content: contentBinding)
                         }
                     default:
                         errorView
@@ -41,7 +42,7 @@ struct ContentWrapperView: View {
         }
         .task {
             do {
-                content = try await learnKit.getContent(for: contentId, in: courseId)
+                content = try await learnKit.getContent(for: contentId, in: courseId!)
             } catch {
                 print(error)
             }

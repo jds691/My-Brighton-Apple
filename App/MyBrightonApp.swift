@@ -144,7 +144,8 @@ struct MyBrightonApp: App {
         WindowGroup(id: "course-announcement", for: CourseAnnouncementIDUnion.self) { $idUnion in
             Group {
                 if let idUnion = $idUnion.wrappedValue {
-                    AnnouncementWindowView(cAnnouncementId: idUnion.announcementId, for: idUnion.courseId)
+                    AnnouncementWindowView(cAnnouncementId: idUnion.announcementId)
+                        .environment(\.courseId, idUnion.courseId)
                 } else {
                     ContentUnavailableView("¯\\_(ツ)_/¯", systemImage: "xmark")
                 }

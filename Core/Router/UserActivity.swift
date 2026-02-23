@@ -14,5 +14,11 @@ public enum UserActivity {
         public enum Content {
             public static let view: String = "com.neo.My-Brighton.my-studies.content.view"
         }
+
+        public enum Course {
+            public enum Announcement {
+                public static let view: String = "com.neo.My-Brighton.my-studies.course.announcement.view"
+            }
+        }
     }
 }

@@ -40,6 +40,7 @@
 	<array>
 		<string>com.neo.My-Brighton.course.view</string>
 		<string>com.neo.My-Brighton.timetable.view</string>
+		<string>com.neo.My-Brighton.my-studies.course.announcement.view</string>
 	</array>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>My Brighton can send notifications when new content are added to your courses or societies or for important updates.</string>

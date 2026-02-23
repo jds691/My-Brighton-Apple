@@ -11,17 +11,16 @@ import Router
 
 struct ContentFolderView: View {
     @Environment(\.learnKitService) private var learnKit
-    private let courseId: Course.ID
+    @Environment(\.courseId) private var courseId
 
     @Binding var content: Content
 
-    init(content: Binding<Content>, courseId: Course.ID) {
+    init(content: Binding<Content>) {
         self._content = content
-        self.courseId = courseId
     }
     var body: some View {
         ScrollView {
-            ContentChildrenListView(for: content.id, in: courseId)
+            ContentChildrenListView(for: content.id)
         }
         .contentMargins(16, for: .scrollContent)
         .navigationTitle(content.title)
