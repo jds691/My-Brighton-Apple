@@ -21,7 +21,7 @@ struct ModuleAnnouncementsScrollView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.announcements) {
+            NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.announcements(nil)) {
                 HStack {
                     Text("Recent Announcements")
                         .font(.title3.bold())

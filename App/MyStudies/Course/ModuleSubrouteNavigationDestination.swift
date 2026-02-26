@@ -22,6 +22,9 @@ fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier
                     case .grades:
                         ModuleGradesView()
                             .environment(\.courseId, courseId)
+                    case .announcements(let announcementId):
+                        ModuleAnnouncementsListView()
+                            .environment(\.courseId, courseId)
                     default:
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
                 }

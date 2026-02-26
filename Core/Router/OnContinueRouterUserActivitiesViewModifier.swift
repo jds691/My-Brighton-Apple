@@ -52,10 +52,10 @@ public struct OnContinueRouterUserActivitiesViewModifier: ViewModifier {
 #if os(macOS)
                         openWindow(id: "course-announcement", value: CourseAnnouncementIDUnion(courseId: courseId, announcementId: announcementId))
 #else
-                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements))))
+                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements(nil)))))
 #endif
                     } else {
-                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements))))
+                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements(nil)))))
                     }
                 } else {
                     // TODO: Handle system announcements
