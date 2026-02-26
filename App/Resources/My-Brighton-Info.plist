@@ -27,7 +27,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.neo.My-Brighton.Deeplink</string>
+			<string>$(DEVELOPMENT_TEAM).com.neo.My-Brighton.Deeplink</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>mybrighton</string>
@@ -36,6 +36,8 @@
 	</array>
 	<key>CoreSpotlightContinuation</key>
 	<true/>
+	<key>DEV_TEAM_ID</key>
+	<string>$(DEVELOPMENT_TEAM)</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>com.neo.My-Brighton.course.view</string>
@@ -78,28 +80,6 @@
 	<array>
 		<string>fetch</string>
 		<string>processing</string>
-	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>com.apple.package</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Blackboard Ultra Cache</string>
-			<key>UTTypeIconFiles</key>
-			<array/>
-			<key>UTTypeIdentifier</key>
-			<string>com.neo.My-Brighton.ultra</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>ultra</string>
-				</array>
-			</dict>
-		</dict>
 	</array>
 </dict>
 </plist>
