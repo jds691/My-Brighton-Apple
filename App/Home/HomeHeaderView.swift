@@ -5,6 +5,7 @@
 //  Created by Neo Salmon on 01/09/2025.
 //
 
+import Foundation
 import SwiftUI
 
 struct HomeHeaderView: View {
@@ -33,7 +34,7 @@ struct HomeHeaderView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
                             // TODO: Replace with users preferred name
-                            Text("\(timeOfDayString(context.date)), Neo!")
+                            Text("\(timeOfDayString(context.date)), \(Bundle.main.firstName)!")
                                 .font(.largeTitle.bold())
                         }
                         Text("No new updates")
