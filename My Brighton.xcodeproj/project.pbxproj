@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680AB6E32F524E5C00767C2E /* OSS Updater.app in Embed OSS Updater */ = {isa = PBXBuildFile; fileRef = 680AB6BF2F524B0500767C2E /* OSS Updater.app */; platformFilters = (macos, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		680D64A22E6778770071DD6B /* CoreSpotlightIndexDelegate.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		680D64AA2E677A4D0071DD6B /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
@@ -211,6 +212,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		680AB6E02F524E3400767C2E /* Embed OSS Updater */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				680AB6E32F524E5C00767C2E /* OSS Updater.app in Embed OSS Updater */,
+			);
+			name = "Embed OSS Updater";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		681667152E67C1230089CE9A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -252,6 +264,7 @@
 		28E311072A98E78D00ECC35C /* My Brighton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Brighton.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28FB25142A99573D00D7FDB9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		28FB25162A99573D00D7FDB9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		680AB6BF2F524B0500767C2E /* OSS Updater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OSS Updater.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoreSpotlightIndexDelegate.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6835EF532E4E7ADD003B15BB /* LearnKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LearnKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
@@ -299,8 +312,8 @@
 		685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Bundle++.swift",
 				PreviewClient.swift,
+				"SharedBundle++.swift",
 			);
 			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
 		};
@@ -314,14 +327,14 @@
 		68BE38DC2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Bundle++.swift",
+				"SharedBundle++.swift",
 			);
 			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
 		};
 		68BE38DD2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Bundle++.swift",
+				"SharedBundle++.swift",
 			);
 			target = 686426522E68CC8500A088A8 /* Timetable */;
 		};
@@ -551,6 +564,7 @@
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		680AB6C02F524B0600767C2E /* OSSUpdater */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OSSUpdater; sourceTree = "<group>"; };
 		686425762E68A07800A088A8 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
 		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (685270BC2E9DE34900F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DC2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DD2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		68C863632E969F950023B0AD /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
@@ -572,6 +586,13 @@
 				68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */,
 				68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */,
 				6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680AB6BC2F524B0500767C2E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +688,7 @@
 				686425762E68A07800A088A8 /* Features */,
 				68C863632E969F950023B0AD /* App */,
 				68EAC7472E79EBFC00A3F286 /* Extensions */,
+				680AB6C02F524B0600767C2E /* OSSUpdater */,
 				28FB25132A99573D00D7FDB9 /* Frameworks */,
 				28E311082A98E78D00ECC35C /* Products */,
 			);
@@ -685,6 +707,7 @@
 				68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */,
 				68EAC7E02E7A089000A3F286 /* Router.framework */,
 				68F19A152E9D1DD9009701FD /* LearnKitTests.xctest */,
+				680AB6BF2F524B0500767C2E /* OSS Updater.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -766,6 +789,7 @@
 				68849A062DFDA85500BF64F1 /* Embed ExtensionKit Extensions */,
 				681667152E67C1230089CE9A /* Embed Frameworks */,
 				686F22E12E7BB23900DFC6CC /* Embed XPC Services */,
+				680AB6E02F524E3400767C2E /* Embed OSS Updater */,
 			);
 			buildRules = (
 			);
@@ -787,6 +811,28 @@
 			name = "My Brighton";
 			productName = "My Brighton";
 			productReference = 28E311072A98E78D00ECC35C /* My Brighton.app */;
+			productType = "com.apple.product-type.application";
+		};
+		680AB6BE2F524B0500767C2E /* OSS Updater */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 680AB6C92F524B0A00767C2E /* Build configuration list for PBXNativeTarget "OSS Updater" */;
+			buildPhases = (
+				680AB6BB2F524B0500767C2E /* Sources */,
+				680AB6BC2F524B0500767C2E /* Frameworks */,
+				680AB6BD2F524B0500767C2E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				680AB6C02F524B0600767C2E /* OSSUpdater */,
+			);
+			name = "OSS Updater";
+			packageProductDependencies = (
+			);
+			productName = "My-Brighton.OSS-Updater";
+			productReference = 680AB6BF2F524B0500767C2E /* OSS Updater.app */;
 			productType = "com.apple.product-type.application";
 		};
 		680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */ = {
@@ -999,11 +1045,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					28E311062A98E78D00ECC35C = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					680AB6BE2F524B0500767C2E = {
+						CreatedOnToolsVersion = 26.3;
 					};
 					680D649A2E6778770071DD6B = {
 						CreatedOnToolsVersion = 26.0;
@@ -1078,6 +1127,7 @@
 				6864265A2E68CC8600A088A8 /* TimetableTests */,
 				686426982E68CCEF00A088A8 /* TimetableUI */,
 				68EAC7912E79F5DA00A3F286 /* TimetableIntents */,
+				680AB6BE2F524B0500767C2E /* OSS Updater */,
 			);
 		};
 /* End PBXProject section */
@@ -1101,6 +1151,13 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		28E311052A98E78D00ECC35C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680AB6BD2F524B0500767C2E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1174,6 +1231,13 @@
 
 /* Begin PBXSourcesBuildPhase section */
 		28E311032A98E78D00ECC35C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		680AB6BB2F524B0500767C2E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1585,6 +1649,108 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Release;
+		};
+		680AB6C72F524B0A00767C2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "OSS Updater";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "OSSUpdater/OSS Updater.entitlements";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton Updater";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.OSS-Updater";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		680AB6C82F524B0A00767C2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "OSS Updater";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = "OSSUpdater/OSS Updater.entitlements";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton Updater";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.OSS-Updater";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
+				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
+				RUNTIME_EXCEPTION_ALLOW_UNSIGNED_EXECUTABLE_MEMORY = NO;
+				RUNTIME_EXCEPTION_DEBUGGING_TOOL = NO;
+				RUNTIME_EXCEPTION_DISABLE_EXECUTABLE_PAGE_PROTECTION = NO;
+				RUNTIME_EXCEPTION_DISABLE_LIBRARY_VALIDATION = NO;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -2389,6 +2555,15 @@
 			buildConfigurations = (
 				28E311162A98E78F00ECC35C /* Debug */,
 				28E311172A98E78F00ECC35C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		680AB6C92F524B0A00767C2E /* Build configuration list for PBXNativeTarget "OSS Updater" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				680AB6C72F524B0A00767C2E /* Debug */,
+				680AB6C82F524B0A00767C2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
