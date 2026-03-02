@@ -147,6 +147,27 @@ struct MyBrightonApp: App {
         .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
 
+        WindowGroup(id: "course-announcement", for: CourseAnnouncementIDUnion.self) { $idUnion in
+            Group {
+                if let idUnion = $idUnion.wrappedValue {
+                    AnnouncementWindowView(cAnnouncementId: idUnion.announcementId)
+                        .environment(\.courseId, idUnion.courseId)
+                } else {
+                    ContentUnavailableView("¯\\_(ツ)_/¯", systemImage: "xmark")
+                }
+            }
+            .environment(router)
+            .environment(searchManager)
+            .environment(\.learnKitService, learnKitService)
+            .environment(\.timetableService, timetableService)
+            .containerBackground(.brightonBackground, for: .window)
+            .toolbarBackground(.hidden, for: .windowToolbar)
+            .onAppear {
+                NSWindow.allowsAutomaticWindowTabbing = false
+            }
+        }
+        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+
         Window("Inbox", id: Modal.inbox.windowId) {
             InboxView()
                 .environment(router)

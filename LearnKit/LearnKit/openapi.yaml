@@ -480,6 +480,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -726,35 +728,224 @@ paths:
   # "/v1/courses/{courseId}/contents/{contentId}/adaptiveRelease/rules/{ruleId}/criteria/{criterionId}/users/{userId}"
 
   # (System) Announcements
-  #"/v1/announcements":
-  #  parameters:
-  #    - $ref: "#/components/parameters/includedFields"
-  #  get:
-  #    deprecated: false
-  #    tags:
-  #      - announcements
-  #    summary: Get Announcements
-  #    description: >
-  #      Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
+  "/v1/announcements":
+    parameters:
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - announcements
+      summary: Get Announcements
+      description: >
+        Return a list of System Announcements. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' & 'unavailable' System Announcements.
 
-  #      **Since**: 3100.7.0
-  #    parameters:
-  #      - $ref: "#/components/parameters/paging.offset"
-  #      - $ref: "#/components/parameters/paging.includePermissions"
-  #      - $ref: "#/components/parameters/paging.limit"
-  #      - $ref: "#/components/parameters/includedFields"
-  #      - name: creatorUserId
-  #        in: query
-  #        description: >
-  #          Search for announcements with creator user id equal to this value.
+        **Since**: 3100.7.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: creatorUserId
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
 
-  #          **Since**: 3900.89.0.
-  #        required: false
-  #        schema:
-  #          type: string
-  #    responses:
-  #      "200":
-  #        description: OK
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: creatorUsername
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: modified
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: title
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUntil
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateCompare
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                required:
+                  - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SystemAnnouncement"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/announcements/{announcementId}":
+    parameters:
+      - $ref: "#/components/parameters/announcementId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - announcements
+      summary: Get Announcement
+      description: >
+        Get a System Announcement. Users with the 'system.announcements.VIEW' entitlement can view 'available' System Announcements. Users with the 'system.announcements.admin.VIEW' entitlement can view 'available' &amp; 'unavailable' System Announcements.
+
+        **Since**: 3100.7.0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemAnnouncement"
+        "403":
+          description: The currently authenticated user has insufficient privileges to update an announcement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Announcement cannot be found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
 
   # Content
   "/v1/courses/{courseId}/contents":
@@ -905,6 +1096,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1120,6 +1313,8 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1346,6 +1541,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1414,6 +1611,308 @@ paths:
                 $ref: "#/components/schemas/RestException"
         "404":
           description: The course is not found or is unavailable and the user does not have the permission to view unavailable courses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+
+  # Course Announcements
+  "/v1/courses/{courseId}/announcements":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - course announcements
+      summary: Get Announcements
+      description: >
+        Return a list of Course Announcements. Users with the 'course.announcements.VIEW' entitlement can view 'available' Course Announcements. Users with the 'course.announcements.VIEW' & 'course.announcements.MODIFY' entitlement can view 'available' & 'unavailable' Course Announcements.
+
+        The response supports the `expand=readCount` query parameter. When specified, each announcement in the result will include the `readCount` field, indicating the number of users who have viewed the announcement. For draft announcements or when read tracking is disabled, the `readCount` field will be set to `-1`.
+
+        **Since**: 3500.3.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: creatorUserId
+          in: query
+          description: >
+            Search for announcements with creator user id equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: creatorUsername
+          in: query
+          description: >
+            Search for announcements with creator username equal to this value.
+
+            **Since**: 3900.89.0.
+          required: false
+          schema:
+            type: string
+        - name: created
+          in: query
+          description: >
+            Search for announcements with a created date relative to this value.  'createdCompare' may also be sent to control search behavior.
+
+            **Since**: 3500.3.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdUntil
+          in: query
+          description: >
+            Search announcements with created date less than or equal to this value. 'createdCompare' needs to be set to 'between' to perform the search correctly.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter. Defaults to greaterOrEqual if not specified. 'lessThan', 'between' are also accepted values.
+
+            **Since**: 3500.3.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+            | between |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+              - between
+        - name: modified
+          in: query
+          description: >
+            Search for announcements with a modified date relative to this value.  'modifiedCompare' may also be sent to control search behavior.
+
+            **Since**: 3500.3.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedUntil
+          in: query
+          description: >
+            Search announcements with modified date less than or equal to this value. 'modifiedCompare' needs to be set to 'between' to perform the search correctly.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter. Defaults to greaterOrEqual if not specified. 'lessThan', 'between' are also accepted values.
+
+            **Since**: 3500.3.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+            | between |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+              - between
+        - name: title
+          in: query
+          description: >
+            Search for announcements with a title like the provided value.
+
+            **Since**: 3500.3.0
+          required: false
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: >
+            Search announcements with start date relative to this value. 'startDateCompare' may also be sent to control search behavior.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateUntil
+          in: query
+          description: >
+            Search announcements with start date relative to this value. 'startDateCompare' needs to be set to 'between' to perform the search correctly.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: startDateCompare
+          in: query
+          description: >
+            Used alongside the 'startDate' search parameter. Defaults to greaterOrEqual if not specified. 'lessThan', 'between' are also accepted values.
+
+            **Since**: 3900.92.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+            | between |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+              - between
+        - name: endDate
+          in: query
+          description: >
+            Search announcements with end date relative to this value. 'endDateCompare' may also be sent to control search behavior.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUntil
+          in: query
+          description: >
+            Search announcements with end date relative to this value. 'endDateCompare' needs to be set to 'between' to perform the search correctly.
+
+            **Since**: 3900.92.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: endDateCompare
+          in: query
+          description: >
+            Used alongside the 'endDate' search parameter. Defaults to greaterOrEqual if not specified. 'lessThan', 'between' are also accepted values.
+
+            **Since**: 3900.92.0
+
+
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+            | between |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+              - between
+        - name: sort
+          in: query
+          description: >
+            Properties to sort by. This is a comma-delimited list of JSON properties, with an optional "(desc)" suffix to request a descending sort for that property. e.g. "title(desc),created" Supported fields are:
+
+            - title
+            - modified
+
+            **Since**: 3500.3.0
+          required: false
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: >
+            A  comma-delimited list of fields to expand as part of the response. Expanded fields may cause additional load time. Supported fields are:
+
+            - studentReadCount
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/CourseAnnouncement"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v1/courses/{courseId}/announcements/{announcementId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/announcementId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - course announcements
+      summary: Get Announcement
+      description: >
+        Get a Course Announcement. Users with the 'course.announcements.VIEW' entitlement can view 'available' Course Announcements. Users with the 'course.announcements.VIEW' & 'course.announcements.MODIFY' entitlement can view 'available' & 'unavailable' Course Announcements.
+
+        **Since**: 3500.3.0
+      parameters:
+        - name: expand
+          in: query
+          description: >
+            A comma-delimited list of fields to expand as part of the response. Expanded fields may cause additional load time. Supported fields are:
+
+            - studentReadCount
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CourseAnnouncement"
+        "403":
+          description: The currently authenticated user has insufficient privileges to update an announcement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Announcement cannot be found
           content:
             application/json:
               schema:
@@ -1494,6 +1993,8 @@ paths:
               schema:
                 # TODO: Differs from web docs because fuck Anthology
                 type: object
+                required:
+                  - results
                 properties:
                   results:
                     type: array
@@ -1833,7 +2334,38 @@ components:
           type: string
           format: BbML
           description: The message body of the System Announcement. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
-        #availability:
+        availability:
+          type: object
+          description: Settings controlling availability of the System Announcement.
+          title: SystemAnnouncement.Availability
+          properties:
+            duration:
+              type: object
+              description: Duration indicates when the System Announcement is Available based on whether it is Permanent or if the date/time of the request falls within its Start & End dates.
+              title: SystemAnnouncement.Availability.Duration
+              properties:
+                type:
+                  type: string
+                  description: >
+                    Indicates whether this System Announcement is always displayed (Permanent) or if it is shown only between the Start and End dates (Restricted).
+
+
+                    | Type      | Description
+                    | --------- | --------- |
+                    | Permanent | The Announcement will always be displayed. |
+                    | Restricted | The Announcement will start being displayed on Duration.Start and stop being displayed on Duration.End |
+
+                  enum:
+                    - Permanent
+                    - Restricted
+                start:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement starts being Available.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement stops being Available.
         showAtLogin:
           type: boolean
           description: Whether this System Announcement should be displayed on the login page.
@@ -2419,6 +2951,99 @@ components:
           type: object
           # TODO: Figure out wtf this actually is
           description: List of source courses UUIDs, populated only if the current course was created as the result of a course copy.
+    # Course Announcements
+    CourseAnnouncement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Primary key identifier
+          readOnly: true
+        title:
+          type: string
+          description: The title of this Announcement.
+        body:
+          type: string
+          format: BbML
+          description: The message body of the Announcement. This field supports BbML; see <a target='_blank' href='https://docs.anthology.com/docs/rest-apis/learn/advanced/bbml.html'>here</a> for more information.
+          example: >
+            <!-- {\"bbMLEditorVersion\":1} --><div data-bbid=\"bbml-editor-id_9c6a9556-80a5-496c-b10d-af2a9ab22d45\"> <h4>Header Large</h4>  <h5>Header Medium</h5>  <h6>Header Small</h6>  <p><strong>Bold&nbsp;</strong><em>Italic&nbsp;<span style=\"text-decoration: underline;\">Italic Underline</span></em></p> <ul>   <li><span style=\"text-decoration: underline;\"><em></em></span>Bullet 1</li>  <li>Bullet 2</li> </ul> <p>  <img src=\"@X@EmbeddedFile.requestUrlStub@X@bbcswebdav/xid-1217_1\">   <span>\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"</span> </p>  <p><span>&lt;braces test=\"values\" other=\"strange things\"&gt;</span></p> <p>Header Small</p> <ol>   <li>Number 1</li>   <li>Number 2</li> </ol>  <p>Just words followed by a formula</p>  <p><img align=\"middle\" alt=\"3 divided by 4 2 root of 7\" class=\"Wirisformula\" src=\"@X@EmbeddedFile.requestUrlStub@X@sessions/EA5F7FF3DF32D271D0E54AF0150D924A/anonymous/wiris/49728c9f5b4091622e2f4d183d857d35.png\" data-mathml=\"\u00abmath xmlns=\u00a8http://www.w3.org/1998/Math/MathML\u00a8\u00bb\u00abmn\u00bb3\u00ab/mn\u00bb\u00abmo\u00bb/\u00ab/mo\u00bb\u00abmn\u00bb4\u00ab/mn\u00bb\u00abmroot\u00bb\u00abmn\u00bb7\u00ab/mn\u00bb\u00abmn\u00bb2\u00ab/mn\u00bb\u00ab/mroot\u00bb\u00ab/math\u00bb\"></p> <p><a href=\"http://www.blackboard.com\">Blackboard</a></p> </div>
+        draft:
+          type: boolean
+          description: An indication of whether or not the Announcement is in draft status.
+        availability:
+          type: object
+          title: CourseAnnouncement.Availability
+          description: Settings controlling availability of the course to students.
+          properties:
+            duration:
+              type: object
+              title: CourseAnnouncement.Availability.Duration
+              description: Duration indicates when the System Announcement is Available based on whether it is Permanent or if the date/time of the request falls within its Start & End dates.
+              properties:
+                type:
+                  type: string
+                  description: >
+                    Indicates whether this Course Announcement is always displayed (Permanent) or if it is shown only between the Start and End dates (Restricted).
+
+
+                    | Type      | Description\n | --------- | --------- |
+                    | Permanent | The Announcement will always be displayed. |
+                    | Restricted | The Announcement will start being displayed on Duration.Start and stop being displayed on Duration.End |
+
+                  enum:
+                    - Permanent
+                    - Restricted
+                start:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement starts being Available.
+                end:
+                  type: string
+                  format: date-time
+                  description: The date this Announcement stops being Available.
+        creatorUserId:
+          type: string
+          description: The user Id who created or last updated the Course Announcement.
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          description: The date that the Announcement was created.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+        participants:
+          type: integer
+          format: int32
+          description: >
+            The number of students that the Announcement will reach.
+
+            Shown when adding the query parameter: "expand=studentReadCount".
+          readOnly: true
+        position:
+          type: integer
+          format: int32
+          description: The position of the Announcement.
+          readOnly: true
+        readCount:
+          type: integer
+          format: int32
+          description: >
+            The number of reads from students for the Announcement.
+
+            Shown when adding the query parameter: "expand=studentReadCount".
+          readOnly: true
+        creator:
+          deprecated: true
+          type: string
+          description: >
+            The user that created the Announcement.
+
+            **Deprecated**: since 3900.89.0. Use creatorUserId instead.
+          readOnly: true
     # Terms
     Term:
       type: object
@@ -2535,6 +3160,12 @@ components:
         type: integer
         format: int32
 
+    announcementId:
+      name: announcementId
+      in: path
+      required: true
+      schema:
+        type: string
     courseId:
       name: courseId
       in: path

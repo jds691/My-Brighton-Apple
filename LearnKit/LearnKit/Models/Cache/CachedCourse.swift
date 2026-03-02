@@ -37,6 +37,8 @@ class CachedCourse {
     var childCourses: [CachedCourse] = []
     @Relationship(inverse: \CachedContent.course)
     var rootContent: [CachedContent] = []
+    @Relationship(inverse: \CachedCourseAnnouncement.course)
+    var announcements: [CachedCourseAnnouncement] = []
 
     init(from courseModel: Course) {
         self.id = courseModel.id

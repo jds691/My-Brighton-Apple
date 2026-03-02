@@ -12,6 +12,7 @@
 		680D64AA2E677A4D0071DD6B /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		681667142E67C1230089CE9A /* LearnKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		68278E9B2F467E0000C4A6EA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68278E9A2F467E0000C4A6EA /* SwiftBbML */; };
 		6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */; };
 		6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */; };
 		6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF692E4E7D4A003B15BB /* KeychainSwift */; };
@@ -414,6 +415,7 @@
 		68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
 				Router/Router.swift,
@@ -445,6 +447,7 @@
 		68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
 				Router/Router.swift,
@@ -458,6 +461,7 @@
 		68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
 				Router/Router.swift,
@@ -532,17 +536,22 @@
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
 				LearnKit/Info.plist,
-				LearnKit/Intents/Entities/CourseEntity.swift,
-				LearnKit/Intents/Entities/CourseEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/CourseEntity.swift,
+				LearnKit/Intents/Entities/Course/CourseEntityQuery.swift,
+				LearnKit/Intents/Intents/Course/Announcements/GetCourseAnnouncementsIntent.swift,
 				LearnKit/Intents/LearnKitAppIntentsPackage.swift,
 				LearnKit/LearnKitError.swift,
 				LearnKit/LearnKitService.swift,
 				LearnKit/Models/Cache/CachedContent.swift,
 				LearnKit/Models/Cache/CachedCourse.swift,
+				LearnKit/Models/Cache/CachedCourseAnnouncement.swift,
+				LearnKit/Models/Cache/CachedSystemAnnouncement.swift,
 				LearnKit/Models/Cache/CachedTerm.swift,
 				LearnKit/Models/Data/Content.swift,
 				LearnKit/Models/Data/Course.swift,
-				LearnKit/Models/Data/IDTypes.swift,
+				LearnKit/Models/Data/CourseAnnouncement.swift,
 				LearnKit/Models/Data/SystemAnnouncement.swift,
 				LearnKit/Models/Data/Term.swift,
 				LearnKit/old.json,
@@ -559,17 +568,22 @@
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
 				LearnKit/Info.plist,
-				LearnKit/Intents/Entities/CourseEntity.swift,
-				LearnKit/Intents/Entities/CourseEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/CourseEntity.swift,
+				LearnKit/Intents/Entities/Course/CourseEntityQuery.swift,
+				LearnKit/Intents/Intents/Course/Announcements/GetCourseAnnouncementsIntent.swift,
 				LearnKit/Intents/LearnKitAppIntentsPackage.swift,
 				LearnKit/LearnKitError.swift,
 				LearnKit/LearnKitService.swift,
 				LearnKit/Models/Cache/CachedContent.swift,
 				LearnKit/Models/Cache/CachedCourse.swift,
+				LearnKit/Models/Cache/CachedCourseAnnouncement.swift,
+				LearnKit/Models/Cache/CachedSystemAnnouncement.swift,
 				LearnKit/Models/Cache/CachedTerm.swift,
 				LearnKit/Models/Data/Content.swift,
 				LearnKit/Models/Data/Course.swift,
-				LearnKit/Models/Data/IDTypes.swift,
+				LearnKit/Models/Data/CourseAnnouncement.swift,
 				LearnKit/Models/Data/SystemAnnouncement.swift,
 				LearnKit/Models/Data/Term.swift,
 				LearnKit/old.json,
@@ -585,17 +599,22 @@
 			membershipExceptions = (
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
-				LearnKit/Intents/Entities/CourseEntity.swift,
-				LearnKit/Intents/Entities/CourseEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
+				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
+				LearnKit/Intents/Entities/Course/CourseEntity.swift,
+				LearnKit/Intents/Entities/Course/CourseEntityQuery.swift,
+				LearnKit/Intents/Intents/Course/Announcements/GetCourseAnnouncementsIntent.swift,
 				LearnKit/Intents/LearnKitAppIntentsPackage.swift,
 				LearnKit/LearnKitError.swift,
 				LearnKit/LearnKitService.swift,
 				LearnKit/Models/Cache/CachedContent.swift,
 				LearnKit/Models/Cache/CachedCourse.swift,
+				LearnKit/Models/Cache/CachedCourseAnnouncement.swift,
+				LearnKit/Models/Cache/CachedSystemAnnouncement.swift,
 				LearnKit/Models/Cache/CachedTerm.swift,
 				LearnKit/Models/Data/Content.swift,
 				LearnKit/Models/Data/Course.swift,
-				LearnKit/Models/Data/IDTypes.swift,
+				LearnKit/Models/Data/CourseAnnouncement.swift,
 				LearnKit/Models/Data/SystemAnnouncement.swift,
 				LearnKit/Models/Data/Term.swift,
 				LearnKit/RestError.swift,
@@ -665,6 +684,7 @@
 				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
 				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
 				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
+				68278E9B2F467E0000C4A6EA /* SwiftBbML in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,6 +970,7 @@
 				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
 				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
 				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
+				68278E9A2F467E0000C4A6EA /* SwiftBbML */,
 			);
 			productName = LearnKit;
 			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
@@ -1675,7 +1696,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				DEVELOPMENT_TEAM = CVP95X53V4;
@@ -1730,7 +1751,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
@@ -1884,7 +1905,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1925,7 +1946,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2072,7 +2093,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2117,7 +2138,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10A20251126;
+				CURRENT_PROJECT_VERSION = 10C20260223;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2942,6 +2963,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		68278E9A2F467E0000C4A6EA /* SwiftBbML */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */;
+			productName = SwiftBbML;
+		};
 		6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;

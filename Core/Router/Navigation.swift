@@ -57,7 +57,7 @@ public enum Navigation: Hashable {
             public enum ModuleSubRoute: Hashable, Identifiable {
                 public var id: Self { self }
 
-                case announcements
+                case announcements(CourseAnnouncement.ID?)
                 case grades
                 case dueDates
                 case messages(String?) // Replace with Message.ID

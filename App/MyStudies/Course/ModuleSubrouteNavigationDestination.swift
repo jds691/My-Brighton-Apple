@@ -9,18 +9,32 @@ import SwiftUI
 import Router
 import LearnKit
 
-extension View {
-    func moduleSubrouteNavigationDestination(courseId: Course.ID) -> some View {
-        self
+fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier {
+    @Environment(\.courseId) private var courseId
+
+    func body(content: Self.Content) -> some View {
+        content
             .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
                 switch route {
                     case .content(let contentId):
-                        ContentWrapperView(for: contentId, courseId: courseId)
+                        ContentWrapperView(for: contentId)
+                            .environment(\.courseId, courseId)
                     case .grades:
                         ModuleGradesView()
+                            .environment(\.courseId, courseId)
+                    case .announcements(let announcementId):
+                        ModuleAnnouncementsListView()
+                            .environment(\.courseId, courseId)
                     default:
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
                 }
             }
+    }
+}
+
+extension View {
+    func moduleSubrouteNavigationDestination() -> some View {
+        self
+            .modifier(ModuleSubrouteNavigationDestinationViewModifier())
     }
 }

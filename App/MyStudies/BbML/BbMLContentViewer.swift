@@ -15,8 +15,7 @@ struct BbMLContentViewer: View {
     @Environment(Router.self) private var router
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.locale) private var currentLocale
-
-    private let courseId: Course.ID
+    @Environment(\.courseId) private var courseId
 
     @Binding private var content: Content
 
@@ -34,9 +33,8 @@ struct BbMLContentViewer: View {
     @State private var showLoadFailedMessage: Bool = false
     @State private var loadFailedMessage: String = ""
 
-    public init(content: Binding<Content>, courseId: Course.ID) {
+    public init(content: Binding<Content>) {
         self._content = content
-        self.courseId = courseId
     }
 
     var body: some View {
@@ -62,7 +60,7 @@ struct BbMLContentViewer: View {
                 loadFailedMessage = ""
 
                 Task {
-                    try await learnKit.refreshContent(for: content.id, includeChildren: true, in: courseId)
+                    try await learnKit.refreshContent(for: content.id, includeChildren: true, in: courseId!)
                     await loadView(target: content)
                 }
             }
@@ -205,10 +203,10 @@ struct BbMLContentViewer: View {
                         return
                     }
 
-                    if let childContent = try await learnKit.getChildContent(for: target.id, in: courseId).first {
+                    if let childContent = try await learnKit.getChildContent(for: target.id, in: courseId!).first {
                         await loadView(target: childContent)
                     } else {
-                        let updatedContent = try await learnKit.refreshContent(for: target.id, in: courseId)
+                        let updatedContent = try await learnKit.refreshContent(for: target.id, in: courseId!)
                         if updatedContent.isEmpty {
                             loadFailedMessage = "The content is empty."
                             showLoadFailedMessage = true
@@ -325,6 +323,7 @@ extension Locale.Language {
 
 #Preview(traits: .environmentObjects, .learnKit) {
     NavigationStack {
-        ContentWrapperView(for: "0_0", courseId: "_0_1")
+        ContentWrapperView(for: "0_0")
+            .environment(\.courseId, "_0_1")
     }
 }

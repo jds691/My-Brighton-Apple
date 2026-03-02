@@ -9,17 +9,17 @@ import SwiftUI
 import LearnKit
 import Router
 
+// TODO: Remove forced unwraps
 struct ContentChildrenListView: View {
     @Environment(\.learnKitService) private var learnKit
+    @Environment(\.courseId) private var courseId
 
-    private var courseId: Course.ID
     private var contentId: Content.ID
 
     @State private var children: [Content] = []
 
-    init(for contentIdentifier: Content.ID, in courseIdentifier: Course.ID) {
+    init(for contentIdentifier: Content.ID) {
         self.contentId = contentIdentifier
-        self.courseId = courseIdentifier
     }
 
     var body: some View {
@@ -39,15 +39,15 @@ struct ContentChildrenListView: View {
         }
         .task(id: contentId) {
             do {
-                try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
-                children = try await learnKit.getChildContent(for: contentId, in: courseId)
+                try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId!)
+                children = try await learnKit.getChildContent(for: contentId, in: courseId!)
             } catch {
                 print(error)
             }
         }
         .refreshable {
             do {
-                let modifiedChildren = try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId)
+                let modifiedChildren = try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId!)
                 if modifiedChildren.isEmpty { return }
 
                 mergeChildren(with: modifiedChildren)

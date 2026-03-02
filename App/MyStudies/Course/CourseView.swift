@@ -16,12 +16,18 @@ struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.learnKitService) private var learnKit
 
     private var courseId: Course.ID
 
     @State private var course: Course? = nil
     @State private var rootContent: Content? = nil
+
+    @State private var showAnnouncementModal: Bool = false
+    @State private var announcements: [any Announcement]? = nil
+    @State private var selectedAnnouncement: (any Announcement)? = nil
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -36,7 +42,7 @@ struct CourseView: View {
                     .flexibleHeaderContent()
                 VStack(alignment: .leading, spacing: 16) {
                     ModuleAssignmentsScrollView()
-                    ModuleAnnouncementsScrollView()
+                    ModuleAnnouncementsScrollView(announcements: $announcements, onAnnouncementTapped: presentAnnouncement)
                     content
                 }
                 .scenePadding(.horizontal)
@@ -83,16 +89,6 @@ struct CourseView: View {
             }
 #endif
             .navigationTitle(course?.name ?? courseId)
-            .userActivity("com.neo.My-Brighton.course.view") { userActivity in
-
-                userActivity.title = "Viewing content in \(course?.name ?? courseId)"
-                // To later be replaced with the externalUrl property from the response
-                userActivity.webpageURL = course?.externalAccessUrl ?? URL(string: "https://studentcentral.brighton.ac.uk/ultra/courses/\(courseId)/outline")
-                userActivity.isEligibleForHandoff = true
-                if #available(iOS 18.2, macOS 15.2, *) {
-                    userActivity.appEntityIdentifier = .init(for: CourseEntity.self, identifier: courseId)
-                }
-            }
         // TODO: Add back when working
             /*.task {
                 do {
@@ -242,7 +238,7 @@ struct CourseView: View {
             }
             
 #endif
-            .moduleSubrouteNavigationDestination(courseId: self.courseId)
+            .moduleSubrouteNavigationDestination()
             .task {
                 do {
                     #if DEBUG
@@ -251,7 +247,6 @@ struct CourseView: View {
                     }
                     #endif
                     course = try await learnKit.getCourse(for: courseId)
-                    print("Loaded course")
                     print(course)
 
                     do {
@@ -262,6 +257,14 @@ struct CourseView: View {
 
                     assert(rootContent != nil)
 
+                    do {
+                        announcements = try await learnKit.refreshCourseAnnouncements(for: courseId)
+                    } catch {
+                        announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
+                    }
+
+                    assert(announcements != nil)
+
                     print("Loaded course")
                 } catch {
                     print(error)
@@ -271,16 +274,32 @@ struct CourseView: View {
                 do {
                     async let updatedRootContent = try learnKit.refreshContent(for: "ROOT", in: courseId)
                     async let updatedCourses = try learnKit.refreshCourses()
+                    async let updatedAnnouncements = try learnKit.refreshCourseAnnouncements(for: courseId)
 
                     if let updatedPresentedCourse = try await updatedCourses.first(where: { $0.id == courseId }) {
                         course = updatedPresentedCourse
                     }
 
+                    try await mergeAnnouncements(with: updatedAnnouncements)
+
                     try await updatedRootContent
+
                 } catch {
                     print(error)
                 }
             }
+            .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
+                if let selectedAnnouncement {
+                    AnnouncementView(announcement: selectedAnnouncement)
+                        .environment(\.courseId, courseId)
+                } else {
+                    EmptyView()
+                        .onAppear {
+                            dismiss()
+                        }
+                }
+            }
+            .environment(\.courseId, courseId)
     }
 
     @ViewBuilder
@@ -338,7 +357,7 @@ struct CourseView: View {
     private var content: some View {
         Section {
             if let rootContent {
-                ContentChildrenListView(for: rootContent.id, in: courseId)
+                ContentChildrenListView(for: rootContent.id)
             } else {
                 HStack {
                     Spacer()
@@ -368,6 +387,36 @@ struct CourseView: View {
         } label: {
             Label("Add", systemImage: "plus")
         }
+    }
+
+    private func mergeAnnouncements(with newAnnonucements: [CourseAnnouncement]) {
+        guard var announcements else { return }
+
+        for newContent in newAnnonucements {
+            if let replacementIndex = announcements.firstIndex(where: { $0.id == newContent.id }) {
+                announcements[replacementIndex] = newContent
+            } else {
+                announcements.append(newContent)
+            }
+        }
+
+        announcements.sort(by: { $0.position < $1.position })
+    }
+
+    private func presentAnnouncement(_ announcement: any Announcement) {
+        showAnnouncementModal = false
+        
+        #if os(macOS)
+        if supportsMultipleWindows {
+            openWindow(id: "course-announcement", value: CourseAnnouncementIDUnion(courseId: courseId, announcementId: announcement.id))
+        } else {
+            selectedAnnouncement = announcement
+            showAnnouncementModal = true
+        }
+        #else
+        selectedAnnouncement = announcement
+        showAnnouncementModal = true
+        #endif
     }
 }
 

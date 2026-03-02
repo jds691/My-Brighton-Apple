@@ -10,6 +10,9 @@ import CoreSpotlight
 import LearnKit
 
 public struct OnContinueRouterUserActivitiesViewModifier: ViewModifier {
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
+
     @Environment(Router.self) private var router
 
     public func body(content: Self.Content) -> some View {
@@ -40,6 +43,23 @@ public struct OnContinueRouterUserActivitiesViewModifier: ViewModifier {
                 guard let courseId = activity.userInfo?["courseID"] as? Course.ID, let contentId = activity.userInfo?["contentID"] as? LearnKit.Content.ID else { return }
 
                 router.navigate(to: .route(.myStudies(.module(courseId, .content(contentId)))))
+            }
+            .onContinueUserActivity(UserActivity.MyStudies.Course.Announcement.view) { activity in
+                guard let announcementId = activity.userInfo?["announcementID"] as? CourseAnnouncement.ID else { return }
+
+                if let courseId = activity.userInfo?["courseID"] as? Course.ID {
+                    if supportsMultipleWindows {
+#if os(macOS)
+                        openWindow(id: "course-announcement", value: CourseAnnouncementIDUnion(courseId: courseId, announcementId: announcementId))
+#else
+                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements(nil)))))
+#endif
+                    } else {
+                        router.navigate(to: .route(.myStudies(.module(courseId, .announcements(nil)))))
+                    }
+                } else {
+                    // TODO: Handle system announcements
+                }
             }
     }
 }

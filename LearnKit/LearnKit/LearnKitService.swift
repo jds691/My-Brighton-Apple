@@ -79,6 +79,39 @@ extension LearnKitService: LearnKitAPI {
         return true
     }
 
+    // MARK: (System) Announcements
+    @discardableResult
+    public func refreshSystemAnnouncements(for courseIdentifier: Course.ID) async throws -> [SystemAnnouncement] {
+        let clientOutput = try await client.getV1Announcements()
+
+        let results: Operations.GetV1Announcements.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelSystemAnnouncements = results.results.compactMap({ SystemAnnouncement(from: $0) })
+
+        await cache.indexSystemAnnouncements(modelSystemAnnouncements)
+        return modelSystemAnnouncements
+    }
+
+    public func getAllSystemAnnouncements() async throws -> [SystemAnnouncement] {
+        return try await cache.getAllSystemAnnouncements()
+    }
+
+    public func getSystemAnnouncement(for identifier: SystemAnnouncement.ID) async throws -> SystemAnnouncement? {
+        return try await cache.getSystemAnnouncement(for: identifier)
+    }
+
     // MARK: Courses
     /// Refreshes the local cache of courses by communicating with the Learn instance and returns newer course data.
     /// - Returns: List of courses with newer content than what was previously cached.
@@ -98,8 +131,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteCourses = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-        let modelCourses = remoteCourses.compactMap({ Course(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourses = results.results.compactMap({ Course(from: $0) })
 
         await cache.indexCourses(modelCourses)
         return modelCourses
@@ -111,6 +144,39 @@ extension LearnKitService: LearnKitAPI {
 
     public func getCourse(for identifier: Course.ID) async throws -> Course? {
         return try await cache.getCourse(for: identifier)
+    }
+
+    // MARK: Course Announcements
+    @discardableResult
+    public func refreshCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement] {
+        let clientOutput = try await client.getV1CoursesCourseIdAnnouncements(.init(path: .init(courseId: courseIdentifier)))
+
+        let results: Operations.GetV1CoursesCourseIdAnnouncements.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelCourseAnnouncements = results.results.compactMap({ CourseAnnouncement(from: $0) })
+
+        await cache.indexCourseAnnouncements(modelCourseAnnouncements, for: courseIdentifier)
+        return modelCourseAnnouncements
+    }
+
+    public func getAllCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement] {
+        return try await cache.getAllCourseAnnouncements(for: courseIdentifier)
+    }
+
+    public func getCourseAnnouncement(for identifier: CourseAnnouncement.ID, in course: Course.ID) async throws -> CourseAnnouncement? {
+        return try await cache.getCourseAnnouncement(for: identifier, in: course)
     }
 
     // MARK: Content
@@ -139,7 +205,11 @@ extension LearnKitService: LearnKitAPI {
 
         let clientChildrenOutput = try await client.getV1CoursesCourseIdContentsContentIdChildren(.init(path: .init(courseId: courseIdentifier, contentId: identifier)))
 
-        guard let foundChildren = try clientChildrenOutput.ok.body.json.results else {
+        let foundChildren: [Components.Schemas.Content]
+
+        do {
+            foundChildren = try clientChildrenOutput.ok.body.json.results
+        } catch {
             throw LearnKitError.unknown(statusCode: nil)
         }
 
@@ -175,9 +245,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteContent = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-
-        let modelContent = remoteContent.compactMap({ Content(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelContent = results.results.compactMap({ Content(from: $0) })
 
         await cache.indexContent(modelContent, for: courseIdentifier)
         return modelContent
@@ -224,9 +293,8 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results, let remoteTerms = results.results else { throw LearnKitError.unknown(statusCode: nil) }
-
-        let modelTerms = remoteTerms.compactMap({ Term(from: $0) })
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelTerms = results.results.compactMap({ Term(from: $0) })
 
         await cache.indexTerms(modelTerms)
         return modelTerms
