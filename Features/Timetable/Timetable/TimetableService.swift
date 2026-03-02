@@ -28,7 +28,7 @@ public final class TimetableService: @unchecked Sendable {
     private var calendarDownloadTask: Task<Void, any Swift.Error>?
 
     private let icsCacheURLPath: String = {
-        let filePath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.neo.My-Brighton")!.appending(path: "Library/Caches").appending(path: "calendar.ics").path(percentEncoded: false)
+        let filePath = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!.appending(path: "Library/Caches").appending(path: "calendar.ics").path(percentEncoded: false)
 
         return filePath
     }()
@@ -51,7 +51,7 @@ public final class TimetableService: @unchecked Sendable {
     public init() {
         calendar = nil
         calendarDownloadTask = nil
-        remoteIcsURL = UserDefaults(suiteName: "group.com.neo.My-Brighton")!.url(forKey: Self.remoteURLUserDefaultsKey)
+        remoteIcsURL = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!.url(forKey: Self.remoteURLUserDefaultsKey)
     }
     
     /// Initialises an instance of the service using preview data.

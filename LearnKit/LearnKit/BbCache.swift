@@ -34,7 +34,7 @@ actor BbCache {
                 CachedContent.self,
                 CachedTerm.self
             ])
-            let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init(schema: schemaV1, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
@@ -52,7 +52,7 @@ actor BbCache {
                 CachedContent.self,
                 CachedTerm.self
             ])
-            let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init(schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))

@@ -25,6 +25,8 @@ struct MyBrightonApp: App {
     private let learnKitService: LearnKitService
     private let timetableService: TimetableService
 
+    private let defaultAppStorage: UserDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
+
 #if os(iOS)
     @UIApplicationDelegateAdaptor(ApplicationDelegate.self) private var delegateAdaptor
 #endif
@@ -84,7 +86,7 @@ struct MyBrightonApp: App {
                 }
                 .handlesExternalEvents(preferring: [], allowing: ["*"])
         }
-        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+        .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: ["*"])
         .commands {
             SidebarCommands()
@@ -129,7 +131,7 @@ struct MyBrightonApp: App {
 #endif
             .handlesExternalEvents(preferring: [], allowing: [])
         }
-        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+        .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
 
         #if os(macOS)
@@ -142,7 +144,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
-        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+        .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
 
         Window("Inbox", id: Modal.inbox.windowId) {
@@ -153,7 +155,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
-        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+        .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
 
         Window("Timetable", id: "timetable") {
@@ -165,7 +167,7 @@ struct MyBrightonApp: App {
                 .handlesExternalEvents(preferring: ["timetable="], allowing: ["timetable="])
         }
         .windowResizability(.contentSize)
-        .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
+        .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: ["timetable="])
         #endif
     }

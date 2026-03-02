@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.neo.My-Brighton</string>
+		<string>group.$(DEVELOPMENT_TEAM).com.neo.My-Brighton</string>
 	</array>
 </dict>
 </plist>

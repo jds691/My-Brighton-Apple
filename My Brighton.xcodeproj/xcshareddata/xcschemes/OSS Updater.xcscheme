@@ -4,7 +4,8 @@
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-               BuildableName = "My Brighton.app"
-               BlueprintName = "My Brighton"
+               BlueprintIdentifier = "680AB6BE2F524B0500767C2E"
+               BuildableName = "OSS Updater.app"
+               BlueprintName = "OSS Updater"
                ReferencedContainer = "container:My Brighton.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -24,39 +25,15 @@
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "686426292E68CC4400A088A8"
-               BuildableName = "TimelineTests.xctest"
-               BlueprintName = "TimelineTests"
-               ReferencedContainer = "container:My Brighton.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6864265A2E68CC8600A088A8"
-               BuildableName = "TimetableTests.xctest"
-               BlueprintName = "TimetableTests"
-               ReferencedContainer = "container:My Brighton.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -67,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-            BuildableName = "My Brighton.app"
-            BlueprintName = "My Brighton"
+            BlueprintIdentifier = "680AB6BE2F524B0500767C2E"
+            BuildableName = "OSS Updater.app"
+            BlueprintName = "OSS Updater"
             ReferencedContainer = "container:My Brighton.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -84,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-            BuildableName = "My Brighton.app"
-            BlueprintName = "My Brighton"
+            BlueprintIdentifier = "680AB6BE2F524B0500767C2E"
+            BuildableName = "OSS Updater.app"
+            BlueprintName = "OSS Updater"
             ReferencedContainer = "container:My Brighton.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

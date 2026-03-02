@@ -5,6 +5,7 @@
 //  Created by Neo on 26/08/2023.
 //
 
+import Foundation
 import SwiftUI
 
 struct StudentIDCard: View {
@@ -38,10 +39,11 @@ struct StudentIDCard: View {
                     Text("Student Number")
                         .font(.headline)
                         .foregroundStyle(labelColor)
-                        .accessibilityValue(Text("23807932"))
-                    Text("23807932")
+                        .accessibilityValue(Text(Bundle.main.studentNumber))
+                    Text(Bundle.main.studentNumber)
                         .foregroundStyle(contentColor)
                         .accessibilityHidden(true)
+                        .textSelection(.enabled)
                         //.redacted(reason: .placeholder)
                 }
                 
@@ -91,7 +93,7 @@ struct StudentIDCard: View {
     @ViewBuilder
     private var studentDetails: some View {
         VStack(alignment: .leading) {
-            Text("Neo Salmon")
+            Text(Bundle.main.userName)
                 .font(.title3.bold())
             Text("Student")
         }

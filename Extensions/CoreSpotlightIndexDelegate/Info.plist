@@ -4,6 +4,8 @@
 <dict>
 	<key>CSExtensionLabel</key>
 	<string>CoreSpotlightIndexDelegate</string>
+	<key>DEV_TEAM_ID</key>
+	<string>$(DEVELOPMENT_TEAM)</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionPointIdentifier</key>

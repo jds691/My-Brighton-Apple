@@ -4,10 +4,5 @@
 <dict>
 	<key>DEV_TEAM_ID</key>
 	<string>$(DEVELOPMENT_TEAM)</string>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.widgetkit-extension</string>
-	</dict>
 </dict>
 </plist>
