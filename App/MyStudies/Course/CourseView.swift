@@ -123,7 +123,6 @@ struct CourseView: View {
 
                     } label: {
                         Label("Favourite", systemImage: "star")
-                            .font(.custom("Avenir-Medium", size: 17, relativeTo: .body))
                     }
 
                     Section("People") {
@@ -165,7 +164,7 @@ struct CourseView: View {
                             ToolbarItem(placement: .title) {
                                 if showTitle {
                                     Text(course?.name ?? courseId)
-                                        .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
+                                        .font(.headline)
                                         .lineLimit(1)
                                 } else {
                                     Text("")
@@ -198,7 +197,6 @@ struct CourseView: View {
 
                                 } label: {
                                     Label("Favourite", systemImage: "star")
-                                        .font(.custom("Avenir-Medium", size: 17, relativeTo: .body))
                                 }
 
                                 Section("People") {
@@ -330,17 +328,17 @@ struct CourseView: View {
             VStack(alignment: .leading) {
                 if let course {
                     Text(course.courseId)
-                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                        .font(.title3)
                     Text(course.name)
                         .lineLimit(2)
-                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                        .font(.largeTitle.bold())
                 } else {
                     Text(courseId)
-                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                        .font(.title3)
                         .redacted(reason: .placeholder)
                     Text("YEAR MODULE LONG COURSE NAME")
                         .lineLimit(2)
-                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                        .font(.largeTitle.bold())
                         .redacted(reason: .placeholder)
                 }
             }

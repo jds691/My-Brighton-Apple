@@ -171,7 +171,6 @@ struct HomeView: View {
                         ToolbarItem(placement: .title) {
                             if showTitle {
                                 Text("Home")
-                                    .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
                                     .lineLimit(1)
                             } else {
                                 Text("")

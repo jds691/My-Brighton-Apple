@@ -53,12 +53,6 @@ struct MyBrightonApp: App {
         // App is @MainActor annotated, will always run on MainActor
         // Safe to call it like this as version info is not directly required up front and no additional settings are written to the bundle
         SettingsBundleService.shared.setVersionInfo()
-
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir-Heavy", size: 34)!]
-        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Avenir-Heavy", size: 17)!]
-
-        UITabBarItem.appearance().setTitleTextAttributes([.font : UIFont(name: "Avenir-Medium", size: 10)!], for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes([.font : UIFont(name: "Avenir-Heavy", size: 10)!], for: .selected)
 #endif
     }
     

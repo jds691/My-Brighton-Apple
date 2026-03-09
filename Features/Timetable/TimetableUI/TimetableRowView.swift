@@ -42,12 +42,10 @@ public struct TimetableRowView: View {
             // Has to be like this for App Intents idk why
             // TODO: Look up colour correctly from LearnKit
 #if os(macOS)
-            //Color(nsColor: NSColor(named: "Course Colour/\(scheduledClass.colourIndex)")!)
             Color(nsColor: NSColor(named: "AccentColor")!)
                 .frame(maxWidth: isProminent ? 6 : 3)
                 .clipShape(RoundedRectangle(cornerRadius: 1000))
 #else
-            //Color(uiColor: UIColor(named: "Course Colour/\(scheduledClass.colourIndex)")!)
             Color(uiColor: UIColor(named: "AccentColor")!)
                 .frame(maxWidth: isProminent ? 6 : 3)
                 .clipShape(RoundedRectangle(cornerRadius: 1000))

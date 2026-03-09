@@ -20,7 +20,6 @@ struct ExtraClassesView: View {
         HStack {
             HStack(spacing: 4) {
                 ForEach(scheduledClasses, id: \.id) { entity in
-                    //Color("Course Colour/\(entity.colourIndex)")
                     // TODO: Look up colour from LearnKit
                     Color("AccentColor")
                         .frame(maxWidth: 3)

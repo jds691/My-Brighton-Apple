@@ -476,7 +476,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
-				Resources/Fonts/Avenir.ttc,
 			);
 			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
 		};

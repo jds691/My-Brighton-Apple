@@ -44,7 +44,6 @@ public struct GetTimetableIntentSnippetView: View {
                     HStack {
                         HStack(spacing: 4) {
                             ForEach(evenLaterClasses, id: \.id) { entity in
-                                //Color("Course Colour/\(entity.colourIndex)")
                                 // TODO: Look up colour from LearnKit
 #if os(macOS)
                                 Color(nsColor: NSColor(named: "AccentColor")!)
