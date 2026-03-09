@@ -12,6 +12,12 @@ import LearnKit
 fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier {
     @Environment(\.courseId) private var courseId
 
+    private var onAnnouncementTapped: (any Announcement) -> Void
+
+    init(onAnnouncementTapped: @escaping (any Announcement) -> Void) {
+        self.onAnnouncementTapped = onAnnouncementTapped
+    }
+
     func body(content: Self.Content) -> some View {
         content
             .navigationDestination(for: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.self) { route in
@@ -23,7 +29,7 @@ fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier
                         ModuleGradesView()
                             .environment(\.courseId, courseId)
                     case .announcements(let announcementId):
-                        ModuleAnnouncementsListView()
+                        ModuleAnnouncementsListView(initialAnnouncementId: announcementId, onAnnouncementTapped: onAnnouncementTapped)
                             .environment(\.courseId, courseId)
                     default:
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
@@ -33,8 +39,8 @@ fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier
 }
 
 extension View {
-    func moduleSubrouteNavigationDestination() -> some View {
+    func moduleSubrouteNavigationDestination(onAnnouncementTapped: @escaping (any Announcement) -> Void) -> some View {
         self
-            .modifier(ModuleSubrouteNavigationDestinationViewModifier())
+            .modifier(ModuleSubrouteNavigationDestinationViewModifier(onAnnouncementTapped: onAnnouncementTapped))
     }
 }

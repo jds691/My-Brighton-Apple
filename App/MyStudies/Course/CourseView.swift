@@ -238,7 +238,7 @@ struct CourseView: View {
             }
             
 #endif
-            .moduleSubrouteNavigationDestination()
+            .moduleSubrouteNavigationDestination(onAnnouncementTapped: presentAnnouncement)
             .task {
                 do {
                     #if DEBUG
