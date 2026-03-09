@@ -30,7 +30,7 @@
 		689FAD0B2F53CCAE00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; };
 		689FAD0C2F53CCAE00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		689FAD122F53CCBC00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); };
-		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
