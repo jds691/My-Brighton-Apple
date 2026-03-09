@@ -27,7 +27,6 @@ struct BbMLContentViewer: View {
     @State private var showTranslationErrorAlert: Bool = false
     @State private var lastTranslationError: String? = nil
     @State private var availableTranslationLanguages: [Locale.Language]? = nil
-    //@AppStorage("MyStudies.Translation.targetLanguage")
     @State private var targetLanguage: Locale.Language = .contentLanguage
 
     @State private var showLoadFailedMessage: Bool = false
@@ -285,14 +284,6 @@ struct BbMLContentViewer: View {
 
             var newChunks: [BbMLContent.Chunk] = []
 
-            /*#if os(iOS)
-            let textAttributes: AttributeContainer = AttributeContainer([
-                .accessibilitySpeechLanguage : "fr" ?? "en"
-            ])
-            #else
-            let textAttributes: AttributeContainer = AttributeContainer([:])
-            #endif*/
-
             for index in 0..<displayBbML.chunks.count {
                 if replacementIndicies.contains(index) {
                     guard case let .text(string) = displayBbML.chunks[index] else { return }
@@ -301,7 +292,6 @@ struct BbMLContentViewer: View {
                         newChunks.append(.text(
                             AttributedString(
                                 translatedText.targetText,
-                                /*attributes: textAttributes*/
                             )
                         ))
                     }

@@ -364,7 +364,6 @@ struct TimetableView: View {
             .allowsHitTesting(showHeaderScrollButtons)
             .opacity(showHeaderScrollButtons ? 1.0 : 0.0)
         }
-        //.padding(.horizontal, 16)
         .background(.brightonBackground)
         .onHover { isHovering in
             showHeaderScrollButtons = isHovering

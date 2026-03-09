@@ -91,7 +91,6 @@ struct MyBrightonApp: App {
             #endif
 
             AccountCommands()
-            ContentCommands()
             CourseCommands()
         }
         #if !os(macOS)
@@ -161,17 +160,6 @@ struct MyBrightonApp: App {
             }
         }
         .defaultAppStorage(UserDefaults(suiteName: "group.com.neo.My-Brighton")!)
-
-        Window("Inbox", id: Modal.inbox.windowId) {
-            InboxView()
-                .environment(router)
-                .environment(searchManager)
-                .environment(\.learnKitService, learnKitService)
-                .environment(\.timetableService, timetableService)
-                .handlesExternalEvents(preferring: [], allowing: [])
-        }
-        .defaultAppStorage(defaultAppStorage)
-        .handlesExternalEvents(matching: [])
 
         Window("Timetable", id: "timetable") {
             TimetableView()

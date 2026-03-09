@@ -65,14 +65,6 @@ struct TimetableHomeWidgetView: View {
             }
         }
         .buttonStyle(.plain)
-        /*.onChange(of: timetableURL, initial: false) {
-            // Hail Mary for the widget never refreshing
-            if let timetableURL {
-                Task {
-                    try await timetableService.refresh()
-                }
-            }
-        }*/
     }
 
     @ViewBuilder
@@ -130,8 +122,6 @@ struct TimetableHomeWidgetView: View {
                 }
             }
             .task(id: context.date) {
-                // TODO: This is pure slop
-                // TODO: Always called even if the view is not visible at all
                 do {
                     // isLoading is not reset to true otherwise it causes infinite calls
                     currentDisplayDate = startDateOverride ?? context.date

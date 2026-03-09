@@ -18,15 +18,12 @@ public enum Modal: String, Hashable, Identifiable, CaseIterable {
     public var id: Modal { self }
 
     case account
-    case inbox
     case timetableSetup
 
     public var windowId: String {
         switch self {
             case .account:
                 "account"
-            case .inbox:
-                "inbox"
             default:
                 ""
         }

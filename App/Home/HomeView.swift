@@ -180,7 +180,6 @@ struct HomeView: View {
             } else {
                 $0
                     .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
-                //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
                     .legacyToolbar(visible: !showTitle, showBackButton: false) {
                         primaryMenu
                     }
@@ -198,12 +197,6 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 primaryMenu
-            }
-        }
-        
-        .sheet(isPresented: $showInboxView) {
-            NavigationStack {
-                InboxView()
             }
         }
         #if os(iOS)

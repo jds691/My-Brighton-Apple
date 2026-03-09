@@ -29,8 +29,6 @@ struct OpenCourseIntent: AppIntent, OpenIntent {
 
     func perform() async throws -> some IntentResult {
         await router.navigate(to: .route(.myStudies(.module(target.id, nil))))
-        //await router.resetNavigationPath()
-        //await router.appendToNavigationPath(target.id)
         return .result()
     }
 }

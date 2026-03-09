@@ -31,7 +31,6 @@
 		689FAD0C2F53CCAE00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		689FAD122F53CCBC00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); };
 		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
 		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
@@ -653,7 +652,6 @@
 				681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */,
 				68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */,
 				6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */,
-				68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */,
 				68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */,
 				68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */,
 				6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */,
@@ -1209,7 +1207,6 @@
 			);
 			mainGroup = 28E310FE2A98E78C00ECC35C;
 			packageReferences = (
-				68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */,
 				689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
@@ -2943,14 +2940,6 @@
 				minimumVersion = 1.1.0;
 			};
 		};
-		68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/joogps/Glur";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.4;
-			};
-		};
 		68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ramonvasc/MXLCalendarManagerSwift.git";
@@ -2991,11 +2980,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6899FD602EAD8F4D0054B1DA /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */;
 			productName = SwiftBbML;
-		};
-		68AB39BC2E11C4460039AFC8 /* Glur */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */;
-			productName = Glur;
 		};
 		68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

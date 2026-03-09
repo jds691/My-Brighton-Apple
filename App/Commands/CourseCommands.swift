@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import LearnKit
 
 struct CourseCommands: Commands {
-    @FocusedValue(\.courseId) private var courseId: Module.ID?
+    @FocusedValue(\.courseId) private var courseId: Course.ID?
 
     var body: some Commands {
         CommandMenu("Course") {
@@ -37,5 +38,5 @@ struct CourseCommands: Commands {
 }
 
 extension FocusedValues {
-    @Entry var courseId: Module.ID?
+    @Entry var courseId: Course.ID?
 }
