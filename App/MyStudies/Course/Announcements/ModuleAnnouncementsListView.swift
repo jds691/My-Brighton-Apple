@@ -19,15 +19,21 @@ struct ModuleAnnouncementsListView: View {
 
     @State private var showLoadFailedMessage: Bool = false
 
+    private var initialAnnouncementIdToShow: CourseAnnouncement.ID?
+    private var onAnnouncementTapped: (any Announcement) -> Void
+
+    init(initialAnnouncementId: CourseAnnouncement.ID? = nil, onAnnouncementTapped: @escaping (any Announcement) -> Void) {
+        self.initialAnnouncementIdToShow = initialAnnouncementId
+        self.onAnnouncementTapped = onAnnouncementTapped
+    }
+
     var body: some View {
         Group {
             if let announcements {
                 ScrollView(.vertical) {
                     ForEach(announcements, id: \.id) { announcement in
                         ModuleAnnouncementCard(announcement: announcement)
-                            .onTapGesture {
-
-                            }
+                            .onTapGesture { onAnnouncementTapped(announcement) }
                     }
                 }
             } else {
@@ -43,12 +49,16 @@ struct ModuleAnnouncementsListView: View {
             do {
                 try await learnKit.refreshCourseAnnouncements(for: courseId)
                 announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
+
+
             } catch {
                 dismiss()
             }
 
             if announcements == nil {
                 dismiss()
+            } else if let initialAnnouncementIdToShow, let announcement = announcements?.first(where: { $0.id == initialAnnouncementIdToShow }) {
+                onAnnouncementTapped(announcement)
             }
         }
     }
@@ -56,7 +66,7 @@ struct ModuleAnnouncementsListView: View {
 
 #Preview {
     NavigationStack {
-        ModuleAnnouncementsListView()
+        ModuleAnnouncementsListView(onAnnouncementTapped: {_ in })
     }
     .environment(\.courseId, "_0_1")
 }
