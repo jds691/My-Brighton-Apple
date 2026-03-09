@@ -122,8 +122,6 @@ public final class Router {
             resetNavigationPath()
         }
 
-        // TODO: Handle paramitised sub routes
-
         path.append(subroute)
     }
 
@@ -138,7 +136,28 @@ public final class Router {
             resetNavigationPath()
         }
 
-        // TODO: Handle paramitised sub routes
+        print(subroute.id)
+        path.append(subroute)
+        print(path.count)
+
+        switch subroute {
+            case .module(_, let moduleSubRoute):
+                if let moduleSubRoute {
+                    appendToPath(moduleSubRoute)
+                }
+        }
+    }
+
+    // MARK: ModuleSubRoute
+    public func appendToPath(_ subroute: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute) {
+        guard case .myStudies(let myStudiesSubRoute) = currentRoute else {
+            Self.logger.error("Current route is NOT case .myStudies. Ignoring navigation request")
+            return
+        }
+
+        if myStudiesSubRoute != nil {
+            resetNavigationPath()
+        }
 
         print(subroute.id)
         path.append(subroute)

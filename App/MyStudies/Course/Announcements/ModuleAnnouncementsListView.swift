@@ -49,8 +49,6 @@ struct ModuleAnnouncementsListView: View {
             do {
                 try await learnKit.refreshCourseAnnouncements(for: courseId)
                 announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
-
-
             } catch {
                 dismiss()
             }
@@ -58,6 +56,7 @@ struct ModuleAnnouncementsListView: View {
             if announcements == nil {
                 dismiss()
             } else if let initialAnnouncementIdToShow, let announcement = announcements?.first(where: { $0.id == initialAnnouncementIdToShow }) {
+                // TODO: Doesn't seem to be correctly triggered
                 onAnnouncementTapped(announcement)
             }
         }
