@@ -6,7 +6,6 @@
 //
 
 import AppIntents
-import Timetable
 
 public struct ScheduledClassEntity: AppEntity {
     public static var typeDisplayRepresentation: TypeDisplayRepresentation {

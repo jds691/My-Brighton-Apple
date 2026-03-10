@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 import Timetable
-import TimetableUI
+import Timetable
 import LearnKit
 
 fileprivate let timeFormatter: DateFormatter = {

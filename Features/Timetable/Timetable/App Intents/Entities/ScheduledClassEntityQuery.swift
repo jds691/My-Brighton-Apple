@@ -6,7 +6,6 @@
 //
 
 import AppIntents
-import Timetable
 
 public struct ScheduledClassEntityQuery: EntityQuery {
     @Dependency

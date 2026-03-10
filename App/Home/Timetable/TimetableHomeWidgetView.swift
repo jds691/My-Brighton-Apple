@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Timetable
-import TimetableUI
 import Router
 
 struct TimetableHomeWidgetView: View {

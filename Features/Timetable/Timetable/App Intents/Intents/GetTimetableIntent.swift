@@ -7,7 +7,6 @@
 
 import AppIntents
 import SwiftUI
-import Timetable
 import Router
 
 // TODO: The app shortcut always uses 11 AM UTC when pressed despite the value always being set to now

@@ -11,7 +11,6 @@ import AppKit
 #else
 import UIKit
 #endif
-import Timetable
 
 /// A view that renders a scheduled class into a row.
 public struct TimetableRowView: View {
@@ -35,6 +34,20 @@ public struct TimetableRowView: View {
     public init(_ scheduledClass: ScheduledClass, prominent: Bool = false) {
         self.scheduledClass = scheduledClass
         self.isProminent = prominent
+    }
+
+    init(_ entity: ScheduledClassEntity, prominent: Bool = false) {
+        self.init(
+            .init(
+                id: entity.id,
+                name: entity.name,
+                location: entity.location,
+                startDate: entity.startDate,
+                endDate: entity.endDate,
+                moduleCode: entity.moduleCode
+            ),
+            prominent: prominent
+        )
     }
 
     public var body: some View {

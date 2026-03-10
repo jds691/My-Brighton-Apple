@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import Timetable
-import TimetableUI
 
 public struct GetTimetableIntentSnippetView: View {
     private var entities: [ScheduledClassEntity]

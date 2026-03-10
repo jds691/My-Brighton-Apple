@@ -26,6 +26,9 @@
         }
       }
     },
+    "at %@" : {
+
+    },
     "Classes" : {
 
     },
@@ -33,6 +36,9 @@
 
     },
     "End Date" : {
+
+    },
+    "ends %@" : {
 
     },
     "Get Timetable" : {

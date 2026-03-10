@@ -6,7 +6,7 @@
 //
 
 import LearnKit
-import TimetableIntents
+import Timetable
 import AppIntents
 
 public struct MyBrightonAppIntentsPackage: AppIntentsPackage {

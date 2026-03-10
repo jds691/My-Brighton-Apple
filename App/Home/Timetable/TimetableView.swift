@@ -9,8 +9,6 @@
 
 import SwiftUI
 import Timetable
-import TimetableUI
-import TimetableIntents
 import AppIntents
 import os
 import Router
