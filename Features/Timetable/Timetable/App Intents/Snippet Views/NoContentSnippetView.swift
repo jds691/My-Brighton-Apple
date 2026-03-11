@@ -20,41 +20,29 @@ struct NoContentSnippetView<Label: View>: View {
     }
 
     var body: some View {
-        label
-            .frame(maxWidth: .infinity, alignment: .center)
-            .frame(minHeight: 81)
-            .scenePadding()
+        NoContentView {
+            label
+        }
+        .frame(minHeight: 80)
+        .modifierBranch {
+            if #available(iOS 26, macOS 26, *) {
+                $0
+                    .cornerRadiusStyle(.containerRelative)
+                    .background(.brightonBackground)
 
-            .modifierBranch {
-                if #available(iOS 26, macOS 26, *) {
-                    $0
-                        .overlay {
-                            ContainerRelativeShape()
-                                .strokeBorder(style: StrokeStyle(lineWidth: 3, dash: [6, 6]), antialiased: true)
-                        }
-                        .foregroundStyle(.brightonSecondary)
-                        .background(.brightonBackground)
-                        .clipShape(ContainerRelativeShape())
+                    //.scenePadding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.brightonBackground)
+                    .scenePadding([.horizontal, .top])
+                    .foregroundStyle(.primary, .brightonSecondary)
+            } else {
+                $0
+                    .cornerRadiusStyle(.rounded(cornerRadius: 16))
+                    .background(.brightonBackground)
 
-                        //.scenePadding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.brightonBackground)
-                        .clipShape(ContainerRelativeShape())
-                        .scenePadding([.horizontal, .top])
-                        .foregroundStyle(.primary, .brightonSecondary)
-                } else {
-                    $0
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 16, style: .circular)
-                                .strokeBorder(style: StrokeStyle(lineWidth: 3, dash: [6, 6]), antialiased: true)
-                        }
-                        .foregroundStyle(.brightonSecondary)
-                        .background(.brightonBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-
-                        .scenePadding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                    .scenePadding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+        }
     }
 }
