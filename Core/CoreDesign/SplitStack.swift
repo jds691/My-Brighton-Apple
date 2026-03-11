@@ -9,7 +9,7 @@ import SwiftUI
 
 //REVIEW: What in the ever living hell did I do
 
-struct SplitStack<ProminentContent: View, SecondaryContent: View>: View {
+public struct SplitStack<ProminentContent: View, SecondaryContent: View>: View {
     @Environment(\.horizontalSizeClass) private var hSizeClass
     
     private var horiztontalAlignment: HorizontalAlignment
@@ -19,7 +19,7 @@ struct SplitStack<ProminentContent: View, SecondaryContent: View>: View {
     private var prominentContent: () -> ProminentContent
     private var secondaryContent: () -> SecondaryContent
     
-    init(
+    public init(
         horizontalAlignment: HorizontalAlignment = .center,
         verticalAlignment: VerticalAlignment = .top,
         splitSpacing: CGFloat? = nil,
@@ -37,7 +37,7 @@ struct SplitStack<ProminentContent: View, SecondaryContent: View>: View {
         self.secondaryContent = secondaryContent
     }
     
-    var body: some View {
+    public var body: some View {
         if hSizeClass == .compact {
             VStack(alignment: self.horiztontalAlignment, spacing: self.splitSpacing, content: {
                 if stackReverseMode == .vertical || stackReverseMode == .both {

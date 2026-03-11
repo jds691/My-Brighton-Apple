@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import Timetable
+import CoreDesign
 
 fileprivate let timeFormatter: DateFormatter = {
     let formatter = DateFormatter()

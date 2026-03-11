@@ -10,6 +10,7 @@ import SwiftUI
 import LearnKit
 import Router
 import AppIntents
+import CoreDesign
 
 struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency

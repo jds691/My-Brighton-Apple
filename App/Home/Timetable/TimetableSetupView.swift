@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Timetable
+import CoreDesign
 
 struct TimetableSetupView: View {
     @Environment(\.dismiss) private var dismiss

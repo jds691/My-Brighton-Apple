@@ -8,6 +8,7 @@
 import SwiftUI
 import Timetable
 import Router
+import CoreDesign
 
 struct TimetableHomeWidgetView: View {
     @Environment(\.openWindow) private var openWindow

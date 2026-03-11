@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import LearnKit
+import CoreDesign
 import Router
 
 struct ModuleAnnouncementsListView: View {

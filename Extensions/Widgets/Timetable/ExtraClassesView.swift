@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import Timetable
+import CoreDesign
 
 struct ExtraClassesView: View {
     private var scheduledClasses: [ScheduledClass]

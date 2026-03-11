@@ -8,6 +8,7 @@
 import SwiftUI
 import Router
 import LearnKit
+import CoreDesign
 
 fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier {
     @Environment(\.courseId) private var courseId

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct DesignSystemAwareLabelStyle: LabelStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct DesignSystemAwareLabelStyle: LabelStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         if #available(iOS 26, macOS 26, *) {
             configuration.icon
         } else {
@@ -18,7 +18,7 @@ struct DesignSystemAwareLabelStyle: LabelStyle {
 }
 
 extension LabelStyle where Self == DesignSystemAwareLabelStyle {
-    static var designSystemAware: DesignSystemAwareLabelStyle {
+    public static var designSystemAware: DesignSystemAwareLabelStyle {
         DesignSystemAwareLabelStyle()
     }
 }

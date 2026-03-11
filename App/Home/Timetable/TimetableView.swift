@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 import Timetable
 import AppIntents
 import os

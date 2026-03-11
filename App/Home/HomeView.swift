@@ -10,6 +10,7 @@ import MapKit
 import LearnKit
 import AuthenticationServices
 import Router
+import CoreDesign
 
 struct HomeView: View {
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession

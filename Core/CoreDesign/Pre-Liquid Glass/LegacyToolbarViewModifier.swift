@@ -8,7 +8,6 @@
 import SwiftUI
 
 // TODO: Make all buttons the same size
-@available(iOS 18, *)
 struct LegacyToolbarViewModifier<ToolbarContent: View>: ViewModifier {
     @Environment(\.dismiss) private var dismiss
 
@@ -71,7 +70,7 @@ struct LegacyToolbarViewModifier<ToolbarContent: View>: ViewModifier {
 }
 
 extension View {
-    func legacyToolbar(visible: Bool = true, showBackButton: Bool = false, @ViewBuilder _ toolbarContent: @escaping () -> some View) -> some View {
+    public func legacyToolbar(visible: Bool = true, showBackButton: Bool = false, @ViewBuilder _ toolbarContent: @escaping () -> some View) -> some View {
         modifier(LegacyToolbarViewModifier(visible: visible, showsBackButton: showBackButton, toolbarContent: toolbarContent()))
     }
 }

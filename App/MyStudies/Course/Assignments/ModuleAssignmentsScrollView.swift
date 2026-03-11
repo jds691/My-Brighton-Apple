@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 import Router
 
 struct ModuleAssignmentsScrollView: View {

@@ -19,8 +19,8 @@ struct ModifierBranchViewModifier<Result: View>: ViewModifier {
     }
 }
 
-public extension View {
-    func modifierBranch(@ViewBuilder _ modifiers: @escaping (Self) -> some View) -> some View {
+extension View {
+    public func modifierBranch(@ViewBuilder _ modifiers: @escaping (Self) -> some View) -> some View {
         //modifier(ModifierBranchViewModifier(modifiers: modifiers))
         modifiers(self)
     }

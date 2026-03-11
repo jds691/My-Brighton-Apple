@@ -19,7 +19,7 @@ struct MyBrightonBackgroundViewModifier: ViewModifier {
 }
 
 extension View {
-    func myBrightonBackground() -> some View {
+    public func myBrightonBackground() -> some View {
         self.modifier(MyBrightonBackgroundViewModifier())
     }
 }

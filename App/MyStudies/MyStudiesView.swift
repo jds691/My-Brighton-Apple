@@ -8,6 +8,7 @@
 import SwiftUI
 import Router
 import LearnKit
+import CoreDesign
 
 struct MyStudiesView: View {
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows

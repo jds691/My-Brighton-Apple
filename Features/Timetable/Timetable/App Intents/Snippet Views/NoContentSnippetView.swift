@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 
 struct NoContentSnippetView<Label: View>: View {
     private var label: Label

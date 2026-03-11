@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 
 public struct GetTimetableIntentSnippetView: View {
     private var entities: [ScheduledClassEntity]
