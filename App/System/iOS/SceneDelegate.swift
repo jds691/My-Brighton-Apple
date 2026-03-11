@@ -11,11 +11,13 @@ import Router
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     @MainActor
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem) async -> Bool {
-        Router.shared.navigate(from: shortcutItem)
+        guard let navigation = Navigation(from: shortcutItem) else { return false }
+        
+        Router.shared.navigate(to: navigation)
         if shortcutItem.type == "search" {
             SearchManager.shared.focusSearchField()
         }
-        
+
         return true
     }
 }

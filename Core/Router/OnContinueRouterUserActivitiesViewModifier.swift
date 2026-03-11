@@ -19,7 +19,9 @@ public struct OnContinueRouterUserActivitiesViewModifier: ViewModifier {
         content
         // MARK: URL navigation
             .onOpenURL { url in
-                router.navigate(from: url)
+                if let navigation = Navigation(from: url) {
+                    router.navigate(to: navigation)
+                }
             }
         // MARK: System
             .onContinueUserActivity(CSSearchableItemActionType) { activity in
