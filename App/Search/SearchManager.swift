@@ -49,15 +49,7 @@ final class SearchManager {
     }
 
     public func requestUserQueryUpdate() async {
-        currentQuery = CSUserQuery(userQueryString: createQueryString(for: searchTerm), userQueryContext: createCSUserQueryContext())
-    }
-
-    private func createQueryString(for term: String) -> String {
-        // TODO: Add support for Spotlight meta statements
-        // https://developer.apple.com/documentation/corespotlight/searching-for-information-in-your-app#Create-a-query-string-for-your-search
-
-        //return "title == \"*\(term)*\"c"
-        return term
+        currentQuery = CSUserQuery(userQueryString: searchTerm, userQueryContext: createCSUserQueryContext())
     }
 
     nonisolated

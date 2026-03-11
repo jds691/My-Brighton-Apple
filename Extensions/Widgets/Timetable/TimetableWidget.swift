@@ -40,7 +40,6 @@ struct TimetableWidget: Widget {
     }
 }
 
-// TODO: Make multiple updates or whatever is needed to display "Now" instead of "Up Next" during a class
 struct TimetableWidgetProvider: TimelineProvider {
     typealias Entry = TimetableWidgetProviderEntry
 
@@ -81,7 +80,6 @@ struct TimetableWidgetProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (TimetableWidgetProviderEntry) -> Void) {
-        // TODO: Implement properly
         completion(
             TimetableWidgetProviderEntry(
                 date: .now.withoutTime,

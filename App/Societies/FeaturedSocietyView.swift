@@ -43,7 +43,7 @@ struct FeaturedSocietyView: View {
                     .clipped()
             }
         } placeholder: {
-            // TODO: Replace with a default BSU graphic
+            // TODONT: Replace with a default BSU graphic
             if #available(iOS 26, macOS 26, *) {
                 Rectangle()
                     .backgroundExtensionEffect()

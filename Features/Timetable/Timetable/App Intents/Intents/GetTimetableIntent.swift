@@ -9,9 +9,6 @@ import AppIntents
 import SwiftUI
 import Router
 
-// TODO: The app shortcut always uses 11 AM UTC when pressed despite the value always being set to now
-// I have no fucking clue what causes this
-
 public struct GetTimetableIntent: AppIntent {
     public static let title: LocalizedStringResource = "Get Timetable"
     public static let description: IntentDescription? = IntentDescription("Gets your timetable for the given date", categoryName: "Timetable", resultValueName: "Classes")

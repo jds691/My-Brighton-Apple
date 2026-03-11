@@ -32,7 +32,7 @@ struct ContentView: View {
         
         root
             .onContinueRouterUserActivities()
-        // TODO: Move to Router
+        // Not included in Router due to the dependency on SearchManager
             .onContinueUserActivity(CSQueryContinuationActionType, perform: { userActivity in
 
                 guard let searchString = userActivity.userInfo?[CSSearchQueryString] as? String else {
@@ -131,11 +131,9 @@ struct ContentView: View {
                 courses = try await learnKit.getAllCourses()
 
                 if courses.isEmpty {
-                    // TODO: Check this is correct :P
                     courses = try await learnKit.refreshCourses()
                 }
             } catch {
-                // TODO:
             }
         }
     }

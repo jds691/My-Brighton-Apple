@@ -16,8 +16,8 @@ import UIKit
 import AppKit
 #endif
 
-// TODO: OH MY GOD CLEAN THIS UP _PLEASE_
-// TODO: Change this to support partial societies e.g. just the display metadata
+// TODONT: OH MY GOD CLEAN THIS UP _PLEASE_
+// TODONT: Change this to support partial societies e.g. just the display metadata
 
 @ModelActor
 actor SocietyCache {

@@ -8,9 +8,6 @@
 import SwiftBbML
 import SwiftUI
 
-// TODO: Ensure that BbMLView supports the lineLimit environment key
-// https://github.com/users/jds691/projects/11/views/3?pane=issue&itemId=129421180
-
 public struct BbMLView: View {
     private var chunks: [BbMLContent.Chunk]
 

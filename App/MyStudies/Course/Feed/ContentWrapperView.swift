@@ -9,6 +9,7 @@ import SwiftUI
 import LearnKit
 
 // TODO: Remove forced unwraps
+// TODO: Show alert and dismiss on errors
 struct ContentWrapperView: View {
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.courseId) private var courseId

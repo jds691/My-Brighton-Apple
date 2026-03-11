@@ -71,8 +71,6 @@ struct CourseView: View {
                     $0
                 }
             }
-
-            // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
             .onChange(of: scrollPosition.y) {
                 // TODO: Sync with FlexibleHeader?
                 //print(scrollPosition.y)
@@ -88,14 +86,6 @@ struct CourseView: View {
             }
 #endif
             .navigationTitle(course?.name ?? courseId)
-        // TODO: Add back when working
-            /*.task {
-                do {
-                    try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(id: .primary(id), name: name, imageName: "nature20_thumb")))
-                } catch {
-
-                }
-            }*/
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     addContentMenu
@@ -244,7 +234,6 @@ struct CourseView: View {
                     }
                     #endif
                     course = try await learnKit.getCourse(for: courseId)
-                    print(course)
 
                     do {
                         rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
@@ -263,6 +252,12 @@ struct CourseView: View {
                     assert(announcements != nil)
 
                     print("Loaded course")
+
+                    do {
+                        try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course)))
+                    } catch {
+
+                    }
                 } catch {
                     print(error)
                 }
@@ -306,14 +301,6 @@ struct CourseView: View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .foregroundStyle(.brightonSecondary)
             .clipped()
-        // TODO: Add image back
-        /*ModuleImageView(image: image) {
-            $0
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .clipped()
-        }*/
         .headerBlur()
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {

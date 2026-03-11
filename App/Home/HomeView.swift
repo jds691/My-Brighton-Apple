@@ -149,8 +149,6 @@ struct HomeView: View {
                 $0
             }
         }
-
-        // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
         .onChange(of: scrollPosition.y) {
             // TODO: Sync with FlexibleHeader?
             //print(scrollPosition.y)

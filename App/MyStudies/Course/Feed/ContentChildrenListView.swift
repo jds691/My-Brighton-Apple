@@ -10,6 +10,7 @@ import LearnKit
 import Router
 
 // TODO: Remove forced unwraps
+// TODO: Show alert and dismiss on errors
 struct ContentChildrenListView: View {
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.courseId) private var courseId

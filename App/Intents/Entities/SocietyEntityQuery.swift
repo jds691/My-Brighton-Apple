@@ -18,7 +18,7 @@ struct SocietyEntityQuery: EntityStringQuery {
     }
 
     func suggestedEntities() async throws -> [Entity] {
-        // TODO: Return the users societies that they are a member of
+        // TODONT: Return the users societies that they are a member of
         return try await getSocieties()
     }
 
