@@ -152,6 +152,7 @@ struct TimetableView: View {
 
                                 if evenLaterClasses.isEmpty {
                                     NoContentView("Classes Finished for Today")
+                                        .frame(minHeight: 80)
                                 } else {
                                     ForEach(evenLaterClasses, id: \.id) { scheduledClass in
                                         TimetableRowView(scheduledClass)
@@ -161,6 +162,7 @@ struct TimetableView: View {
                                 Text("Later")
                                     .font(.title3.bold())
                                 NoContentView("Classes Finished for Today")
+                                    .frame(minHeight: 80)
                             }
                         } else {
                             ForEach(classes, id: \.id) { scheduledClass in

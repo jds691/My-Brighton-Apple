@@ -482,7 +482,6 @@
 				CoreSpotlightIndexDelegate/Info.plist,
 				Widgets/Assets.xcassets,
 				Widgets/Info.plist,
-				Widgets/NoContentView.swift,
 				Widgets/Timetable/ExtraClassesView.swift,
 				Widgets/Timetable/LargeTimetableWidgetView.swift,
 				Widgets/Timetable/MediumTimetableWidgetView.swift,

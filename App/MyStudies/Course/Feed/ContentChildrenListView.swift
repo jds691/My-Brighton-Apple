@@ -28,6 +28,7 @@ struct ContentChildrenListView: View {
         Group {
             if children.isEmpty {
                 NoContentView("No Content")
+                    .frame(minHeight: 80)
             } else {
                 LazyVStack(alignment: .leading, spacing: 8) {
                     ForEach(children, id: \.id) { child in

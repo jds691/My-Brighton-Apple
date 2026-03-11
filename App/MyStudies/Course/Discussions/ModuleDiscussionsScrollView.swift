@@ -28,6 +28,7 @@ struct ModuleDiscussionsScrollView: View {
             .buttonStyle(.plain)
 
             NoContentView("No Recent Discussions")
+                .frame(minHeight: 80)
         }
     }
 

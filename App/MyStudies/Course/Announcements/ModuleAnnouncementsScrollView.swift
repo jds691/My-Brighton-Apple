@@ -54,6 +54,7 @@ struct ModuleAnnouncementsScrollView: View {
                     .scrollIndicators(.hidden)
                 } else {
                     NoContentView("No Recent Announcements")
+                        .frame(minHeight: 80)
                 }
             } else {
                 ProgressView()

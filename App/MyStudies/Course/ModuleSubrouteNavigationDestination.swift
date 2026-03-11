@@ -34,6 +34,7 @@ fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier
                             .environment(\.courseId, courseId)
                     default:
                         NoContentView("Invalid route for `Navigation.Route.MyStudiesSubRoute.ModuleSubRoute`")
+                            .frame(minHeight: 80)
                 }
             }
     }
