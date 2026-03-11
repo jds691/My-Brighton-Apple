@@ -254,7 +254,10 @@ struct CourseView: View {
                     print("Loaded course")
 
                     do {
-                        try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course)))
+                        // TODO: Dismiss view and show errors
+                        if let course {
+                            try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course)))
+                        }
                     } catch {
 
                     }

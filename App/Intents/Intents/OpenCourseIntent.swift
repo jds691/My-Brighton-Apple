@@ -32,3 +32,11 @@ struct OpenCourseIntent: AppIntent, OpenIntent {
         return .result()
     }
 }
+
+extension OpenCourseIntent: PredictableIntent {
+    public static var predictionConfiguration: some IntentPredictionConfiguration {
+        IntentPrediction(parameters: \.$target, displayRepresentation: { course in
+                .init(stringLiteral: "Open \(course.name)")
+        })
+    }
+}
