@@ -91,6 +91,20 @@ struct TimetableView: View {
     private static let logger: Logger = Logger(subsystem: "com.neo.My-Brighton", category: "TimetableView")
     @Environment(\.timetableService) private var timetableService
 
+    let monthYearNameFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+
+        return formatter
+    }()
+
+    let monthNameFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+
+        return formatter
+    }()
+
     @State private var currentDate: Date = .now.withoutTime
     @State private var weeks: [[IdentifiableDate]] = []
     @State private var weekScrollPosition: ScrollPosition
@@ -186,9 +200,28 @@ struct TimetableView: View {
             header
         }
         .myBrightonBackground()
+        #if os(macOS)
         .navigationTitle("Timetable")
-        #if os(iOS)
+        .navigationSubtitle(subtitle)
+        #else
         .navigationBarTitleDisplayMode(.inline)
+        .modifierBranch {
+            if #available(iOS 26, *) {
+                $0
+                    .navigationTitle("Timetable")
+                    .navigationSubtitle(subtitle)
+            } else {
+                $0
+                    .navigationTitle("Timetable")
+                    .toolbar {
+                        ToolbarItemGroup(placement: .principal) {
+                            Text("Timetable")
+                            Text(subtitle)
+                                .foregroundStyle(.brightonSecondary)
+                        }
+                    }
+            }
+        }
         #endif
         .userActivity(UserActivity.Timetable.view) {
             let dateFormatter = {
@@ -368,6 +401,22 @@ struct TimetableView: View {
         .background(.brightonBackground)
         .onHover { isHovering in
             showHeaderScrollButtons = isHovering
+        }
+    }
+
+    private var subtitle: String {
+        if weeks.isEmpty {
+            return ""
+        } else if let startDate = weeks[weekIndex].first, let endDate = weeks[weekIndex].last {
+            if !Calendar.current.isDate(startDate.date, equalTo: endDate.date, toGranularity: .year) {
+                return "\(monthYearNameFormatter.string(from: startDate.date)) - \(monthYearNameFormatter.string(from: endDate.date))"
+            } else if !Calendar.current.isDate(startDate.date, equalTo: endDate.date, toGranularity: .month) {
+                return "\(monthNameFormatter.string(from: startDate.date)) - \(monthYearNameFormatter.string(from: endDate.date))"
+            } else {
+                return "\(monthYearNameFormatter.string(from: startDate.date))"
+            }
+        } else {
+            return "Unknown"
         }
     }
 
