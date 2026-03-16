@@ -7,7 +7,7 @@
 
 import LearnKit
 import AppIntents
-import TimetableIntents
+import Timetable
 
 final class MyBrightonAppShortcuts: AppShortcutsProvider {
     @AppShortcutsBuilder

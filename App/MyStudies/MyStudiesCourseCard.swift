@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LearnKit
+import CoreDesign
 
 // Fuck GeometryReader
 
@@ -21,23 +22,6 @@ struct MyStudiesCourseCard: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // TODO: Add image back when possible
-            /*ModuleImageView(image: image) { result in
-                result
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(
-                        minWidth: 0,
-                        maxWidth: .infinity,
-                        minHeight: 0,
-                        maxHeight: .infinity
-                    )
-                    .aspectRatio(aspectRatio, contentMode: .fit)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .contentShape(RoundedRectangle(cornerRadius: 16))
-            }*/
-
             RoundedRectangle(cornerRadius: 16)
                 .aspectRatio(contentMode: .fill)
                 .frame(

@@ -16,6 +16,11 @@
 		6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */; };
 		6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */; };
 		6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF692E4E7D4A003B15BB /* KeychainSwift */; };
+		683E322A2F5FC78000C24C00 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
+		6840C7662F61F7010097B1FA /* CoreDesign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6840C7602F61F7010097B1FA /* CoreDesign.framework */; };
+		6840C7672F61F7010097B1FA /* CoreDesign.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6840C7602F61F7010097B1FA /* CoreDesign.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6840C7B22F61F9E70097B1FA /* CoreDesign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6840C7602F61F7010097B1FA /* CoreDesign.framework */; };
+		6840C7B72F61F9F80097B1FA /* CoreDesign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6840C7602F61F7010097B1FA /* CoreDesign.framework */; };
 		684DFF782E56318A00E6C316 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FB25142A99573D00D7FDB9 /* WidgetKit.framework */; };
 		684DFF792E56318A00E6C316 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FB25162A99573D00D7FDB9 /* SwiftUI.framework */; };
 		684DFF8A2E56318D00E6C316 /* WidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 684DFF772E56318A00E6C316 /* WidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -23,26 +28,16 @@
 		6864265C2E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		686426672E68CC8600A088A8 /* Timetable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
-		686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD662EAD8FB70054B1DA /* SwiftBbML */; };
 		689FAD0B2F53CCAE00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; };
 		689FAD0C2F53CCAE00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		689FAD122F53CCBC00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); };
 		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 68AB39BC2E11C4460039AFC8 /* Glur */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
 		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
-		68EAC7052E79E34200A3F286 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
-		68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */; };
-		68EAC7992E79F5DA00A3F286 /* TimetableIntents.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		68EAC7A92E79F60600A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
-		68EAC7AD2E79F60600A3F286 /* TimetableUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426992E68CCEF00A088A8 /* TimetableUI.framework */; };
 		68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
 		68EAC7E72E7A089000A3F286 /* Router.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		68EAC7F52E7A094400A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
 		68F19A192E9D1DD9009701FD /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 68FF79E62E5516F8000B6F5C /* SwiftBbML */; };
 /* End PBXBuildFile section */
@@ -83,6 +78,34 @@
 			remoteGlobalIDString = 6B508BD9171489940080AB4D;
 			remoteInfo = ICSExporter;
 		};
+		683E322C2F5FC78000C24C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
+			remoteInfo = Router;
+		};
+		6840C7642F61F7010097B1FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6840C75F2F61F7010097B1FA;
+			remoteInfo = CoreDesign;
+		};
+		6840C7B42F61F9E70097B1FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6840C75F2F61F7010097B1FA;
+			remoteInfo = CoreDesign;
+		};
+		6840C7B92F61F9F80097B1FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6840C75F2F61F7010097B1FA;
+			remoteInfo = CoreDesign;
+		};
 		684DFF882E56318D00E6C316 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
@@ -118,20 +141,6 @@
 			remoteGlobalIDString = 686426522E68CC8500A088A8;
 			remoteInfo = Timetable;
 		};
-		6864269D2E68CCF000A088A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 686426982E68CCEF00A088A8;
-			remoteInfo = TimetableUI;
-		};
-		686426C42E68CD4A00A088A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 686426522E68CC8500A088A8;
-			remoteInfo = Timetable;
-		};
 		689FAD0D2F53CCAE00D84FA0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
@@ -160,42 +169,7 @@
 			remoteGlobalIDString = 686426522E68CC8500A088A8;
 			remoteInfo = Timetable;
 		};
-		68EAC7072E79E34200A3F286 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 686426982E68CCEF00A088A8;
-			remoteInfo = TimetableUI;
-		};
-		68EAC7962E79F5DA00A3F286 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 68EAC7912E79F5DA00A3F286;
-			remoteInfo = TimetableIntents;
-		};
-		68EAC7AB2E79F60600A3F286 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 686426522E68CC8500A088A8;
-			remoteInfo = Timetable;
-		};
-		68EAC7AF2E79F60600A3F286 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 686426982E68CCEF00A088A8;
-			remoteInfo = TimetableUI;
-		};
 		68EAC7E42E7A089000A3F286 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
-			remoteInfo = Router;
-		};
-		68EAC7F72E7A094400A3F286 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
 			proxyType = 1;
@@ -248,9 +222,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				686426A02E68CCF000A088A8 /* TimetableUI.framework in Embed Frameworks */,
+				6840C7672F61F7010097B1FA /* CoreDesign.framework in Embed Frameworks */,
 				686426672E68CC8600A088A8 /* Timetable.framework in Embed Frameworks */,
-				68EAC7992E79F5DA00A3F286 /* TimetableIntents.framework in Embed Frameworks */,
 				689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */,
 				681667142E67C1230089CE9A /* LearnKit.framework in Embed Frameworks */,
 				68EAC7E72E7A089000A3F286 /* Router.framework in Embed Frameworks */,
@@ -300,12 +273,11 @@
 		6835EF532E4E7ADD003B15BB /* LearnKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LearnKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
 		683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
+		6840C7602F61F7010097B1FA /* CoreDesign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDesign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		684DFF772E56318A00E6C316 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		686426532E68CC8500A088A8 /* Timetable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Timetable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6864265B2E68CC8600A088A8 /* TimetableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimetableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		686426992E68CCEF00A088A8 /* TimetableUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimetableUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		689FAD022F53CC8100D84FA0 /* UpdateManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UpdateManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimetableIntents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68EAC7E02E7A089000A3F286 /* Router.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Router.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68F19A152E9D1DD9009701FD /* LearnKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -314,18 +286,33 @@
 		68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntity.swift",
+				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntityQuery.swift",
+				"Timetable/Timetable/App Intents/Intents/GetTimetableIntent.swift",
+				"Timetable/Timetable/App Intents/Resources/Localizable.xcstrings",
+				"Timetable/Timetable/App Intents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/Timetable/App Intents/TimetableAppIntentsPackage.swift",
 				"Timetable/Timetable/Date++.swift",
 				Timetable/Timetable/ScheduledClass.swift,
 				Timetable/Timetable/TimetableService.swift,
+				Timetable/Timetable/UI/TimetableRowView.swift,
 			);
 			target = 686426522E68CC8500A088A8 /* Timetable */;
 		};
-		68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		6840C7922F61F7890097B1FA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Timetable/TimetableUI/TimetableRowView.swift,
+				CoreDesign/Background.swift,
+				"CoreDesign/Flexible Header/FlexibleHeader.swift",
+				"CoreDesign/Flexible Header/HeaderBlur.swift",
+				CoreDesign/ModifierBranch.swift,
+				CoreDesign/NoContentView.swift,
+				"CoreDesign/Pre-Liquid Glass/FloatingButtonStyle.swift",
+				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
+				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
+				CoreDesign/SplitStack.swift,
 			);
-			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
 		};
 		684E07592E9D631E001041CD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -381,6 +368,7 @@
 		68BE38DD2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/Assets.xcassets,
 				"SharedBundle++.swift",
 			);
 			target = 686426522E68CC8500A088A8 /* Timetable */;
@@ -426,27 +414,34 @@
 		68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntity.swift",
+				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntityQuery.swift",
+				"Timetable/Timetable/App Intents/Intents/GetTimetableIntent.swift",
+				"Timetable/Timetable/App Intents/Resources/Localizable.xcstrings",
+				"Timetable/Timetable/App Intents/Snippet Views/GetTimetableIntentSnippetView.swift",
+				"Timetable/Timetable/App Intents/Snippet Views/NoContentSnippetView.swift",
+				"Timetable/Timetable/App Intents/TimetableAppIntentsPackage.swift",
 				"Timetable/Timetable/Date++.swift",
 				Timetable/Timetable/Info.plist,
 				Timetable/Timetable/ScheduledClass.swift,
 				Timetable/Timetable/TimetableService.swift,
-				Timetable/TimetableIntents/Entities/ScheduledClassEntity.swift,
-				Timetable/TimetableIntents/Entities/ScheduledClassEntityQuery.swift,
-				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
-				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
-				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
-				"Timetable/TimetableIntents/Snippet Views/ModifierBranch.swift",
-				"Timetable/TimetableIntents/Snippet Views/NoContentSnippetView.swift",
-				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
-				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
+				Timetable/Timetable/UI/TimetableRowView.swift,
 				Timetable/TimetableTests/TimetableTests.swift,
-				Timetable/TimetableUI/TimetableRowView.swift,
 			);
 			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
 		};
 		68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CoreDesign/Background.swift,
+				"CoreDesign/Flexible Header/FlexibleHeader.swift",
+				"CoreDesign/Flexible Header/HeaderBlur.swift",
+				CoreDesign/ModifierBranch.swift,
+				CoreDesign/NoContentView.swift,
+				"CoreDesign/Pre-Liquid Glass/FloatingButtonStyle.swift",
+				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
+				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
+				CoreDesign/SplitStack.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -461,6 +456,15 @@
 		68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CoreDesign/Background.swift,
+				"CoreDesign/Flexible Header/FlexibleHeader.swift",
+				"CoreDesign/Flexible Header/HeaderBlur.swift",
+				CoreDesign/ModifierBranch.swift,
+				CoreDesign/NoContentView.swift,
+				"CoreDesign/Pre-Liquid Glass/FloatingButtonStyle.swift",
+				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
+				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
+				CoreDesign/SplitStack.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -472,21 +476,12 @@
 			);
 			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
 		};
-		68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/Assets.xcassets,
-				Resources/Fonts/Avenir.ttc,
-			);
-			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
-		};
 		68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreSpotlightIndexDelegate/Info.plist,
 				Widgets/Assets.xcassets,
 				Widgets/Info.plist,
-				Widgets/NoContentView.swift,
 				Widgets/Timetable/ExtraClassesView.swift,
 				Widgets/Timetable/LargeTimetableWidgetView.swift,
 				Widgets/Timetable/MediumTimetableWidgetView.swift,
@@ -498,11 +493,24 @@
 			);
 			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
 		};
+		68D9658B2F61FED50017DDA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Assets.xcassets,
+			);
+			target = 680AB6BE2F524B0500767C2E /* OSS Updater */;
+		};
+		68D9658F2F61FEDF0017DDA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Assets.xcassets,
+			);
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
+		};
 		68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Widgets/Assets.xcassets,
-				Widgets/NoContentView.swift,
 				Widgets/Resources/Localizable.xcstrings,
 				Widgets/Timetable/ExtraClassesView.swift,
 				Widgets/Timetable/LargeTimetableWidgetView.swift,
@@ -514,21 +522,6 @@
 				Widgets/WidgetStyling.swift,
 			);
 			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
-		};
-		68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Timetable/TimetableIntents/Entities/ScheduledClassEntity.swift,
-				Timetable/TimetableIntents/Entities/ScheduledClassEntityQuery.swift,
-				Timetable/TimetableIntents/Intents/GetTimetableIntent.swift,
-				Timetable/TimetableIntents/Resources/Localizable.xcstrings,
-				"Timetable/TimetableIntents/Snippet Views/GetTimetableIntentSnippetView.swift",
-				"Timetable/TimetableIntents/Snippet Views/ModifierBranch.swift",
-				"Timetable/TimetableIntents/Snippet Views/NoContentSnippetView.swift",
-				"Timetable/TimetableIntents/Snippet Views/TimetableRowView++.swift",
-				Timetable/TimetableIntents/TimetableAppIntentsPackage.swift,
-			);
-			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
 		};
 		68F19A582E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -636,10 +629,10 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		680AB6C02F524B0600767C2E /* OSSUpdater */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OSSUpdater; sourceTree = "<group>"; };
-		686425762E68A07800A088A8 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FD12E68D00B00B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68EAC7BD2E79F62300A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
-		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (685270BC2E9DE34900F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DC2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DD2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C8641D2E96A1330023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 689FAD212F53CD0E00D84FA0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		686425762E68A07800A088A8 /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C8640F2E96A0B80023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68272FCC2E68CFF700B90EC0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 686426782E68CC9500A088A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+		68C8624A2E969EB90023B0AD /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (685270BC2E9DE34900F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 685270BE2E9DE35100F8D2CB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DC2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68BE38DD2F50FD250074A398 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68D9658B2F61FED50017DDA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 689FAD212F53CD0E00D84FA0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68D9658F2F61FEDF0017DDA1 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		68C863632E969F950023B0AD /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C863B62E969F950023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
-		68C863E52E96A03C0023B0AD /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 689FAD2D2F53CD4A00D84FA0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
+		68C863E52E96A03C0023B0AD /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68C864132E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 689FAD2D2F53CD4A00D84FA0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 6840C7922F61F7890097B1FA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
 		68EAC7472E79EBFC00A3F286 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68EAC75B2E79EC0100A3F286 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68C864372E96A1A30023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		68F19A2A2E9D1E11009701FD /* LearnKit */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (68F19A582E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A592E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5A2E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 68F19A5B2E9D1E12009701FD /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, 684E07592E9D631E001041CD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LearnKit; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -649,15 +642,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6840C7662F61F7010097B1FA /* CoreDesign.framework in Frameworks */,
 				689FAD122F53CCBC00D84FA0 /* UpdateManager.framework in Frameworks */,
 				686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */,
 				681667132E67C1230089CE9A /* LearnKit.framework in Frameworks */,
-				68EAC7982E79F5DA00A3F286 /* TimetableIntents.framework in Frameworks */,
 				6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */,
-				68AB39BD2E11C4460039AFC8 /* Glur in Frameworks */,
 				68FF79E72E5516F8000B6F5C /* SwiftBbML in Frameworks */,
 				68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */,
-				6864269F2E68CCF000A088A8 /* TimetableUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,11 +679,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6840C75D2F61F7010097B1FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		684DFF742E56318A00E6C316 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68EAC7052E79E34200A3F286 /* TimetableUI.framework in Frameworks */,
+				6840C7B72F61F9F80097B1FA /* CoreDesign.framework in Frameworks */,
 				686425BC2E68AF9800A088A8 /* LearnKit.framework in Frameworks */,
 				684DFF792E56318A00E6C316 /* SwiftUI.framework in Frameworks */,
 				68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */,
@@ -705,6 +703,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */,
+				6840C7B22F61F9E70097B1FA /* CoreDesign.framework in Frameworks */,
+				683E322A2F5FC78000C24C00 /* Router.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,28 +716,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		686426962E68CCEF00A088A8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				686426C22E68CD4A00A088A8 /* Timetable.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		689FACFF2F53CC8100D84FA0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		68EAC78F2E79F5DA00A3F286 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				68EAC7AD2E79F60600A3F286 /* TimetableUI.framework in Frameworks */,
-				68EAC7F52E7A094400A3F286 /* Router.framework in Frameworks */,
-				68EAC7A92E79F60600A3F286 /* Timetable.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,12 +766,11 @@
 				680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */,
 				686426532E68CC8500A088A8 /* Timetable.framework */,
 				6864265B2E68CC8600A088A8 /* TimetableTests.xctest */,
-				686426992E68CCEF00A088A8 /* TimetableUI.framework */,
-				68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */,
 				68EAC7E02E7A089000A3F286 /* Router.framework */,
 				68F19A152E9D1DD9009701FD /* LearnKitTests.xctest */,
 				680AB6BF2F524B0500767C2E /* OSS Updater.app */,
 				689FAD022F53CC8100D84FA0 /* UpdateManager.framework */,
+				6840C7602F61F7010097B1FA /* CoreDesign.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -829,6 +810,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6840C75B2F61F7010097B1FA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6864264E2E68CC8500A088A8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -836,21 +824,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		686426942E68CCEF00A088A8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		689FACFD2F53CC8100D84FA0 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		68EAC78D2E79F5DA00A3F286 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -887,10 +861,9 @@
 				684DFF892E56318D00E6C316 /* PBXTargetDependency */,
 				680D64A12E6778770071DD6B /* PBXTargetDependency */,
 				686426652E68CC8600A088A8 /* PBXTargetDependency */,
-				6864269E2E68CCF000A088A8 /* PBXTargetDependency */,
-				68EAC7972E79F5DA00A3F286 /* PBXTargetDependency */,
 				68EAC7E52E7A089000A3F286 /* PBXTargetDependency */,
 				689FAD152F53CCBC00D84FA0 /* PBXTargetDependency */,
+				6840C7652F61F7010097B1FA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				68C8624A2E969EB90023B0AD /* Shared */,
@@ -976,6 +949,26 @@
 			productReference = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		6840C75F2F61F7010097B1FA /* CoreDesign */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6840C76A2F61F7010097B1FA /* Build configuration list for PBXNativeTarget "CoreDesign" */;
+			buildPhases = (
+				6840C75B2F61F7010097B1FA /* Headers */,
+				6840C75C2F61F7010097B1FA /* Sources */,
+				6840C75D2F61F7010097B1FA /* Frameworks */,
+				6840C75E2F61F7010097B1FA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreDesign;
+			packageProductDependencies = (
+			);
+			productName = CoreDesign;
+			productReference = 6840C7602F61F7010097B1FA /* CoreDesign.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		684DFF762E56318A00E6C316 /* WidgetsExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 684DFF8D2E56318D00E6C316 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */;
@@ -989,7 +982,7 @@
 			dependencies = (
 				686425BF2E68AF9800A088A8 /* PBXTargetDependency */,
 				68EAC7042E79E34200A3F286 /* PBXTargetDependency */,
-				68EAC7082E79E34200A3F286 /* PBXTargetDependency */,
+				6840C7BA2F61F9F80097B1FA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				68C8624A2E969EB90023B0AD /* Shared */,
@@ -1015,6 +1008,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				683E322D2F5FC78000C24C00 /* PBXTargetDependency */,
+				6840C7B52F61F9E70097B1FA /* PBXTargetDependency */,
 			);
 			name = Timetable;
 			packageProductDependencies = (
@@ -1045,27 +1040,6 @@
 			productReference = 6864265B2E68CC8600A088A8 /* TimetableTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		686426982E68CCEF00A088A8 /* TimetableUI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 686426A12E68CCF000A088A8 /* Build configuration list for PBXNativeTarget "TimetableUI" */;
-			buildPhases = (
-				686426942E68CCEF00A088A8 /* Headers */,
-				686426952E68CCEF00A088A8 /* Sources */,
-				686426962E68CCEF00A088A8 /* Frameworks */,
-				686426972E68CCEF00A088A8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				686426C52E68CD4A00A088A8 /* PBXTargetDependency */,
-			);
-			name = TimetableUI;
-			packageProductDependencies = (
-			);
-			productName = TimetableUI;
-			productReference = 686426992E68CCEF00A088A8 /* TimetableUI.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		689FAD012F53CC8100D84FA0 /* UpdateManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 689FAD062F53CC8100D84FA0 /* Build configuration list for PBXNativeTarget "UpdateManager" */;
@@ -1084,29 +1058,6 @@
 			);
 			productName = UpdateManager;
 			productReference = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		68EAC7912E79F5DA00A3F286 /* TimetableIntents */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 68EAC79A2E79F5DA00A3F286 /* Build configuration list for PBXNativeTarget "TimetableIntents" */;
-			buildPhases = (
-				68EAC78D2E79F5DA00A3F286 /* Headers */,
-				68EAC78E2E79F5DA00A3F286 /* Sources */,
-				68EAC78F2E79F5DA00A3F286 /* Frameworks */,
-				68EAC7902E79F5DA00A3F286 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				68EAC7AC2E79F60600A3F286 /* PBXTargetDependency */,
-				68EAC7B02E79F60600A3F286 /* PBXTargetDependency */,
-				68EAC7F82E7A094400A3F286 /* PBXTargetDependency */,
-			);
-			name = TimetableIntents;
-			packageProductDependencies = (
-			);
-			productName = TimetableIntents;
-			productReference = 68EAC7922E79F5DA00A3F286 /* TimetableIntents.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		68EAC7DF2E7A089000A3F286 /* Router */ = {
@@ -1173,6 +1124,9 @@
 					6835EF522E4E7ADD003B15BB = {
 						CreatedOnToolsVersion = 26.0;
 					};
+					6840C75F2F61F7010097B1FA = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					684DFF762E56318A00E6C316 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -1183,14 +1137,8 @@
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = 28E311062A98E78D00ECC35C;
 					};
-					686426982E68CCEF00A088A8 = {
-						CreatedOnToolsVersion = 26.0;
-					};
 					689FAD012F53CC8100D84FA0 = {
 						CreatedOnToolsVersion = 26.3;
-					};
-					68EAC7912E79F5DA00A3F286 = {
-						CreatedOnToolsVersion = 26.0;
 					};
 					68EAC7DF2E7A089000A3F286 = {
 						CreatedOnToolsVersion = 26.0;
@@ -1210,7 +1158,6 @@
 			);
 			mainGroup = 28E310FE2A98E78C00ECC35C;
 			packageReferences = (
-				68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */,
 				689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
@@ -1241,10 +1188,9 @@
 				68F19A142E9D1DD9009701FD /* LearnKitTests */,
 				686426522E68CC8500A088A8 /* Timetable */,
 				6864265A2E68CC8600A088A8 /* TimetableTests */,
-				686426982E68CCEF00A088A8 /* TimetableUI */,
-				68EAC7912E79F5DA00A3F286 /* TimetableIntents */,
 				680AB6BE2F524B0500767C2E /* OSS Updater */,
 				689FAD012F53CC8100D84FA0 /* UpdateManager */,
+				6840C75F2F61F7010097B1FA /* CoreDesign */,
 			);
 		};
 /* End PBXProject section */
@@ -1295,6 +1241,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6840C75E2F61F7010097B1FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		684DFF752E56318A00E6C316 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1316,21 +1269,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		686426972E68CCEF00A088A8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		689FAD002F53CC8100D84FA0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		68EAC7902E79F5DA00A3F286 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1382,6 +1321,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6840C75C2F61F7010097B1FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		684DFF732E56318A00E6C316 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1403,21 +1349,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		686426952E68CCEF00A088A8 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		689FACFE2F53CC8100D84FA0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		68EAC78E2E79F5DA00A3F286 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1460,6 +1392,26 @@
 			isa = PBXTargetDependency;
 			productRef = 6835EF6E2E4E7D60003B15BB /* OpenAPIGenerator */;
 		};
+		683E322D2F5FC78000C24C00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+			targetProxy = 683E322C2F5FC78000C24C00 /* PBXContainerItemProxy */;
+		};
+		6840C7652F61F7010097B1FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
+			targetProxy = 6840C7642F61F7010097B1FA /* PBXContainerItemProxy */;
+		};
+		6840C7B52F61F9E70097B1FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
+			targetProxy = 6840C7B42F61F9E70097B1FA /* PBXContainerItemProxy */;
+		};
+		6840C7BA2F61F9F80097B1FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
+			targetProxy = 6840C7B92F61F9F80097B1FA /* PBXContainerItemProxy */;
+		};
 		684DFF892E56318D00E6C316 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
@@ -1485,16 +1437,6 @@
 			target = 686426522E68CC8500A088A8 /* Timetable */;
 			targetProxy = 686426642E68CC8600A088A8 /* PBXContainerItemProxy */;
 		};
-		6864269E2E68CCF000A088A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
-			targetProxy = 6864269D2E68CCF000A088A8 /* PBXContainerItemProxy */;
-		};
-		686426C52E68CD4A00A088A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 686426522E68CC8500A088A8 /* Timetable */;
-			targetProxy = 686426C42E68CD4A00A088A8 /* PBXContainerItemProxy */;
-		};
 		689FAD0E2F53CCAE00D84FA0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 689FAD012F53CC8100D84FA0 /* UpdateManager */;
@@ -1518,35 +1460,10 @@
 			target = 686426522E68CC8500A088A8 /* Timetable */;
 			targetProxy = 68EAC7032E79E34200A3F286 /* PBXContainerItemProxy */;
 		};
-		68EAC7082E79E34200A3F286 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
-			targetProxy = 68EAC7072E79E34200A3F286 /* PBXContainerItemProxy */;
-		};
-		68EAC7972E79F5DA00A3F286 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 68EAC7912E79F5DA00A3F286 /* TimetableIntents */;
-			targetProxy = 68EAC7962E79F5DA00A3F286 /* PBXContainerItemProxy */;
-		};
-		68EAC7AC2E79F60600A3F286 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 686426522E68CC8500A088A8 /* Timetable */;
-			targetProxy = 68EAC7AB2E79F60600A3F286 /* PBXContainerItemProxy */;
-		};
-		68EAC7B02E79F60600A3F286 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 686426982E68CCEF00A088A8 /* TimetableUI */;
-			targetProxy = 68EAC7AF2E79F60600A3F286 /* PBXContainerItemProxy */;
-		};
 		68EAC7E52E7A089000A3F286 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 68EAC7DF2E7A089000A3F286 /* Router */;
 			targetProxy = 68EAC7E42E7A089000A3F286 /* PBXContainerItemProxy */;
-		};
-		68EAC7F82E7A094400A3F286 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 68EAC7DF2E7A089000A3F286 /* Router */;
-			targetProxy = 68EAC7F72E7A094400A3F286 /* PBXContainerItemProxy */;
 		};
 		68F19A1B2E9D1DD9009701FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1696,7 +1613,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				DEVELOPMENT_TEAM = CVP95X53V4;
@@ -1751,7 +1668,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App/Resources/My Brighton.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "App/Preview\\ Content/Preview\\ Assets.xcassets";
 				ENABLE_APP_SANDBOX = YES;
@@ -1826,6 +1743,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.OSS-Updater";
@@ -1878,6 +1796,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.OSS-Updater";
@@ -1905,7 +1824,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1946,7 +1865,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Extensions/CoreSpotlightIndexDelegate/Resources/CoreSpotlightIndexDelegate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2086,6 +2005,104 @@
 			};
 			name = Release;
 		};
+		6840C7682F61F7010097B1FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CVP95X53V4;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.neo.CoreDesign;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		6840C7692F61F7010097B1FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.neo.CoreDesign;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 		684DFF8B2E56318D00E6C316 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2093,7 +2110,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2138,7 +2155,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = Extensions/Widgets/Resources/WidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10C20260223;
+				CURRENT_PROJECT_VERSION = 10A20260311;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2332,104 +2349,6 @@
 			};
 			name = Release;
 		};
-		686426A22E68CCF000A088A8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.TimetableUI";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = auto;
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_MODULE = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Debug;
-		};
-		686426A32E68CCF000A088A8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.TimetableUI";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = auto;
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_MODULE = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Release;
-		};
 		689FAD072F53CC8100D84FA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2513,104 +2432,6 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		68EAC79B2E79F5DA00A3F286 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.TimetableIntents";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = auto;
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_MODULE = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-				XROS_DEPLOYMENT_TARGET = 26.0;
-			};
-			name = Debug;
-		};
-		68EAC79C2E79F5DA00A3F286 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.neo.My-Brighton.TimetableIntents";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = auto;
-				SKIP_INSTALL = YES;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INSTALL_MODULE = YES;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -2818,6 +2639,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		6840C76A2F61F7010097B1FA /* Build configuration list for PBXNativeTarget "CoreDesign" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6840C7682F61F7010097B1FA /* Debug */,
+				6840C7692F61F7010097B1FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		684DFF8D2E56318D00E6C316 /* Build configuration list for PBXNativeTarget "WidgetsExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2845,29 +2675,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		686426A12E68CCF000A088A8 /* Build configuration list for PBXNativeTarget "TimetableUI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				686426A22E68CCF000A088A8 /* Debug */,
-				686426A32E68CCF000A088A8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		689FAD062F53CC8100D84FA0 /* Build configuration list for PBXNativeTarget "UpdateManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				689FAD072F53CC8100D84FA0 /* Debug */,
 				689FAD082F53CC8100D84FA0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		68EAC79A2E79F5DA00A3F286 /* Build configuration list for PBXNativeTarget "TimetableIntents" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				68EAC79B2E79F5DA00A3F286 /* Debug */,
-				68EAC79C2E79F5DA00A3F286 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2944,14 +2756,6 @@
 				minimumVersion = 1.1.0;
 			};
 		};
-		68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/joogps/Glur";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.4;
-			};
-		};
 		68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ramonvasc/MXLCalendarManagerSwift.git";
@@ -2992,11 +2796,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6899FD602EAD8F4D0054B1DA /* XCLocalSwiftPackageReference "../Anthology/SwiftBbML" */;
 			productName = SwiftBbML;
-		};
-		68AB39BC2E11C4460039AFC8 /* Glur */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68AB39BB2E11C4460039AFC8 /* XCRemoteSwiftPackageReference "Glur" */;
-			productName = Glur;
 		};
 		68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,9 @@
 
 import Foundation
 import LearnKit
+#if canImport(UIKit)
+import UIKit
+#endif
 
 //https://talk.objc.io/episodes/S01E49-deep-linking
 //https://github.com/kickstarter/ios-oss/blob/main/Library/Navigation.swift
@@ -14,6 +17,51 @@ import LearnKit
 public enum Navigation: Hashable {
     case route(_ route: Route)
     case modal(_ modal: Modal)
+
+    public init?(from url: URL) {
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+
+        if components.scheme == "mybrighton" {
+            let path = components.path.split(separator: "/", omittingEmptySubsequences: true)
+            dump(path)
+
+            if let host = url.host() {
+                switch host {
+                    case "home":
+                        if path.count >= 1 {
+                            switch path[0] {
+                                case "timetable":
+                                    self = .route(.home(.timetable(nil)))
+                                    break
+                                default:
+                                    break
+                            }
+                        }
+                        break
+                    default:
+                        break
+                }
+            }
+        }
+
+        return nil
+    }
+
+    #if canImport(UIKit)
+    public init?(from shortcutItem: UIApplicationShortcutItem) {
+        switch (shortcutItem.type) {
+            case "account":
+                self = .modal(.account)
+            case "myStudies":
+                self = .route(.myStudies(nil))
+            case "search":
+                self = .route(.search)
+            default:
+                print("Unable to navigate to destination: '\(shortcutItem.type)'")
+                return nil
+        }
+    }
+    #endif
 
     public enum Route: Hashable, Identifiable {
         case home(Self.HomeSubRoute?)

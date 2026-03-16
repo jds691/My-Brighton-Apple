@@ -8,10 +8,10 @@
 #if ENABLE_BSU
 import Foundation
 
-// TODO: Rubric does not indicate when a society was last changed, it may be smart to only do a partial index here and request the full information each time it's needed
+// TODONT: Rubric does not indicate when a society was last changed, it may be smart to only do a partial index here and request the full information each time it's needed
 // Only resorting to the cache if the program does not have an internet connection
 
-// TODO: getUnifiedHomeScreen might be a useful call to make for getting popular societies and events
+// TODONT: getUnifiedHomeScreen might be a useful call to make for getting popular societies and events
 
 nonisolated
 public final class SocietiesService: Sendable {
@@ -50,12 +50,12 @@ public final class SocietiesService: Sendable {
         let reponse = try await URLSession.shared.data(for: request)
         let responseBody = try JSONDecoder().decode(GetUnifiedSearchEndpointResponse.self, from: reponse.0)
 
-        // TODO: Check with local cache, if count hasn't changed do not request remaining societies
+        // TODONT: Check with local cache, if count hasn't changed do not request remaining societies
         if await responseBody.totalItemCount == cache.indexedSocietyCount() { return }
 
         requestDetails.firstCall = false
         requestDetails.limit = responseBody.totalItemCount
-        // TODO: Check if applying an offset of the current cached society count is feasible
+        // TODONT: Check if applying an offset of the current cached society count is feasible
 
         requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [

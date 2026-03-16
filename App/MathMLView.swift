@@ -83,9 +83,7 @@ fileprivate struct MathMLInteriorView: ViewRepresentable {
             </body>
             </html>
             """,
-            // TODO: Doesn't load correctly on macOS (as of beta 6/7)
             baseURL: #bundle.bundleURL
-            //baseURL: nil
         )
     }
     

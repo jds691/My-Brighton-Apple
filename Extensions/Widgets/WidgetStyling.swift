@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import CoreDesign
 
 struct WidgetBorderViewModifier: ViewModifier {
     @Environment(\.showsWidgetContainerBackground) private var isShowingBackground

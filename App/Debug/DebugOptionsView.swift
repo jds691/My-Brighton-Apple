@@ -14,7 +14,6 @@ import CoreSpotlight
 import LearnKit
 
 struct DebugOptionsView: View {
-    @Environment(\.webAuthenticationSession) private var webAuthenticationSession
     @Environment(\.dismiss) private var dismiss
 
     @Environment(Router.self) private var router
@@ -29,14 +28,6 @@ struct DebugOptionsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Accounts") {
-                    Button("LearnKit Auth") {
-                        Task {
-                            try? await learnKitService.authenticateUser(using: webAuthenticationSession)
-                        }
-                    }
-                }
-
                 Section("Timetable") {
                     Button("Load iCalendar file") {
                         showIcsImporter = true

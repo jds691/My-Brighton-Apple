@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ATSApplicationFontsPath</key>
-	<string>Resources/Fonts</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.neo.My-Brighton.Timetable.refresh</string>
@@ -50,10 +48,6 @@
 	</array>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>My Brighton can send notifications when new content are added to your courses or societies or for important updates.</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Avenir.ttc</string>
-	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

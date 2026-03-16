@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 import Router
 
 struct ModuleAnnouncementsScrollView: View {
@@ -53,6 +54,7 @@ struct ModuleAnnouncementsScrollView: View {
                     .scrollIndicators(.hidden)
                 } else {
                     NoContentView("No Recent Announcements")
+                        .frame(minHeight: 80)
                 }
             } else {
                 ProgressView()

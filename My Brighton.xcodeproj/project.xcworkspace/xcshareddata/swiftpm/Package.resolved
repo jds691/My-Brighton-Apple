@@ -1,15 +1,6 @@
 {
-  "originHash" : "0adc8921b8f0c356704b56607cad6c286b5cdd03aee60fd57ab5b704480b6013",
+  "originHash" : "a397410fdef84494082f9b1181bca8ce22361c2455c94862c4308b3b7a323092",
   "pins" : [
-    {
-      "identity" : "glur",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/joogps/Glur",
-      "state" : {
-        "revision" : "9e00ff79da318f2c78b749b1027e54a9d4de2e33",
-        "version" : "1.0.4"
-      }
-    },
     {
       "identity" : "keychain-swift",
       "kind" : "remoteSourceControl",

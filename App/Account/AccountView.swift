@@ -8,6 +8,7 @@
 import SwiftUI
 import PassKit
 import Router
+import CoreDesign
 
 @available(*, deprecated)
 struct AccountView: View {

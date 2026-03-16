@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LearnKit
+import CoreDesign
 
 struct ContentListCard: View {
     private var content: Content

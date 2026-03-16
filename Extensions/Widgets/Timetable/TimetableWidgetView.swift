@@ -8,8 +8,8 @@
 import SwiftUI
 import WidgetKit
 import Timetable
-import TimetableUI
 import LearnKit
+import CoreDesign
 
 fileprivate let timeFormatter: DateFormatter = {
     let formatter = DateFormatter()
@@ -139,6 +139,7 @@ struct TimetableWidgetView: View {
                         Text(entry.hadClassesToday ? "Classes Finished for Today" : "No Classes Today")
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }
+                    .cornerRadiusStyle(.containerRelative)
                 } else {
                     VStack(alignment: .leading) {
                         Text("Timetable")

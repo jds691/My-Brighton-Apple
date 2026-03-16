@@ -5,16 +5,10 @@
 //  Created by Neo Salmon on 23/10/2025.
 //
 
-//
-//  MediumTimetableWidgetView.swift
-//  My Brighton
-//
-//  Created by Neo Salmon on 23/10/2025.
-//
-
 import SwiftUI
 import WidgetKit
 import Timetable
+import CoreDesign
 
 fileprivate let timeFormatter: DateFormatter = {
     let formatter = DateFormatter()

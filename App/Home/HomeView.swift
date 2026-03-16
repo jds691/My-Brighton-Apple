@@ -10,6 +10,7 @@ import MapKit
 import LearnKit
 import AuthenticationServices
 import Router
+import CoreDesign
 
 struct HomeView: View {
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -149,8 +150,6 @@ struct HomeView: View {
                 $0
             }
         }
-
-        // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
         .onChange(of: scrollPosition.y) {
             // TODO: Sync with FlexibleHeader?
             //print(scrollPosition.y)
@@ -171,7 +170,6 @@ struct HomeView: View {
                         ToolbarItem(placement: .title) {
                             if showTitle {
                                 Text("Home")
-                                    .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
                                     .lineLimit(1)
                             } else {
                                 Text("")
@@ -181,7 +179,6 @@ struct HomeView: View {
             } else {
                 $0
                     .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
-                //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
                     .legacyToolbar(visible: !showTitle, showBackButton: false) {
                         primaryMenu
                     }
@@ -199,12 +196,6 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 primaryMenu
-            }
-        }
-        
-        .sheet(isPresented: $showInboxView) {
-            NavigationStack {
-                InboxView()
             }
         }
         #if os(iOS)

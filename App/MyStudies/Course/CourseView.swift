@@ -7,10 +7,10 @@
 
 import SwiftBbML
 import SwiftUI
-import Glur
 import LearnKit
 import Router
 import AppIntents
+import CoreDesign
 
 struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -72,8 +72,6 @@ struct CourseView: View {
                     $0
                 }
             }
-
-            // TODO: If the user was searching in MyStudiesView before opening ModuleView both toolbars display at the same time
             .onChange(of: scrollPosition.y) {
                 // TODO: Sync with FlexibleHeader?
                 //print(scrollPosition.y)
@@ -89,14 +87,6 @@ struct CourseView: View {
             }
 #endif
             .navigationTitle(course?.name ?? courseId)
-        // TODO: Add back when working
-            /*.task {
-                do {
-                    try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(id: .primary(id), name: name, imageName: "nature20_thumb")))
-                } catch {
-
-                }
-            }*/
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     addContentMenu
@@ -123,7 +113,6 @@ struct CourseView: View {
 
                     } label: {
                         Label("Favourite", systemImage: "star")
-                            .font(.custom("Avenir-Medium", size: 17, relativeTo: .body))
                     }
 
                     Section("People") {
@@ -165,7 +154,7 @@ struct CourseView: View {
                             ToolbarItem(placement: .title) {
                                 if showTitle {
                                     Text(course?.name ?? courseId)
-                                        .font(.custom("Avenir-Heavy", size: 17, relativeTo: .body))
+                                        .font(.headline)
                                         .lineLimit(1)
                                 } else {
                                     Text("")
@@ -198,7 +187,6 @@ struct CourseView: View {
 
                                 } label: {
                                     Label("Favourite", systemImage: "star")
-                                        .font(.custom("Avenir-Medium", size: 17, relativeTo: .body))
                                 }
 
                                 Section("People") {
@@ -247,7 +235,6 @@ struct CourseView: View {
                     }
                     #endif
                     course = try await learnKit.getCourse(for: courseId)
-                    print(course)
 
                     do {
                         rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
@@ -266,6 +253,15 @@ struct CourseView: View {
                     assert(announcements != nil)
 
                     print("Loaded course")
+
+                    do {
+                        // TODO: Dismiss view and show errors
+                        if let course {
+                            try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course)))
+                        }
+                    } catch {
+
+                    }
                 } catch {
                     print(error)
                 }
@@ -309,14 +305,6 @@ struct CourseView: View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
             .foregroundStyle(.brightonSecondary)
             .clipped()
-        // TODO: Add image back
-        /*ModuleImageView(image: image) {
-            $0
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                .clipped()
-        }*/
         .headerBlur()
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {
@@ -330,17 +318,17 @@ struct CourseView: View {
             VStack(alignment: .leading) {
                 if let course {
                     Text(course.courseId)
-                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                        .font(.title3)
                     Text(course.name)
                         .lineLimit(2)
-                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                        .font(.largeTitle.bold())
                 } else {
                     Text(courseId)
-                        .font(.custom("Avenir-Medium", size: 20, relativeTo: .title3))
+                        .font(.title3)
                         .redacted(reason: .placeholder)
                     Text("YEAR MODULE LONG COURSE NAME")
                         .lineLimit(2)
-                        .font(.custom("Avenir-Heavy", size: 34, relativeTo: .largeTitle))
+                        .font(.largeTitle.bold())
                         .redacted(reason: .placeholder)
                 }
             }

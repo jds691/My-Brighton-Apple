@@ -18,15 +18,12 @@ public enum Modal: String, Hashable, Identifiable, CaseIterable {
     public var id: Modal { self }
 
     case account
-    case inbox
     case timetableSetup
 
     public var windowId: String {
         switch self {
             case .account:
                 "account"
-            case .inbox:
-                "inbox"
             default:
                 ""
         }
@@ -163,53 +160,4 @@ public final class Router {
         path.append(subroute)
         print(path.count)
     }
-
-    public func navigate(from url: URL) {
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-
-        Self.logger.debug("\(components.scheme!)")
-
-        if components.scheme == "mybrighton" {
-            Self.logger.info("Handling deep link: \(url.path())")
-
-            let path = components.path.split(separator: "/", omittingEmptySubsequences: true)
-            dump(path)
-
-            // TODO: Let the routes instantiate themselves based on a path component
-            if let host = url.host() {
-                switch host {
-                    case "home":
-                        if path.count >= 1 {
-                            switch path[0] {
-                                case "timetable":
-                                    navigate(to: .route(.home(.timetable(nil))))
-                                    break
-                                default:
-                                    break
-                            }
-                        }
-                        break
-                    default:
-                        break
-                }
-            }
-        } else {
-
-        }
-    }
-
-    #if os(iOS)
-    public func navigate(from shortcutItem: UIApplicationShortcutItem) {
-        switch (shortcutItem.type) {
-            case "account":
-                self.navigate(to: .modal(.account))
-            case "myStudies":
-                self.navigate(to: .route(.myStudies(nil)))
-            case "search":
-                self.navigate(to: .route(.search))
-            default:
-                print("Unable to navigate to destination: '\(shortcutItem.type)'")
-        }
-    }
-    #endif
 }

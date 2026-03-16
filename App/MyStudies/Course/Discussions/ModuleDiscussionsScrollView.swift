@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 import Router
 
 struct ModuleDiscussionsScrollView: View {
@@ -27,6 +28,7 @@ struct ModuleDiscussionsScrollView: View {
             .buttonStyle(.plain)
 
             NoContentView("No Recent Discussions")
+                .frame(minHeight: 80)
         }
     }
 

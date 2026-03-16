@@ -9,7 +9,6 @@ import CoreSpotlight
 import LearnKit
 
 class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
-
     override func searchableIndex(_ searchableIndex: CSSearchableIndex, reindexAllSearchableItemsWithAcknowledgementHandler acknowledgementHandler: @escaping () -> Void) {
         let semaphore = DispatchSemaphore(value: 0)
 
@@ -34,12 +33,4 @@ class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
         semaphore.wait()
         acknowledgementHandler()
     }
-
-    /*override func data(for searchableIndex: CSSearchableIndex, itemIdentifier: String, typeIdentifier: String) throws -> Data {
-        return Data()
-    }
-
-    override func fileURL(for searchableIndex: CSSearchableIndex, itemIdentifier: String, typeIdentifier: String, inPlace: Bool) throws -> URL {
-        return URL(fileURLWithPath: "")
-    }*/
 }

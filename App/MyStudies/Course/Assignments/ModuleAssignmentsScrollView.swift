@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 import Router
 
 struct ModuleAssignmentsScrollView: View {
@@ -26,6 +27,7 @@ struct ModuleAssignmentsScrollView: View {
             .buttonStyle(.plain)
 
             NoContentView("No Upcoming Assignments")
+                .frame(minHeight: 80)
         }
     }
 

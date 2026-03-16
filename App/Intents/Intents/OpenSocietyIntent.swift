@@ -22,7 +22,6 @@ struct OpenSocietyIntent: AppIntent, OpenIntent {
 
     func perform() async throws -> some IntentResult {
         await router.navigate(to: .route(.bsu))
-        //await router.appendToNavigationPath(target.id)
         return .result()
     }
 }

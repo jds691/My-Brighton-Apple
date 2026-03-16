@@ -32,7 +32,7 @@ struct ContentView: View {
         
         root
             .onContinueRouterUserActivities()
-        // TODO: Don't know where Router sits in the architecture hierarchy so Spotlight Continuation now lives here
+        // Not included in Router due to the dependency on SearchManager
             .onContinueUserActivity(CSQueryContinuationActionType, perform: { userActivity in
 
                 guard let searchString = userActivity.userInfo?[CSSearchQueryString] as? String else {
@@ -42,16 +42,11 @@ struct ContentView: View {
                 router.navigate(to: .route(.search))
                 searchManager.search(for: searchString)
             })
-            /*.onOpenURL { url in
-                router.navigate(from: url)
-            }*/
             .sheet(item: $router.rootModal) { requestedModal in
                 Group {
-                    switch (requestedModal) {
+                    switch requestedModal {
                         case .account:
                             AccountView()
-                        case .inbox:
-                            InboxView()
                         case .timetableSetup:
                             TimetableSetupView()
                     }
@@ -136,11 +131,9 @@ struct ContentView: View {
                 courses = try await learnKit.getAllCourses()
 
                 if courses.isEmpty {
-                    // TODO: Check this is correct :P
                     courses = try await learnKit.refreshCourses()
                 }
             } catch {
-                // TODO:
             }
         }
     }

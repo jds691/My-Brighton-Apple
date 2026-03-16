@@ -8,6 +8,7 @@
 import SwiftBbML
 import SwiftUI
 import QuickLookThumbnailing
+import CoreDesign
 
 struct BbMLAttachmentView: View {
     // TEMP

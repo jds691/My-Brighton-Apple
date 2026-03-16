@@ -9,6 +9,7 @@ import Foundation
 import SwiftBbML
 import SwiftUI
 import LearnKit
+import CoreDesign
 
 struct ModuleAnnouncementCard: View {
     private var title: String

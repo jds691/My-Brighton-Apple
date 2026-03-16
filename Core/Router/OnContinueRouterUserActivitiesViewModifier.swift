@@ -19,14 +19,11 @@ public struct OnContinueRouterUserActivitiesViewModifier: ViewModifier {
         content
         // MARK: URL navigation
             .onOpenURL { url in
-                router.navigate(from: url)
+                if let navigation = Navigation(from: url) {
+                    router.navigate(to: navigation)
+                }
             }
         // MARK: System
-            /*.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
-                if let webpageURL = activity.webpageURL {
-                    router.navigate(from: webpageURL)
-                }
-            }*/
             .onContinueUserActivity(CSSearchableItemActionType) { activity in
                 guard let itemIdentifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
 

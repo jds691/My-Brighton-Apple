@@ -7,9 +7,11 @@
 
 import SwiftUI
 import LearnKit
+import CoreDesign
 import Router
 
 // TODO: Remove forced unwraps
+// TODO: Show alert and dismiss on errors
 struct ContentChildrenListView: View {
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.courseId) private var courseId
@@ -26,6 +28,7 @@ struct ContentChildrenListView: View {
         Group {
             if children.isEmpty {
                 NoContentView("No Content")
+                    .frame(minHeight: 80)
             } else {
                 LazyVStack(alignment: .leading, spacing: 8) {
                     ForEach(children, id: \.id) { child in
