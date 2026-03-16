@@ -103,10 +103,10 @@ struct TimetableHomeWidgetView: View {
                 } else if upcomingOrCurrentClasses.isEmpty {
                     if hadClassesToday {
                         NoContentView("Classes Finished for Today")
-                            .frame(minHeight: 80)
+                            .frame(height: 80)
                     } else {
                         NoContentView("No Classes Today")
-                            .frame(minHeight: 80)
+                            .frame(height: 80)
                     }
                 } else {
                     VStack(alignment: .leading) {
