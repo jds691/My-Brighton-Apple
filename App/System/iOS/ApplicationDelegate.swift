@@ -7,9 +7,17 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 import Router
+import Notifier
 
 class ApplicationDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        UNUserNotificationCenter.current().delegate = MBNotifier.shared
+
+        return true
+    }
+
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         if let shortcutItem = options.shortcutItem {
             if let navigation = Navigation(from: shortcutItem) {
