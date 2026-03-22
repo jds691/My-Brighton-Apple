@@ -16,6 +16,8 @@ public final class Notifier: NSObject {
 
     public init(router: Router) {
         self.router = router
+
+        UNUserNotificationCenter.current().setNotificationCategories(Set(NotificationCategory.allCases.map { UNNotificationCategory(for: $0) }))
     }
 
     @discardableResult
@@ -34,6 +36,11 @@ public final class Notifier: NSObject {
         formatter.timeStyle = .short
         formatter.locale = Locale.current
 
+        let relativeFormatter = RelativeDateTimeFormatter()
+        relativeFormatter.formattingContext = .middleOfSentence
+        relativeFormatter.dateTimeStyle = .numeric
+        relativeFormatter.locale = Locale.current
+
         for scheduledClass in classes {
             let content = UNMutableNotificationContent()
             content.title = scheduledClass.name
@@ -41,6 +48,19 @@ public final class Notifier: NSObject {
             content.sound = .default
             content.interruptionLevel = .timeSensitive
             content.categoryIdentifier = NotificationCategory.timetabledClass.rawValue
+
+            let earlyContent = content.mutableCopy() as! UNMutableNotificationContent
+            earlyContent.title = "[Up Next] \(scheduledClass.name)"
+            earlyContent.body = "at \(scheduledClass.location) \(relativeFormatter.localizedString(for: scheduledClass.startDate, relativeTo: scheduledClass.startDate.addingTimeInterval(-900)))"
+
+            let earlyRequestTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year, .hour, .minute, .second], from: scheduledClass.startDate.addingTimeInterval(-900)), repeats: false)
+            let earlyRequest = UNNotificationRequest(identifier: "timetable.\(scheduledClass.id).class-start.early", content: earlyContent, trigger: earlyRequestTrigger)
+
+            do {
+                try await UNUserNotificationCenter.current().add(earlyRequest)
+            } catch {
+                Self.logger.error("Failed to schedule early notification for class '\(scheduledClass.id)': \(error.localizedDescription)")
+            }
 
             let requestTrigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year, .hour, .minute, .second], from: scheduledClass.startDate), repeats: false)
             let request = UNNotificationRequest(identifier: "timetable.\(scheduledClass.id).class-start", content: content, trigger: requestTrigger)

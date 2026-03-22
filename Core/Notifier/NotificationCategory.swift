@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import UserNotifications
 
-public enum NotificationCategory: RawRepresentable {
+public enum NotificationCategory: RawRepresentable, CaseIterable {
     public init?(rawValue: String) {
         switch rawValue {
             case "MB.timetable.class-start":
@@ -25,4 +26,13 @@ public enum NotificationCategory: RawRepresentable {
     }
 
     case timetabledClass
+}
+
+extension UNNotificationCategory {
+    convenience init(for notifierCategory: NotificationCategory) {
+        switch notifierCategory {
+            case .timetabledClass:
+                self.init(identifier: "MB.timetable.class-start", actions: [], intentIdentifiers: [])
+        }
+    }
 }
