@@ -78,11 +78,7 @@ struct MyBrightonApp: App {
                 }
             #endif
                 .task {
-                    do {
-                        let authorized = try await UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert, .carPlay, .providesAppNotificationSettings])
-                    } catch {
-                        
-                    }
+                    await notifier.requestAuthorisation()
                 }
                 .onAppear {
                     timetableService.scheduleRefresh()

@@ -18,6 +18,15 @@ public final class Notifier: NSObject {
         self.router = router
     }
 
+    @discardableResult
+    public func requestAuthorisation() async -> Bool {
+        do {
+            return try await UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert, .carPlay, .providesAppNotificationSettings])
+        } catch {
+            return false
+        }
+    }
+
     // MARK: Timetable
     public func scheduleNotifications(for classes: [ScheduledClassInfo]) async {
         let formatter = DateFormatter()
