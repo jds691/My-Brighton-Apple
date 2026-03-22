@@ -10,7 +10,8 @@ import Foundation
 import UserNotifications
 import Router
 
-public final class Notifier: NSObject {
+@MainActor
+public final class Notifier: NSObject, @MainActor UNUserNotificationCenterDelegate {
     private static let logger: Logger = Logger(subsystem: "com.neo.Notifier", category: "Notifier")
     private let router: Router
 
@@ -72,16 +73,14 @@ public final class Notifier: NSObject {
             }
         }
     }
-}
 
-// MARK: UNUserNotificationCenterDelegate
-extension Notifier: UNUserNotificationCenterDelegate {
+    // MARK: UNUserNotificationCenterDelegate
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         guard let category = NotificationCategory(rawValue: response.notification.request.content.categoryIdentifier) else { return }
 
         switch category {
             case .timetabledClass:
-                await router.navigate(to: .route(.home(.timetable(nil))))
+                router.navigate(to: .route(.home(.timetable(nil))))
         }
     }
 }
