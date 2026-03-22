@@ -37,6 +37,7 @@
 		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68E2AAE72F6FE6DE006A4B3C /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
+		68E2AB072F6FF015006A4B3C /* Notifier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6834A7412F6AE2A300BC7D6B /* Notifier.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
 		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
@@ -179,6 +180,13 @@
 			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
 			remoteInfo = Router;
 		};
+		68E2AB092F6FF015006A4B3C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6834A7402F6AE2A300BC7D6B;
+			remoteInfo = Notifier;
+		};
 		68EAC7032E79E34200A3F286 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
@@ -312,6 +320,7 @@
 				"Timetable/Timetable/App Intents/Snippet Views/GetTimetableIntentSnippetView.swift",
 				"Timetable/Timetable/App Intents/TimetableAppIntentsPackage.swift",
 				"Timetable/Timetable/Date++.swift",
+				"Timetable/Timetable/Notifications/ScheduledClassInfo++.swift",
 				Timetable/Timetable/ScheduledClass.swift,
 				Timetable/Timetable/TimetableService.swift,
 				Timetable/Timetable/UI/TimetableRowView.swift,
@@ -321,7 +330,9 @@
 		6834A74F2F6AE2A800BC7D6B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
+				Notifier/Types/ScheduledClassInfo.swift,
 			);
 			target = 6834A7402F6AE2A300BC7D6B /* Notifier */;
 		};
@@ -449,6 +460,7 @@
 				"Timetable/Timetable/App Intents/TimetableAppIntentsPackage.swift",
 				"Timetable/Timetable/Date++.swift",
 				Timetable/Timetable/Info.plist,
+				"Timetable/Timetable/Notifications/ScheduledClassInfo++.swift",
 				Timetable/Timetable/ScheduledClass.swift,
 				Timetable/Timetable/TimetableService.swift,
 				Timetable/Timetable/UI/TimetableRowView.swift,
@@ -468,7 +480,9 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
+				Notifier/Types/ScheduledClassInfo.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -492,7 +506,9 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
+				Notifier/Types/ScheduledClassInfo.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -741,6 +757,7 @@
 			files = (
 				68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */,
 				6840C7B22F61F9E70097B1FA /* CoreDesign.framework in Frameworks */,
+				68E2AB072F6FF015006A4B3C /* Notifier.framework in Frameworks */,
 				683E322A2F5FC78000C24C00 /* Router.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1077,6 +1094,7 @@
 			dependencies = (
 				683E322D2F5FC78000C24C00 /* PBXTargetDependency */,
 				6840C7B52F61F9E70097B1FA /* PBXTargetDependency */,
+				68E2AB0A2F6FF015006A4B3C /* PBXTargetDependency */,
 			);
 			name = Timetable;
 			packageProductDependencies = (
@@ -1549,6 +1567,11 @@
 			isa = PBXTargetDependency;
 			target = 68EAC7DF2E7A089000A3F286 /* Router */;
 			targetProxy = 68E2AAE92F6FE6DE006A4B3C /* PBXContainerItemProxy */;
+		};
+		68E2AB0A2F6FF015006A4B3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6834A7402F6AE2A300BC7D6B /* Notifier */;
+			targetProxy = 68E2AB092F6FF015006A4B3C /* PBXContainerItemProxy */;
 		};
 		68EAC7042E79E34200A3F286 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2037,7 +2060,7 @@
 				SWIFT_INSTALL_MODULE = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2084,7 +2107,7 @@
 				SWIFT_INSTALL_MODULE = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

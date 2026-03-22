@@ -31,6 +31,7 @@ public enum Modal: String, Hashable, Identifiable, CaseIterable {
 }
 
 @Observable
+@MainActor
 public final class Router {
     private static let logger: Logger = Logger(subsystem: "com.neo.My-Brighton", category: "Router")
     public static let shared: Router = Router()

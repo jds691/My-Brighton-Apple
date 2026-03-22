@@ -6,15 +6,10 @@
 //
 
 import SwiftUI
-#if os(macOS)
-import AppKit
-#else
-import UIKit
-#endif
 import Timetable
 
 public extension EnvironmentValues {
-    @Entry var timetableService: TimetableService = TimetableService()
+    @Entry var timetableService: TimetableService = TimetableService(notifier: nil)
 }
 
 struct TimetableServicePreviewModifier: PreviewModifier {
