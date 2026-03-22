@@ -36,6 +36,7 @@
 		689FAD122F53CCBC00D84FA0 /* UpdateManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); };
 		689FAD132F53CCBC00D84FA0 /* UpdateManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 689FAD022F53CC8100D84FA0 /* UpdateManager.framework */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
+		68E2AAE72F6FE6DE006A4B3C /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
 		68EAC7012E79E34200A3F286 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		68EAC7E62E7A089000A3F286 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
@@ -170,6 +171,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6835EF522E4E7ADD003B15BB;
 			remoteInfo = LearnKit;
+		};
+		68E2AAE92F6FE6DE006A4B3C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
+			remoteInfo = Router;
 		};
 		68EAC7032E79E34200A3F286 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -313,7 +321,7 @@
 		6834A74F2F6AE2A800BC7D6B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Notifier/MBNotifier.swift,
+				Notifier/Notifier.swift,
 			);
 			target = 6834A7402F6AE2A300BC7D6B /* Notifier */;
 		};
@@ -460,7 +468,7 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
-				Notifier/MBNotifier.swift,
+				Notifier/Notifier.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -484,7 +492,7 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
-				Notifier/MBNotifier.swift,
+				Notifier/Notifier.swift,
 				Router/ID/CourseAnnouncementIDUnion.swift,
 				Router/Navigation.swift,
 				Router/OnContinueRouterUserActivitiesViewModifier.swift,
@@ -693,6 +701,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68E2AAE72F6FE6DE006A4B3C /* Router.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +982,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				68E2AAEA2F6FE6DE006A4B3C /* PBXTargetDependency */,
 			);
 			name = Notifier;
 			packageProductDependencies = (
@@ -1535,6 +1545,11 @@
 			target = 6835EF522E4E7ADD003B15BB /* LearnKit */;
 			targetProxy = 68C28A6A2E91A97D0099B6EE /* PBXContainerItemProxy */;
 		};
+		68E2AAEA2F6FE6DE006A4B3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+			targetProxy = 68E2AAE92F6FE6DE006A4B3C /* PBXContainerItemProxy */;
+		};
 		68EAC7042E79E34200A3F286 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 686426522E68CC8500A088A8 /* Timetable */;
@@ -1985,7 +2000,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2034,7 +2049,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2186,7 +2201,7 @@
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2236,7 +2251,7 @@
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2528,7 +2543,7 @@
 		689FAD072F53CC8100D84FA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2571,7 +2586,7 @@
 		689FAD082F53CC8100D84FA0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
