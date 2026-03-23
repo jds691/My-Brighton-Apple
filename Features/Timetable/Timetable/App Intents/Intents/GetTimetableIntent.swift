@@ -138,10 +138,12 @@ public struct GetTimetableIntent: AppIntent {
                 } else { // More classes later
                          // Mmmmm, I love force unwrapping
                          // * The air crackles with confidence
-                    let nextClass = classes.first(where: { $0.startDate > .now })!
-                    let nextClassIndex = classes.firstIndex(where: { $0.startDate > .now })!
-                    let remainingClasses = classes.count - (nextClassIndex + 1)
-                    resultDialog = IntentDialog(full: moreClassesTodayFullDialogString(nextClass: nextClass, remainingClasses: remainingClasses), supporting: moreClassesTodayDialogString)
+                    if let nextClass = classes.first(where: { $0.startDate > .now }), let nextClassIndex = classes.firstIndex(where: { $0.startDate > .now }) {
+                        let remainingClasses = classes.count - (nextClassIndex + 1)
+                        resultDialog = IntentDialog(full: moreClassesTodayFullDialogString(nextClass: nextClass, remainingClasses: remainingClasses), supporting: moreClassesTodayDialogString)
+                    } else {
+                        resultDialog = IntentDialog(moreClassesTodayDialogString)
+                    }
                 }
             } else if date.withoutTime < .now.withoutTime { // Date is in the past
                 resultDialog = IntentDialog(classesPastDialogString)
