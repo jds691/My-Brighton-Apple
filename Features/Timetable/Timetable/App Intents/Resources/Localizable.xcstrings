@@ -31,9 +31,21 @@
     "GetTimetableIntent.dialog.classes.future" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are %1$lld classes on %2$@."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There is 1 class on %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There are %1$lld classes on %2$@."
+                }
+              }
+            }
           }
         }
       }
@@ -41,9 +53,21 @@
     "GetTimetableIntent.dialog.classes.past" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There were %1$lld classes on %2$@."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There was 1 class on %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There were %1$lld classes on %2$@."
+                }
+              }
+            }
           }
         }
       }
@@ -61,9 +85,21 @@
     "GetTimetableIntent.dialog.today.more-classes" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are %lld classes today."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There is 1 class today."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There are %lld classes today."
+                }
+              }
+            }
           }
         }
       }
@@ -73,7 +109,29 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+            "value" : "There %#@arg1@ today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+          },
+          "substitutions" : {
+            "arg1" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "is 1 class"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "are %arg classes"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -81,9 +139,21 @@
     "GetTimetableIntent.dialog.today.no-classes" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There were %lld classes today."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There was 1 class today."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There were %lld classes today."
+                }
+              }
+            }
           }
         }
       }
@@ -91,9 +161,21 @@
     "GetTimetableIntent.dialog.today.no-classes.full" : {
       "localizations" : {
         "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There were %lld classes today. There are no more classes to attend today."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There was 1 class today. There are no more classes to attend today."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "There were %lld classes today. There are no more classes to attend today."
+                }
+              }
+            }
           }
         }
       }
@@ -175,7 +257,29 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There are %1$lld classes today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+            "value" : "There %#@arg1@ today. The next class is %2$@ at %3$@ with %4$lld more classes later in the day."
+          },
+          "substitutions" : {
+            "arg1" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "is 1 class"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "are %arg classes"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
