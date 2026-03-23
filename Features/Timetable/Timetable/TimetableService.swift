@@ -11,6 +11,7 @@ import MXLCalendarManagerSwift
 import UserNotifications
 import BackgroundTasks
 import WidgetKit
+import Notifier
 
 /// The service responsible for reading the users timetable and performing related activities.
 public final class TimetableService: @unchecked Sendable {
@@ -23,6 +24,9 @@ public final class TimetableService: @unchecked Sendable {
     public static let remoteURLUserDefaultsKey: String = "Timetable.remoteURL"
 
     private static let logger: Logger = Logger(subsystem: "com.neo.My-Brighton", category: "TimetableService")
+
+    private let notifier: Notifier?
+
     private var remoteIcsURL: URL? = nil
     private var calendar: MXLCalendar?
     private var calendarDownloadTask: Task<Void, any Swift.Error>?
@@ -48,10 +52,11 @@ public final class TimetableService: @unchecked Sendable {
     /// During initialisation the service will attempt to read the users remote URL for the timetable from ``/Foundation/UserDefaults`` by the key ``remoteURLUserDefaultsKey``.
     ///
     /// It is expected to be stored in the App Group: `group.com.neo.My-Brighton`
-    public init() {
+    public init(notifier: Notifier?) {
         calendar = nil
         calendarDownloadTask = nil
         remoteIcsURL = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!.url(forKey: Self.remoteURLUserDefaultsKey)
+        self.notifier = notifier
     }
     
     /// Initialises an instance of the service using preview data.
@@ -59,6 +64,7 @@ public final class TimetableService: @unchecked Sendable {
     ///
     /// >important: Some instance methods may not function correctly as this initialiser does not load or set a remote URL by default. If this functionality is desired, set the remote URL with ``setRemoteURL(_:)``.
     public init(from previewData: Data) {
+        self.notifier = nil
         let icsString: String = cleanIcsString(String(decoding: previewData, as: UTF8.self))
 
         let semaphore = DispatchSemaphore(value: 0)
@@ -391,8 +397,21 @@ extension TimetableService {
     /// If notifications have been previously scheduled for this date they will be automatically cancelled and rescheduled.
     /// - Parameter date: Date that the notifications are created for.
     public func scheduleNotifications(for date: Date) async {
+        guard let notifier else { Self.logger.error("Notifier for service not initialised. Not schedueling notifications"); return }
+
         // TODO: Account for cancelled classes
+        let classes: [ScheduledClass]
+
         do {
+            classes = try await getClasses(after: date.withoutTime)
+        } catch {
+            Self.logger.error("\(error.localizedDescription)")
+            return
+        }
+
+        await notifier.scheduleNotifications(for: classes.map { ScheduledClassInfo(from: $0) })
+
+        /*do {
             if try await !UNUserNotificationCenter.current().requestAuthorization() { return }
         } catch {
             Self.logger.error("Failed to request authorisation for UNUserNotificationCenter")
@@ -406,7 +425,6 @@ extension TimetableService {
 
         let dateIdentifier = dateIdentifierFormatter.string(from: date.withoutTime)
 
-        // TODO: Make more efficient
         for notification in await UNUserNotificationCenter.current().pendingNotificationRequests().filter({ $0.identifier.starts(with: "timetable.") }) {
             if notification.identifier.starts(with: "timetable.\(dateIdentifier)") {
                 requestIdentifiersToRemove.append(notification.identifier)
@@ -445,6 +463,6 @@ extension TimetableService {
             } catch {
                 Self.logger.error("Failed to schedule notification for class '\(scheduledClass.id)': \(error.localizedDescription)")
             }
-        }
+        }*/
     }
 }

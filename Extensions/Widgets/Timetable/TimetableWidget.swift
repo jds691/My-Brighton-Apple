@@ -43,7 +43,7 @@ struct TimetableWidget: Widget {
 struct TimetableWidgetProvider: TimelineProvider {
     typealias Entry = TimetableWidgetProviderEntry
 
-    let service = TimetableService()
+    let service = TimetableService(notifier: nil)
 
     func placeholder(in context: Context) -> TimetableWidgetProviderEntry {
         return TimetableWidgetProviderEntry(

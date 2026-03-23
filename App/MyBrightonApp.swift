@@ -12,6 +12,7 @@ import LearnKit
 import Timetable
 import UserNotifications
 import Router
+import Notifier
 #if os(macOS)
 import ServiceManagement
 #endif
@@ -21,7 +22,8 @@ struct MyBrightonApp: App {
     // As it turns out, Apple changed how some APIs work. It doesn't seem possible to seperate instances between windows anymore
     // So 2 windows on iPadOS will *always* point to the same location even if the current nav destination is changed between differetn windows
     @State private var searchManager: SearchManager = SearchManager.shared
-    @State private var router: Router = Router.shared
+    @State private var router: Router
+    private let notifier: Notifier
     private let learnKitService: LearnKitService
     private let timetableService: TimetableService
 
@@ -32,15 +34,22 @@ struct MyBrightonApp: App {
 #endif
     
     init() {
+        let appRouter = Router.shared
+        // Has to be like this because for some reason self.notifier must be initialised first
+        self.notifier = Notifier(router: appRouter)
+        self.router = appRouter
+
         self.learnKitService = LearnKitService(client: PreviewClient())
         //self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())
-        self.timetableService = TimetableService()
+        self.timetableService = TimetableService(notifier: self.notifier)
+
 
         // Taken from sample code, idk why it's like this but I shall accept it
-        let appRouter = self.router
         let appSearchManager = self.searchManager
         let appLearnKitService = self.learnKitService
         let appTimetableService = self.timetableService
+
+        UNUserNotificationCenter.current().delegate = self.notifier
 
         AppDependencyManager.shared.add(dependency: appRouter)
         AppDependencyManager.shared.add(dependency: appSearchManager)
@@ -69,11 +78,7 @@ struct MyBrightonApp: App {
                 }
             #endif
                 .task {
-                    do {
-                        let authorized = try await UNUserNotificationCenter.current().requestAuthorization(options: [.sound, .badge, .alert, .carPlay, .providesAppNotificationSettings])
-                    } catch {
-                        
-                    }
+                    await notifier.requestAuthorisation()
                 }
                 .onAppear {
                     timetableService.scheduleRefresh()
