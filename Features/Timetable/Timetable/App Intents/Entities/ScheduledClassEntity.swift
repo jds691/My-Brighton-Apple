@@ -7,16 +7,14 @@
 
 import AppIntents
 
-public struct ScheduledClassEntity: AppEntity {
+public struct ScheduledClassEntity: TransientAppEntity {
     public static var typeDisplayRepresentation: TypeDisplayRepresentation {
         .init(name: "Scheduled Class")
     }
 
     public var displayRepresentation: DisplayRepresentation {
-        .init(title: "\(name)")
+        .init(title: "\(name)", subtitle: "\(location)")
     }
-
-    public static let defaultQuery = ScheduledClassEntityQuery()
 
     public var id: String
 
@@ -30,6 +28,10 @@ public struct ScheduledClassEntity: AppEntity {
     public var endDate: Date
     @Property(title: "Module Code")
     public var moduleCode: String
+
+    public init() {
+        self.id = ""
+    }
 
     public init(from modelClass: ScheduledClass) {
         self.id = modelClass.id

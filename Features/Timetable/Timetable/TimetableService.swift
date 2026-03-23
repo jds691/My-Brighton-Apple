@@ -195,22 +195,6 @@ public final class TimetableService: @unchecked Sendable {
         return calendar.date(from: adjustedDateComponents)
     }
 
-    /// Returns a list of classes corresponding to the identifiers passed on based on each events iCalendar UID property.
-    ///
-    /// This method is intended to be used by the `TimetableIntents` framework only.
-    ///
-    /// >important: This method will automatically initialise the calendar used by the service if it has not already been initialised.
-    /// - Parameter identifiers: A list of event identifiers to check for.
-    /// - Returns: A list of classes that match the identifiers provided.
-    public func getClasses(from identifiers: [ScheduledClass.ID]) async throws -> [ScheduledClass] {
-        if let calendar {
-            return calendar.events.filter({ identifiers.contains($0.eventUniqueID!) }).map { ScheduledClass(from: $0) }
-        } else {
-            try await initialiseCalendar()
-            return try await getClasses(from: identifiers)
-        }
-    }
-
     private func cleanIcsString(_ string: String) -> String {
         var icsString = string
 
