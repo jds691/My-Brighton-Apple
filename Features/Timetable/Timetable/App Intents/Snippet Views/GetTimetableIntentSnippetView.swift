@@ -39,26 +39,20 @@ public struct GetTimetableIntentSnippetView: View {
                 if evenLaterClasses.isEmpty {
                     Text("Classes Finished for Today")
                         .font(.caption)
+                        .foregroundStyle(.brightonSecondary)
                 } else {
                     HStack {
                         HStack(spacing: 4) {
                             ForEach(evenLaterClasses, id: \.id) { entity in
-                                // TODO: Look up colour from LearnKit
-#if os(macOS)
-                                Color(nsColor: NSColor(named: "AccentColor")!)
+                                Color(.brightonSecondary)
                                     .frame(maxWidth: 3)
                                     .clipShape(RoundedRectangle(cornerRadius: 1000))
-#else
-                                Color(uiColor: UIColor(named: "AccentColor")!)
-                                    .frame(maxWidth: 3)
-                                    .clipShape(RoundedRectangle(cornerRadius: 1000))
-#endif
                             }
                         }
 
-                        Text("\(evenLaterClasses.count - 1) more classes later")
+                        Text("GetTimetableIntent.snippet.more-classes.later.\(evenLaterClasses.count)")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.brightonSecondary)
                     }
                     .fixedSize(horizontal: false, vertical: true)
                 }
