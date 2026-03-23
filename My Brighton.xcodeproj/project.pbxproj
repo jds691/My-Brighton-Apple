@@ -314,7 +314,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntity.swift",
-				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntityQuery.swift",
 				"Timetable/Timetable/App Intents/Intents/GetTimetableIntent.swift",
 				"Timetable/Timetable/App Intents/Resources/Localizable.xcstrings",
 				"Timetable/Timetable/App Intents/Snippet Views/GetTimetableIntentSnippetView.swift",
@@ -452,7 +451,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntity.swift",
-				"Timetable/Timetable/App Intents/Entities/ScheduledClassEntityQuery.swift",
 				"Timetable/Timetable/App Intents/Intents/GetTimetableIntent.swift",
 				"Timetable/Timetable/App Intents/Resources/Localizable.xcstrings",
 				"Timetable/Timetable/App Intents/Snippet Views/GetTimetableIntentSnippetView.swift",
