@@ -21,14 +21,12 @@ struct BbMLContentViewer: View {
     @Binding private var content: Content
 
     @State private var bbML: BbMLContent = BbMLContent(header: nil, chunks: [])
-    @State private var displayBbML: BbMLContent = BbMLContent(header: nil, chunks: [])
+    @State private var displayBbML: BbMLContent = BbMLContent(
+        header: nil,
+        chunks: []
+    )
 
     @State private var isLoading: Bool = true
-
-    @State private var showTranslationErrorAlert: Bool = false
-    @State private var lastTranslationError: String? = nil
-    @State private var availableTranslationLanguages: [Locale.Language]? = nil
-    @State private var targetLanguage: Locale.Language = .contentLanguage
 
     @State private var showLoadFailedMessage: Bool = false
     @State private var loadFailedMessage: String = ""
@@ -39,20 +37,8 @@ struct BbMLContentViewer: View {
 
     var body: some View {
         ScrollView {
-            if targetLanguage != .contentLanguage {
-                Label("Automatic translations may be inaccurate.", systemImage: "translate")
-                    .font(.callout)
-                    .foregroundStyle(.brightonSecondary)
-                    .scenePadding()
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
             BbMLView(displayBbML)
                 .scenePadding(.horizontal)
-        }
-        .alert("Translation Error", isPresented: $showTranslationErrorAlert) {
-            // TODO: Add button that clears error message and resets translation
-        } message: {
-            Text(lastTranslationError ?? "")
         }
         .alert("Unable to load content", isPresented: $showLoadFailedMessage) {
             Button("Retry") {
@@ -60,7 +46,12 @@ struct BbMLContentViewer: View {
                 loadFailedMessage = ""
 
                 Task {
-                    try await learnKit.refreshContent(for: content.id, includeChildren: true, in: courseId!)
+                    try await learnKit
+                        .refreshContent(
+                            for: content.id,
+                            includeChildren: true,
+                            in: courseId!
+                        )
                     await loadView(target: content)
                 }
             }
@@ -76,9 +67,9 @@ struct BbMLContentViewer: View {
         }
         .myBrightonBackground()
         .navigationTitle(content.title)
-        #if os(iOS)
+#if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
+#endif
         .userActivity(UserActivity.MyStudies.Content.view) {
             $0.title = "\(content.title) in {Module name}"
             // Spotlight
@@ -99,7 +90,9 @@ struct BbMLContentViewer: View {
 
                     } label: {
                         Text("ePub")
-                        Text("For reading as an e-book on an iPad and other e-book readers")
+                        Text(
+                            "For reading as an e-book on an iPad and other e-book readers"
+                        )
                     }
                     Button {
 
@@ -132,49 +125,8 @@ struct BbMLContentViewer: View {
                 Label("Export", systemImage: "square.and.arrow.up")
             }
         }
-        .toolbar {
-            ToolbarItem(id: "translation", placement: .secondaryAction) {
-                Picker(selection: $targetLanguage) {
-                    if let availableTranslationLanguages {
-                            if availableTranslationLanguages.isEmpty {
-                                Text("Translation is not available on this device.")
-                                    .disabled(true)
-                            } else {
-                                Text("Original")
-                                    .tag(Locale.Language.contentLanguage)
-
-                                Section("Available Languages") {
-                                    ForEach(availableTranslationLanguages, id: \.maximalIdentifier) { language in
-                                        Text("\(getName(for: language)) (\(language.minimalIdentifier))")
-                                            .tag(language)
-                                    }
-                                }
-                            }
-                    } else {
-                        ProgressView("Please wait...")
-                    }
-                } label: {
-                    Label("Translate", systemImage: "translate")
-                }
-            }
-        }
         .task {
             await loadView(target: content)
-        }
-        .task {
-            let availability = LanguageAvailability()
-            let allLanguages = await availability.supportedLanguages
-
-            self.availableTranslationLanguages = []
-
-            for language in allLanguages {
-                if await availability.status(from: .contentLanguage, to: language) != .unsupported {
-                    self.availableTranslationLanguages!.append(language)
-                }
-            }
-        }
-        .translationTask(source: .contentLanguage, target: targetLanguage) { session in
-            await translateContent(using: session)
         }
     }
 
@@ -206,7 +158,10 @@ struct BbMLContentViewer: View {
                     if let childContent = try await learnKit.getChildContent(for: target.id, in: courseId!).first {
                         await loadView(target: childContent)
                     } else {
-                        let updatedContent = try await learnKit.refreshContent(for: target.id, in: courseId!)
+                        let updatedContent = try await learnKit.refreshContent(
+                            for: target.id,
+                            in: courseId!
+                        )
                         if updatedContent.isEmpty {
                             loadFailedMessage = "The content is empty."
                             showLoadFailedMessage = true
@@ -223,92 +178,6 @@ struct BbMLContentViewer: View {
         } catch {
 
         }
-    }
-
-    private func getName(for language: Locale.Language) -> String {
-        let languageCode = language.languageCode?.identifier ?? ""
-        let localizedDescription = currentLocale
-            .localizedString(forLanguageCode: languageCode)
-
-        return localizedDescription ?? "No description"
-    }
-
-    private func translateContent(using session: TranslationSession) async {
-        if targetLanguage == .contentLanguage {
-            displayBbML = bbML
-            return
-        }
-
-        do {
-            try await session.prepareTranslation()
-        } catch {
-            if let error = error as? TranslationError {
-                lastTranslationError = error.failureReason
-            }
-
-            showTranslationErrorAlert = true
-            return
-        }
-
-        displayBbML = bbML
-
-        let requests: [TranslationSession.Request] = displayBbML.chunks.filter({
-            if case .text(_) = $0 {
-                return true
-            } else {
-                return false
-            }
-        }).map { textChunk in
-            guard case let .text(attributedString) = textChunk else {
-                fatalError()
-            }
-
-            // Map each item into a request.
-            return TranslationSession.Request(sourceText: String(attributedString.characters))
-        }
-
-        Task { @MainActor in
-            let responses = try await session.translations(from: requests)
-
-            let replacementIndicies = displayBbML.chunks.filter({
-                if case .text(_) = $0 {
-                    return true
-                } else {
-                    return false
-                }
-            })
-                .map { textChunk in
-                    guard let index = displayBbML.chunks.firstIndex(of: textChunk) else { return -1 }
-
-                    return index
-                }
-
-            var newChunks: [BbMLContent.Chunk] = []
-
-            for index in 0..<displayBbML.chunks.count {
-                if replacementIndicies.contains(index) {
-                    guard case let .text(string) = displayBbML.chunks[index] else { return }
-
-                    if let translatedText = responses.first(where: { $0.sourceText == String(string.characters) }) {
-                        newChunks.append(.text(
-                            AttributedString(
-                                translatedText.targetText,
-                            )
-                        ))
-                    }
-                } else {
-                    newChunks.append(displayBbML.chunks[index])
-                }
-            }
-
-            displayBbML = BbMLContent(header: displayBbML.header, chunks: newChunks)
-        }
-    }
-}
-
-extension Locale.Language {
-    static var contentLanguage: Locale.Language {
-        .init(identifier: "en-GB")
     }
 }
 
