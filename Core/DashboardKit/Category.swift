@@ -7,8 +7,9 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
-public protocol Category : Identifiable, Sendable {
+public protocol Category : Identifiable {
     associatedtype Entry: DashboardEntry
     associatedtype EntryView: View
 

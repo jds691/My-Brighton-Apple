@@ -9,10 +9,10 @@ import Foundation
 import Observation
 import SwiftData
 
-public typealias DashboardEntry = Identifiable & PersistentModel & Hashable & Sendable
+public typealias DashboardEntry = Identifiable & PersistentModel & Hashable
 
 @Observable
-public final class Dashboard: Identifiable, Sendable {
+public final class Dashboard: Identifiable {
     public let id: String
     private let inMemory: Bool
     private let categories: [any Category]
