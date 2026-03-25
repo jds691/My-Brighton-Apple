@@ -33,6 +33,7 @@
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68CCDCDB2F7438E600E34DAD /* DashboardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CCDCD52F7438E600E34DAD /* DashboardKit.framework */; };
 		68CCDCDC2F7438E600E34DAD /* DashboardKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68CCDCD52F7438E600E34DAD /* DashboardKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		68CCDD202F74480E00E34DAD /* CoreDesign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6840C7602F61F7010097B1FA /* CoreDesign.framework */; };
 		68E2AAE72F6FE6DE006A4B3C /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
 		68E2AB072F6FF015006A4B3C /* Notifier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6834A7412F6AE2A300BC7D6B /* Notifier.framework */; };
 		68E89BFD2E7E2AF200840A47 /* MXLCalendarManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68E89BFC2E7E2AF200840A47 /* MXLCalendarManagerSwift */; };
@@ -162,6 +163,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 68CCDCD42F7438E600E34DAD;
 			remoteInfo = DashboardKit;
+		};
+		68CCDD222F74480E00E34DAD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6840C75F2F61F7010097B1FA;
+			remoteInfo = CoreDesign;
 		};
 		68E2AAE92F6FE6DE006A4B3C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -435,6 +443,7 @@
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				DashboardKit/Views/DashboardCarousell.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
 				Notifier/Types/ScheduledClassInfo.swift,
@@ -463,6 +472,7 @@
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				DashboardKit/Views/DashboardCarousell.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
 				Notifier/Types/ScheduledClassInfo.swift,
@@ -499,6 +509,7 @@
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				DashboardKit/Views/DashboardCarousell.swift,
 			);
 			target = 68CCDCD42F7438E600E34DAD /* DashboardKit */;
 		};
@@ -723,6 +734,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68CCDD202F74480E00E34DAD /* CoreDesign.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1071,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				68CCDD232F74480E00E34DAD /* PBXTargetDependency */,
 			);
 			name = DashboardKit;
 			packageProductDependencies = (
@@ -1458,6 +1471,11 @@
 			isa = PBXTargetDependency;
 			target = 68CCDCD42F7438E600E34DAD /* DashboardKit */;
 			targetProxy = 68CCDCD92F7438E600E34DAD /* PBXContainerItemProxy */;
+		};
+		68CCDD232F74480E00E34DAD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
+			targetProxy = 68CCDD222F74480E00E34DAD /* PBXContainerItemProxy */;
 		};
 		68E2AAEA2F6FE6DE006A4B3C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2357,7 +2375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2406,7 +2424,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
