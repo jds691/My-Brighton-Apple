@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-public protocol Category : Identifiable {
+public protocol Category<Entry> : Identifiable {
     associatedtype Entry: DashboardEntry
     associatedtype EntryView: View
 

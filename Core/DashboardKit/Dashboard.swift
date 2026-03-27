@@ -15,7 +15,7 @@ public typealias DashboardEntry = Identifiable & PersistentModel & Hashable
 public final class Dashboard: Identifiable {
     public let id: String
     private let inMemory: Bool
-    private let categories: [any Category]
+    let categories: [any Category]
 
     public private(set) var entries: [any DashboardEntry]
 
@@ -26,5 +26,30 @@ public final class Dashboard: Identifiable {
         self.inMemory = inMemory
         self.categories = categories
         self.entries = []
+    }
+
+    func storeEntry(_ entry: some DashboardEntry, with modelContext: ModelContext) throws (DashboardError) {
+        var targetCategory: (any Category)? = nil
+        for category in categories {
+            if canCategoryHandleEntry(category, entry) {
+                targetCategory = category
+                break
+            }
+        }
+
+        guard targetCategory != nil else { throw .noValidCategory }
+
+        modelContext.insert(entry)
+        do {
+            try modelContext.save()
+        } catch {
+            throw .saveFailed
+        }
+
+        // TODO: Refresh the entries property
+    }
+
+    private func canCategoryHandleEntry<C: Category, E: DashboardEntry>(_ category: C, _ entry: E) -> Bool {
+        return C.Entry.self is E
     }
 }
