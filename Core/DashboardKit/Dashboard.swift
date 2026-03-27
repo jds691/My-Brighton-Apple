@@ -48,6 +48,6 @@ public final class Dashboard: Identifiable {
     }
 
     private func canCategoryHandleEntry<C: Category, E: DashboardEntry>(_ category: C, _ entry: E) -> Bool {
-        return C.Entry.self is E
+        return C.Entry.self === E.self
     }
 }
