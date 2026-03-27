@@ -1,0 +1,52 @@
+//
+//  Dashboard++.swift
+//  My Brighton
+//
+//  Created by Neo Salmon on 27/03/2026.
+//
+
+import Foundation
+import DashboardKit
+import SwiftData
+import SwiftUI
+
+@Model
+class TempEntry {
+    init() {
+
+    }
+}
+
+struct TempCategory: DashboardKit.Category {
+    let id: String = "TEMP"
+
+    let title: LocalizedStringResource = ""
+
+    let description: LocalizedStringResource? = nil
+
+    func content(dashboard: Dashboard, entry: TempEntry) -> some View {
+        Text("")
+        Text("")
+    }
+}
+
+enum DashboardID: String, CaseIterable {
+    case yourUpdates = "inbox"
+    case importantUpdates = "important"
+
+    public var dashboard: Dashboard {
+        return Dashboard(self.rawValue) {
+            self.categories
+        }
+    }
+
+    @CategoryBuilder
+    public var categories: [any DashboardKit.Category] {
+        switch self {
+            case .yourUpdates:
+                TempCategory()
+            case .importantUpdates:
+                []
+        }
+    }
+}

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-public protocol Category<Entry> : Identifiable {
+public protocol Category<Entry, EntryView> : Identifiable {
     associatedtype Entry: DashboardEntry
     associatedtype EntryView: View
 
@@ -19,5 +19,5 @@ public protocol Category<Entry> : Identifiable {
 
     @MainActor
     @ViewBuilder
-    var content: ((Dashboard, Entry) -> EntryView) { get }
+    func content(dashboard: Dashboard, entry: Entry) -> EntryView
 }

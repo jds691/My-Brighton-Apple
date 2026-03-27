@@ -28,6 +28,12 @@ struct DebugOptionsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("DashboardKit") {
+                    NavigationLink("Post Manual Entry") {
+                        DashboardManualEntryView()
+                    }
+                }
+
                 Section("Timetable") {
                     Button("Load iCalendar file") {
                         showIcsImporter = true
@@ -95,7 +101,7 @@ struct DebugOptionsView: View {
     }
 }
 
-#Preview(traits: .environmentObjects, .learnKit, .timetableService) {
+#Preview(traits: .environmentObjects, .learnKit, .timetableService, .dashboardKit) {
     DebugOptionsView()
 }
 #endif

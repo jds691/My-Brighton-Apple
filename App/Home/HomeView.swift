@@ -54,7 +54,7 @@ struct HomeView: View {
                         .font(.title3.bold())
                         .accessibilityAddTraits(.isHeader)
 
-                    DashboardCarousell(for: "updates")
+                    DashboardCarousell(for: DashboardID.yourUpdates.rawValue)
                 }
                 SplitStack(
                     horizontalAlignment: .leading,

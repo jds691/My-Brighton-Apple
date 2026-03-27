@@ -16,4 +16,16 @@ public enum DashboardBuilder {
     public static func buildBlock(_ components: Dashboard...) -> [Dashboard] {
         return components
     }
+
+    public static func buildBlock(_ components: [Dashboard]...) -> [Dashboard] {
+        components.flatMap { $0 }
+    }
+
+    public static func buildArray(_ components: [Dashboard]) -> [Dashboard] {
+        components
+    }
+
+    public static func buildArray(_ components: [[Dashboard]]) -> [Dashboard] {
+        components.flatMap { $0 }
+    }
 }
