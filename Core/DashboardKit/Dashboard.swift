@@ -14,17 +14,15 @@ public typealias DashboardEntry = Identifiable & PersistentModel & Hashable
 @Observable
 public final class Dashboard: Identifiable {
     public let id: String
-    private let inMemory: Bool
     let categories: [any Category]
 
     public private(set) var entries: [any DashboardEntry]
 
     public var fetchLimit: Int = 10
 
-    public init(id: String, inMemory: Bool = false, categories: [any Category]) {
+    public init(id: String, @CategoryBuilder categories: () -> [any Category]) {
         self.id = id
-        self.inMemory = inMemory
-        self.categories = categories
+        self.categories = categories()
         self.entries = []
     }
 

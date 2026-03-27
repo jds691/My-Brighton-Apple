@@ -16,7 +16,7 @@ public final class DashboardService {
     private let modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
 
-    public init(@DashboardBuilder dashboards: () -> [Dashboard]) {
+    public init(inMemory: Bool = false, @DashboardBuilder dashboards: () -> [Dashboard]) {
         self.dashboards = dashboards()
 
         var entryTypes: [any PersistentModel.Type] = []
@@ -29,7 +29,7 @@ public final class DashboardService {
         do {
             let schemaV1: Schema = .init(entryTypes)
 
-            let config: ModelConfiguration = .init("Dashboard", schema: schemaV1, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init("Dashboard", schema: schemaV1, isStoredInMemoryOnly: inMemory, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
