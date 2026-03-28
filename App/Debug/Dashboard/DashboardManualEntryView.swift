@@ -17,6 +17,11 @@ struct DashboardManualEntryView: View {
     @State private var dashboardId: DashboardID = DashboardID.yourUpdates
     @State private var selectedEntryType: String? = nil
 
+    @State private var entry: (any DashboardEntry)? = nil
+
+    @State private var showPostError: Bool = false
+    @State private var errorText: String = ""
+
     private var validEntryTypes: Dictionary<String, any DashboardEntry.Type> {
         var entries: Dictionary<String, any DashboardEntry.Type> = [:]
         for category in dashboardId.categories {
@@ -64,13 +69,37 @@ struct DashboardManualEntryView: View {
             }
         }
         .navigationTitle("Post Manual Entry")
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Post") {
+                Button {
+                    guard let entry else { return }
 
+                    do throws(DashboardError) {
+                        try dashboardService.postEntry(entry, to: dashboardId.rawValue)
+                    } catch {
+                        switch error {
+                            case .dashboardDoesNotExist:
+                                errorText = "The dashboard '\(dashboardId.rawValue)' does not exist in the service."
+                            case .noValidCategory:
+                                errorText = "No category is registered to handle type '\(validEntryTypes[selectedEntryType!]!)'."
+                            case .saveFailed:
+                                errorText = "SwiftData failed to save the entry."
+                        }
+
+                        showPostError = true
+                    }
+                } label: {
+                    Text("Post")
                 }
             }
+        }
+        .alert("Failed to post entry", isPresented: $showPostError) {
+
+        } message: {
+            Text(errorText)
         }
     }
 
@@ -78,7 +107,19 @@ struct DashboardManualEntryView: View {
     private func createViewForSelectedCategory() -> some View {
         if let selectedEntryType, let entryType = validEntryTypes[selectedEntryType] {
             if entryType === TempEntry.self {
-                Text("Eh")
+                Group {
+                    if let tempEntry = entry as? TempEntry {
+                        @Bindable var tempEntry = tempEntry
+
+                        TextField("Idk", text: $tempEntry.idk)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = TempEntry()
+                }
             }
         } else {
             Text("Cannot render editor")

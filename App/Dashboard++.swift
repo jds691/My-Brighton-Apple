@@ -12,8 +12,10 @@ import SwiftUI
 
 @Model
 class TempEntry {
-    init() {
+    var idk: String
 
+    init() {
+        self.idk = ""
     }
 }
 
