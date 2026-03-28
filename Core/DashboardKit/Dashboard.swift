@@ -20,9 +20,9 @@ public final class Dashboard: Identifiable {
 
     public var fetchLimit: Int = 10
 
-    public init(_ id: String, @CategoryBuilder categories: () -> [any Category]) {
+    public init(_ id: String, categories: [any Category]) {
         self.id = id
-        self.categories = categories()
+        self.categories = categories
         self.entries = []
     }
 

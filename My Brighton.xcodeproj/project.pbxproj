@@ -445,8 +445,6 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
-				DashboardKit/Builders/CategoryBuilder.swift,
-				DashboardKit/Builders/DashboardBuilder.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,
@@ -476,8 +474,6 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
-				DashboardKit/Builders/CategoryBuilder.swift,
-				DashboardKit/Builders/DashboardBuilder.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,
@@ -515,8 +511,6 @@
 		68CCDCE32F7438EB00E34DAD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				DashboardKit/Builders/CategoryBuilder.swift,
-				DashboardKit/Builders/DashboardBuilder.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardError.swift,

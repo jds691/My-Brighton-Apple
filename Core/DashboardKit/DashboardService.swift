@@ -16,8 +16,8 @@ public final class DashboardService {
     private let modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
 
-    public init(inMemory: Bool = false, @DashboardBuilder dashboards: () -> [Dashboard]) {
-        self.dashboards = dashboards()
+    public init(inMemory: Bool = false, dashboards: [Dashboard]) {
+        self.dashboards = dashboards
 
         var entryTypes: [any PersistentModel.Type] = []
         for categories in self.dashboards.map(\.categories) {

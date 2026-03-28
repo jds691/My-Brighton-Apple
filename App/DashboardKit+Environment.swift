@@ -9,9 +9,5 @@ import SwiftUI
 import DashboardKit
 
 extension EnvironmentValues {
-    @Entry var dashboardService: DashboardService = DashboardService(inMemory: true) {
-        for dashboard in DashboardID.allCases.map(\.dashboard) {
-            dashboard
-        }
-    }
+    @Entry var dashboardService: DashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
 }

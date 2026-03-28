@@ -10,11 +10,7 @@ import DashboardKit
 
 struct DashboardKitPreviewModifier: PreviewModifier {
     static func makeSharedContext() throws -> DashboardService {
-        return DashboardService(inMemory: true) {
-            for dashboard in DashboardID.allCases.map(\.dashboard) {
-                dashboard
-            }
-        }
+        return DashboardService(inMemory: true, dashboards: DashboardID.allCases.map(\.dashboard))
     }
 
     func body(content: Self.Content, context: DashboardService) -> some View {

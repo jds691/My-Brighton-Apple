@@ -37,16 +37,13 @@ enum DashboardID: String, CaseIterable {
     case importantUpdates = "important"
 
     public var dashboard: Dashboard {
-        return Dashboard(self.rawValue) {
-            self.categories
-        }
+        return Dashboard(self.rawValue, categories: self.categories)
     }
 
-    @CategoryBuilder
     public var categories: [any DashboardKit.Category] {
         switch self {
             case .yourUpdates:
-                TempCategory()
+                [TempCategory()]
             case .importantUpdates:
                 []
         }

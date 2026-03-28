@@ -38,11 +38,7 @@ struct MyBrightonApp: App {
     init() {
         let appRouter = Router.shared
         // Has to be like this because for some reason self.notifier must be initialised first
-        self.dashboardService = DashboardService {
-            for dashboard in DashboardID.allCases.map(\.dashboard) {
-                dashboard
-            }
-        }
+        self.dashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
         self.notifier = Notifier(router: appRouter)
         self.router = appRouter
 
