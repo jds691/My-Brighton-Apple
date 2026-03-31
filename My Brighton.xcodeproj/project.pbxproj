@@ -29,6 +29,7 @@
 		6864265C2E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		686426662E68CC8600A088A8 /* Timetable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; };
 		686426672E68CC8600A088A8 /* Timetable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 686426532E68CC8500A088A8 /* Timetable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		688A88722F7C3D8F002094B4 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
 		6899FD672EAD8FB70054B1DA /* SwiftBbML in Frameworks */ = {isa = PBXBuildFile; productRef = 6899FD662EAD8FB70054B1DA /* SwiftBbML */; };
 		68C28A682E91A97D0099B6EE /* LearnKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6835EF532E4E7ADD003B15BB /* LearnKit.framework */; };
 		68CCDCDB2F7438E600E34DAD /* DashboardKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CCDCD52F7438E600E34DAD /* DashboardKit.framework */; };
@@ -149,6 +150,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 686426522E68CC8500A088A8;
 			remoteInfo = Timetable;
+		};
+		688A88742F7C3D8F002094B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68EAC7DF2E7A089000A3F286;
+			remoteInfo = Router;
 		};
 		68C28A6A2E91A97D0099B6EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -451,8 +459,10 @@
 				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Resources/Info.plist,
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
 				Notifier/Types/ScheduledClassInfo.swift,
@@ -481,8 +491,10 @@
 				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Resources/Info.plist,
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
 				Notifier/Types/ScheduledClassInfo.swift,
@@ -519,7 +531,9 @@
 				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
+				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 			);
 			target = 68CCDCD42F7438E600E34DAD /* DashboardKit */;
 		};
@@ -745,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68CCDD202F74480E00E34DAD /* CoreDesign.framework in Frameworks */,
+				688A88722F7C3D8F002094B4 /* Router.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,6 +1097,7 @@
 			);
 			dependencies = (
 				68CCDD232F74480E00E34DAD /* PBXTargetDependency */,
+				688A88752F7C3D8F002094B4 /* PBXTargetDependency */,
 			);
 			name = DashboardKit;
 			packageProductDependencies = (
@@ -1471,6 +1487,11 @@
 			isa = PBXTargetDependency;
 			target = 686426522E68CC8500A088A8 /* Timetable */;
 			targetProxy = 686426642E68CC8600A088A8 /* PBXContainerItemProxy */;
+		};
+		688A88752F7C3D8F002094B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68EAC7DF2E7A089000A3F286 /* Router */;
+			targetProxy = 688A88742F7C3D8F002094B4 /* PBXContainerItemProxy */;
 		};
 		68C28A6B2E91A97D0099B6EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -40,13 +40,27 @@ public struct DashboardCarousell: View {
                                 RoundedRectangle(cornerRadius: 16, style: .circular)
                                     .strokeBorder(lineWidth: 3, antialiased: true)
                             }
+                            // Entry extension view modifiers
+                            .modifier(NavigableEntryViewModifier(entry))
                             #if DEBUG
-                            Text("Entry type: \(String(reflecting: entry))")
-                            if let category = dashboard.getCategory(for: entry) {
-                                Text("Category ID: \(category.id)")
-                            } else {
-                                Text("Category ID: (nil)")
+                            Group {
+                                Text("Entry type: \(String(reflecting: entry))")
+                                if let category = dashboard.getCategory(for: entry) {
+                                    Text("Category ID: \(category.id)")
+                                } else {
+                                    Text("Category ID: (nil)")
+                                }
+                                Text("  ")
+                                if let navigableEntry = entry as? (any NavigableEntry) {
+                                    Text("  NavigableEntry: YES")
+                                    Text("      navigationPoint: \(String(describing: navigableEntry.navigationPoint))")
+                                } else {
+                                    Text("  NavigableEntry: NO")
+                                }
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .fixedSize()
+                            .font(.caption.monospaced())
                             #endif
                         }
                         .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
@@ -65,6 +79,10 @@ public struct DashboardCarousell: View {
 
     private var containerFrameSpan: Int {
         hSizeClass == .compact ? 5 : 2
+    }
+
+    private func anyToSomeEntry<E: DashboardEntry>(_ entry: E) -> some DashboardEntry {
+        return entry
     }
 
     @ViewBuilder

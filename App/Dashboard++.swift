@@ -9,9 +9,13 @@ import Foundation
 import DashboardKit
 import SwiftData
 import SwiftUI
+import Router
 
 @Model
-class TempEntry: DashboardEntry {
+class TempEntry: DashboardEntry, NavigableEntry {
+    @Transient
+    var navigationPoint: Navigation = Navigation.modal(.account)
+
     var creationDate: Date
 
     var idk: String
