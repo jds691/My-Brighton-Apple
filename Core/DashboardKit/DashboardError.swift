@@ -11,8 +11,14 @@ public enum DashboardError: Error {
     case dashboardDoesNotExist
     /// No category is registered that can handle the provided entry.
     case noValidCategory
+    /// The dashboard was incorrectly configured by the service.
+    ///
+    /// You should probably report this if encountered.
+    case invalidInternalConfiguration
 
     // MARK: SwiftData Errors
     /// The underlying model context was unable to save the entry.
     case saveFailed
+    /// A fetch request within the service could not be completed.
+    case fetchFailed
 }

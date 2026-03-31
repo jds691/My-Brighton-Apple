@@ -447,6 +447,7 @@
 				CoreDesign/SplitStack.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
+				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
 				DashboardKit/Resources/Info.plist,
@@ -476,6 +477,7 @@
 				CoreDesign/SplitStack.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
+				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
 				DashboardKit/Resources/Info.plist,
@@ -513,6 +515,7 @@
 			membershipExceptions = (
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
+				DashboardKit/DashboardEntry.swift,
 				DashboardKit/DashboardError.swift,
 				DashboardKit/DashboardService.swift,
 				DashboardKit/Views/DashboardCarousell.swift,

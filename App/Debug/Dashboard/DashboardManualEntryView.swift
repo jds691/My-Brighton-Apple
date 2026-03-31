@@ -87,6 +87,10 @@ struct DashboardManualEntryView: View {
                                 errorText = "No category is registered to handle type '\(validEntryTypes[selectedEntryType!]!)'."
                             case .saveFailed:
                                 errorText = "SwiftData failed to save the entry."
+                            case .invalidInternalConfiguration:
+                                errorText = "The internal configuration of the dashboard is invalid. You broke something :P"
+                            case .fetchFailed:
+                                errorText = "SwiftData failed to fetch a certain type of entry."
                         }
 
                         showPostError = true

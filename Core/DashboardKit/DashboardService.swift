@@ -33,6 +33,10 @@ public final class DashboardService {
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
+
+            for dashboard in dashboards {
+                dashboard.modelContext = modelContext
+            }
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
         }
@@ -45,10 +49,10 @@ public final class DashboardService {
     public func postEntry<Entry: DashboardEntry>(_ entry: Entry, to dashboardId: Dashboard.ID) throws (DashboardError) {
         guard let dashboard = dashboards.first(where: { $0.id == dashboardId }) else { throw .dashboardDoesNotExist }
 
-        try dashboard.storeEntry(entry, with: modelContext)
+        try dashboard.storeEntry(entry)
     }
 
-    private static func extractEntryType<C: Category>(from category: C) -> any PersistentModel.Type {
+    static func extractEntryType<C: Category>(from category: C) -> any DashboardEntry.Type {
         return C.Entry.self
     }
 }

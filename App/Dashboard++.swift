@@ -11,11 +11,14 @@ import SwiftData
 import SwiftUI
 
 @Model
-class TempEntry {
+class TempEntry: DashboardEntry {
+    var creationDate: Date
+
     var idk: String
 
-    init() {
+    required init() {
         self.idk = ""
+        self.creationDate = .now
     }
 }
 
