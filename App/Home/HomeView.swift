@@ -22,7 +22,8 @@ struct HomeView: View {
     
     @Environment(\.openURL) private var openURL
     @Environment(\.horizontalSizeClass) private var hSizeClass
-    
+
+    @Environment(\.dashboardService) private var dashboardService
     @Environment(Router.self) private var router
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.learnKitService) private var learnKitService
@@ -50,11 +51,13 @@ struct HomeView: View {
                 .flexibleHeaderContent()
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading) {
-                    Text("Your Updates")
-                        .font(.title3.bold())
-                        .accessibilityAddTraits(.isHeader)
+                    if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
+                        Text("Your Updates")
+                            .font(.title3.bold())
+                            .accessibilityAddTraits(.isHeader)
 
-                    DashboardCarousell(for: DashboardID.yourUpdates.rawValue)
+                        DashboardCarousell(for: dashboard)
+                    }
                 }
                 SplitStack(
                     horizontalAlignment: .leading,

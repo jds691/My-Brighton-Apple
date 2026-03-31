@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 import SwiftData
+import SwiftUI
 
 @Observable
 public final class Dashboard: Identifiable {
@@ -84,22 +85,31 @@ public final class Dashboard: Identifiable {
         }
     }
 
-    private func fillEntries() throws (DashboardError) {
-        guard let modelContext else { throw .invalidInternalConfiguration }
+    func getCategory<E: DashboardEntry>(for entry: E) -> (any Category)? {
+        categories.first(where: { DashboardService.extractEntryType(from: $0).self === E.self })
+    }
 
+    private func fillEntries() throws (DashboardError) {
         var entries: [any DashboardEntry] = []
 
         for entryType in entryTypes {
             try entries.append(contentsOf: getEntries(for: entryType))
         }
 
-        _entries = entries.sorted(by: { lhs, rhs in
-            if lhs.creationDate != rhs.creationDate {
-                return lhs.creationDate > rhs.creationDate
-            } else {
-                return getEntryTypeIndex(for: lhs) < getEntryTypeIndex(for: rhs)
-            }
-        })
+        entries
+            .sort(by: { lhs, rhs in
+                if lhs.creationDate != rhs.creationDate {
+                    return lhs.creationDate > rhs.creationDate
+                } else {
+                    return getEntryTypeIndex(for: lhs) < getEntryTypeIndex(for: rhs)
+                }
+            })
+
+        if let fetchLimit {
+            _entries = Array(entries.prefix(fetchLimit))
+        } else {
+            _entries = entries
+        }
     }
 
     private func getEntries<E: DashboardEntry>(for type: E.Type) throws (DashboardError) -> [E] {

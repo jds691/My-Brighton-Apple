@@ -357,6 +357,7 @@
 		688D311E2F76E80200833FF2 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/Assets.xcassets,
 				"SharedBundle++.swift",
 			);
 			target = 68CCDCD42F7438E600E34DAD /* DashboardKit */;

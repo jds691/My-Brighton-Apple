@@ -30,8 +30,7 @@ struct TempCategory: DashboardKit.Category {
     let description: LocalizedStringResource? = nil
 
     func content(dashboard: Dashboard, entry: TempEntry) -> some View {
-        Text("")
-        Text("")
+        Text(entry.idk)
     }
 }
 
