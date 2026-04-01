@@ -58,6 +58,12 @@ public final class DashboardService {
         try dashboard.deleteEntry(by: id, for: type)
     }
 
+    public func changeEntry<E: DashboardEntry>(with id: String, within dashboardId: Dashboard.ID, updates: @escaping (E) -> Void) throws (DashboardError) {
+        guard let dashboard = dashboards.first(where: { $0.id == dashboardId }) else { throw .dashboardDoesNotExist }
+
+        try dashboard.changeEntry(with: id, updates: updates)
+    }
+
     public func debugEraseContent() {
         do {
             try modelContainer.erase()

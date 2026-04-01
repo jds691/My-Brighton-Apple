@@ -109,6 +109,37 @@ public final class Dashboard: Identifiable {
         }
     }
 
+    func changeEntry<E: DashboardEntry>(with id: String, updates: @escaping (E) -> Void) throws (DashboardError) {
+        guard let modelContext else { throw .invalidInternalConfiguration }
+
+        let existingEntry: E
+        do {
+            guard let foundModel = try modelContext.fetch(FetchDescriptor<E>(predicate: #Predicate {
+                $0.id == id
+            })).first else {
+                throw DashboardError.fetchFailed
+            }
+
+            existingEntry = foundModel
+        } catch {
+            throw .fetchFailed
+        }
+
+        updates(existingEntry)
+
+        do {
+            try modelContext.save()
+        } catch {
+            throw .saveFailed
+        }
+
+        do {
+            try fillEntries()
+        } catch {
+            // TODO: Log
+        }
+    }
+
     func getCategory<E: DashboardEntry>(for entry: E) -> (any Category)? {
         categories.first(where: { DashboardService.extractEntryType(from: $0).self === E.self })
     }
