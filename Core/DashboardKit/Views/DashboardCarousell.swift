@@ -13,9 +13,11 @@ public struct DashboardCarousell: View {
     @Environment(\.horizontalSizeClass) private var hSizeClass
 
     private let dashboard: Dashboard
+    private var backgroundCardStyle: Self.BackgroundCardStyle
 
     public init(for dashboard: Dashboard) {
         self.dashboard = dashboard
+        self.backgroundCardStyle = .standard
     }
 
     public var body: some View {
@@ -33,13 +35,7 @@ public struct DashboardCarousell: View {
                                 }
                             }
                             .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
-                            .padding(16)
-                            .background(.brightonBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 16, style: .circular)
-                                    .strokeBorder(lineWidth: 3, antialiased: true)
-                            }
+                            .modifier(DashboardCarousellCardBackgroundModifier(backgroundCardStyle))
                             // Entry extension view modifiers
                             .modifier(NavigableEntryViewModifier(entry))
                             #if DEBUG
@@ -98,5 +94,19 @@ public struct DashboardCarousell: View {
     @ViewBuilder
     private func getEntryView<T: Category, E: DashboardEntry>(for category: T, dashboard: Dashboard, entry: E) -> some View {
         category.content(dashboard: dashboard, entry: entry as! T.Entry)
+    }
+
+    public enum BackgroundCardStyle {
+        case standard
+        case clear
+    }
+}
+
+extension DashboardCarousell {
+    public func cardBackgroundStyle(_ style: BackgroundCardStyle) -> Self {
+        var view = self
+
+        view.backgroundCardStyle = style
+        return view
     }
 }

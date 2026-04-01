@@ -462,6 +462,7 @@
 				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Resources/Info.plist,
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/DashboardCarousellCardBackgroundModifier.swift,
 				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
@@ -494,6 +495,7 @@
 				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Resources/Info.plist,
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/DashboardCarousellCardBackgroundModifier.swift,
 				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 				Notifier/NotificationCategory.swift,
 				Notifier/Notifier.swift,
@@ -533,6 +535,7 @@
 				DashboardKit/DashboardService.swift,
 				"DashboardKit/Entry Extensions/NavigableEntry.swift",
 				DashboardKit/Views/DashboardCarousell.swift,
+				DashboardKit/Views/DashboardCarousellCardBackgroundModifier.swift,
 				DashboardKit/Views/Modifiers/NavigableEntryViewModifier.swift,
 			);
 			target = 68CCDCD42F7438E600E34DAD /* DashboardKit */;
