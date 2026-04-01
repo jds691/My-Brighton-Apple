@@ -20,6 +20,7 @@ struct DebugOptionsView: View {
     @Environment(SearchManager.self) private var searchManager
     @Environment(\.learnKitService) private var learnKitService
     @Environment(\.timetableService) private var timetableService
+    @Environment(\.dashboardService) private var dashboardService
 
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
 
@@ -31,6 +32,12 @@ struct DebugOptionsView: View {
                 Section("DashboardKit") {
                     NavigationLink("Post Manual Entry") {
                         DashboardManualEntryView()
+                    }
+                }
+
+                Section {
+                    Button("Erase all contents") {
+                        dashboardService.debugEraseContent()
                     }
                 }
 

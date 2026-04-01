@@ -52,6 +52,15 @@ public final class DashboardService {
         try dashboard.storeEntry(entry)
     }
 
+    public func debugEraseContent() {
+        do {
+            try modelContainer.erase()
+            exit(0)
+        } catch {
+            print(error)
+        }
+    }
+
     static func extractEntryType<C: Category>(from category: C) -> any DashboardEntry.Type {
         return C.Entry.self
     }
