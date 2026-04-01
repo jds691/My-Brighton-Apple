@@ -51,7 +51,7 @@ struct TimetableHomeWidgetView: View {
             }
 
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading) {
                 header
                 if startDateOverride != nil || timetableService.canFetchTimetable {
                     initialisedWidget
@@ -60,9 +60,8 @@ struct TimetableHomeWidgetView: View {
                         Label("Setup Timetable", systemImage: "calendar")
                             .foregroundStyle(.accent)
                     }
-                    .frame(minHeight: 80)
+                    .frame(height: 80)
                 }
-
             }
         }
         .buttonStyle(.plain)

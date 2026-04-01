@@ -11,6 +11,7 @@ import LearnKit
 import AuthenticationServices
 import Router
 import CoreDesign
+import DashboardKit
 
 struct HomeView: View {
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -21,7 +22,8 @@ struct HomeView: View {
     
     @Environment(\.openURL) private var openURL
     @Environment(\.horizontalSizeClass) private var hSizeClass
-    
+
+    @Environment(\.dashboardService) private var dashboardService
     @Environment(Router.self) private var router
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.learnKitService) private var learnKitService
@@ -48,7 +50,26 @@ struct HomeView: View {
             HomeHeaderView()
                 .flexibleHeaderContent()
             VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading) {
+                    if let dashboard = dashboardService.getDashboard(for: DashboardID.importantUpdates.rawValue), !dashboard.entries.isEmpty {
+                        Group {
+                            Text("Important Updates")
+                                .font(.title3.bold())
+                                .accessibilityAddTraits(.isHeader)
 
+                            DashboardCarousell(for: dashboard)
+                                .cardBackgroundStyle(.clear)
+                        }
+                    }
+
+                    if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
+                        Text("Your Updates")
+                            .font(.title3.bold())
+                            .accessibilityAddTraits(.isHeader)
+
+                        DashboardCarousell(for: dashboard)
+                    }
+                }
                 SplitStack(
                     horizontalAlignment: .leading,
                     splitSpacing: 16
@@ -58,68 +79,71 @@ struct HomeView: View {
                     }
                 } secondaryContent: {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Services")
-                            .font(.title3.bold())
-                            .accessibilityAddTraits(.isHeader)
+                        VStack(alignment: .leading) {
+                            Text("Services")
+                                .font(.title3.bold())
+                                .accessibilityAddTraits(.isHeader)
 
-                        HomeResourceButton {
+                            HomeResourceButton {
 #if os(iOS)
-                            if #available(iOS 26, *) {
-                                openURL(studentViewURL, prefersInApp: true)
-                            } else {
-                                showStudentView = true
-                            }
+                                if #available(iOS 26, *) {
+                                    openURL(studentViewURL, prefersInApp: true)
+                                } else {
+                                    showStudentView = true
+                                }
 #else
-                            openURL(studentViewURL)
+                                openURL(studentViewURL)
 #endif
-                        } label: {
-                            Label("Student View", systemImage: "person")
-                        }
-                        HomeResourceButton {
+                            } label: {
+                                Label("Student View", systemImage: "person")
+                            }
+                            HomeResourceButton {
 #if os(iOS)
-                            if #available(iOS 26, *) {
-                                openURL(careersURL, prefersInApp: true)
-                            } else {
-                                showCareers = true
-                            }
+                                if #available(iOS 26, *) {
+                                    openURL(careersURL, prefersInApp: true)
+                                } else {
+                                    showCareers = true
+                                }
 #else
-                            openURL(careersURL)
+                                openURL(careersURL)
 #endif
-                        } label: {
-                            Label("Careers", systemImage: "briefcase")
+                            } label: {
+                                Label("Careers", systemImage: "briefcase")
+                            }
                         }
 
-                        Text("Resources")
-                            .font(.title3.bold())
-                            .scenePadding(.top)
-                            .accessibilityAddTraits(.isHeader)
+                        VStack(alignment: .leading) {
+                            Text("Resources")
+                                .font(.title3.bold())
+                                .accessibilityAddTraits(.isHeader)
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/StudentLife.aspx")!) {
-                            Text(":) Student Life")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/StudentLife.aspx")!) {
+                                Text(":) Student Life")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Support.aspx")!) {
-                            Label("Support", systemImage: "lifepreserver")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Support.aspx")!) {
+                                Label("Support", systemImage: "lifepreserver")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Studies.aspx")!) {
-                            Label("Studies", systemImage: "graduationcap")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Studies.aspx")!) {
+                                Label("Studies", systemImage: "graduationcap")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Library.aspx")!) {
-                            Label("Library", systemImage: "books.vertical")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Library.aspx")!) {
+                                Label("Library", systemImage: "books.vertical")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/IT.aspx")!) {
-                            Label("IT", systemImage: "desktopcomputer")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/IT.aspx")!) {
+                                Label("IT", systemImage: "desktopcomputer")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
-                            Label("Campus and Travel", systemImage: "figure.run")
-                        }
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
+                                Label("Campus and Travel", systemImage: "figure.run")
+                            }
 
-                        HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
-                            Label("Belong at Brighton", image: "uni.logo")
+                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
+                                Label("Belong at Brighton", image: "uni.logo")
+                            }
                         }
                     }
                 }

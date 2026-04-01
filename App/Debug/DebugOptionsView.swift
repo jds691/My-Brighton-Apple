@@ -20,6 +20,7 @@ struct DebugOptionsView: View {
     @Environment(SearchManager.self) private var searchManager
     @Environment(\.learnKitService) private var learnKitService
     @Environment(\.timetableService) private var timetableService
+    @Environment(\.dashboardService) private var dashboardService
 
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
 
@@ -28,6 +29,18 @@ struct DebugOptionsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("DashboardKit") {
+                    NavigationLink("Post Manual Entry") {
+                        DashboardManualEntryView()
+                    }
+                }
+
+                Section {
+                    Button("Erase all contents") {
+                        dashboardService.debugEraseContent()
+                    }
+                }
+
                 Section("Timetable") {
                     Button("Load iCalendar file") {
                         showIcsImporter = true
@@ -95,7 +108,7 @@ struct DebugOptionsView: View {
     }
 }
 
-#Preview(traits: .environmentObjects, .learnKit, .timetableService) {
+#Preview(traits: .environmentObjects, .learnKit, .timetableService, .dashboardKit) {
     DebugOptionsView()
 }
 #endif
