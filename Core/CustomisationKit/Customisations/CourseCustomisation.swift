@@ -16,16 +16,18 @@ public final class CourseCustomisation {
     
     public var isFavourite: Bool
     public var displayNameOverride: String?
+    public var background: BackgroundType
     public var textAlignment: CustomisationKit.TextAlignment
     public var fontDesign: FontDesign
-    public var textColorOverride: Color?
+    public var textColor: CodableColor
 
     init() {
         self.courseId = ""
         self.isFavourite = false
         self.displayNameOverride = nil
+        self.background = .color(CodableColor.fromColor(.brightonSecondary))
         self.textAlignment = .bottomLeading
         self.fontDesign = .regular
-        self.textColorOverride = nil
+        self.textColor = CodableColor.fromColor(.white)
     }
 }

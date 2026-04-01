@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct CodableColor: Codable {
+public struct CodableColor: Codable {
     let red: Float
     let green: Float
     let blue: Float
 
-    var color: Color {
+    var resolved: Color {
         Color(red: Double(red), green: Double(green), blue: Double(blue))
     }
 
@@ -24,16 +24,5 @@ struct CodableColor: Codable {
             green: resolved.green,
             blue: resolved.blue
         )
-    }
-}
-
-
-extension Color: @retroactive Codable {
-    public init(from decoder: any Decoder) throws {
-        self = try CodableColor(from: decoder).color
-    }
-    
-    public func encode(to encoder: any Encoder) throws {
-        try CodableColor.fromColor(self).encode(to: encoder)
     }
 }

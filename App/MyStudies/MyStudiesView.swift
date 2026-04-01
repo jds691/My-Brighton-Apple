@@ -113,8 +113,7 @@ struct MyStudiesView: View {
     }
 }
 
-@available(iOS 18.0, macOS 15.0, *)
-#Preview(traits: .environmentObjects, .learnKit) {
+#Preview(traits: .environmentObjects, .learnKit, .customisationKit) {
     @Previewable @State var router = Router.shared
     
     TabView {
