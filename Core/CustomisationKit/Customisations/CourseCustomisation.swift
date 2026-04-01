@@ -11,12 +11,14 @@ import SwiftUI
 
 @Model
 public final class CourseCustomisation {
-    private var courseId: String
-    private var isFavourite: Bool
-    private var displayNameOverride: String?
-    private var textAlignment: Alignment
-    private var fontDesign: FontDesign
-    private var textColorOverride: Color?
+    @Attribute(.unique)
+    public internal(set) var courseId: String
+    
+    public var isFavourite: Bool
+    public var displayNameOverride: String?
+    public var textAlignment: Alignment
+    public var fontDesign: FontDesign
+    public var textColorOverride: Color?
 
     init() {
         self.courseId = ""
