@@ -85,6 +85,30 @@ public final class Dashboard: Identifiable {
         }
     }
 
+    func deleteEntry<E: DashboardEntry>(by id: String, for type: E.Type) throws (DashboardError) {
+        guard let modelContext else { throw .invalidInternalConfiguration }
+
+        do {
+            try modelContext.delete(model: type, where: #Predicate {
+                $0.id == id
+            })
+        } catch {
+            // TODO: Throw
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            throw .saveFailed
+        }
+
+        do {
+            try fillEntries()
+        } catch {
+            // TODO: Log
+        }
+    }
+
     func getCategory<E: DashboardEntry>(for entry: E) -> (any Category)? {
         categories.first(where: { DashboardService.extractEntryType(from: $0).self === E.self })
     }

@@ -8,7 +8,9 @@
 import Foundation
 import SwiftData
 
-public protocol DashboardEntry: AnyObject, PersistentModel {
+public protocol DashboardEntry: AnyObject, Identifiable, PersistentModel {
+    var id: String { get set }
+
     var creationDate: Date { get set }
 
     init()

@@ -61,6 +61,16 @@ public struct DashboardCarousell: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .fixedSize()
                             .font(.caption.monospaced())
+
+                            if let category = dashboard.getCategory(for: entry) {
+                                Button("Delete") {
+                                    do {
+                                        try dashboard.deleteEntry(by: entry.id, for: DashboardService.extractEntryType(from: category))
+                                    } catch {
+                                        
+                                    }
+                                }
+                            }
                             #endif
                         }
                         .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)

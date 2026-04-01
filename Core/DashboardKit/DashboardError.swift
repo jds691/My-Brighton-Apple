@@ -21,4 +21,6 @@ public enum DashboardError: Error {
     case saveFailed
     /// A fetch request within the service could not be completed.
     case fetchFailed
+    /// An attempt to delete an entry within the service failed.
+    case deleteFailed
 }

@@ -13,6 +13,8 @@ import Router
 
 @Model
 class TempEntry: DashboardEntry, NavigableEntry {
+    var id: String
+    
     @Transient
     var navigationPoint: Navigation = Navigation.modal(.account)
 
@@ -21,6 +23,7 @@ class TempEntry: DashboardEntry, NavigableEntry {
     var idk: String
 
     required init() {
+        self.id = ""
         self.idk = ""
         self.creationDate = .now
     }

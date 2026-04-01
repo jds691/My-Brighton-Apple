@@ -91,6 +91,8 @@ struct DashboardManualEntryView: View {
                                 errorText = "The internal configuration of the dashboard is invalid. You broke something :P"
                             case .fetchFailed:
                                 errorText = "SwiftData failed to fetch a certain type of entry."
+                            case .deleteFailed:
+                                errorText = "SwiftData failed to delete an entry."
                         }
 
                         showPostError = true
