@@ -98,10 +98,23 @@ public final class Dashboard: Identifiable {
 
         entries
             .sort(by: { lhs, rhs in
-                if lhs.creationDate != rhs.creationDate {
+                let dayNumberFormatter: DateFormatter = {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "dd"
+
+                    return formatter
+                }()
+
+                let lhsIndex = getEntryTypeIndex(for: lhs)
+                let rhsIndex = getEntryTypeIndex(for: rhs)
+
+                let lhsDayNumber = Int(dayNumberFormatter.string(from: lhs.creationDate))
+                let rhsDayNumber = Int(dayNumberFormatter.string(from: rhs.creationDate))
+
+                if lhsDayNumber != rhsDayNumber || lhsIndex == rhsIndex {
                     return lhs.creationDate > rhs.creationDate
                 } else {
-                    return getEntryTypeIndex(for: lhs) < getEntryTypeIndex(for: rhs)
+                    return lhsIndex < rhsIndex
                 }
             })
 
