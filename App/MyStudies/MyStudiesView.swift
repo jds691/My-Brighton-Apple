@@ -9,12 +9,14 @@ import SwiftUI
 import Router
 import LearnKit
 import CoreDesign
+import CustomisationKit
 
 struct MyStudiesView: View {
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
     @Environment(\.openWindow) private var openWindow
     @Environment(Router.self) private var router
     @Environment(\.learnKitService) private var learnKitService
+    @Environment(\.customisationService) private var customisationService
 
     let columns = [
         // My personally preferred size, 3 cards when the sidebar is open
@@ -23,6 +25,7 @@ struct MyStudiesView: View {
 
     @State private var terms: [Term] = []
     @State private var courses: [Course] = []
+    @State private var customisations: [CourseCustomisation] = []
 
     @State private var searchTerm: String = ""
     
@@ -72,6 +75,17 @@ struct MyStudiesView: View {
             }
         }
         .task {
+#if DEBUG
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                do {
+                    try await learnKitService.refreshTerms()
+                    try await learnKitService.refreshCourses()
+                } catch {
+
+                }
+            }
+#endif
+
             async let cachedTerms: [Term] = learnKitService.getAllTerms()
             async let cachedCourses: [Course] = learnKitService.getAllCourses()
 

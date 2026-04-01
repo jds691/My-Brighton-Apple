@@ -21,7 +21,7 @@ public enum TextAlignment: String, RawRepresentable, Codable {
     case bottomLeading  = "bottom leading"
     case bottomTrailing = "bottom trailing"
 
-    var swiftUIAlignment: Alignment {
+    public var swiftUIAlignment: Alignment {
         switch self {
             case .top:
                     .top

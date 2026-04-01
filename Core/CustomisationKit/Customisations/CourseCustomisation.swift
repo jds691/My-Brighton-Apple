@@ -21,7 +21,7 @@ public final class CourseCustomisation {
     public var fontDesign: FontDesign
     public var textColor: CodableColor
 
-    init() {
+    public init() {
         self.courseId = ""
         self.isFavourite = false
         self.displayNameOverride = nil

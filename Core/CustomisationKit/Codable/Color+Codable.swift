@@ -13,11 +13,11 @@ public struct CodableColor: Codable {
     let green: Float
     let blue: Float
 
-    var resolved: Color {
+    public var resolved: Color {
         Color(red: Double(red), green: Double(green), blue: Double(blue))
     }
 
-    static func fromColor(_ color: Color) -> CodableColor {
+    public static func fromColor(_ color: Color) -> CodableColor {
         let resolved = color.resolve(in: EnvironmentValues())
         return CodableColor(
             red: resolved.red,
