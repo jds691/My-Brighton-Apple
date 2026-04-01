@@ -18,15 +18,18 @@ public final class Dashboard: Identifiable {
 
     public let id: String
 
+    @ObservationIgnored
+    private var didPerformInitialFetch: Bool = false
     private var _entries: [any DashboardEntry]
     public var entries: [any DashboardEntry] {
         get {
-            if _entries.isEmpty {
+            if !didPerformInitialFetch {
                 do {
                     try fillEntries()
                 } catch {
                     // TODO: Log
                 }
+                didPerformInitialFetch = true
             }
 
             return _entries

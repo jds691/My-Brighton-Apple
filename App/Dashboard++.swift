@@ -54,7 +54,7 @@ enum DashboardID: String, CaseIterable {
             case .yourUpdates:
                 [TempCategory()]
             case .importantUpdates:
-                []
+                [TempCategory()]
         }
     }
 }
