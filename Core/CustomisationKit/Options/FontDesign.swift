@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum FontDesign: String {
+public enum FontDesign: String, RawRepresentable, Codable {
     case regular = "regular"
     case rounded = "rounded"
     case serif = "serif"

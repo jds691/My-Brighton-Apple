@@ -14,12 +14,12 @@ public final class CustomisationService {
     private let modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
 
-    public init() {
+    public init(inMemory: Bool = false) {
         do {
             let schemaV1: Schema = .init([
                 CourseCustomisation.self
             ])
-            let config: ModelConfiguration = .init("Customisation", schema: schemaV1, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init("Customisation", schema: schemaV1, isStoredInMemoryOnly: inMemory, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))

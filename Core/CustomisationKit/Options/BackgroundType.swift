@@ -8,8 +8,7 @@
 import Foundation
 import SwiftUI
 
-public enum BackgroundType {
+public enum BackgroundType: Codable {
     case color(Color)
-    case gradient(Gradient)
     case builtInImage(String)
 }

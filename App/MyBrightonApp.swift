@@ -14,6 +14,7 @@ import UserNotifications
 import Router
 import Notifier
 import DashboardKit
+import CustomisationKit
 #if os(macOS)
 import ServiceManagement
 #endif
@@ -28,6 +29,7 @@ struct MyBrightonApp: App {
     private let dashboardService: DashboardService
     private let learnKitService: LearnKitService
     private let timetableService: TimetableService
+    private let customisationService: CustomisationService
 
     private let defaultAppStorage: UserDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
 
@@ -39,6 +41,7 @@ struct MyBrightonApp: App {
         let appRouter = Router.shared
         // Has to be like this because for some reason self.notifier must be initialised first
         self.dashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
+        self.customisationService = CustomisationService(inMemory: true)
         self.notifier = Notifier(router: appRouter)
         self.router = appRouter
 
@@ -76,6 +79,7 @@ struct MyBrightonApp: App {
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.customisationService, customisationService)
             #if os(macOS)
                 .onAppear {
                     NSWindow.allowsAutomaticWindowTabbing = false
@@ -127,6 +131,7 @@ struct MyBrightonApp: App {
             .environment(\.learnKitService, learnKitService)
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
+            .environment(\.customisationService, customisationService)
 #if os(macOS)
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
@@ -146,6 +151,7 @@ struct MyBrightonApp: App {
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.customisationService, customisationService)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
         .defaultAppStorage(defaultAppStorage)
@@ -165,6 +171,7 @@ struct MyBrightonApp: App {
             .environment(\.learnKitService, learnKitService)
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
+            .environment(\.customisationService, customisationService)
             .containerBackground(.brightonBackground, for: .window)
             .toolbarBackground(.hidden, for: .windowToolbar)
             .onAppear {
@@ -180,6 +187,7 @@ struct MyBrightonApp: App {
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.customisationService, customisationService)
                 .handlesExternalEvents(preferring: ["timetable="], allowing: ["timetable="])
         }
         .windowResizability(.contentSize)

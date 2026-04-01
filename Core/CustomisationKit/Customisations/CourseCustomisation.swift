@@ -16,7 +16,7 @@ public final class CourseCustomisation {
     
     public var isFavourite: Bool
     public var displayNameOverride: String?
-    public var textAlignment: Alignment
+    public var textAlignment: CustomisationKit.TextAlignment
     public var fontDesign: FontDesign
     public var textColorOverride: Color?
 

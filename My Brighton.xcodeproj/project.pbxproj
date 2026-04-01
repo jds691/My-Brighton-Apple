@@ -399,10 +399,12 @@
 		68C546222F7DADFA00FC4749 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
+				CustomisationKit/Options/TextAlignment.swift,
 			);
 			target = 68C546072F7DADC800FC4749 /* CustomisationKit */;
 		};
@@ -482,10 +484,12 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
+				CustomisationKit/Options/TextAlignment.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardEntry.swift,
@@ -519,10 +523,12 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
+				CustomisationKit/Options/TextAlignment.swift,
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
 				DashboardKit/DashboardEntry.swift,
