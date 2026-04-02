@@ -21,6 +21,7 @@ struct CustomisedBackgroundView: View {
                 color.resolved
             case .builtInImage(let resourcePath):
                 Image(resourcePath, bundle: Bundle(for: CustomisationService.self))
+                    .resizable()
             @unknown default:
                 Color.brightonSecondary
         }

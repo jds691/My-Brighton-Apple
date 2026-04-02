@@ -19,8 +19,6 @@ struct MyStudiesCourseCard: View {
     init(course: Course) {
         self.course = course
         self.customisations = CourseCustomisation()
-
-        self.customisations = customisationService.getCourseCustomisation(for: course.id)
     }
 
     var body: some View {
@@ -63,6 +61,9 @@ struct MyStudiesCourseCard: View {
             .labelStyle(.iconOnly)
             .sensoryFeedback(.success, trigger: customisations.isFavourite)
             .scenePadding()
+        }
+        .onAppear {
+            self.customisations = customisationService.getCourseCustomisation(for: course.id)
         }
     }
 
