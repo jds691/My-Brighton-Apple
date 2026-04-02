@@ -28,34 +28,71 @@ struct MyStudiesView: View {
     @State private var customisations: [CourseCustomisation] = []
 
     @State private var searchTerm: String = ""
-    
+
+    private var favouriteCustomisations: [CourseCustomisation] {
+        customisations.filter({ $0.isFavourite })
+    }
+
     var body: some View {
         ScrollView(.vertical) {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
+                if !favouriteCustomisations.isEmpty {
                     Section {
-                        ForEach(courses.filter({ $0.termId == term.id }), id: \.id) { course in
-                            NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
-                                MyStudiesCourseCard(course: course)
-                            }
-                            .buttonStyle(.plain)
-                            .listRowSeparator(.hidden)
-                            .contextMenu {
-                                if supportsMultipleWindows {
-                                    Button {
-                                        openWindow(id: "module", value: "0")
-                                    } label: {
-                                        Label("Open in New Window", systemImage: "macwindow.badge.plus")
-                                    }
+                        ForEach(favouriteCustomisations, id: \.courseId) { customisation in
+                            if let course = courses.first(where: { $0.id == customisation.courseId }) {
+                                NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
+                                    MyStudiesCourseCard(course: course)
+                                }
+                                .buttonStyle(.plain)
+                                .listRowSeparator(.hidden)
+                                .contextMenu {
+                                    if supportsMultipleWindows {
+                                        Button {
+                                            openWindow(id: "module", value: "0")
+                                        } label: {
+                                            Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                                        }
 
-                                    Divider()
+                                        Divider()
+                                    }
                                 }
                             }
                         }
                     } header: {
-                        Text(term.name)
+                        Text("Favourites")
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+
+                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
+                    let coursesInTerm: [Course] = courses.filter({ course in course.termId == term.id && !favouriteCustomisations.contains(where: { $0.courseId == course.id }) })
+
+                    if !coursesInTerm.isEmpty {
+                        Section {
+                            ForEach(coursesInTerm, id: \.id) { course in
+                                NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
+                                    MyStudiesCourseCard(course: course)
+                                }
+                                .buttonStyle(.plain)
+                                .listRowSeparator(.hidden)
+                                .contextMenu {
+                                    if supportsMultipleWindows {
+                                        Button {
+                                            openWindow(id: "module", value: "0")
+                                        } label: {
+                                            Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                                        }
+
+                                        Divider()
+                                    }
+                                }
+                            }
+                        } header: {
+                            Text(term.name)
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 }
             }
@@ -92,6 +129,11 @@ struct MyStudiesView: View {
             do {
                 terms = try await cachedTerms
                 courses = try await cachedCourses
+
+                customisations = []
+                for course in self.courses {
+                    customisations.append(customisationService.getCourseCustomisation(for: course.id))
+                }
             } catch {
                 print(error)
             }
@@ -122,6 +164,7 @@ struct MyStudiesView: View {
                 courses[coursesIndex] = newCourse
             } else {
                 courses.append(newCourse)
+                customisations.append(customisationService.getCourseCustomisation(for: newCourse.id))
             }
         }
     }
