@@ -23,7 +23,6 @@ struct ContentView: View {
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.timetableService) private var timetableService
     @Environment(\.learnKitService) private var learnKit
-    @Environment(\.customisationService) private var customisationService
 
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
 
@@ -142,7 +141,7 @@ struct ContentView: View {
                 }
 
                 for course in courses {
-                    courseCustomisations.updateValue(customisationService.getCourseCustomisation(for: course.id), forKey: course.id)
+                    courseCustomisations.updateValue(CustomisationService.shared.getCourseCustomisation(for: course.id), forKey: course.id)
                 }
             } catch {
             }

@@ -16,7 +16,6 @@ struct MyStudiesView: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(Router.self) private var router
     @Environment(\.learnKitService) private var learnKitService
-    @Environment(\.customisationService) private var customisationService
 
     let columns = [
         // My personally preferred size, 3 cards when the sidebar is open
@@ -26,6 +25,8 @@ struct MyStudiesView: View {
     @State private var terms: [Term] = []
     @State private var courses: [Course] = []
     @State private var customisations: [CourseCustomisation] = []
+
+    @State private var courseToCustomise: Course? = nil
 
     @State private var searchTerm: String = ""
 
@@ -41,19 +42,25 @@ struct MyStudiesView: View {
                         ForEach(favouriteCustomisations, id: \.courseId) { customisation in
                             if let course = courses.first(where: { $0.id == customisation.courseId }) {
                                 NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
-                                    MyStudiesCourseCard(course: course)
+                                    MyStudiesCourseCard(course: course, customisations: customisations.first(where: { $0.courseId == course.id })!)
                                 }
                                 .buttonStyle(.plain)
                                 .listRowSeparator(.hidden)
                                 .contextMenu {
                                     if supportsMultipleWindows {
                                         Button {
-                                            openWindow(id: "module", value: "0")
+                                            openWindow(id: "module", value: course.id)
                                         } label: {
                                             Label("Open in New Window", systemImage: "macwindow.badge.plus")
                                         }
 
                                         Divider()
+                                    }
+
+                                    Button {
+                                        courseToCustomise = course
+                                    } label: {
+                                        Label("Customise", systemImage: "paintbrush")
                                     }
                                 }
                             }
@@ -72,19 +79,25 @@ struct MyStudiesView: View {
                         Section {
                             ForEach(coursesInTerm, id: \.id) { course in
                                 NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
-                                    MyStudiesCourseCard(course: course)
+                                    MyStudiesCourseCard(course: course, customisations: customisations.first(where: { $0.courseId == course.id })!)
                                 }
                                 .buttonStyle(.plain)
                                 .listRowSeparator(.hidden)
                                 .contextMenu {
                                     if supportsMultipleWindows {
                                         Button {
-                                            openWindow(id: "module", value: "0")
+                                            openWindow(id: "module", value: course.id)
                                         } label: {
                                             Label("Open in New Window", systemImage: "macwindow.badge.plus")
                                         }
 
                                         Divider()
+                                    }
+
+                                    Button {
+                                        courseToCustomise = course
+                                    } label: {
+                                        Label("Customise", systemImage: "paintbrush")
                                     }
                                 }
                             }
@@ -132,7 +145,7 @@ struct MyStudiesView: View {
 
                 customisations = []
                 for course in self.courses {
-                    customisations.append(customisationService.getCourseCustomisation(for: course.id))
+                    customisations.append(CustomisationService.shared.getCourseCustomisation(for: course.id))
                 }
             } catch {
                 print(error)
@@ -145,6 +158,9 @@ struct MyStudiesView: View {
             } catch {
                 print(error)
             }
+        }
+        .sheet(item: $courseToCustomise) { course in
+            CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
         }
     }
 
@@ -164,7 +180,7 @@ struct MyStudiesView: View {
                 courses[coursesIndex] = newCourse
             } else {
                 courses.append(newCourse)
-                customisations.append(customisationService.getCourseCustomisation(for: newCourse.id))
+                customisations.append(CustomisationService.shared.getCourseCustomisation(for: newCourse.id))
             }
         }
     }

@@ -11,14 +11,20 @@ import CoreDesign
 import CustomisationKit
 
 struct MyStudiesCourseCard: View {
-    @Environment(\.customisationService) private var customisationService
+    private let courseId: Course.ID
+    private let courseName: String
+    private let customisations: CourseCustomisation
 
-    @State private var course: Course
-    @State private var customisations: CourseCustomisation
+    init(course: Course, customisations: CourseCustomisation) {
+        self.courseId = course.courseId
+        self.courseName = course.name
+        self.customisations = customisations
+    }
 
-    init(course: Course) {
-        self.course = course
-        self.customisations = CourseCustomisation()
+    init(courseId: Course.ID, name: String, customisations: CourseCustomisation) {
+        self.courseId = courseId
+        self.courseName = name
+        self.customisations = customisations
     }
 
     var body: some View {
@@ -37,13 +43,16 @@ struct MyStudiesCourseCard: View {
                 .contentShape(RoundedRectangle(cornerRadius: 16))
 
             VStack(alignment: textRelativeHorizontalAlignment) {
-                Text(course.courseId)
+                Text(courseId)
                     .font(customisations.fontDesign.swiftUIFont(.body))
-                Text(customisations.displayNameOverride ?? course.name)
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                Text(customisations.displayNameOverride ?? courseName)
                     .font(customisations.fontDesign.swiftUIFont(.title3).bold())
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
                     .lineLimit(2)
                     .multilineTextAlignment(textRelativeTextAlignment)
             }
+            .animation(.easeInOut, value: customisations.textAlignment)
             .foregroundStyle(customisations.textColor.resolved)
             .scenePadding()
         }
@@ -53,6 +62,7 @@ struct MyStudiesCourseCard: View {
             } label: {
                 Label("Mark as favourite", systemImage: customisations.isFavourite ? "star.fill" : "star")
                     .font(customisations.fontDesign.swiftUIFont(.body))
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
             }
             .buttonStyle(.borderless)
             .symbolEffect(.bounce, value: customisations.isFavourite)
@@ -61,9 +71,7 @@ struct MyStudiesCourseCard: View {
             .labelStyle(.iconOnly)
             .sensoryFeedback(.success, trigger: customisations.isFavourite)
             .scenePadding()
-        }
-        .onAppear {
-            self.customisations = customisationService.getCourseCustomisation(for: course.id)
+            .animation(.easeInOut, value: customisations.textAlignment)
         }
     }
 

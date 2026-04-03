@@ -20,7 +20,6 @@ struct CourseView: View {
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
     @Environment(\.openWindow) private var openWindow
     @Environment(\.learnKitService) private var learnKit
-    @Environment(\.customisationService) private var customisationService
 
     private var courseId: Course.ID
 
@@ -35,6 +34,8 @@ struct CourseView: View {
     @State private var showTitle: Bool = false
 
     @State private var customisations: CourseCustomisation
+
+    @State private var showCustomisationEditor: Bool = false
 
     init(id: Course.ID) {
         self.courseId = id
@@ -124,6 +125,12 @@ struct CourseView: View {
                         }
                     }
 
+                    Button {
+                        showCustomisationEditor = true
+                    } label: {
+                        Label("Customise", systemImage: "paintbrush")
+                    }
+
                     Section("People") {
                         Button {
 
@@ -202,6 +209,12 @@ struct CourseView: View {
                                     }
                                 }
 
+                                Button {
+                                    showCustomisationEditor = true
+                                } label: {
+                                    Label("Customise", systemImage: "paintbrush")
+                                }
+
                                 Section("People") {
                                     Button {
 
@@ -241,7 +254,7 @@ struct CourseView: View {
 #endif
             .moduleSubrouteNavigationDestination(onAnnouncementTapped: presentAnnouncement)
             .task {
-                self.customisations = customisationService.getCourseCustomisation(for: courseId)
+                self.customisations = CustomisationService.shared.getCourseCustomisation(for: courseId)
 
                 do {
                     #if DEBUG
@@ -310,6 +323,16 @@ struct CourseView: View {
                         }
                 }
             }
+            .sheet(isPresented: $showCustomisationEditor) {
+                if let course {
+                    CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
+                } else {
+                    EmptyView()
+                        .onAppear {
+                            dismiss()
+                        }
+                }
+            }
             .environment(\.courseId, courseId)
     }
 
@@ -333,16 +356,20 @@ struct CourseView: View {
                 if let course {
                     Text(course.courseId)
                         .font(customisations.fontDesign.swiftUIFont(.title3))
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                     Text(courseDisplayName)
                         .lineLimit(2)
                         .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                 } else {
                     Text(courseId)
                         .font(customisations.fontDesign.swiftUIFont(.title3))
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                         .redacted(reason: .placeholder)
                     Text("YEAR MODULE LONG COURSE NAME")
                         .lineLimit(2)
                         .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                         .redacted(reason: .placeholder)
                 }
             }

@@ -405,6 +405,7 @@
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
+				CustomisationKit/Options/TextEffects.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 			);
 			target = 68C546072F7DADC800FC4749 /* CustomisationKit */;
@@ -492,6 +493,7 @@
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
+				CustomisationKit/Options/TextEffects.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
@@ -532,6 +534,7 @@
 				CustomisationKit/Options/BackgroundType.swift,
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
+				CustomisationKit/Options/TextEffects.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,

@@ -20,6 +20,7 @@ public final class CourseCustomisation {
     public var textAlignment: CustomisationKit.TextAlignment
     public var fontDesign: FontDesign
     public var textColor: CodableColor
+    public var textEffects: TextEffects
 
     public init() {
         self.courseId = ""
@@ -29,5 +30,6 @@ public final class CourseCustomisation {
         self.textAlignment = .bottomLeading
         self.fontDesign = .regular
         self.textColor = CodableColor.fromColor(.white)
+        self.textEffects = []
     }
 }

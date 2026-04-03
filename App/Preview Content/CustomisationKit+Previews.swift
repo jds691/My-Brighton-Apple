@@ -10,12 +10,13 @@ import CustomisationKit
 
 struct CustomisationKitPreviewModifier: PreviewModifier {
     static func makeSharedContext() throws -> CustomisationService {
-        return CustomisationService(inMemory: true)
+        CustomisationService.inMemoryOnly = true
+
+        return CustomisationService.shared
     }
 
     func body(content: Self.Content, context: CustomisationService) -> some View {
         content
-            .environment(\.customisationService, context)
     }
 }
 
