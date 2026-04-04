@@ -7,14 +7,15 @@
 
 import Foundation
 import SwiftUI
+import CustomisationKit
 
 struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
+    @Binding var customisations: HomeCustomisation
+
     var body: some View {
-        //Color("Theme/2021/Green")
-        Image(decorative: "StudentIdBanner")
-            .resizable()
+        CustomisedBackgroundView(customisations.background)
             .aspectRatio(contentMode: .fill)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             .clipped()
@@ -34,14 +35,16 @@ struct HomeHeaderView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
                             // TODO: Replace with users preferred name
-                            Text("\(timeOfDayString(context.date)), \(Bundle.main.firstName)!")
-                                .font(.largeTitle.bold())
+                            Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? Bundle.main.firstName)!")
+                                .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                                .modifier(TextEffectsViewModifier(customisations.textEffects))
                         }
                         Text("No new updates")
+                            .font(customisations.fontDesign.swiftUIFont(.body))
+                            .modifier(TextEffectsViewModifier(customisations.textEffects))
                     }
-
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(customisations.textColor.resolved)
                 .scenePadding()
                 .padding(.bottom, 16)
             }
@@ -73,5 +76,5 @@ struct HomeHeaderView: View {
 }
 
 #Preview {
-    HomeHeaderView()
+    HomeHeaderView(customisations: .constant(HomeCustomisation()))
 }

@@ -36,7 +36,8 @@ public final class CustomisationService {
     private init() {
         do {
             let schemaV1: Schema = .init([
-                CourseCustomisation.self
+                CourseCustomisation.self,
+                HomeCustomisation.self
             ])
             let config: ModelConfiguration = .init("Customisation", schema: schemaV1, isStoredInMemoryOnly: Self.inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
@@ -81,11 +82,35 @@ public final class CustomisationService {
             customisation.courseId = courseId
 
             modelContext.insert(customisation)
+            try modelContext.save()
 
             return customisation
         } catch {
+            print(error)
             // TODO: Log error
             return CourseCustomisation()
+        }
+    }
+
+    public func getHomeCustomisation() -> HomeCustomisation {
+        do {
+            var descriptor = FetchDescriptor<HomeCustomisation>()
+            descriptor.fetchLimit = 1
+
+            if let result = try modelContext.fetch(descriptor).first {
+                return result
+            }
+
+            let customisation = HomeCustomisation()
+
+            modelContext.insert(customisation)
+            try modelContext.save()
+
+            return customisation
+        } catch {
+            print(error)
+            // TODO: Log error
+            return HomeCustomisation()
         }
     }
 

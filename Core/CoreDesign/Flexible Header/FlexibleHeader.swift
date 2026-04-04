@@ -23,6 +23,7 @@ private struct FlexibleHeaderContentModifier: ViewModifier {
 
     private var bodyRatio: CGFloat
 
+    // What the fuck is this number
     init(bodyRatio: CGFloat = 2.5) {
         self.bodyRatio = bodyRatio
     }

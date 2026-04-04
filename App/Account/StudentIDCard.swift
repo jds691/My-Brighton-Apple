@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CustomisationKit
 
 struct StudentIDCard: View {
     var body: some View {
@@ -16,7 +17,7 @@ struct StudentIDCard: View {
                 .scenePadding([.horizontal, .top])
                 .foregroundStyle(contentColor)
             
-            Image(.studentIdBanner)
+            Image("placeholder/StudentIdBanner", bundle: Bundle(for: CustomisationService.self))
                 .resizable()
                 .scaledToFill()
                 .frame(maxHeight: 100, alignment: .center)

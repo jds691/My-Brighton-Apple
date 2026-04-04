@@ -401,6 +401,7 @@
 			membershipExceptions = (
 				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
+				CustomisationKit/Customisations/HomeCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/ImageCollection.swift,
 				CustomisationKit/Options/BackgroundType.swift,
@@ -491,6 +492,7 @@
 				CoreDesign/SplitStack.swift,
 				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
+				CustomisationKit/Customisations/HomeCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/ImageCollection.swift,
 				CustomisationKit/Options/BackgroundType.swift,
@@ -534,6 +536,7 @@
 				CoreDesign/SplitStack.swift,
 				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
+				CustomisationKit/Customisations/HomeCustomisation.swift,
 				CustomisationKit/CustomisationService.swift,
 				CustomisationKit/ImageCollection.swift,
 				CustomisationKit/Options/BackgroundType.swift,
