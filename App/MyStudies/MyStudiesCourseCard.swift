@@ -83,8 +83,6 @@ struct MyStudiesCourseCard: View {
                 return .center
             case .topTrailing, .centerTrailing, .bottomTrailing:
                 return .trailing
-            @unknown default:
-                return .leading
         }
     }
 
@@ -96,8 +94,6 @@ struct MyStudiesCourseCard: View {
                 return .center
             case .topTrailing, .centerTrailing, .bottomTrailing:
                 return .trailing
-            @unknown default:
-                return .leading
         }
     }
 

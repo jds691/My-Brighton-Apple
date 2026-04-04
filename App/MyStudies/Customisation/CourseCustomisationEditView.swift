@@ -55,7 +55,7 @@ struct CourseCustomisationEditView: View {
                     }
                 }
 
-                CustomisationBackgroundEditor(background: $tempCustomisations.background)
+                CustomisationBackgroundEditor(background: $tempCustomisations.background, courseId: courseId)
 
                 CustomisationTextEffectsEditor(textColor: $textColor, fontDesign: $tempCustomisations.fontDesign, textAlignment: $tempCustomisations.textAlignment, textEffects: $tempCustomisations.textEffects)
                     .onChange(of: textColor) {

@@ -11,4 +11,5 @@ import SwiftUI
 public enum BackgroundType: Hashable, Codable {
     case color(CodableColor)
     case builtInImage(String)
+    case customImage(URL)
 }

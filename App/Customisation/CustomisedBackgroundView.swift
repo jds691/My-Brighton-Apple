@@ -22,8 +22,13 @@ struct CustomisedBackgroundView: View {
             case .builtInImage(let resourcePath):
                 Image(resourcePath, bundle: Bundle(for: CustomisationService.self))
                     .resizable()
-            @unknown default:
-                Color.brightonSecondary
+            case .customImage(let url):
+                AsyncImage(url: url) {
+                    $0
+                        .resizable()
+                } placeholder: {
+                    Color.brightonSecondary
+                }
         }
     }
 }

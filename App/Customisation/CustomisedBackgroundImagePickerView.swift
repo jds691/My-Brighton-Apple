@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import PhotosUI
 import SwiftUI
+import LearnKit
 import CustomisationKit
 
 struct CustomisedBackgroundImagePickerView: View {
@@ -15,29 +17,64 @@ struct CustomisedBackgroundImagePickerView: View {
     @State private var colours: [Color] = []
     @State private var collections: [ImageCollection] = []
 
+    @State var userPhotoSelection: PhotosPickerItem? = nil
+
     @Binding var background: BackgroundType
 
     @State private var customColor: Color = .primary
+
+    private let courseId: Course.ID?
+
+    init(background: Binding<CustomisationKit.BackgroundType>) {
+        self._background = background
+        self.courseId = nil
+    }
+
+    init(background: Binding<CustomisationKit.BackgroundType>, courseId: Course.ID) {
+        self._background = background
+        self.courseId = courseId
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView(.vertical) {
                 Section {
                     ScrollView(.horizontal) {
+                        HStack {
+                            PhotosPicker(selection: $userPhotoSelection, matching: .images) {
+                                Image(systemName: "photo.on.rectangle")
+                                    .imageScale(.large)
+                                    .modifier(CustomisedBackgroundImagePickerCard())
+                            }
+
+                            Button {
+
+                            } label: {
+                                Image(systemName: "camera")
+                                    .imageScale(.large)
+                                    .modifier(CustomisedBackgroundImagePickerCard())
+                            }
+                        }
+                        .fixedSize()
+                        .scrollTargetLayout()
+                        .buttonStyle(.plain)
+                    }
+                    .contentMargins(.horizontal, 16, for: .scrollContent)
+                    .scrollTargetBehavior(.viewAligned)
+                    .scrollIndicators(.hidden)
+                } header: {
+                    Text("Custom Image")
+                        .font(.title3.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 16)
+                }
+
+                Section {
+                    ScrollView(.horizontal) {
                         LazyHStack {
                             ForEach(colours, id: \.self) { colour in
                                 colour
-                                    .frame(
-                                        minWidth: 0,
-                                        maxWidth: .infinity,
-                                        minHeight: 0,
-                                        maxHeight: .infinity
-                                    )
-                                    .aspectRatio(aspectRatio, contentMode: .fit)
-                                    .clipped()
-                                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                                    .contentShape(RoundedRectangle(cornerRadius: 16))
-                                    .containerRelativeFrame([.horizontal], count: 3, span: 1, spacing: 8)
+                                    .modifier(CustomisedBackgroundImagePickerCard())
                                     .onTapGesture {
                                         background = .color(.fromColor(colour))
                                         dismiss()
@@ -64,18 +101,7 @@ struct CustomisedBackgroundImagePickerView: View {
                                 ForEach(collection.paths, id: \.self) { path in
                                     Image(path, bundle: Bundle(for: CustomisationService.self))
                                         .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(
-                                            minWidth: 0,
-                                            maxWidth: .infinity,
-                                            minHeight: 0,
-                                            maxHeight: .infinity
-                                        )
-                                        .aspectRatio(aspectRatio, contentMode: .fit)
-                                        .clipped()
-                                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                                        .contentShape(RoundedRectangle(cornerRadius: 16))
-                                        .containerRelativeFrame([.horizontal], count: 3, span: 1, spacing: 8)
+                                        .modifier(CustomisedBackgroundImagePickerCard())
                                         .onTapGesture {
                                             background = .builtInImage(path)
                                             dismiss()
@@ -120,10 +146,45 @@ struct CustomisedBackgroundImagePickerView: View {
                 dismiss()
             }
         }
-    }
+        .task(id: userPhotoSelection) {
+            guard let userPhotoSelection else { return }
 
-    private var aspectRatio: CGFloat {
-        361 / 185
+            do {
+                if let courseId {
+                    background = .customImage(try await CustomisationService.storePhotosPickerBackgroundItem(userPhotoSelection, for: courseId))
+                } else {
+                    background = .customImage(try await CustomisationService.storePhotosPickerBackgroundItem(userPhotoSelection))
+                }
+
+                dismiss()
+            } catch {
+                print(error)
+                // TODO: Show error
+            }
+        }
+    }
+}
+
+struct CustomisedBackgroundImagePickerCard: ViewModifier {
+    func body(content: Self.Content) -> some View {
+            content
+                .aspectRatio(contentMode: .fill)
+                .frame(
+                    minWidth: 0,
+                    maxWidth: .infinity,
+                    minHeight: 0,
+                    maxHeight: .infinity
+                )
+                .aspectRatio(361 / 185, contentMode: .fit)
+                .clipped()
+                .clipShape(RoundedRectangle(cornerRadius: 24, style: .circular))
+                .contentShape(RoundedRectangle(cornerRadius: 24, style: .circular))
+                .padding(6)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 30, style: .circular)
+                        .strokeBorder(lineWidth: 3, antialiased: true)
+                }
+                .containerRelativeFrame([.horizontal], count: 3, span: 1, spacing: 8)
     }
 }
 

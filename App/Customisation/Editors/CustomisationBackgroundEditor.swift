@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import LearnKit
 import CustomisationKit
 
 struct CustomisationBackgroundEditor: View {
+    let courseId: Course.ID?
+
     @Binding var background: CustomisationKit.BackgroundType
 
     @State private var backgroundType: BackgroundType = .color
@@ -20,6 +23,16 @@ struct CustomisationBackgroundEditor: View {
 
     @State private var disableTwoWayOnChange: Bool = false
 
+    init(background: Binding<CustomisationKit.BackgroundType>) {
+        self._background = background
+        self.courseId = nil
+    }
+
+    init(background: Binding<CustomisationKit.BackgroundType>, courseId: Course.ID) {
+        self._background = background
+        self.courseId = courseId
+    }
+
     var body: some View {
         Group {
             Section("Background") {
@@ -27,13 +40,13 @@ struct CustomisationBackgroundEditor: View {
                     Text("Colour")
                         .tag(Self.BackgroundType.color)
                     Text("Image")
-                        .tag(Self.BackgroundType.builtInImage)
+                        .tag(Self.BackgroundType.image)
                 }
 
                 switch backgroundType {
                     case .color:
                         ColorPicker("Colour", selection: $backgroundColor)
-                    case .builtInImage:
+                    case .image:
                         HStack {
                             Text("Image")
                             Spacer()
@@ -42,7 +55,11 @@ struct CustomisationBackgroundEditor: View {
                             }
                         }
                         .sheet(isPresented: $showBackgroundPicker) {
-                            CustomisedBackgroundImagePickerView(background: $background)
+                            if let courseId {
+                                CustomisedBackgroundImagePickerView(background: $background, courseId: courseId)
+                            } else {
+                                CustomisedBackgroundImagePickerView(background: $background)
+                            }
                         }
                 }
             }
@@ -65,14 +82,19 @@ struct CustomisationBackgroundEditor: View {
                     case .builtInImage(let path):
                         backgroundImageBuiltInIdentifier = path
 
-                        if case .builtInImage = backgroundType {
+                        if case .image = backgroundType {
                             break
                         }
 
                         disableTwoWayOnChange = true
-                        backgroundType = .builtInImage
-                    @unknown default:
-                        break
+                        backgroundType = .image
+                    case .customImage(_):
+                        if case .image = backgroundType {
+                            break
+                        }
+
+                        disableTwoWayOnChange = true
+                        backgroundType = .image
                 }
             }
             .onChange(of: backgroundType) {
@@ -85,7 +107,7 @@ struct CustomisationBackgroundEditor: View {
                 switch backgroundType {
                     case .color:
                         background = .color(.fromColor(backgroundColor))
-                    case .builtInImage:
+                    case .image:
                         background = .builtInImage(backgroundImageBuiltInIdentifier)
                 }
             }
@@ -107,15 +129,15 @@ struct CustomisationBackgroundEditor: View {
                     backgroundType = .color
                 case .builtInImage(let path):
                     backgroundImageBuiltInIdentifier = path
-                    backgroundType = .builtInImage
-                default:
-                    break
+                    backgroundType = .image
+                case .customImage(_):
+                    backgroundType = .image
             }
         }
     }
 
     private enum BackgroundType: Hashable {
         case color
-        case builtInImage
+        case image
     }
 }

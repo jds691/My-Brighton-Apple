@@ -425,8 +425,6 @@ struct CourseView: View {
                 return .center
             case .topTrailing, .centerTrailing, .bottomTrailing:
                 return .trailing
-            @unknown default:
-                return .trailing
         }
     }
 
@@ -437,8 +435,6 @@ struct CourseView: View {
             case .top, .center, .bottom:
                 return .bottom
             case .topTrailing, .centerTrailing, .bottomTrailing:
-                return .bottomTrailing
-            @unknown default:
                 return .bottomTrailing
         }
     }

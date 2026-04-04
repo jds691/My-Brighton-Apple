@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import PhotosUI
 import SwiftUI
 #if os(iOS)
 import UIKit
@@ -86,5 +87,51 @@ public final class CustomisationService {
             // TODO: Log error
             return CourseCustomisation()
         }
+    }
+
+    public static func storePhotosPickerBackgroundItem(_ item: PhotosPickerItem, for courseId: String) async throws -> URL {
+        guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
+
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Course", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let customImageFile = customImageCache.appending(path: courseId, directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            return try fm.replaceItemAt(customImageFile, withItemAt: url.url, backupItemName: courseId + "_BAK") ?? customImageFile
+        } else {
+            try fm.copyItem(at: url.url, to: customImageFile)
+        }
+
+        return customImageFile
+    }
+
+    public static func storePhotosPickerBackgroundItem(_ item: PhotosPickerItem) async throws -> URL {
+        guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
+
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Home", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let customImageFile = customImageCache.appending(path: "Background", directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            return try fm.replaceItemAt(customImageFile, withItemAt: url.url, backupItemName: "Background_BAK") ?? customImageFile
+        } else {
+            try fm.copyItem(at: url.url, to: customImageFile)
+        }
+
+        return customImageFile
     }
 }

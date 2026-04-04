@@ -407,6 +407,7 @@
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
 				CustomisationKit/Options/TextEffects.swift,
+				CustomisationKit/PhotosItemURL.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 			);
 			target = 68C546072F7DADC800FC4749 /* CustomisationKit */;
@@ -496,6 +497,7 @@
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
 				CustomisationKit/Options/TextEffects.swift,
+				CustomisationKit/PhotosItemURL.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
@@ -538,6 +540,7 @@
 				CustomisationKit/Options/FontDesign.swift,
 				CustomisationKit/Options/TextAlignment.swift,
 				CustomisationKit/Options/TextEffects.swift,
+				CustomisationKit/PhotosItemURL.swift,
 				"CustomisationKit/Resources/Builtin Images.xcassets",
 				DashboardKit/Category.swift,
 				DashboardKit/Dashboard.swift,
@@ -2527,7 +2530,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2576,7 +2579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
