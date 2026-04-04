@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct CodableColor: Codable {
+public struct CodableColor: Hashable, Codable {
     let red: Float
     let green: Float
     let blue: Float

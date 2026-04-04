@@ -7,6 +7,12 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
 
 nonisolated
 public final class CustomisationService {
@@ -38,6 +44,27 @@ public final class CustomisationService {
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
         }
+    }
+
+    // TODO: Caching
+    public static func getBuiltInImageCollections() throws -> [ImageCollection] {
+        guard let collectionsData = NSDataAsset(name: "Collections", bundle: .init(for: CustomisationService.self)) else { throw DecodingError.valueNotFound(NSDataAsset.self, .init(codingPath: [], debugDescription: "Sourced from CustomisationKit BuiltIn Images.xcasset")) }
+
+        return try JSONDecoder().decode([ImageCollection].self, from: collectionsData.data)
+    }
+
+    public static func getAlwaysPresentImagePath() -> String {
+        "safety"
+    }
+
+    public static func getBuiltInColours() -> [Color] {
+        [
+            .accent,
+            .colibri1,
+            .colibri2,
+            .colibri3,
+            .colibri4
+        ]
     }
 
     public func getCourseCustomisation(for courseId: String) -> CourseCustomisation {

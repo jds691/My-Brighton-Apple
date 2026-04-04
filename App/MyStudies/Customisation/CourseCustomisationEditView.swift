@@ -31,6 +31,11 @@ struct CourseCustomisationEditView: View {
     @State private var backgroundType: BackgroundType = .color
 
     @State private var backgroundColor: Color = .brightonSecondary
+    @State private var backgroundImageBuiltInIdentifier: String = CustomisationService.getAlwaysPresentImagePath()
+
+    @State private var showBackgroundPicker: Bool = false
+
+    @State private var disableTwoWayOnChange: Bool = false
 
     private var previewDisplayName: String {
         customName.trimmingCharacters(in: .whitespaces).isEmpty ? realName : customName
@@ -76,18 +81,71 @@ struct CourseCustomisationEditView: View {
                         case .color:
                             ColorPicker("Colour", selection: $backgroundColor)
                         case .builtInImage:
-                            EmptyView()
+                            HStack {
+                                Text("Image")
+                                Spacer()
+                                Button("Choose") {
+                                    showBackgroundPicker = true
+                                }
+                            }
+                    }
+                }
+                .onChange(of: tempCustomisations.background) {
+                    if disableTwoWayOnChange {
+                        disableTwoWayOnChange = false
+                        return
+                    }
+
+                    switch tempCustomisations.background {
+                        case .color(let color):
+                            backgroundColor = color.resolved
+
+                            if case .color = backgroundType {
+                                break
+                            }
+
+                            disableTwoWayOnChange = true
+                            backgroundType = .color
+                        case .builtInImage(let path):
+                            backgroundImageBuiltInIdentifier = path
+
+                            if case .builtInImage = backgroundType {
+                                break
+                            }
+
+                            disableTwoWayOnChange = true
+                            backgroundType = .builtInImage
+                            if !dropShadow {
+                                dropShadow = true
+                            }
+                        @unknown default:
+                            break
                     }
                 }
                 .onChange(of: backgroundType) {
+                    if disableTwoWayOnChange {
+                        disableTwoWayOnChange = false
+                        return
+                    }
+
+                    disableTwoWayOnChange = true
                     switch backgroundType {
                         case .color:
                             tempCustomisations.background = .color(.fromColor(backgroundColor))
                         case .builtInImage:
-                            tempCustomisations.background = .builtInImage("")
+                            tempCustomisations.background = .builtInImage(backgroundImageBuiltInIdentifier)
+                            if !dropShadow {
+                                dropShadow = true
+                            }
                     }
                 }
                 .onChange(of: backgroundColor) {
+                    if disableTwoWayOnChange {
+                        disableTwoWayOnChange = false
+                        return
+                    }
+
+                    disableTwoWayOnChange = true
                     tempCustomisations.background = .color(.fromColor(backgroundColor))
                 }
 
@@ -177,6 +235,9 @@ struct CourseCustomisationEditView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showBackgroundPicker) {
+                CustomisedBackgroundImagePickerView(background: $tempCustomisations.background)
+            }
             .navigationTitle("Customise")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -217,10 +278,14 @@ struct CourseCustomisationEditView: View {
                 customName = tempCustomisations.displayNameOverride ?? ""
                 textColor = tempCustomisations.textColor.resolved
 
+                disableTwoWayOnChange = true
                 switch tempCustomisations.background {
                     case .color(let codableColor):
-                        backgroundType = .color
                         backgroundColor = codableColor.resolved
+                        backgroundType = .color
+                    case .builtInImage(let path):
+                        backgroundImageBuiltInIdentifier = path
+                        backgroundType = .builtInImage
                     default:
                         break
                 }
