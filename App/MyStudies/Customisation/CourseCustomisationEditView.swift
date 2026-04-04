@@ -22,20 +22,6 @@ struct CourseCustomisationEditView: View {
     @State private var customName: String = ""
 
     @State private var textColor: Color = .white
-    @State private var dropShadow: Bool = false
-    @State private var boldText: Bool = false
-    @State private var italicText: Bool = false
-    @State private var underlineText: Bool = false
-    @State private var strikethroughText: Bool = false
-
-    @State private var backgroundType: BackgroundType = .color
-
-    @State private var backgroundColor: Color = .brightonSecondary
-    @State private var backgroundImageBuiltInIdentifier: String = CustomisationService.getAlwaysPresentImagePath()
-
-    @State private var showBackgroundPicker: Bool = false
-
-    @State private var disableTwoWayOnChange: Bool = false
 
     private var previewDisplayName: String {
         customName.trimmingCharacters(in: .whitespaces).isEmpty ? realName : customName
@@ -69,174 +55,12 @@ struct CourseCustomisationEditView: View {
                     }
                 }
 
-                Section("Background") {
-                    Picker("Style", selection: $backgroundType) {
-                        Text("Colour")
-                            .tag(BackgroundType.color)
-                        Text("Image")
-                            .tag(BackgroundType.builtInImage)
-                    }
+                CustomisationBackgroundEditor(background: $tempCustomisations.background)
 
-                    switch backgroundType {
-                        case .color:
-                            ColorPicker("Colour", selection: $backgroundColor)
-                        case .builtInImage:
-                            HStack {
-                                Text("Image")
-                                Spacer()
-                                Button("Choose") {
-                                    showBackgroundPicker = true
-                                }
-                            }
+                CustomisationTextEffectsEditor(textColor: $textColor, fontDesign: $tempCustomisations.fontDesign, textAlignment: $tempCustomisations.textAlignment, textEffects: $tempCustomisations.textEffects)
+                    .onChange(of: textColor) {
+                        tempCustomisations.textColor = .fromColor(textColor)
                     }
-                }
-                .onChange(of: tempCustomisations.background) {
-                    if disableTwoWayOnChange {
-                        disableTwoWayOnChange = false
-                        return
-                    }
-
-                    switch tempCustomisations.background {
-                        case .color(let color):
-                            backgroundColor = color.resolved
-
-                            if case .color = backgroundType {
-                                break
-                            }
-
-                            disableTwoWayOnChange = true
-                            backgroundType = .color
-                        case .builtInImage(let path):
-                            backgroundImageBuiltInIdentifier = path
-
-                            if case .builtInImage = backgroundType {
-                                break
-                            }
-
-                            disableTwoWayOnChange = true
-                            backgroundType = .builtInImage
-                            if !dropShadow {
-                                dropShadow = true
-                            }
-                        @unknown default:
-                            break
-                    }
-                }
-                .onChange(of: backgroundType) {
-                    if disableTwoWayOnChange {
-                        disableTwoWayOnChange = false
-                        return
-                    }
-
-                    disableTwoWayOnChange = true
-                    switch backgroundType {
-                        case .color:
-                            tempCustomisations.background = .color(.fromColor(backgroundColor))
-                        case .builtInImage:
-                            tempCustomisations.background = .builtInImage(backgroundImageBuiltInIdentifier)
-                            if !dropShadow {
-                                dropShadow = true
-                            }
-                    }
-                }
-                .onChange(of: backgroundColor) {
-                    if disableTwoWayOnChange {
-                        disableTwoWayOnChange = false
-                        return
-                    }
-
-                    disableTwoWayOnChange = true
-                    tempCustomisations.background = .color(.fromColor(backgroundColor))
-                }
-
-                Section("Text") {
-                    ColorPicker("Colour", selection: $textColor)
-                    Picker("Style", selection: $tempCustomisations.fontDesign) {
-                        Text("Default")
-                            .tag(FontDesign.regular)
-                        Text("Rounded")
-                            .tag(FontDesign.rounded)
-                        Text("Serif")
-                            .tag(FontDesign.serif)
-                        Text("Monospaced")
-                            .tag(FontDesign.monospace)
-                    }
-                    Picker("Alignment", selection: $tempCustomisations.textAlignment) {
-                        Text("Top Left")
-                            .tag(CustomisationKit.TextAlignment.topLeading)
-                        Text("Top Center")
-                            .tag(CustomisationKit.TextAlignment.top)
-                        Text("Top Right")
-                            .tag(CustomisationKit.TextAlignment.topTrailing)
-
-                        Divider()
-
-                        Text("Center Left")
-                            .tag(CustomisationKit.TextAlignment.centerLeading)
-                        Text("Center")
-                            .tag(CustomisationKit.TextAlignment.center)
-                        Text("Center Right")
-                            .tag(CustomisationKit.TextAlignment.centerTrailing)
-
-                        Divider()
-
-                        Text("Bottom Left")
-                            .tag(CustomisationKit.TextAlignment.bottomLeading)
-                        Text("Bottom Center")
-                            .tag(CustomisationKit.TextAlignment.bottom)
-                        Text("Bottom Right")
-                            .tag(CustomisationKit.TextAlignment.bottomTrailing)
-                    }
-                }
-                .onChange(of: textColor) {
-                    tempCustomisations.textColor = .fromColor(textColor)
-                }
-
-                Section("Text Effects") {
-                    Toggle("Drop Shadow", systemImage: "shadow", isOn: $dropShadow)
-                    Toggle("Bold", systemImage: "bold", isOn: $boldText)
-                    Toggle("Italic", systemImage: "italic", isOn: $italicText)
-                    Toggle("Underline", systemImage: "underline", isOn: $underlineText)
-                    Toggle("Strikethrough", systemImage: "strikethrough", isOn: $strikethroughText)
-                }
-                .onChange(of: dropShadow) {
-                    if dropShadow {
-                        tempCustomisations.textEffects.insert(.dropShadow)
-                    } else {
-                        tempCustomisations.textEffects.remove(.dropShadow)
-                    }
-                }
-                .onChange(of: boldText) {
-                    if boldText {
-                        tempCustomisations.textEffects.insert(.bold)
-                    } else {
-                        tempCustomisations.textEffects.remove(.bold)
-                    }
-                }
-                .onChange(of: italicText) {
-                    if italicText {
-                        tempCustomisations.textEffects.insert(.italics)
-                    } else {
-                        tempCustomisations.textEffects.remove(.italics)
-                    }
-                }
-                .onChange(of: underlineText) {
-                    if underlineText {
-                        tempCustomisations.textEffects.insert(.underline)
-                    } else {
-                        tempCustomisations.textEffects.remove(.underline)
-                    }
-                }
-                .onChange(of: strikethroughText) {
-                    if strikethroughText {
-                        tempCustomisations.textEffects.insert(.strikethrough)
-                    } else {
-                        tempCustomisations.textEffects.remove(.strikethrough)
-                    }
-                }
-            }
-            .sheet(isPresented: $showBackgroundPicker) {
-                CustomisedBackgroundImagePickerView(background: $tempCustomisations.background)
             }
             .navigationTitle("Customise")
             #if os(iOS)
@@ -277,24 +101,6 @@ struct CourseCustomisationEditView: View {
 
                 customName = tempCustomisations.displayNameOverride ?? ""
                 textColor = tempCustomisations.textColor.resolved
-
-                disableTwoWayOnChange = true
-                switch tempCustomisations.background {
-                    case .color(let codableColor):
-                        backgroundColor = codableColor.resolved
-                        backgroundType = .color
-                    case .builtInImage(let path):
-                        backgroundImageBuiltInIdentifier = path
-                        backgroundType = .builtInImage
-                    default:
-                        break
-                }
-
-                dropShadow = tempCustomisations.textEffects.contains(.dropShadow)
-                boldText = tempCustomisations.textEffects.contains(.bold)
-                italicText = tempCustomisations.textEffects.contains(.italics)
-                underlineText = tempCustomisations.textEffects.contains(.underline)
-                strikethroughText = tempCustomisations.textEffects.contains(.strikethrough)
             }
         }
     }
@@ -309,11 +115,6 @@ struct CourseCustomisationEditView: View {
         realCustomisations.textAlignment = tempCustomisations.textAlignment
 
         realCustomisations.textEffects = tempCustomisations.textEffects
-    }
-
-    private enum BackgroundType: Hashable {
-        case color
-        case builtInImage
     }
 }
 

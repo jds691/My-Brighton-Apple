@@ -115,6 +115,7 @@ struct CustomisedBackgroundImagePickerView: View {
                 colours = CustomisationService.getBuiltInColours()
                 collections = try CustomisationService.getBuiltInImageCollections()
             } catch {
+                print(error)
                 // TODO: Replace with alert explaining error
                 dismiss()
             }
