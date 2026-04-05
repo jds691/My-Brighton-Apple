@@ -161,6 +161,9 @@ struct MyStudiesView: View {
         }
         .sheet(item: $courseToCustomise) { course in
             CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
+            #if os(macOS)
+                .scenePadding()
+            #endif
         }
     }
 

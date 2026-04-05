@@ -326,6 +326,9 @@ struct CourseView: View {
             .sheet(isPresented: $showCustomisationEditor) {
                 if let course {
                     CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
+#if os(macOS)
+                        .scenePadding()
+#endif
                 } else {
                     EmptyView()
                         .onAppear {
