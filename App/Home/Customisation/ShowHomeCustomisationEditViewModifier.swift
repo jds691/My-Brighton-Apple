@@ -23,26 +23,21 @@ struct ShowHomeCustomisationEditViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         #if os(macOS)
         content
-            .popover(isPresented: $showEditor) {
+            .sheet(isPresented: $showEditor) {
                 HomeCustomisationEditView(customisations: $customisations)
+                    .scenePadding()
+                    .presentationBackgroundInteraction(.enabled)
                     .interactiveDismissDisabled()
             }
         #elseif os(iOS)
-        if hSizeClass == .compact {
-            content
-                .sheet(isPresented: $showEditor) {
-                    HomeCustomisationEditView(customisations: $customisations)
-                        .presentationBackgroundInteraction(.enabled)
-                        .presentationDetents([.fraction(0.72)])
-                        .interactiveDismissDisabled()
-                }
-        } else {
-            content
-                .popover(isPresented: $showEditor) {
-                    HomeCustomisationEditView(customisations: $customisations)
-                        .interactiveDismissDisabled()
-                }
-        }
+        content
+            .sheet(isPresented: $showEditor) {
+                HomeCustomisationEditView(customisations: $customisations)
+                    .presentationBackgroundInteraction(.enabled)
+                // When running on an iPad in landspace is doesn't match up without changing the value
+                    .presentationDetents([.fraction(hSizeClass == .compact ? 0.72 : 0.68)])
+                    .interactiveDismissDisabled()
+            }
         #endif
     }
 }

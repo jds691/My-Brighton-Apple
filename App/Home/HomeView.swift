@@ -171,9 +171,9 @@ struct HomeView: View {
             }
             .flexibleHeaderScrollView()
             .ignoresSafeArea(edges: .top)
-            .statusBarHidden(showCustomisationEditor)
             .scrollDisabled(showCustomisationEditor)
 #if os(iOS)
+            .statusBarHidden(showCustomisationEditor)
             .navigationBarTitleDisplayMode(.inline)
             .coordinateSpace(.named("scroll"))
             .modifierBranch { // Hiding the scroll edge effect for the header
@@ -249,6 +249,7 @@ struct HomeView: View {
                 SafariView(url: careersURL)
                     .ignoresSafeArea()
             }
+            .toolbarVisibility(showCustomisationEditor ? .hidden : .automatic, for: .tabBar)
 #endif
 #if DEBUG
             .sheet(isPresented: $showDebugView) {

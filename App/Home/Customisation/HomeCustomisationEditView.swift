@@ -7,9 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Router
 import CustomisationKit
 
 struct HomeCustomisationEditView: View {
+    @Environment(Router.self) private var router
     @Environment(\.dismiss) private var dismiss
 
     @State private var originalCustomisations: HomeCustomisation = HomeCustomisation()
@@ -53,9 +55,7 @@ struct HomeCustomisationEditView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
-                        dismiss()
-
-                        customisations = originalCustomisations
+                        cancelEditing()
                     } label: {
                         Label("Cancel", systemImage: "xmark")
                     }
@@ -86,6 +86,14 @@ struct HomeCustomisationEditView: View {
                 customisations = tempCustomisations
             }
         }
+        .onChange(of: router.currentRoute) {
+            cancelEditing()
+        }
+    }
+
+    private func cancelEditing() {
+        dismiss()
+        customisations = originalCustomisations
     }
 
     private func saveChangesToOriginalCustomisations() {
