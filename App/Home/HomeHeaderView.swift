@@ -50,8 +50,8 @@ struct HomeHeaderView: View {
                     
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
-                            // TODO: Replace with users preferred name
-                            Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? Bundle.main.firstName)!")
+                            // TODO: Source the hard coded name from elsewhere
+                            Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? "Neo")!")
                                 .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
                                 .modifier(TextEffectsViewModifier(customisations.textEffects))
                         }
