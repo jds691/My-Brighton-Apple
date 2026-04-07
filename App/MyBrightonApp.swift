@@ -14,6 +14,7 @@ import UserNotifications
 import Router
 import Notifier
 import DashboardKit
+import CustomisationKit
 #if os(macOS)
 import ServiceManagement
 #endif
@@ -36,6 +37,8 @@ struct MyBrightonApp: App {
 #endif
     
     init() {
+        CustomisationService.inMemoryOnly = true
+
         let appRouter = Router.shared
         // Has to be like this because for some reason self.notifier must be initialised first
         self.dashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))

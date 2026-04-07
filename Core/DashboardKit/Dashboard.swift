@@ -72,6 +72,7 @@ public final class Dashboard: Identifiable {
 
         guard targetCategory != nil else { throw .noValidCategory }
 
+        entry.dashboardId = self.id
         entry.creationDate = .now
         modelContext.insert(entry)
 
@@ -92,8 +93,9 @@ public final class Dashboard: Identifiable {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
         do {
+            let targetDashboardId: Dashboard.ID = self.id
             try modelContext.delete(model: type, where: #Predicate {
-                $0.id == id
+                $0.id == id && $0.dashboardId == targetDashboardId
             })
         } catch {
             // TODO: Throw
@@ -130,6 +132,8 @@ public final class Dashboard: Identifiable {
 
         updates(existingEntry)
 
+        // Just in case
+        existingEntry.dashboardId = self.id
         do {
             try modelContext.save()
         } catch {
@@ -186,7 +190,8 @@ public final class Dashboard: Identifiable {
     private func getEntries<E: DashboardEntry>(for type: E.Type) throws (DashboardError) -> [E] {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
-        var fetchRequest = FetchDescriptor<E>()
+        let targetDashboardId: Dashboard.ID = self.id
+        var fetchRequest = FetchDescriptor<E>(predicate: #Predicate { $0.dashboardId == targetDashboardId })
         fetchRequest.fetchLimit = fetchLimit
 
         do {

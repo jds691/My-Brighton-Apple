@@ -1,0 +1,10 @@
+[
+  {
+    "name": "TEST",
+    "paths": ["sample/dawg"]
+  },
+  {
+    "name": "Placeholder -- REMOVE BEFORE SHIPPING --",
+    "paths": ["placeholder/StudentIdBanner"]
+  }
+]

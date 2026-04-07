@@ -11,6 +11,7 @@ import LearnKit
 import Router
 import AppIntents
 import CoreDesign
+import CustomisationKit
 
 struct CourseView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -32,8 +33,13 @@ struct CourseView: View {
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
 
+    @State private var customisations: CourseCustomisation
+
+    @State private var showCustomisationEditor: Bool = false
+
     init(id: Course.ID) {
         self.courseId = id
+        self.customisations = CourseCustomisation()
     }
     
     var body: some View {
@@ -86,7 +92,7 @@ struct CourseView: View {
                 }
             }
 #endif
-            .navigationTitle(course?.name ?? courseId)
+            .navigationTitle(courseDisplayName)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     addContentMenu
@@ -110,9 +116,19 @@ struct CourseView: View {
                     }
 
                     Button {
-
+                        customisations.isFavourite.toggle()
                     } label: {
-                        Label("Favourite", systemImage: "star")
+                        if customisations.isFavourite {
+                            Label("Unfavourite", systemImage: "star.slash")
+                        } else {
+                            Label("Favourite", systemImage: "star")
+                        }
+                    }
+
+                    Button {
+                        showCustomisationEditor = true
+                    } label: {
+                        Label("Customise", systemImage: "paintbrush")
                     }
 
                     Section("People") {
@@ -153,7 +169,7 @@ struct CourseView: View {
                         .toolbar {
                             ToolbarItem(placement: .title) {
                                 if showTitle {
-                                    Text(course?.name ?? courseId)
+                                    Text(courseDisplayName)
                                         .font(.headline)
                                         .lineLimit(1)
                                 } else {
@@ -184,9 +200,19 @@ struct CourseView: View {
                                 }
 
                                 Button {
-
+                                    customisations.isFavourite.toggle()
                                 } label: {
-                                    Label("Favourite", systemImage: "star")
+                                    if customisations.isFavourite {
+                                        Label("Unfavourite", systemImage: "star.slash")
+                                    } else {
+                                        Label("Favourite", systemImage: "star")
+                                    }
+                                }
+
+                                Button {
+                                    showCustomisationEditor = true
+                                } label: {
+                                    Label("Customise", systemImage: "paintbrush")
                                 }
 
                                 Section("People") {
@@ -228,6 +254,8 @@ struct CourseView: View {
 #endif
             .moduleSubrouteNavigationDestination(onAnnouncementTapped: presentAnnouncement)
             .task {
+                self.customisations = CustomisationService.shared.getCourseCustomisation(for: courseId)
+
                 do {
                     #if DEBUG
                     if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
@@ -295,15 +323,27 @@ struct CourseView: View {
                         }
                 }
             }
+            .sheet(isPresented: $showCustomisationEditor) {
+                if let course {
+                    CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
+#if os(macOS)
+                        .scenePadding()
+#endif
+                } else {
+                    EmptyView()
+                        .onAppear {
+                            dismiss()
+                        }
+                }
+            }
             .environment(\.courseId, courseId)
     }
 
     @ViewBuilder
     private var header: some View {
-        Rectangle()
+        CustomisedBackgroundView(customisations.background)
             .aspectRatio(contentMode: .fill)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            .foregroundStyle(.brightonSecondary)
             .clipped()
         .headerBlur()
         .modifierBranch {
@@ -314,31 +354,34 @@ struct CourseView: View {
                 $0
             }
         }
-        .overlay(alignment: .bottomLeading) {
-            VStack(alignment: .leading) {
+        .overlay(alignment: headerTextAlignment) {
+            VStack(alignment: headerTextRelativeAlignment) {
                 if let course {
                     Text(course.courseId)
-                        .font(.title3)
-                    Text(course.name)
+                        .font(customisations.fontDesign.swiftUIFont(.title3))
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    Text(courseDisplayName)
                         .lineLimit(2)
-                        .font(.largeTitle.bold())
+                        .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                 } else {
                     Text(courseId)
-                        .font(.title3)
+                        .font(customisations.fontDesign.swiftUIFont(.title3))
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                         .redacted(reason: .placeholder)
                     Text("YEAR MODULE LONG COURSE NAME")
                         .lineLimit(2)
-                        .font(.largeTitle.bold())
+                        .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                         .redacted(reason: .placeholder)
                 }
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(customisations.textColor.resolved)
             .scenePadding()
             .padding(.bottom, 8)
         }
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isHeader)
-
     }
     
     @ViewBuilder
@@ -374,6 +417,36 @@ struct CourseView: View {
             }
         } label: {
             Label("Add", systemImage: "plus")
+        }
+    }
+
+    private var headerTextRelativeAlignment: SwiftUI.HorizontalAlignment {
+        switch customisations.textAlignment {
+            case .topLeading, .centerLeading, .bottomLeading:
+                return .leading
+            case .top, .center, .bottom:
+                return .center
+            case .topTrailing, .centerTrailing, .bottomTrailing:
+                return .trailing
+        }
+    }
+
+    private var headerTextAlignment: Alignment {
+        switch customisations.textAlignment {
+            case .topLeading, .centerLeading, .bottomLeading:
+                return .bottomLeading
+            case .top, .center, .bottom:
+                return .bottom
+            case .topTrailing, .centerTrailing, .bottomTrailing:
+                return .bottomTrailing
+        }
+    }
+
+    private var courseDisplayName: String {
+        if let overrideName = customisations.displayNameOverride {
+            return overrideName
+        } else {
+            return course?.name ?? courseId
         }
     }
 
@@ -415,7 +488,7 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-#Preview(traits: .learnKit, .environmentObjects) {
+#Preview(traits: .learnKit, .environmentObjects, .customisationKit) {
     TabView {
         Tab("Module", systemImage: "graduationcap") {
             NavigationStack {

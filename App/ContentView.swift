@@ -10,6 +10,7 @@ import CoreSpotlight
 import Router
 import Timetable
 import LearnKit
+import CustomisationKit
 
 struct ContentView: View {
     @Environment(\.openURL) private var openURL
@@ -26,6 +27,7 @@ struct ContentView: View {
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
 
     @State private var courses: [Course] = []
+    @State private var courseCustomisations: Dictionary<String, CourseCustomisation> = [:]
 
     var body: some View {
         @Bindable var router = router
@@ -94,7 +96,11 @@ struct ContentView: View {
                             CourseView(id: course.id)
                         }
                     } label: {
-                        Text(course.name)
+                        if let customisations = courseCustomisations[course.id] {
+                            Text(customisations.displayNameOverride ?? course.name)
+                        } else {
+                            Text(course.name)
+                        }
                     }
                     .contextMenu {
                         if supportsMultipleWindows {
@@ -133,12 +139,16 @@ struct ContentView: View {
                 if courses.isEmpty {
                     courses = try await learnKit.refreshCourses()
                 }
+
+                for course in courses {
+                    courseCustomisations.updateValue(CustomisationService.shared.getCourseCustomisation(for: course.id), forKey: course.id)
+                }
             } catch {
             }
         }
     }
 }
 
-#Preview(traits: .environmentObjects, .learnKit) {
+#Preview(traits: .environmentObjects, .learnKit, .customisationKit) {
     ContentView()
 }

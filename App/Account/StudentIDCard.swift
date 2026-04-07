@@ -7,8 +7,15 @@
 
 import Foundation
 import SwiftUI
+import CustomisationKit
 
 struct StudentIDCard: View {
+    private let homeCustomisation: HomeCustomisation
+
+    init() {
+        homeCustomisation = CustomisationService.shared.getHomeCustomisation()
+    }
+
     var body: some View {
         VStack(alignment: .leading) {
             Text("University of Brighton")
@@ -16,7 +23,7 @@ struct StudentIDCard: View {
                 .scenePadding([.horizontal, .top])
                 .foregroundStyle(contentColor)
             
-            Image(.studentIdBanner)
+            Image("placeholder/StudentIdBanner", bundle: Bundle(for: CustomisationService.self))
                 .resizable()
                 .scaledToFill()
                 .frame(maxHeight: 100, alignment: .center)
@@ -93,7 +100,8 @@ struct StudentIDCard: View {
     @ViewBuilder
     private var studentDetails: some View {
         VStack(alignment: .leading) {
-            Text(Bundle.main.userName)
+            // TODO: Source hard coded name elsewhere
+            Text(homeCustomisation.displayNameOverride ?? "Neo")
                 .font(.title3.bold())
             Text("Student")
         }

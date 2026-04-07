@@ -9,6 +9,7 @@ import SwiftUI
 import Router
 import LearnKit
 import CoreDesign
+import CustomisationKit
 
 struct MyStudiesView: View {
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
@@ -23,36 +24,88 @@ struct MyStudiesView: View {
 
     @State private var terms: [Term] = []
     @State private var courses: [Course] = []
+    @State private var customisations: [CourseCustomisation] = []
+
+    @State private var courseToCustomise: Course? = nil
 
     @State private var searchTerm: String = ""
-    
+
+    private var favouriteCustomisations: [CourseCustomisation] {
+        customisations.filter({ $0.isFavourite })
+    }
+
     var body: some View {
         ScrollView(.vertical) {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
+                if !favouriteCustomisations.isEmpty {
                     Section {
-                        ForEach(courses.filter({ $0.termId == term.id }), id: \.id) { course in
-                            NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
-                                MyStudiesCourseCard(course: course)
-                            }
-                            .buttonStyle(.plain)
-                            .listRowSeparator(.hidden)
-                            .contextMenu {
-                                if supportsMultipleWindows {
-                                    Button {
-                                        openWindow(id: "module", value: "0")
-                                    } label: {
-                                        Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                        ForEach(favouriteCustomisations, id: \.courseId) { customisation in
+                            if let course = courses.first(where: { $0.id == customisation.courseId }) {
+                                NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
+                                    MyStudiesCourseCard(course: course, customisations: customisations.first(where: { $0.courseId == course.id })!)
+                                }
+                                .buttonStyle(.plain)
+                                .listRowSeparator(.hidden)
+                                .contextMenu {
+                                    if supportsMultipleWindows {
+                                        Button {
+                                            openWindow(id: "module", value: course.id)
+                                        } label: {
+                                            Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                                        }
+
+                                        Divider()
                                     }
 
-                                    Divider()
+                                    Button {
+                                        courseToCustomise = course
+                                    } label: {
+                                        Label("Customise", systemImage: "paintbrush")
+                                    }
                                 }
                             }
                         }
                     } header: {
-                        Text(term.name)
+                        Text("Favourites")
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+
+                ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
+                    let coursesInTerm: [Course] = courses.filter({ course in course.termId == term.id && !favouriteCustomisations.contains(where: { $0.courseId == course.id }) })
+
+                    if !coursesInTerm.isEmpty {
+                        Section {
+                            ForEach(coursesInTerm, id: \.id) { course in
+                                NavigationLink(value: Navigation.Route.MyStudiesSubRoute.module(course.id, nil)) {
+                                    MyStudiesCourseCard(course: course, customisations: customisations.first(where: { $0.courseId == course.id })!)
+                                }
+                                .buttonStyle(.plain)
+                                .listRowSeparator(.hidden)
+                                .contextMenu {
+                                    if supportsMultipleWindows {
+                                        Button {
+                                            openWindow(id: "module", value: course.id)
+                                        } label: {
+                                            Label("Open in New Window", systemImage: "macwindow.badge.plus")
+                                        }
+
+                                        Divider()
+                                    }
+
+                                    Button {
+                                        courseToCustomise = course
+                                    } label: {
+                                        Label("Customise", systemImage: "paintbrush")
+                                    }
+                                }
+                            }
+                        } header: {
+                            Text(term.name)
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 }
             }
@@ -72,12 +125,28 @@ struct MyStudiesView: View {
             }
         }
         .task {
+#if DEBUG
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                do {
+                    try await learnKitService.refreshTerms()
+                    try await learnKitService.refreshCourses()
+                } catch {
+
+                }
+            }
+#endif
+
             async let cachedTerms: [Term] = learnKitService.getAllTerms()
             async let cachedCourses: [Course] = learnKitService.getAllCourses()
 
             do {
                 terms = try await cachedTerms
                 courses = try await cachedCourses
+
+                customisations = []
+                for course in self.courses {
+                    customisations.append(CustomisationService.shared.getCourseCustomisation(for: course.id))
+                }
             } catch {
                 print(error)
             }
@@ -89,6 +158,12 @@ struct MyStudiesView: View {
             } catch {
                 print(error)
             }
+        }
+        .sheet(item: $courseToCustomise) { course in
+            CourseCustomisationEditView(for: course.id, userCourseId: course.courseId, realName: course.name)
+            #if os(macOS)
+                .scenePadding()
+            #endif
         }
     }
 
@@ -108,13 +183,13 @@ struct MyStudiesView: View {
                 courses[coursesIndex] = newCourse
             } else {
                 courses.append(newCourse)
+                customisations.append(CustomisationService.shared.getCourseCustomisation(for: newCourse.id))
             }
         }
     }
 }
 
-@available(iOS 18.0, macOS 15.0, *)
-#Preview(traits: .environmentObjects, .learnKit) {
+#Preview(traits: .environmentObjects, .learnKit, .customisationKit) {
     @Previewable @State var router = Router.shared
     
     TabView {

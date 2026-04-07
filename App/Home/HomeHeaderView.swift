@@ -7,18 +7,20 @@
 
 import Foundation
 import SwiftUI
+import CustomisationKit
 
 struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
+    @Binding var customisations: HomeCustomisation
+    var opaqueBlur: Bool
+
     var body: some View {
-        //Color("Theme/2021/Green")
-        Image(decorative: "StudentIdBanner")
-            .resizable()
+        CustomisedBackgroundView(customisations.background)
             .aspectRatio(contentMode: .fill)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             .clipped()
-            .headerBlur()
+            .homeHeaderBlur(customisations: customisations, opaque: opaqueBlur)
             .modifierBranch {
                 if #available(iOS 26, macOS 26, *) {
                     $0
@@ -29,19 +31,37 @@ struct HomeHeaderView: View {
             }
             .overlay(alignment: .bottomLeading) {
                 HStack {
-                    Circle()
-                        .frame(width: 80, height: 80)
+                    AsyncImage(url: customisations.profilePictureOverrideUrl) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Color.brightonSecondary
+                    }
+                    .accessibilityHidden(true)
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .padding(3)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(lineWidth: 3, antialiased: true)
+                            .foregroundStyle(customisations.textColor.resolved)
+                    }
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
-                            // TODO: Replace with users preferred name
-                            Text("\(timeOfDayString(context.date)), \(Bundle.main.firstName)!")
-                                .font(.largeTitle.bold())
+                            // TODO: Source the hard coded name from elsewhere
+                            Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? "Neo")!")
+                                .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
+                                .modifier(TextEffectsViewModifier(customisations.textEffects))
                         }
                         Text("No new updates")
+                            .font(customisations.fontDesign.swiftUIFont(.body))
+                            .modifier(TextEffectsViewModifier(customisations.textEffects))
                     }
-
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(customisations.textColor.resolved)
                 .scenePadding()
                 .padding(.bottom, 16)
             }
@@ -73,5 +93,5 @@ struct HomeHeaderView: View {
 }
 
 #Preview {
-    HomeHeaderView()
+    HomeHeaderView(customisations: .constant(HomeCustomisation()), opaqueBlur: false)
 }

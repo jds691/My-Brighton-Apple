@@ -8,21 +8,28 @@
 import SwiftUI
 import LearnKit
 import CoreDesign
-
-// Fuck GeometryReader
+import CustomisationKit
 
 struct MyStudiesCourseCard: View {
-    @State private var course: Course
+    private let courseId: Course.ID
+    private let courseName: String
+    private let customisations: CourseCustomisation
 
-    @State private var isFavourite: Bool = false
+    init(course: Course, customisations: CourseCustomisation) {
+        self.courseId = course.courseId
+        self.courseName = course.name
+        self.customisations = customisations
+    }
 
-    init(course: Course) {
-        self.course = course
+    init(courseId: Course.ID, name: String, customisations: CourseCustomisation) {
+        self.courseId = courseId
+        self.courseName = name
+        self.customisations = customisations
     }
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            RoundedRectangle(cornerRadius: 16)
+        ZStack(alignment: customisations.textAlignment.swiftUIAlignment) {
+            CustomisedBackgroundView(customisations.background)
                 .aspectRatio(contentMode: .fill)
                 .frame(
                     minWidth: 0,
@@ -30,39 +37,75 @@ struct MyStudiesCourseCard: View {
                     minHeight: 0,
                     maxHeight: .infinity
                 )
-                .foregroundStyle(.brightonSecondary)
                 .aspectRatio(aspectRatio, contentMode: .fit)
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .contentShape(RoundedRectangle(cornerRadius: 16))
 
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    Text(course.courseId)
-                        .foregroundStyle(.white)
-                    Text(course.name)
-                        .font(.title3.bold())
-                        .foregroundStyle(.white)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                }
-                Spacer()
-                Button {
-                    isFavourite.toggle()
-                } label: {
-                    Label("Mark as favourite", systemImage: isFavourite ? "star.fill" : "star")
-                }
-                .buttonStyle(.borderless)
-                .symbolEffect(.bounce, value: isFavourite)
-                .imageScale(.large)
-                .foregroundStyle(.white)
-                .labelStyle(.iconOnly)
-                .sensoryFeedback(.success, trigger: isFavourite)
+            VStack(alignment: textRelativeHorizontalAlignment) {
+                Text(courseId)
+                    .font(customisations.fontDesign.swiftUIFont(.body))
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                Text(customisations.displayNameOverride ?? courseName)
+                    .font(customisations.fontDesign.swiftUIFont(.title3).bold())
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    .lineLimit(2)
+                    .multilineTextAlignment(textRelativeTextAlignment)
             }
+            .animation(.easeInOut, value: customisations.textAlignment)
+            .foregroundStyle(customisations.textColor.resolved)
             .scenePadding()
         }
+        .overlay(alignment: favouriteButtonAlignment) {
+            Button {
+                customisations.isFavourite.toggle()
+            } label: {
+                Label("Mark as favourite", systemImage: customisations.isFavourite ? "star.fill" : "star")
+                    .font(customisations.fontDesign.swiftUIFont(.body))
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+            }
+            .buttonStyle(.borderless)
+            .symbolEffect(.bounce, value: customisations.isFavourite)
+            .imageScale(.large)
+            .foregroundStyle(customisations.textColor.resolved)
+            .labelStyle(.iconOnly)
+            .sensoryFeedback(.success, trigger: customisations.isFavourite)
+            .scenePadding()
+            .animation(.easeInOut, value: customisations.textAlignment)
+        }
     }
-    
+
+    private var textRelativeHorizontalAlignment: HorizontalAlignment {
+        switch customisations.textAlignment {
+            case .topLeading, .centerLeading, .bottomLeading:
+                return .leading
+            case .top, .center, .bottom:
+                return .center
+            case .topTrailing, .centerTrailing, .bottomTrailing:
+                return .trailing
+        }
+    }
+
+    private var textRelativeTextAlignment: SwiftUI.TextAlignment {
+        switch customisations.textAlignment {
+            case .topLeading, .centerLeading, .bottomLeading:
+                return .leading
+            case .top, .center, .bottom:
+                return .center
+            case .topTrailing, .centerTrailing, .bottomTrailing:
+                return .trailing
+        }
+    }
+
+    private var favouriteButtonAlignment: Alignment {
+        switch customisations.textAlignment {
+            case .topLeading, .top, .topTrailing:
+                return .bottomTrailing
+            default:
+                return .topTrailing
+        }
+    }
+
     private var aspectRatio: CGFloat {
         361 / 185
     }

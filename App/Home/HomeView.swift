@@ -12,6 +12,7 @@ import AuthenticationServices
 import Router
 import CoreDesign
 import DashboardKit
+import CustomisationKit
 
 struct HomeView: View {
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -19,7 +20,9 @@ struct HomeView: View {
     let studentViewURL = URL(string: "https://studentview.brighton.ac.uk/")!
     let wellbeingURL = URL(string: "https://www.brighton.ac.uk/brighton-students/your-student-life/my-wellbeing/index.aspx")!
     let careersURL = URL(string: "https://careersconnect.brighton.ac.uk/")!
-    
+
+    @Namespace var headerID
+
     @Environment(\.openURL) private var openURL
     @Environment(\.horizontalSizeClass) private var hSizeClass
 
@@ -36,211 +39,226 @@ struct HomeView: View {
     @State private var showYourWellbeing: Bool = false
     @State private var showCareers: Bool = false
 
-    @State private var mathHeight: CGFloat = .zero
-    @State private var mathWidth: CGFloat = .zero
-
     @State private var showSignOut: Bool = false
+
+    @State private var homeCustomisations: HomeCustomisation = HomeCustomisation()
+
+    @State private var showCustomisationEditor: Bool = false
 
     #if DEBUG
     @State private var showDebugView: Bool = false
     #endif
 
     var body: some View {
-        ScrollView {
-            HomeHeaderView()
-                .flexibleHeaderContent()
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading) {
-                    if let dashboard = dashboardService.getDashboard(for: DashboardID.importantUpdates.rawValue), !dashboard.entries.isEmpty {
-                        Group {
-                            Text("Important Updates")
+        let importantDashboard = dashboardService.getDashboard(for: DashboardID.importantUpdates.rawValue)
+
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    HomeHeaderView(customisations: $homeCustomisations, opaqueBlur: importantDashboard != nil && !importantDashboard!.entries.isEmpty)
+                        .flexibleHeaderContent()
+                        .modifier(ShowHomeCustomisationEditViewModifier(customisations: $homeCustomisations, showEditor: $showCustomisationEditor))
+                        .id(headerID)
+                    if let importantDashboard, !importantDashboard.entries.isEmpty {
+                        HomeImportantUpdatesCarousell(dashboard: importantDashboard, customisations: homeCustomisations)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading) {
+                        if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
+                            Text("Your Updates")
                                 .font(.title3.bold())
                                 .accessibilityAddTraits(.isHeader)
 
                             DashboardCarousell(for: dashboard)
-                                .cardBackgroundStyle(.clear)
+                                .padding(.horizontal, -16)
+                                .contentMargins(.horizontal, 16, for: .scrollContent)
                         }
                     }
+                    SplitStack(
+                        horizontalAlignment: .leading,
+                        splitSpacing: 16
+                    ) {
+                        VStack(alignment: .leading, spacing: 16) {
+                            TimetableHomeWidgetView()
+                        }
+                    } secondaryContent: {
+                        VStack(alignment: .leading, spacing: 16) {
+                            VStack(alignment: .leading) {
+                                Text("Services")
+                                    .font(.title3.bold())
+                                    .accessibilityAddTraits(.isHeader)
 
-                    if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
-                        Text("Your Updates")
-                            .font(.title3.bold())
-                            .accessibilityAddTraits(.isHeader)
-
-                        DashboardCarousell(for: dashboard)
-                    }
-                }
-                SplitStack(
-                    horizontalAlignment: .leading,
-                    splitSpacing: 16
-                ) {
-                    VStack(alignment: .leading, spacing: 16) {
-                        TimetableHomeWidgetView()
-                    }
-                } secondaryContent: {
-                    VStack(alignment: .leading, spacing: 16) {
-                        VStack(alignment: .leading) {
-                            Text("Services")
-                                .font(.title3.bold())
-                                .accessibilityAddTraits(.isHeader)
-
-                            HomeResourceButton {
+                                HomeResourceButton {
 #if os(iOS)
-                                if #available(iOS 26, *) {
-                                    openURL(studentViewURL, prefersInApp: true)
-                                } else {
-                                    showStudentView = true
-                                }
+                                    if #available(iOS 26, *) {
+                                        openURL(studentViewURL, prefersInApp: true)
+                                    } else {
+                                        showStudentView = true
+                                    }
 #else
-                                openURL(studentViewURL)
+                                    openURL(studentViewURL)
 #endif
-                            } label: {
-                                Label("Student View", systemImage: "person")
-                            }
-                            HomeResourceButton {
-#if os(iOS)
-                                if #available(iOS 26, *) {
-                                    openURL(careersURL, prefersInApp: true)
-                                } else {
-                                    showCareers = true
+                                } label: {
+                                    Label("Student View", systemImage: "person")
                                 }
-#else
-                                openURL(careersURL)
-#endif
-                            } label: {
-                                Label("Careers", systemImage: "briefcase")
-                            }
-                        }
-
-                        VStack(alignment: .leading) {
-                            Text("Resources")
-                                .font(.title3.bold())
-                                .accessibilityAddTraits(.isHeader)
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/StudentLife.aspx")!) {
-                                Text(":) Student Life")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Support.aspx")!) {
-                                Label("Support", systemImage: "lifepreserver")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Studies.aspx")!) {
-                                Label("Studies", systemImage: "graduationcap")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Library.aspx")!) {
-                                Label("Library", systemImage: "books.vertical")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/IT.aspx")!) {
-                                Label("IT", systemImage: "desktopcomputer")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
-                                Label("Campus and Travel", systemImage: "figure.run")
-                            }
-
-                            HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
-                                Label("Belong at Brighton", image: "uni.logo")
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal, 16)
-            .scrollClipDisabled()
+                                HomeResourceButton {
 #if os(iOS)
-            // TODO: Check if this can be replaced with onScrollViewGeometryChanged?
-            .background(GeometryReader { geometry in
-                Color.clear
-                    .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
-            })
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                self.scrollPosition = value
-            }
+                                    if #available(iOS 26, *) {
+                                        openURL(careersURL, prefersInApp: true)
+                                    } else {
+                                        showCareers = true
+                                    }
+#else
+                                    openURL(careersURL)
 #endif
-        }
-        .flexibleHeaderScrollView()
-        .ignoresSafeArea(edges: .top)
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        .coordinateSpace(.named("scroll"))
-        .modifierBranch { // Hiding the scroll edge effect for the header
-            if #available(iOS 26, macOS 26, *) {
-                $0
-                    .scrollEdgeEffectHidden(!showTitle, for: [.top])
-            } else {
-                $0
-            }
-        }
-        .onChange(of: scrollPosition.y) {
-            // TODO: Sync with FlexibleHeader?
-            //print(scrollPosition.y)
-            if scrollPosition.y < 10 && !showTitle {
-                withAnimation {
-                    showTitle = true
-                }
-            } else if scrollPosition.y >= 10 && showTitle {
-                withAnimation {
-                    showTitle = false
-                }
-            }
-        }
-        .modifierBranch {
-            if #available(iOS 26, macOS 26, *) {
-                $0
-                    .toolbar {
-                        ToolbarItem(placement: .title) {
-                            if showTitle {
-                                Text("Home")
-                                    .lineLimit(1)
-                            } else {
-                                Text("")
+                                } label: {
+                                    Label("Careers", systemImage: "briefcase")
+                                }
+                            }
+
+                            VStack(alignment: .leading) {
+                                Text("Resources")
+                                    .font(.title3.bold())
+                                    .accessibilityAddTraits(.isHeader)
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/StudentLife.aspx")!) {
+                                    Text(":) Student Life")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Support.aspx")!) {
+                                    Label("Support", systemImage: "lifepreserver")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Studies.aspx")!) {
+                                    Label("Studies", systemImage: "graduationcap")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Library.aspx")!) {
+                                    Label("Library", systemImage: "books.vertical")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/IT.aspx")!) {
+                                    Label("IT", systemImage: "desktopcomputer")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
+                                    Label("Campus and Travel", systemImage: "figure.run")
+                                }
+
+                                HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
+                                    Label("Belong at Brighton", image: "uni.logo")
+                                }
                             }
                         }
                     }
-            } else {
-                $0
-                    .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
-                    .legacyToolbar(visible: !showTitle, showBackButton: false) {
-                        primaryMenu
+                }
+                .padding(.horizontal, 16)
+                .scrollClipDisabled()
+                .disabled(showCustomisationEditor)
+#if os(iOS)
+                // TODO: Check if this can be replaced with onScrollViewGeometryChanged?
+                .background(GeometryReader { geometry in
+                    Color.clear
+                        .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+                })
+                .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                    self.scrollPosition = value
+                }
+#endif
+            }
+            .flexibleHeaderScrollView()
+            .ignoresSafeArea(edges: .top)
+            .scrollDisabled(showCustomisationEditor)
+#if os(iOS)
+            .statusBarHidden(showCustomisationEditor)
+            .navigationBarTitleDisplayMode(.inline)
+            .coordinateSpace(.named("scroll"))
+            .modifierBranch { // Hiding the scroll edge effect for the header
+                if #available(iOS 26, macOS 26, *) {
+                    $0
+                        .scrollEdgeEffectHidden(!showTitle, for: [.top])
+                } else {
+                    $0
+                }
+            }
+            .onChange(of: scrollPosition.y) {
+                // TODO: Sync with FlexibleHeader?
+                //print(scrollPosition.y)
+                if scrollPosition.y < 10 && !showTitle {
+                    withAnimation {
+                        showTitle = true
                     }
+                } else if scrollPosition.y >= 10 && showTitle {
+                    withAnimation {
+                        showTitle = false
+                    }
+                }
+            }
+            .modifierBranch {
+                if #available(iOS 26, macOS 26, *) {
+                    $0
+                        .toolbar {
+                            ToolbarItem(placement: .title) {
+                                if showTitle {
+                                    Text("Home")
+                                        .lineLimit(1)
+                                } else {
+                                    Text("")
+                                }
+                            }
+                        }
+                } else {
+                    $0
+                        .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
+                        .legacyToolbar(visible: !showTitle, showBackButton: false) {
+                            if !showCustomisationEditor {
+                                primaryMenu(proxy)
+                            }
+                        }
+                }
+            }
+#endif
+            .myBrightonBackground()
+            .navigationTitle("Home")
+            .navigationDestination(for: Navigation.Route.HomeSubRoute.self) { subroute in
+                switch subroute {
+                    case .timetable(let initialDate):
+                        TimetableView(initialDate: initialDate)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    if !showCustomisationEditor {
+                        primaryMenu(proxy)
+                    }
+                }
+            }
+#if os(iOS)
+            .sheet(isPresented: $showStudentView) {
+                SafariView(url: studentViewURL)
+                    .ignoresSafeArea()
+            }
+            .sheet(isPresented: $showYourWellbeing) {
+                SafariView(url: wellbeingURL)
+                    .ignoresSafeArea()
+            }
+            .sheet(isPresented: $showCareers) {
+                SafariView(url: careersURL)
+                    .ignoresSafeArea()
+            }
+            .toolbarVisibility(showCustomisationEditor ? .hidden : .automatic, for: .tabBar)
+#endif
+#if DEBUG
+            .sheet(isPresented: $showDebugView) {
+                DebugOptionsView()
+            }
+#endif
+            .onAppear {
+                homeCustomisations = CustomisationService.shared.getHomeCustomisation()
             }
         }
-        #endif
-        .myBrightonBackground()
-        .navigationTitle("Home")
-        .navigationDestination(for: Navigation.Route.HomeSubRoute.self) { subroute in
-            switch subroute {
-                case .timetable(let initialDate):
-                    TimetableView(initialDate: initialDate)
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                primaryMenu
-            }
-        }
-        #if os(iOS)
-        .sheet(isPresented: $showStudentView) {
-            SafariView(url: studentViewURL)
-                .ignoresSafeArea()
-        }
-        .sheet(isPresented: $showYourWellbeing) {
-            SafariView(url: wellbeingURL)
-                .ignoresSafeArea()
-        }
-        .sheet(isPresented: $showCareers) {
-            SafariView(url: careersURL)
-                .ignoresSafeArea()
-        }
-        #endif
-        #if DEBUG
-        .sheet(isPresented: $showDebugView) {
-            DebugOptionsView()
-        }
-        #endif
     }
 
     //MARK: Localisation
@@ -251,13 +269,25 @@ struct HomeView: View {
         comment: "Shown in an alert when the user signs out. Signing out removes their student ID from Apple Wallet and disables auto top-up if it is set up via Apple Pay."
     )
 
-    private var primaryMenu: some View {
+    @ViewBuilder
+    private func primaryMenu(_ proxy: ScrollViewProxy) -> some View {
         Menu {
             Button {
 
             } label: {
                 Label("Edit Sections", systemImage: "checklist")
             }
+
+            Button {
+                withAnimation {
+                    proxy.scrollTo(headerID, anchor: .top)
+                    showCustomisationEditor = true
+                }
+            } label: {
+                Label("Customise", systemImage: "paintbrush")
+            }
+
+            Divider()
 
             Button {
                 router.navigate(to: .modal(.account))
@@ -306,7 +336,7 @@ struct HomeView: View {
     }
 }
 
-#Preview(traits: .environmentObjects, .learnKit, .timetableService) {
+#Preview(traits: .environmentObjects, .learnKit, .timetableService, .customisationKit) {
     NavigationStack {
         HomeView()
     }
