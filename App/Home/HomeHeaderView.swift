@@ -38,6 +38,7 @@ struct HomeHeaderView: View {
                     } placeholder: {
                         Color.brightonSecondary
                     }
+                    .accessibilityHidden(true)
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())
                     .padding(3)
