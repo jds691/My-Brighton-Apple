@@ -31,9 +31,23 @@ struct HomeHeaderView: View {
             }
             .overlay(alignment: .bottomLeading) {
                 HStack {
-                    Circle()
-                        .frame(width: 80, height: 80)
-                        .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    AsyncImage(url: customisations.profilePictureOverrideUrl) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Color.brightonSecondary
+                    }
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .padding(3)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(lineWidth: 3, antialiased: true)
+                            .foregroundStyle(customisations.textColor.resolved)
+                    }
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
                             // TODO: Replace with users preferred name

@@ -9,9 +9,9 @@ import Foundation
 import SwiftData
 import PhotosUI
 import SwiftUI
-#if os(iOS)
+#if canImport(UIKit)
 import UIKit
-#else
+#elseif canImport(AppKit)
 import AppKit
 #endif
 
@@ -112,6 +112,40 @@ public final class CustomisationService {
             // TODO: Log error
             return HomeCustomisation()
         }
+    }
+
+    public static func storePhotosPickerProfilePictureItem(_ item: PhotosPickerItem) async throws -> URL {
+        guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
+
+        // TODO: Downscale macOS images too
+        // Not done rn because of it requiring CoreImage
+        #if canImport(UIKit)
+        let image = UIImage(contentsOfFile: url.url.path(percentEncoded: false))
+
+        if let scaledImage = await image?.byPreparingThumbnail(ofSize: CGSize(width: 240, height: 240)) {
+            try scaledImage.heicData()?.write(to: url.url, options: .atomic)
+        }
+        #endif
+
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Home", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let uuid = UUID()
+        let customImageFile = customImageCache.appending(path: uuid.uuidString, directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            return try fm.replaceItemAt(customImageFile, withItemAt: url.url, backupItemName: "PFP_BAK") ?? customImageFile
+        } else {
+            try fm.copyItem(at: url.url, to: customImageFile)
+        }
+
+        return customImageFile
     }
 
     public static func storePhotosPickerBackgroundItem(_ item: PhotosPickerItem, for courseId: String) async throws -> URL {

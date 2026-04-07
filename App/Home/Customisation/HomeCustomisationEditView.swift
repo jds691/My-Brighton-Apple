@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Router
 import CustomisationKit
+import PhotosUI
 
 struct HomeCustomisationEditView: View {
     @Environment(Router.self) private var router
@@ -19,6 +20,9 @@ struct HomeCustomisationEditView: View {
 
     @Binding var customisations: HomeCustomisation
 
+    @State private var showProfilePicturePicker: Bool = false
+    @State private var selectedUserProfilePhoto: PhotosPickerItem? = nil
+
     @State private var customName: String = ""
 
     @State private var textColor: Color = .white
@@ -26,6 +30,49 @@ struct HomeCustomisationEditView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("Profile Picture") {
+                    HStack {
+                        Text("Image")
+                        Spacer()
+                        Menu("Choose") {
+                            Button {
+                                showProfilePicturePicker = true
+                            } label: {
+                                Label("Photo Library", systemImage: "photo.on.rectangle")
+                            }
+
+                            Button {
+                                //showProfilePicturePicker = true
+                            } label: {
+                                Label("Take Photo", systemImage: "camera")
+                            }
+                        }
+                    }
+                }
+                .photosPicker(isPresented: $showProfilePicturePicker, selection: $selectedUserProfilePhoto, matching: .images)
+                .task(id: selectedUserProfilePhoto) {
+                    guard let selectedUserProfilePhoto else { return }
+
+                    do {
+                        let url = try await CustomisationService.storePhotosPickerProfilePictureItem(selectedUserProfilePhoto)
+
+                        // A hack, but a functional hack
+                        let existingPfp = customisations.profilePictureOverrideUrl
+                        customisations.profilePictureOverrideUrl = url
+                        if let existingPfp {
+                            do {
+                                try FileManager.default.removeItem(at: existingPfp)
+                            } catch {
+                                print(error)
+                            }
+                        }
+
+                        self.selectedUserProfilePhoto = nil
+                    } catch {
+                        print(error)
+                    }
+                }
+
                 Section("Nickname") {
                     TextField("Nickname", text: $customName)
                 }
@@ -77,6 +124,7 @@ struct HomeCustomisationEditView: View {
             .onAppear {
                 originalCustomisations = customisations
 
+                tempCustomisations.profilePictureOverrideUrl = originalCustomisations.profilePictureOverrideUrl
                 tempCustomisations.displayNameOverride = originalCustomisations.displayNameOverride
                 tempCustomisations.background = originalCustomisations.background
                 tempCustomisations.fontDesign = originalCustomisations.fontDesign
@@ -99,6 +147,7 @@ struct HomeCustomisationEditView: View {
     }
 
     private func saveChangesToOriginalCustomisations() {
+        originalCustomisations.profilePictureOverrideUrl = customisations.profilePictureOverrideUrl
         originalCustomisations.displayNameOverride = customisations.displayNameOverride
         originalCustomisations.background = customisations.background
         originalCustomisations.fontDesign = customisations.fontDesign
