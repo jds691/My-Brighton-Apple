@@ -13,6 +13,8 @@ import Router
 
 @Model
 class TempEntry: DashboardEntry, NavigableEntry {
+    var dashboardId: DashboardKit.Dashboard.ID
+    
     var id: String
     
     @Transient
@@ -23,6 +25,7 @@ class TempEntry: DashboardEntry, NavigableEntry {
     var idk: String
 
     required init() {
+        self.dashboardId = ""
         self.id = ""
         self.idk = ""
         self.creationDate = .now
