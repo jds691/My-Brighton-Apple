@@ -35,7 +35,7 @@ struct ShowHomeCustomisationEditViewModifier: ViewModifier {
                 HomeCustomisationEditView(customisations: $customisations)
                     .presentationBackgroundInteraction(.enabled)
                 // When running on an iPad in landspace is doesn't match up without changing the value
-                    .presentationDetents([.fraction(hSizeClass == .compact ? 0.72 : 0.68)])
+                    .presentationDetents([.fraction(0.68)])
                     .interactiveDismissDisabled()
             }
         #endif

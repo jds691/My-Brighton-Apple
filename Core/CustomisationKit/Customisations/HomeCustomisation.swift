@@ -19,7 +19,8 @@ public final class HomeCustomisation {
 
     public init() {
         self.displayNameOverride = nil
-        self.background = .builtInImage("placeholder/StudentIdBanner")
+        //self.background = .builtInImage("placeholder/StudentIdBanner")
+        self.background = .builtInImage("sample/dawg")
         self.fontDesign = .regular
         self.textColor = CodableColor.fromColor(.white)
         self.textEffects = []

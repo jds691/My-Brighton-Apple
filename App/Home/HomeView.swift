@@ -50,31 +50,31 @@ struct HomeView: View {
     #endif
 
     var body: some View {
+        let importantDashboard = dashboardService.getDashboard(for: DashboardID.importantUpdates.rawValue)
+
         ScrollViewReader { proxy in
             ScrollView {
-                HomeHeaderView(customisations: $homeCustomisations)
-                    .flexibleHeaderContent()
-                    .modifier(ShowHomeCustomisationEditViewModifier(customisations: $homeCustomisations, showEditor: $showCustomisationEditor))
-                    .id(headerID)
+                VStack(alignment: .leading, spacing: 0) {
+                    HomeHeaderView(customisations: $homeCustomisations, opaqueBlur: importantDashboard != nil && !importantDashboard!.entries.isEmpty)
+                        .flexibleHeaderContent()
+                        .modifier(ShowHomeCustomisationEditViewModifier(customisations: $homeCustomisations, showEditor: $showCustomisationEditor))
+                        .id(headerID)
+                    // TODO: Extract into own view so it's easier to play around with
+                    if let importantDashboard, !importantDashboard.entries.isEmpty {
+                        HomeImportantUpdatesCarousell(dashboard: importantDashboard, customisations: homeCustomisations)
+                    }
+                }
+
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading) {
-                        if let dashboard = dashboardService.getDashboard(for: DashboardID.importantUpdates.rawValue), !dashboard.entries.isEmpty {
-                            Group {
-                                Text("Important Updates")
-                                    .font(.title3.bold())
-                                    .accessibilityAddTraits(.isHeader)
-
-                                DashboardCarousell(for: dashboard)
-                                    .cardBackgroundStyle(.clear)
-                            }
-                        }
-
                         if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
                             Text("Your Updates")
                                 .font(.title3.bold())
                                 .accessibilityAddTraits(.isHeader)
 
                             DashboardCarousell(for: dashboard)
+                                .padding(.horizontal, -16)
+                                .contentMargins(.horizontal, 16, for: .scrollContent)
                         }
                     }
                     SplitStack(

@@ -183,6 +183,7 @@ public final class Dashboard: Identifiable {
         }
     }
 
+    // TODO: Has no way of checking which Dashboard an entry is posted to
     private func getEntries<E: DashboardEntry>(for type: E.Type) throws (DashboardError) -> [E] {
         guard let modelContext else { throw .invalidInternalConfiguration }
 

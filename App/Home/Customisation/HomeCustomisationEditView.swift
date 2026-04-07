@@ -84,6 +84,8 @@ struct HomeCustomisationEditView: View {
                 tempCustomisations.textEffects = originalCustomisations.textEffects
 
                 customisations = tempCustomisations
+
+                customName = tempCustomisations.displayNameOverride ?? ""
             }
         }
         .onChange(of: router.currentRoute) {

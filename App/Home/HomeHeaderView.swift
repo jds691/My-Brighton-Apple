@@ -13,13 +13,14 @@ struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @Binding var customisations: HomeCustomisation
+    var opaqueBlur: Bool
 
     var body: some View {
         CustomisedBackgroundView(customisations.background)
             .aspectRatio(contentMode: .fill)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .bottom)
             .clipped()
-            .headerBlur()
+            .homeHeaderBlur(customisations: customisations, opaque: opaqueBlur)
             .modifierBranch {
                 if #available(iOS 26, macOS 26, *) {
                     $0
@@ -32,6 +33,7 @@ struct HomeHeaderView: View {
                 HStack {
                     Circle()
                         .frame(width: 80, height: 80)
+                        .modifier(TextEffectsViewModifier(customisations.textEffects))
                     VStack(alignment: .leading, spacing: 8) {
                         TimelineView(.everyMinute) { context in
                             // TODO: Replace with users preferred name
@@ -76,5 +78,5 @@ struct HomeHeaderView: View {
 }
 
 #Preview {
-    HomeHeaderView(customisations: .constant(HomeCustomisation()))
+    HomeHeaderView(customisations: .constant(HomeCustomisation()), opaqueBlur: false)
 }

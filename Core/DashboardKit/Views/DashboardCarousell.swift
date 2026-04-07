@@ -24,52 +24,12 @@ public struct DashboardCarousell: View {
         if !dashboard.entries.isEmpty {
             ScrollView(.horizontal) {
                 LazyHStack {
-                    ForEach(dashboard.entries, id: \.persistentModelID) { entry in
-                        VStack(alignment: .leading) {
-                            Group {
-                                if let category = dashboard.getCategory(for: entry) {
-                                    AnyView(getEntryView(for: category, dashboard: dashboard, entry: entry))
-                                } else {
-                                    Text("FUCK")
-                                        .foregroundStyle(.red)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
-                            .modifier(DashboardCarousellCardBackgroundModifier(backgroundCardStyle))
-                            // Entry extension view modifiers
-                            .modifier(NavigableEntryViewModifier(entry))
-                            #if DEBUG
-                            Group {
-                                Text("Entry type: \(String(reflecting: entry))")
-                                if let category = dashboard.getCategory(for: entry) {
-                                    Text("Category ID: \(category.id)")
-                                } else {
-                                    Text("Category ID: (nil)")
-                                }
-                                Text("  ")
-                                if let navigableEntry = entry as? (any NavigableEntry) {
-                                    Text("  NavigableEntry: YES")
-                                    Text("      navigationPoint: \(String(describing: navigableEntry.navigationPoint))")
-                                } else {
-                                    Text("  NavigableEntry: NO")
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .fixedSize()
-                            .font(.caption.monospaced())
-
-                            if let category = dashboard.getCategory(for: entry) {
-                                Button("Delete") {
-                                    do {
-                                        try dashboard.deleteEntry(by: entry.id, for: DashboardService.extractEntryType(from: category))
-                                    } catch {
-                                        
-                                    }
-                                }
-                            }
-                            #endif
+                    if backgroundCardStyle == .clear, #available(iOS 26, macOS 26, *) {
+                        GlassEffectContainer {
+                            cards
                         }
-                        .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
+                    } else {
+                        cards
                     }
                 }
                 .fixedSize()
@@ -80,6 +40,57 @@ public struct DashboardCarousell: View {
         } else {
             NoContentView("No Recent Updates")
                 .frame(height: 80)
+        }
+    }
+
+    @ViewBuilder
+    private var cards: some View {
+        ForEach(dashboard.entries, id: \.persistentModelID) { entry in
+            VStack(alignment: .leading) {
+                Group {
+                    if let category = dashboard.getCategory(for: entry) {
+                        AnyView(getEntryView(for: category, dashboard: dashboard, entry: entry))
+                    } else {
+                        Text("FUCK")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
+                .modifier(DashboardCarousellCardBackgroundModifier(backgroundCardStyle))
+                // Entry extension view modifiers
+                .modifier(NavigableEntryViewModifier(entry))
+#if DEBUG
+                Group {
+                    Text("Entry type: \(String(reflecting: entry))")
+                    if let category = dashboard.getCategory(for: entry) {
+                        Text("Category ID: \(category.id)")
+                    } else {
+                        Text("Category ID: (nil)")
+                    }
+                    Text("  ")
+                    if let navigableEntry = entry as? (any NavigableEntry) {
+                        Text("  NavigableEntry: YES")
+                        Text("      navigationPoint: \(String(describing: navigableEntry.navigationPoint))")
+                    } else {
+                        Text("  NavigableEntry: NO")
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize()
+                .font(.caption.monospaced())
+
+                if let category = dashboard.getCategory(for: entry) {
+                    Button("Delete") {
+                        do {
+                            try dashboard.deleteEntry(by: entry.id, for: DashboardService.extractEntryType(from: category))
+                        } catch {
+
+                        }
+                    }
+                }
+#endif
+            }
+            .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
         }
     }
 
