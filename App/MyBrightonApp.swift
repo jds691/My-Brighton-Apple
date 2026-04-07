@@ -37,8 +37,6 @@ struct MyBrightonApp: App {
 #endif
     
     init() {
-        CustomisationService.inMemoryOnly = true
-
         let appRouter = Router.shared
         // Has to be like this because for some reason self.notifier must be initialised first
         self.dashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
