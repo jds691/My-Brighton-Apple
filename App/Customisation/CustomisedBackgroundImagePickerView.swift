@@ -10,6 +10,7 @@ import PhotosUI
 import SwiftUI
 import LearnKit
 import CustomisationKit
+import CoreDesign
 
 struct CustomisedBackgroundImagePickerView: View {
     @Environment(\.dismiss) private var dismiss
@@ -18,6 +19,11 @@ struct CustomisedBackgroundImagePickerView: View {
     @State private var collections: [ImageCollection] = []
 
     @State var userPhotoSelection: PhotosPickerItem? = nil
+
+    #if canImport(UIKit)
+    @State private var showCameraCapture: Bool = false
+    @State private var capturedPhoto: UIImage? = nil
+    #endif
 
     @Binding var background: BackgroundType
 
@@ -47,13 +53,15 @@ struct CustomisedBackgroundImagePickerView: View {
                                     .modifier(CustomisedBackgroundImagePickerCard())
                             }
 
+                            #if canImport(UIKit)
                             Button {
-
+                                showCameraCapture = true
                             } label: {
                                 Image(systemName: "camera")
                                     .imageScale(.large)
                                     .modifier(CustomisedBackgroundImagePickerCard())
                             }
+                            #endif
                         }
                         .fixedSize()
                         .scrollTargetLayout()
@@ -167,6 +175,31 @@ struct CustomisedBackgroundImagePickerView: View {
                 // TODO: Show error
             }
         }
+        #if canImport(UIKit)
+        .cameraCapture(isPresented: $showCameraCapture, image: $capturedPhoto)
+        .onChange(of: capturedPhoto) {
+            guard let capturedPhoto else { return }
+
+            if case .customImage(_) = background {
+                background = .color(.fromColor(.brightonSecondary))
+            }
+
+            Task {
+                do {
+                    if let courseId {
+                        background = .customImage(try await CustomisationService.storeBackgroundImage(capturedPhoto, for: courseId))
+                    } else {
+                        background = .customImage(try await CustomisationService.storeBackgroundImage(capturedPhoto))
+                    }
+
+                    dismiss()
+                } catch {
+                    print(error)
+                }
+
+            }
+        }
+        #endif
     }
 }
 

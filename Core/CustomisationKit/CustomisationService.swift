@@ -148,6 +148,35 @@ public final class CustomisationService {
         return customImageFile
     }
 
+    #if canImport(UIKit)
+    public static func storeProfilePicture(_ uiImage: UIImage) async throws -> URL {
+        var finalImage: UIImage = uiImage
+        if let scaledImage = await uiImage.byPreparingThumbnail(ofSize: CGSize(width: 240, height: 240)) {
+            finalImage = scaledImage
+        }
+
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Home", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let uuid = UUID()
+        let customImageFile = customImageCache.appending(path: uuid.uuidString, directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            try fm.removeItem(at: customImageFile)
+        }
+
+        fm.createFile(atPath: customImageFile.path(percentEncoded: false), contents: finalImage.pngData())
+
+        return customImageFile
+    }
+    #endif
+
     public static func storePhotosPickerBackgroundItem(_ item: PhotosPickerItem, for courseId: String) async throws -> URL {
         guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
 
@@ -171,6 +200,29 @@ public final class CustomisationService {
         return customImageFile
     }
 
+#if canImport(UIKit)
+    public static func storeBackgroundImage(_ uiImage: UIImage, for courseId: String) async throws -> URL {
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Course", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let customImageFile = customImageCache.appending(path: courseId, directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            try fm.removeItem(at: customImageFile)
+        }
+
+        fm.createFile(atPath: customImageFile.path(percentEncoded: false), contents: uiImage.pngData())
+
+        return customImageFile
+    }
+#endif
+
     public static func storePhotosPickerBackgroundItem(_ item: PhotosPickerItem) async throws -> URL {
         guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
 
@@ -193,4 +245,27 @@ public final class CustomisationService {
 
         return customImageFile
     }
+
+#if canImport(UIKit)
+    public static func storeBackgroundImage(_ uiImage: UIImage) async throws -> URL {
+        let fm = FileManager.default
+
+        guard let appGroup = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") else { throw PhotosItemURL.ImportError.appGroupSecurity }
+        let customImageCache = appGroup.appending(path: "Library", directoryHint: .isDirectory).appending(path: "Application Support", directoryHint: .isDirectory).appending(path: "Customisation", directoryHint: .isDirectory).appending(path: "Images", directoryHint: .isDirectory).appending(path: "Home", directoryHint: .isDirectory)
+
+        if !fm.fileExists(atPath: customImageCache.path(percentEncoded: false)) {
+            try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
+        }
+
+        let customImageFile = customImageCache.appending(path: "Background", directoryHint: .notDirectory)
+
+        if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
+            try fm.removeItem(at: customImageFile)
+        }
+
+        fm.createFile(atPath: customImageFile.path(percentEncoded: false), contents: uiImage.pngData())
+
+        return customImageFile
+    }
+#endif
 }

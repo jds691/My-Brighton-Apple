@@ -333,6 +333,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Camera/CameraCaptureView.swift,
+				CoreDesign/Camera/CameraCaptureViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -482,6 +484,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Camera/CameraCaptureView.swift,
+				CoreDesign/Camera/CameraCaptureViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -526,6 +530,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Camera/CameraCaptureView.swift,
+				CoreDesign/Camera/CameraCaptureViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -1810,6 +1816,7 @@
 				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "My Brighton uses your camera to allow you to upload photos in My Studies and customise the look of views in-app.";
 				INFOPLIST_KEY_NSSiriUsageDescription = "My Brighton can provide information about you and your courses to Siri to allow it to facilitate requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1864,6 +1871,7 @@
 				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "My Brighton";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "My Brighton uses your camera to allow you to upload photos in My Studies and customise the look of views in-app.";
 				INFOPLIST_KEY_NSSiriUsageDescription = "My Brighton can provide information about you and your courses to Siri to allow it to facilitate requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
