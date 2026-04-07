@@ -59,7 +59,6 @@ struct HomeView: View {
                         .flexibleHeaderContent()
                         .modifier(ShowHomeCustomisationEditViewModifier(customisations: $homeCustomisations, showEditor: $showCustomisationEditor))
                         .id(headerID)
-                    // TODO: Extract into own view so it's easier to play around with
                     if let importantDashboard, !importantDashboard.entries.isEmpty {
                         HomeImportantUpdatesCarousell(dashboard: importantDashboard, customisations: homeCustomisations)
                     }

@@ -23,17 +23,22 @@ public struct DashboardCarousell: View {
     public var body: some View {
         if !dashboard.entries.isEmpty {
             ScrollView(.horizontal) {
-                LazyHStack {
-                    if backgroundCardStyle == .clear, #available(iOS 26, macOS 26, *) {
-                        GlassEffectContainer {
+                if backgroundCardStyle == .clear, #available(iOS 26, macOS 26, *) {
+                    GlassEffectContainer {
+                        LazyHStack {
                             cards
                         }
-                    } else {
+                        .fixedSize()
+                        .scrollTargetLayout()
+                    }
+                } else {
+                    LazyHStack {
                         cards
                     }
+                    .fixedSize()
+                    .scrollTargetLayout()
                 }
-                .fixedSize()
-                .scrollTargetLayout()
+
             }
             .scrollTargetBehavior(.viewAligned)
             .scrollIndicators(.hidden)
@@ -75,6 +80,7 @@ public struct DashboardCarousell: View {
                         Text("  NavigableEntry: NO")
                     }
                 }
+                .accessibilityHidden(true)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .fixedSize()
                 .font(.caption.monospaced())
@@ -87,9 +93,11 @@ public struct DashboardCarousell: View {
 
                         }
                     }
+                    .accessibilityHidden(true)
                 }
 #endif
             }
+            .accessibilityElement(children: .combine)
             .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
         }
     }
