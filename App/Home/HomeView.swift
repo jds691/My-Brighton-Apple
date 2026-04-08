@@ -69,11 +69,14 @@ struct HomeView: View {
                         if let dashboard = dashboardService.getDashboard(for: DashboardID.yourUpdates.rawValue) {
                             Text("Your Updates")
                                 .font(.title3.bold())
+                                .padding(.horizontal, 16)
                                 .accessibilityAddTraits(.isHeader)
 
                             DashboardCarousell(for: dashboard)
-                                .padding(.horizontal, -16)
-                                .contentMargins(.horizontal, 16, for: .scrollContent)
+                                .carousellPadding(.horizontal, 16)
+                                //.padding(.horizontal, 16)
+                                //.padding(.horizontal, -16)
+                                //.contentMargins(.horizontal, 16, for: .scrollContent)
                         }
                     }
                     SplitStack(
@@ -153,8 +156,8 @@ struct HomeView: View {
                             }
                         }
                     }
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
                 .scrollClipDisabled()
                 .disabled(showCustomisationEditor)
 #if os(iOS)

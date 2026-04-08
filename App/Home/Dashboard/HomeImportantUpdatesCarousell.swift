@@ -25,18 +25,15 @@ struct HomeImportantUpdatesCarousell: View {
         VStack(alignment: .leading) {
             Text("Important Updates")
                 .font(.title3.bold())
+                .padding(.horizontal, 16)
                 .accessibilityAddTraits(.isHeader)
-            //.padding([.top], 30.0)
 
             DashboardCarousell(for: dashboard)
                 .cardBackgroundStyle(.clear)
-                .padding(.bottom, 30)
-                .padding(.horizontal, -16)
-            // TODO: Isn't applied when NoContentView is showing
-                .contentMargins(.horizontal, 16, for: .scrollContent)
+                .carousellPadding(.horizontal, 16)
         }
+        .padding(.bottom, 30)
         .environment(\.colorScheme, clearColorScheme)
-        .padding(.horizontal, 16)
         .background {
             background
                 .modifierBranch {
