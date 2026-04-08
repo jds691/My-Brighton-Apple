@@ -22,12 +22,13 @@ struct ModuleAssignmentsScrollView: View {
                         .foregroundStyle(.brightonSecondary)
                         .imageScale(.large)
                 }
-
+                .padding(.horizontal, 16)
             }
             .buttonStyle(.plain)
 
             NoContentView("No Upcoming Assignments")
                 .frame(minHeight: 80)
+                .padding(.horizontal, 16)
         }
     }
 

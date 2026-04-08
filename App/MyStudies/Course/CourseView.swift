@@ -50,8 +50,8 @@ struct CourseView: View {
                     ModuleAssignmentsScrollView()
                     ModuleAnnouncementsScrollView(announcements: $announcements, onAnnouncementTapped: presentAnnouncement)
                     content
+                        .scenePadding(.horizontal)
                 }
-                .scenePadding(.horizontal)
                 #if os(iOS)
                 // TODO: Check if this can be replaced with onScrollViewGeometryChanged?
                 .background(GeometryReader { geometry in
