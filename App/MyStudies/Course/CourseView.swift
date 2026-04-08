@@ -94,13 +94,7 @@ struct CourseView: View {
 #endif
             .navigationTitle(courseDisplayName)
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    addContentMenu
-                }
-                // Layout breaks when put in ToolbarItemGroup instead
                 ToolbarItemGroup(placement: .secondaryAction) {
-                    //optionsMenu
-                    //optionsMenuContent
                     Section {
                         NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades) {
                             Label("Grades", systemImage: "checkmark.seal.text.page")
@@ -129,20 +123,6 @@ struct CourseView: View {
                         showCustomisationEditor = true
                     } label: {
                         Label("Customise", systemImage: "paintbrush")
-                    }
-
-                    Section("People") {
-                        Button {
-
-                        } label: {
-                            Label("Course Staff", systemImage: "graduationcap")
-                        }
-
-                        Button {
-
-                        } label: {
-                            Label("Class Register", systemImage: "person.2")
-                        }
                     }
 
                     Menu {
@@ -182,8 +162,6 @@ struct CourseView: View {
                         .toolbar(showTitle ? .visible : .hidden, for: .navigationBar)
                         //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
                         .legacyToolbar(visible: !showTitle, showBackButton: true) {
-                            addContentMenu
-
                             Menu {
                                 Section {
                                     NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades) {
@@ -213,20 +191,6 @@ struct CourseView: View {
                                     showCustomisationEditor = true
                                 } label: {
                                     Label("Customise", systemImage: "paintbrush")
-                                }
-
-                                Section("People") {
-                                    Button {
-
-                                    } label: {
-                                        Label("Course Staff", systemImage: "graduationcap")
-                                    }
-
-                                    Button {
-
-                                    } label: {
-                                        Label("Class Register", systemImage: "person.2")
-                                    }
                                 }
 
                                 Menu {
@@ -386,7 +350,11 @@ struct CourseView: View {
     
     @ViewBuilder
     private var content: some View {
-        Section {
+        VStack(alignment: .leading) {
+            Text("Content")
+                .font(.title3.bold())
+                .accessibilityAddTraits(.isHeader)
+
             if let rootContent {
                 ContentChildrenListView(for: rootContent.id)
             } else {
@@ -396,9 +364,6 @@ struct CourseView: View {
                     Spacer()
                 }
             }
-        } header: {
-            Text("Content")
-                .font(.title3.bold())
         }
     }
 
