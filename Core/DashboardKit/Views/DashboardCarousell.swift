@@ -15,6 +15,9 @@ public struct DashboardCarousell: View {
     private let dashboard: Dashboard
     private var backgroundCardStyle: Self.BackgroundCardStyle
 
+    private var paddedEdges: Edge.Set = []
+    private var paddingAmount: CGFloat? = nil
+
     public init(for dashboard: Dashboard) {
         self.dashboard = dashboard
         self.backgroundCardStyle = .standard
@@ -38,13 +41,14 @@ public struct DashboardCarousell: View {
                     .fixedSize()
                     .scrollTargetLayout()
                 }
-
             }
+            .contentMargins(paddedEdges, paddingAmount, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
             .scrollIndicators(.hidden)
         } else {
             NoContentView("No Recent Updates")
                 .frame(height: 80)
+                .padding(paddedEdges, paddingAmount)
         }
     }
 
@@ -74,8 +78,8 @@ public struct DashboardCarousell: View {
                     }
                     Text("  ")
                     if let navigableEntry = entry as? (any NavigableEntry) {
-                        Text("  NavigableEntry: YES")
-                        Text("      navigationPoint: \(String(describing: navigableEntry.navigationPoint))")
+                        Text("NavigableEntry: YES")
+                        Text("  navigationPoint: \(String(describing: navigableEntry.navigationPoint))")
                     } else {
                         Text("  NavigableEntry: NO")
                     }
@@ -98,7 +102,7 @@ public struct DashboardCarousell: View {
 #endif
             }
             .accessibilityElement(children: .combine)
-            .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 8)
+            .containerRelativeFrame([.horizontal], count: 5, span: containerFrameSpan, spacing: 0)
         }
     }
 
@@ -118,6 +122,16 @@ public struct DashboardCarousell: View {
     public enum BackgroundCardStyle {
         case standard
         case clear
+    }
+}
+
+extension DashboardCarousell {
+    public func carousellPadding(_ edges: Edge.Set = .all, _ length: CGFloat? = nil) -> Self {
+        var view = self
+        view.paddedEdges = edges
+        view.paddingAmount = length
+
+        return view
     }
 }
 

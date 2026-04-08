@@ -30,6 +30,7 @@ struct ModuleAnnouncementsScrollView: View {
                         .foregroundStyle(.brightonSecondary)
                         .imageScale(.large)
                 }
+                .padding(.horizontal, 16)
             }
             .buttonStyle(.plain)
 
@@ -50,11 +51,13 @@ struct ModuleAnnouncementsScrollView: View {
                         .fixedSize()
                         .scrollTargetLayout()
                     }
+                    .contentMargins(.horizontal, 16, for: .scrollContent)
                     .scrollTargetBehavior(.viewAligned)
                     .scrollIndicators(.hidden)
                 } else {
                     NoContentView("No Recent Announcements")
                         .frame(minHeight: 80)
+                        .padding(.horizontal, 16)
                 }
             } else {
                 ProgressView()
@@ -66,6 +69,7 @@ struct ModuleAnnouncementsScrollView: View {
                         RoundedRectangle(cornerRadius: 16, style: .circular)
                             .strokeBorder(lineWidth: 3, antialiased: true)
                     }
+                    .padding(.horizontal, 16)
             }
         }
         .scrollClipDisabled()
