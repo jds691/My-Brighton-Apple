@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import CustomisationKit
+import CoreDesign
 
 struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -93,5 +94,10 @@ struct HomeHeaderView: View {
 }
 
 #Preview {
-    HomeHeaderView(customisations: .constant(HomeCustomisation()), opaqueBlur: false)
+    ScrollView {
+        HomeHeaderView(customisations: .constant(HomeCustomisation()), opaqueBlur: false)
+            .flexibleHeaderContent()
+    }
+    .flexibleHeaderScrollView()
+    .ignoresSafeArea(edges: .top)
 }

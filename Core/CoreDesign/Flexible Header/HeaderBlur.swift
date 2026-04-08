@@ -16,7 +16,7 @@ struct HeaderBlurViewModifier: ViewModifier {
                 .mask {
                     LinearGradient(colors: [.black, .clear], startPoint: UnitPoint(x: 0, y: 0.90), endPoint: UnitPoint(x: 0, y: 0.97))
                         .blur(radius: 5)
-                        .padding([.horizontal, .top], -5)
+                        .padding([.horizontal, .top], -10)
                 }
         } else {
             content
