@@ -633,6 +633,7 @@
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
 				LearnKit/Info.plist,
+				LearnKit/Intents/DisplayRepresentationProvider.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
 				LearnKit/Intents/Entities/Course/CourseEntity.swift,
@@ -665,6 +666,7 @@
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
 				LearnKit/Info.plist,
+				LearnKit/Intents/DisplayRepresentationProvider.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
 				LearnKit/Intents/Entities/Course/CourseEntity.swift,
@@ -696,6 +698,7 @@
 			membershipExceptions = (
 				LearnKit/API/LearnKitAPI.swift,
 				LearnKit/BbCache.swift,
+				LearnKit/Intents/DisplayRepresentationProvider.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntity.swift,
 				LearnKit/Intents/Entities/Course/Announcements/CourseAnnouncementEntityQuery.swift,
 				LearnKit/Intents/Entities/Course/CourseEntity.swift,

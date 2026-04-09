@@ -10,6 +10,7 @@ import OpenAPIURLSession
 import SwiftUI
 import AuthenticationServices
 import os
+import AppIntents
 
 /// Overarching service to perform requests against LearnKit.
 ///
@@ -18,19 +19,22 @@ public final class LearnKitService: Sendable {
     private let baseURL: URL?
     private let client: any APIProtocol
     private let cache: BbCache
+    private let displayRepresentationsLock: NSLock = NSLock()
+    private let displayRepresentations: [any DisplayRepresentationProvider]
 
     private static let logger: Logger = .init(subsystem: "com.neo.LearnKit", category: "LearnKitService")
 
     /// Initialises the service with a Learn instance URL to connect to.
     ///
     /// - Parameter learnInstanceURL: The URL for the Blackboard Learn instance. The instance URL should end with "/learn/api/public".
-    public init(learnInstanceURL: URL) {
+    public init(learnInstanceURL: URL, displayRepresentations: [any DisplayRepresentationProvider] = []) {
         self.cache = BbCache()
         self.baseURL = learnInstanceURL
         self.client = Client(
             serverURL: learnInstanceURL,
             transport: URLSessionTransport()
         )
+        self.displayRepresentations = displayRepresentations
     }
 
     
@@ -39,10 +43,11 @@ public final class LearnKitService: Sendable {
     /// This initialiser is only intended to be used for previews.
     /// >important: Some API calls will not function with custom clients.
     /// - Parameter client: Custom client to use for REST calls.
-    public init(client: any APIProtocol) {
+    public init(client: any APIProtocol, displayRepresentations: [any DisplayRepresentationProvider] = []) {
         self.cache = BbCache(inMemoryOnly: true)
         self.baseURL = nil
         self.client = client
+        self.displayRepresentations = displayRepresentations
     }
 }
 
@@ -324,5 +329,16 @@ public extension LearnKitService {
     /// - Parameter identifiers: Identifiers of the content that should be reindexed.
     func reindexContent(withIdentifiers identifiers: [String]) async throws {
         try await cache.reindexContent(withIdentifiers: identifiers)
+    }
+}
+
+// MARK: DisplayRepresentationProvider
+extension LearnKitService {
+    func getDisplayRepresentationProvider<Entity: AppEntity>(for entity: Entity.Type) -> (any DisplayRepresentationProvider<Entity>)? {
+        func extractProviderCategory<Provider: DisplayRepresentationProvider>(_ provider: Provider) -> any AppEntity.Type {
+            return Provider.Entity.self
+        }
+
+        return displayRepresentations.first(where: { extractProviderCategory($0) == Entity.self }) as? any DisplayRepresentationProvider<Entity>
     }
 }

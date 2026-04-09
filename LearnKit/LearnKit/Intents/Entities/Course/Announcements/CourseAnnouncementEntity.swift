@@ -9,12 +9,19 @@ import AppIntents
 import SwiftBbML
 
 public struct CourseAnnouncementEntity: AppEntity {
+    @AppDependency
+    private var learnKit: LearnKitService
+
     public static var typeDisplayRepresentation: TypeDisplayRepresentation {
         .init(name: "Course Announcement")
     }
 
     public var displayRepresentation: DisplayRepresentation {
-        .init(title: "\(title)")
+        if let provider = learnKit.getDisplayRepresentationProvider(for: Self.self), let representation = provider.representation(for: self) {
+            return representation
+        } else {
+            return .init(title: "\(title)")
+        }
     }
 
     public static let defaultQuery = CourseAnnouncementEntityQuery()
