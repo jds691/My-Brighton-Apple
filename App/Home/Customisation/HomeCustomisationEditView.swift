@@ -194,5 +194,7 @@ struct HomeCustomisationEditView: View {
         originalCustomisations.fontDesign = customisations.fontDesign
         originalCustomisations.textColor = customisations.textColor
         originalCustomisations.textEffects = customisations.textEffects
+
+        CustomisationService.shared.saveOutstandingChanges()
     }
 }

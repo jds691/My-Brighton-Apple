@@ -119,6 +119,8 @@ struct CourseCustomisationEditView: View {
         realCustomisations.textAlignment = tempCustomisations.textAlignment
 
         realCustomisations.textEffects = tempCustomisations.textEffects
+
+        CustomisationService.shared.saveOutstandingChanges()
     }
 }
 

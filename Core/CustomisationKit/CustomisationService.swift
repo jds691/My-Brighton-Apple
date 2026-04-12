@@ -120,6 +120,15 @@ public final class CustomisationService {
         }
     }
 
+    public func saveOutstandingChanges() {
+        do {
+            try modelContext.save()
+        } catch {
+            print("Saving CustomisationService changes failed:")
+            print(error)
+        }
+    }
+
     public static func storePhotosPickerProfilePictureItem(_ item: PhotosPickerItem) async throws -> URL {
         guard let url = try await item.loadTransferable(type: PhotosItemURL.self) else { throw PhotosItemURL.ImportError.unknown }
 
