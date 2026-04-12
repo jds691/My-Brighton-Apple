@@ -128,8 +128,10 @@ actor BbCache {
             async let courseAppEntity = CourseEntity(from: course)
             let courseAttributes = CSSearchableItemAttributeSet()
 
+            let customisations = CustomisationService.shared.getCourseCustomisation(for: course.id)
+
             courseAttributes.title = course.name
-            courseAttributes.displayName = course.name
+            courseAttributes.displayName = customisations.displayNameOverride ?? course.name
             courseAttributes.contentDescription = course.description
             courseAttributes.alternateNames = [
                 course.id,
