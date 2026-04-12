@@ -5,6 +5,7 @@
 //  Created by Neo Salmon on 14/06/2025.
 //
 import AppIntents
+import CustomisationKit
 
 public struct CourseEntity: AppEntity {
     @AppDependency
@@ -15,10 +16,12 @@ public struct CourseEntity: AppEntity {
     }
     
     public var displayRepresentation: DisplayRepresentation {
-        if let provider = learnKit.getDisplayRepresentationProvider(for: Self.self), let representation = provider.representation(for: self) {
-            return representation
+        let customisations = CustomisationService.shared.getCourseCustomisation(for: self.id)
+
+        if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: self.id, nilIfNonExistent: true) {
+            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(url: thumbnailUrl))
         } else {
-            return .init(title: "\(name)", image: .init(systemName: "books.vertical", isTemplate: true))
+            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(systemName: "books.vertical", isTemplate: true))
         }
     }
     

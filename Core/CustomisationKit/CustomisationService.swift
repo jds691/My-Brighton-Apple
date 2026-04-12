@@ -14,6 +14,8 @@ import UIKit
 #elseif canImport(AppKit)
 import AppKit
 #endif
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 nonisolated
 public final class CustomisationService {
@@ -22,6 +24,8 @@ public final class CustomisationService {
     private let modelExecutor: any ModelExecutor
     private let modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
+
+    private let graphicsContext: CIContext
 
     nonisolated(unsafe) private static var _shared: CustomisationService? = nil
     public static var shared: CustomisationService {
@@ -46,6 +50,8 @@ public final class CustomisationService {
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
         }
+
+        graphicsContext = CIContext(options: [.workingColorSpace: kCFNull!, .outputColorSpace: kCFNull!])
     }
 
     // TODO: Caching
@@ -268,4 +274,215 @@ public final class CustomisationService {
         return customImageFile
     }
 #endif
+}
+
+// MARK: Thumbnail
+extension CustomisationService {
+    var courseThumbnailDirectory: URL? {
+        if let appGroup = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton") {
+            let url = appGroup
+                .appending(path: "Library", directoryHint: .isDirectory)
+                .appending(path: "Application Support", directoryHint: .isDirectory)
+                .appending(path: "Customisation", directoryHint: .isDirectory)
+                .appending(path: "Images", directoryHint: .isDirectory)
+                .appending(path: "Course", directoryHint: .isDirectory)
+                .appending(path: "Thumbnails", directoryHint: .isDirectory)
+
+            if !FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) {
+                do {
+                    try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+                } catch {
+                    print(error)
+                }
+            }
+
+            return url
+        } else {
+            return nil
+        }
+    }
+    // For first launch *nothing* will have thumbnails
+    @concurrent
+    public func updateThumbnail(for courseId: String, fallbackName: String) async {
+        let customisations = getCourseCustomisation(for: courseId)
+
+        var backgroundImage: CIImage?
+
+        // TODO: Fix rendering when background is color
+        switch customisations.background {
+            case .color(let codableColor):
+                let resolved = codableColor.resolved.resolve(in: EnvironmentValues())
+                backgroundImage = CIImage.init(color: .init(red: CGFloat(resolved.red), green: CGFloat(resolved.green), blue: CGFloat(resolved.blue), alpha: CGFloat(resolved.opacity), colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!) ?? CIColor.gray)
+            case .builtInImage(let string):
+                #if canImport(UIKit)
+                backgroundImage = CIImage(image: UIImage(named: string, in: Bundle(for: Self.self), with: nil) ?? UIImage())
+                #elseif canImport(AppKit)
+                // Dear fucking GOD macOS
+                backgroundImage = CIImage(data: (Bundle(for: Self.self).image(forResource: string)?.tiffRepresentation(using: .none, factor: 0.0) ?? NSImage().tiffRepresentation(using: .none, factor: 0.0)) ?? Data())
+                #endif
+            case .customImage(let uRL):
+                backgroundImage = CIImage(contentsOf: uRL)
+        }
+
+        #if os(iOS)
+        var shadow: NSShadow = {
+            var shadowInfo = NSShadow()
+            shadowInfo.shadowBlurRadius = 9.3
+            shadowInfo.shadowColor = UIColor.black
+
+            return shadowInfo
+        }()
+
+        var font: UIFont = {
+            var traits: UIFontDescriptor.SymbolicTraits = []
+
+            if customisations.textEffects.contains(.bold) {
+                traits.insert(.traitBold)
+            }
+
+            if customisations.textEffects.contains(.italics) {
+                traits.insert(.traitItalic)
+            }
+
+            // Yes really, 459px
+            let baseDescriptor = UIFont.systemFont(ofSize: 459).fontDescriptor
+            let customisedDescriptor = baseDescriptor
+                .withDesign(customisations.fontDesign.uiFontDescriptorDesign)?
+                .withSymbolicTraits(traits)
+
+
+            return UIFont(descriptor: customisedDescriptor ?? baseDescriptor, size: 459)
+        }()
+
+        var attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: UIColor(customisations.textColor.resolved),
+            .strikethroughStyle: customisations.textEffects.contains(.strikethrough) ? NSUnderlineStyle.single.rawValue : 0,
+            .strikethroughColor: UIColor(customisations.textColor.resolved),
+            .underlineStyle: customisations.textEffects.contains(.underline) ? NSUnderlineStyle.single.rawValue : 0,
+            .underlineColor: UIColor(customisations.textColor.resolved)
+        ]
+        if customisations.textEffects.contains(.dropShadow) {
+            attributes.updateValue(shadow, forKey: .shadow)
+        }
+
+        let imageText = NSAttributedString(
+            string: String(customisations.displayNameOverride?.prefix(1) ?? fallbackName.prefix(1)),
+            attributes: attributes
+        )
+        #else
+        var shadow: NSShadow = {
+            var shadowInfo = NSShadow()
+            shadowInfo.shadowBlurRadius = 9.3
+            shadowInfo.shadowColor = NSColor.black
+
+            return shadowInfo
+        }()
+
+        var font: NSFont = {
+            var traits: NSFontDescriptor.SymbolicTraits = []
+
+            if customisations.textEffects.contains(.bold) {
+                traits.insert(.bold)
+            }
+
+            if customisations.textEffects.contains(.italics) {
+                traits.insert(.italic)
+            }
+
+            // Yes really, 459px
+            let baseDescriptor = NSFont.systemFont(ofSize: 459).fontDescriptor
+            let customisedDescriptor = baseDescriptor
+                .withDesign(customisations.fontDesign.nsFontDescriptorDesign)?
+                .withSymbolicTraits(traits)
+
+
+            return NSFont(descriptor: customisedDescriptor ?? baseDescriptor, size: 459) ?? NSFont.systemFont(ofSize: 459)
+        }()
+
+        var attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: NSColor(customisations.textColor.resolved),
+            .strikethroughStyle: customisations.textEffects.contains(.strikethrough) ? NSUnderlineStyle.single.rawValue : 0,
+            .strikethroughColor: NSColor(customisations.textColor.resolved),
+            .underlineStyle: customisations.textEffects.contains(.underline) ? NSUnderlineStyle.single.rawValue : 0,
+            .underlineColor: NSColor(customisations.textColor.resolved)
+        ]
+        if customisations.textEffects.contains(.dropShadow) {
+            attributes.updateValue(shadow, forKey: .shadow)
+        }
+
+        let imageText = NSAttributedString(
+            string: String(customisations.displayNameOverride?.prefix(1) ?? fallbackName.prefix(1)),
+            attributes: attributes
+        )
+        #endif
+
+        let textFilter = CIFilter.attributedTextImageGenerator()
+        textFilter.text = imageText
+
+        let textImage = textFilter.outputImage
+
+        var pngData: Data?
+        if let textImage, let backgroundImage {
+            let backgroundLength = min(backgroundImage.extent.width, backgroundImage.extent.height)
+            let backgroundX = backgroundImage.extent.width / 2 - backgroundLength / 2
+            let backgroundY = backgroundImage.extent.height / 2 - backgroundLength / 2
+            let backgroundCropRect = CGRect(x: backgroundX, y: backgroundY, width: backgroundLength, height: backgroundLength)
+
+            let croppedBackground = backgroundImage.cropped(to: backgroundCropRect)
+
+            var scaledBackground: CIImage?
+            if backgroundLength != 1024 {
+                let scale = 1024 / backgroundLength
+
+                let scaleFilter = CIFilter.lanczosScaleTransform()
+                scaleFilter.scale = Float(scale)
+                scaleFilter.aspectRatio = 1.0
+                scaleFilter.inputImage = croppedBackground
+
+                scaledBackground = scaleFilter.outputImage
+            }
+
+            let tX = scaledBackground?.extent.origin.x ?? croppedBackground.extent.origin.x
+            let centerX = 512 - (textImage.extent.size.width / 2)
+            let tY = scaledBackground?.extent.origin.y ?? croppedBackground.extent.origin.y
+            let centerY = 512 - (textImage.extent.size.height / 2)
+
+            let transformation = CGAffineTransform(translationX: tX + centerX, y: tY + centerY)
+            let output = textImage.transformed(by: transformation).composited(over: scaledBackground ?? croppedBackground)
+
+            pngData = graphicsContext.pngRepresentation(of: output, format: .RGBA8, colorSpace: CGColorSpace.init(name: CGColorSpace.sRGB)!)
+        } else {
+            pngData = graphicsContext.pngRepresentation(of: CIImage.gray, format: .RGBA8, colorSpace: CGColorSpace.init(name: CGColorSpace.sRGB)!)
+        }
+
+        if let thumbnailFile = thumbnailUrl(for: courseId) {
+            let fm = FileManager.default
+            if fm.fileExists(atPath: thumbnailFile.path(percentEncoded: false)) {
+                do {
+                    try fm.removeItem(at: thumbnailFile)
+                } catch {
+                    print(error)
+                    return
+                }
+            }
+
+            fm.createFile(atPath: thumbnailFile.path(percentEncoded: false), contents: pngData)
+        }
+    }
+
+    public func thumbnailUrl(for courseId: String, nilIfNonExistent: Bool = false) -> URL? {
+        guard let courseThumbnailDirectory else { return nil }
+
+        if !nilIfNonExistent {
+            return courseThumbnailDirectory.appending(path: courseId, directoryHint: .notDirectory)
+        }
+
+        if !FileManager.default.fileExists(atPath: courseThumbnailDirectory.appending(path: courseId, directoryHint: .notDirectory).path(percentEncoded: false)) {
+            return nil
+        }
+
+        return courseThumbnailDirectory.appending(path: courseId, directoryHint: .notDirectory)
+    }
 }

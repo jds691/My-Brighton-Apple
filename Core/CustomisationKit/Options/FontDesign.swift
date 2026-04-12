@@ -26,4 +26,34 @@ public enum FontDesign: String, RawRepresentable, Codable {
                     .system(style, design: .monospaced)
         }
     }
+
+    #if canImport(UIKit)
+    public var uiFontDescriptorDesign: UIFontDescriptor.SystemDesign {
+        switch self {
+            case .regular:
+                    .default
+            case .rounded:
+                    .rounded
+            case .serif:
+                    .serif
+            case .monospace:
+                    .monospaced
+        }
+    }
+    #endif
+
+    #if canImport(AppKit)
+    public var nsFontDescriptorDesign: NSFontDescriptor.SystemDesign {
+        switch self {
+            case .regular:
+                    .default
+            case .rounded:
+                    .rounded
+            case .serif:
+                    .serif
+            case .monospace:
+                    .monospaced
+        }
+    }
+    #endif
 }

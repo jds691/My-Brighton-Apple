@@ -81,6 +81,10 @@ struct CourseCustomisationEditView: View {
                         dismiss()
 
                         storeChangesToRealCustomisations()
+                        Task {
+                            await CustomisationService.shared.updateThumbnail(for: courseId, fallbackName: realName)
+                            MyBrightonAppShortcuts.updateAppShortcutParameters()
+                        }
                     } label: {
                         Label("Done", systemImage: "checkmark")
                     }

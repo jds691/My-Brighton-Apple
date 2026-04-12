@@ -17,11 +17,7 @@ public struct CourseAnnouncementEntity: AppEntity {
     }
 
     public var displayRepresentation: DisplayRepresentation {
-        if let provider = learnKit.getDisplayRepresentationProvider(for: Self.self), let representation = provider.representation(for: self) {
-            return representation
-        } else {
-            return .init(title: "\(title)")
-        }
+        return .init(title: "\(title)")
     }
 
     public static let defaultQuery = CourseAnnouncementEntityQuery()
