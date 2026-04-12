@@ -20,7 +20,6 @@ struct SearchItemRowView: View {
     var body: some View {
         HStack {
             image
-                .frame(width: 90, height: 90)
 
             VStack(alignment: .leading) {
                 name
@@ -59,9 +58,25 @@ struct SearchItemRowView: View {
             Image(nsImage: NSImage(data: imageData) ?? NSImage())
             #endif
         } else if colorScheme == .dark, let darkImage = csItem.attributeSet.darkThumbnailURL {
-            AsyncImage(url: darkImage)
+            AsyncImage(url: darkImage) {
+                $0
+                    .resizable()
+                    .aspectRatio(1.0, contentMode: .fit)
+                    .frame(width: 45, height: 45)
+                    .clipShape(ContainerRelativeShape())
+            } placeholder: {
+                EmptyView()
+            }
         } else if let lightImage = csItem.attributeSet.thumbnailURL {
-            AsyncImage(url: lightImage)
+            AsyncImage(url: lightImage) {
+                $0
+                    .resizable()
+                    .aspectRatio(1.0, contentMode: .fit)
+                    .frame(width: 45, height: 45)
+                    .clipShape(ContainerRelativeShape())
+            } placeholder: {
+                EmptyView()
+            }
         }
     }
 }
