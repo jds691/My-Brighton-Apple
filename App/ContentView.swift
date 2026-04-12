@@ -96,10 +96,28 @@ struct ContentView: View {
                             CourseView(id: course.id)
                         }
                     } label: {
-                        if let customisations = courseCustomisations[course.id] {
-                            Text(customisations.displayNameOverride ?? course.name)
-                        } else {
-                            Text(course.name)
+                        Label {
+                            if let customisations = courseCustomisations[course.id] {
+                                Text(customisations.displayNameOverride ?? course.name)
+                            } else {
+                                Text(course.name)
+                            }
+                        } icon: {
+                            // TODO: Doesn't change if the contents are updated.
+                            if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true) {
+                                AsyncImage(url: thumbnailUrl) { image in
+                                    // SwiftUI bug: Must manually draw the image at a small size or SwiftUI sets the height as tall as fucking possible
+                                    // Because ofc it does
+                                    let size = CGSize(width: 18, height: 18)
+                                    Image(size: size) { context in
+                                        context.draw(image, in: CGRect(origin: .zero, size: size))
+                                    }
+                                } placeholder: {
+                                    Image(systemName: "books.vertical")
+                                }
+                            } else {
+                                Image(systemName: "books.vertical")
+                            }
                         }
                     }
                     .contextMenu {
