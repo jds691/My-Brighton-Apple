@@ -38,6 +38,8 @@ public final class CustomisationService {
     }
 
     private init() {
+        graphicsContext = CIContext(options: [.workingColorSpace: kCFNull!, .outputColorSpace: kCFNull!])
+
         do {
             let schemaV1: Schema = .init([
                 CourseCustomisation.self,
@@ -47,11 +49,11 @@ public final class CustomisationService {
 
             self.modelContainer = try .init(for: schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
+
+            self.modelContext.autosaveEnabled = false
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
         }
-
-        graphicsContext = CIContext(options: [.workingColorSpace: kCFNull!, .outputColorSpace: kCFNull!])
     }
 
     // TODO: Caching
@@ -118,6 +120,10 @@ public final class CustomisationService {
             // TODO: Log error
             return HomeCustomisation()
         }
+    }
+
+    public func discordOutstandingChanges() {
+        modelContext.rollback()
     }
 
     public func saveOutstandingChanges() {

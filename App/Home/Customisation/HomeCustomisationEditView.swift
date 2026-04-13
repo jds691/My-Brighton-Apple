@@ -185,6 +185,7 @@ struct HomeCustomisationEditView: View {
     private func cancelEditing() {
         dismiss()
         customisations = originalCustomisations
+        CustomisationService.shared.discordOutstandingChanges()
     }
 
     private func saveChangesToOriginalCustomisations() {

@@ -70,6 +70,8 @@ struct CourseCustomisationEditView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
+
+                        CustomisationService.shared.discordOutstandingChanges()
                     } label: {
                         Label("Cancel", systemImage: "xmark")
                     }
