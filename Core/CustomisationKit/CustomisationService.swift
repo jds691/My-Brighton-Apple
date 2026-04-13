@@ -323,11 +323,11 @@ extension CustomisationService {
 
         var backgroundImage: CIImage?
 
-        // TODO: Fix rendering when background is color
         switch customisations.background {
             case .color(let codableColor):
                 let resolved = codableColor.resolved.resolve(in: EnvironmentValues())
-                backgroundImage = CIImage.init(color: .init(red: CGFloat(resolved.red), green: CGFloat(resolved.green), blue: CGFloat(resolved.blue), alpha: CGFloat(resolved.opacity), colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!) ?? CIColor.gray)
+                let colourImage = CIImage.init(color: .init(red: CGFloat(resolved.red), green: CGFloat(resolved.green), blue: CGFloat(resolved.blue), alpha: CGFloat(resolved.opacity), colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!) ?? CIColor.gray)
+                backgroundImage = colourImage.cropped(to: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 1024, height: 1024)))
             case .builtInImage(let string):
                 #if canImport(UIKit)
                 backgroundImage = CIImage(image: UIImage(named: string, in: Bundle(for: Self.self), with: nil) ?? UIImage())
