@@ -185,6 +185,7 @@ struct HomeCustomisationEditView: View {
     private func cancelEditing() {
         dismiss()
         customisations = originalCustomisations
+        CustomisationService.shared.discordOutstandingChanges()
     }
 
     private func saveChangesToOriginalCustomisations() {
@@ -194,5 +195,7 @@ struct HomeCustomisationEditView: View {
         originalCustomisations.fontDesign = customisations.fontDesign
         originalCustomisations.textColor = customisations.textColor
         originalCustomisations.textEffects = customisations.textEffects
+
+        CustomisationService.shared.saveOutstandingChanges()
     }
 }

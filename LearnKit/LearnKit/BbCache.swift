@@ -11,6 +11,7 @@ import os
 import CoreSpotlight
 import AppIntents
 import SwiftBbML
+import CustomisationKit
 
 /// Handles all SwiftData and offline caching operations.
 ///
@@ -127,8 +128,10 @@ actor BbCache {
             async let courseAppEntity = CourseEntity(from: course)
             let courseAttributes = CSSearchableItemAttributeSet()
 
+            let customisations = CustomisationService.shared.getCourseCustomisation(for: course.id)
+
             courseAttributes.title = course.name
-            courseAttributes.displayName = course.name
+            courseAttributes.displayName = customisations.displayNameOverride ?? course.name
             courseAttributes.contentDescription = course.description
             courseAttributes.alternateNames = [
                 course.id,
@@ -142,6 +145,7 @@ actor BbCache {
                 course.courseId
             ]
             courseAttributes.metadataModificationDate = course.lastModified
+            courseAttributes.thumbnailURL = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true)
 
             let courseCsItem = CSSearchableItem(uniqueIdentifier: "course/\(course.id)", domainIdentifier: nil, attributeSet: courseAttributes)
             await courseCsItem.associateAppEntity(courseAppEntity)

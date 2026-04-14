@@ -70,6 +70,8 @@ struct CourseCustomisationEditView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
+
+                        CustomisationService.shared.discordOutstandingChanges()
                     } label: {
                         Label("Cancel", systemImage: "xmark")
                     }
@@ -81,6 +83,10 @@ struct CourseCustomisationEditView: View {
                         dismiss()
 
                         storeChangesToRealCustomisations()
+                        Task {
+                            await CustomisationService.shared.updateThumbnail(for: courseId, fallbackName: realName)
+                            MyBrightonAppShortcuts.updateAppShortcutParameters()
+                        }
                     } label: {
                         Label("Done", systemImage: "checkmark")
                     }
@@ -115,6 +121,8 @@ struct CourseCustomisationEditView: View {
         realCustomisations.textAlignment = tempCustomisations.textAlignment
 
         realCustomisations.textEffects = tempCustomisations.textEffects
+
+        CustomisationService.shared.saveOutstandingChanges()
     }
 }
 

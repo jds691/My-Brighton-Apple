@@ -29,6 +29,9 @@ struct ContentView: View {
     @State private var courses: [Course] = []
     @State private var courseCustomisations: Dictionary<String, CourseCustomisation> = [:]
 
+    @State private var thumbnailDidChangeObserver: (any NSObjectProtocol)? = nil
+    @State private var thumbnailData: [String: Image] = [:]
+
     var body: some View {
         @Bindable var router = router
         
@@ -96,10 +99,24 @@ struct ContentView: View {
                             CourseView(id: course.id)
                         }
                     } label: {
-                        if let customisations = courseCustomisations[course.id] {
-                            Text(customisations.displayNameOverride ?? course.name)
-                        } else {
-                            Text(course.name)
+                        Label {
+                            if let customisations = courseCustomisations[course.id] {
+                                Text(customisations.displayNameOverride ?? course.name)
+                            } else {
+                                Text(course.name)
+                            }
+                        } icon: {
+                            // TODO: Doesn't change if the contents are updated.
+                            if let thumbnail = thumbnailData[course.id] {
+                                // SwiftUI bug: Must manually draw the image at a small size or SwiftUI sets the height as tall as fucking possible
+                                // Because ofc it does
+                                let size = CGSize(width: 18, height: 18)
+                                Image(size: size) { context in
+                                    context.draw(thumbnail, in: CGRect(origin: .zero, size: size))
+                                }
+                            } else {
+                                Image(systemName: "books.vertical")
+                            }
                         }
                     }
                     .contextMenu {
@@ -142,8 +159,45 @@ struct ContentView: View {
 
                 for course in courses {
                     courseCustomisations.updateValue(CustomisationService.shared.getCourseCustomisation(for: course.id), forKey: course.id)
+                    if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true) {
+                        #if canImport(UIKit)
+                        if let thumbnailImage = UIImage(contentsOfFile: thumbnailUrl.path(percentEncoded: false)) {
+                            thumbnailData.updateValue(Image(uiImage: thumbnailImage), forKey: course.id)
+                        }
+                        #elseif canImport(AppKit)
+                        if let thumbnailImage = NSImage(contentsOf: thumbnailUrl) {
+                            thumbnailData.updateValue(Image(nsImage: thumbnailImage), forKey: course.id)
+                        }
+                        #endif
+                    }
                 }
             } catch {
+            }
+        }
+        .onAppear {
+            thumbnailDidChangeObserver = NotificationCenter.default.addObserver(forName: CustomisationService.thumbnailDidRefresh, object: nil, queue: OperationQueue.main) { notification in
+                guard let courseId = notification.userInfo?["courseId"] as? String else { return }
+
+                MainActor.assumeIsolated {
+                    if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: courseId, nilIfNonExistent: true) {
+#if canImport(UIKit)
+                        if let thumbnailImage = UIImage(contentsOfFile: thumbnailUrl.path(percentEncoded: false)) {
+                            thumbnailData.updateValue(Image(uiImage: thumbnailImage), forKey: courseId)
+                        }
+#elseif canImport(AppKit)
+                        if let thumbnailImage = NSImage(contentsOf: thumbnailUrl) {
+                            thumbnailData.updateValue(Image(nsImage: thumbnailImage), forKey: courseId)
+                        }
+#endif
+                    } else {
+                        thumbnailData.removeValue(forKey: courseId)
+                    }
+                }
+            }
+        }
+        .onDisappear {
+            if let thumbnailDidChangeObserver {
+                NotificationCenter.default.removeObserver(thumbnailDidChangeObserver)
             }
         }
     }

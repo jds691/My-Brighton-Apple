@@ -5,14 +5,24 @@
 //  Created by Neo Salmon on 14/06/2025.
 //
 import AppIntents
+import CustomisationKit
 
 public struct CourseEntity: AppEntity {
+    @AppDependency
+    private var learnKit: LearnKitService
+
     public static var typeDisplayRepresentation: TypeDisplayRepresentation {
         .init(name: "Course")
     }
     
     public var displayRepresentation: DisplayRepresentation {
-        .init(title: "\(name)", image: .init(systemName: "books.vertical", isTemplate: true))
+        let customisations = CustomisationService.shared.getCourseCustomisation(for: self.id)
+
+        if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: self.id, nilIfNonExistent: true) {
+            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(url: thumbnailUrl))
+        } else {
+            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(systemName: "books.vertical", isTemplate: true))
+        }
     }
     
     public static let defaultQuery = CourseEntityQuery()

@@ -10,6 +10,7 @@ import OpenAPIURLSession
 import SwiftUI
 import AuthenticationServices
 import os
+import AppIntents
 
 /// Overarching service to perform requests against LearnKit.
 ///
