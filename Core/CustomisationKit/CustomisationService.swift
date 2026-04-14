@@ -27,6 +27,9 @@ public final class CustomisationService {
 
     private let graphicsContext: CIContext
 
+    // NotifcaitonCenter
+    public static let thumbnailDidRefresh = NSNotification.Name(rawValue: "com.neo.CustomisationKit.CustomisationService.thumbnailDidRefresh")
+
     nonisolated(unsafe) private static var _shared: CustomisationService? = nil
     public static var shared: CustomisationService {
         if let _shared {
@@ -484,6 +487,8 @@ extension CustomisationService {
             }
 
             fm.createFile(atPath: thumbnailFile.path(percentEncoded: false), contents: pngData)
+
+            NotificationCenter.default.post(name: Self.thumbnailDidRefresh, object: nil, userInfo: ["courseId": courseId])
         }
     }
 
