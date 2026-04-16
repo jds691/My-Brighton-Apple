@@ -1,7 +1,22 @@
 [
   {
-    "name": "TEST",
-    "paths": ["sample/dawg"]
+    "name": "Statues",
+    "paths": [
+      "statues/dodo",
+      "statues/dog",
+      "statues/pig",
+      "statues/idk",
+      "statues/lion"
+    ]
+  },
+  {
+    "name": "Flora",
+    "paths": [
+      "flora/pink_rhododendrons",
+      "flora/tree_orange_flowers",
+      "flora/tree_white_flowers",
+      "flora/red_tulips"
+    ]
   },
   {
     "name": "Placeholder -- REMOVE BEFORE SHIPPING --",
