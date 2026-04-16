@@ -1,0 +1,44 @@
+{
+  "images" : [
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "pig.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "pig-P3.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "pig@2x.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "pig@2x-P3.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "pig@3x.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "pig@3x-P3.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
