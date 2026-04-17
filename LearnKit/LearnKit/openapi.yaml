@@ -1918,6 +1918,520 @@ paths:
               schema:
                 $ref: "#/components/schemas/RestException"
 
+  # Course Grades
+  # This only includes the paths relevant to the project as there are *so many* endpoints for grades
+  "/v2/courses/{courseId}/gradebook/columns":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - course grades
+      summary: Get Grade Columns
+      description: >
+        Returns a list of grade columns.
+
+        The entitlement "course.gradebook.MODIFY" is needed. Alternatively, student users may view the grade columns if they are enrolled in the course, and the mygrade tool is available in the course, and the columns are visible to the student. Observers may view grade columns if course access is allowed for observers and the associated observee is a student that satisfies all conditions required by a student user to view grade columns.
+
+        Student or observer users may view a limited subset of grade column fields:
+
+        - id
+        - name
+        - displayName
+        - description
+        - externalGrade
+        - contentId
+        - score.possible
+        - scoreProviderHandle
+        - grading.type
+        - grading.due
+        - grading.attemptsAllowed
+        - grading.scoringModel
+        - formula
+        - availability.available
+        - learningOutcome.signature
+
+        **Since**: 3200.10.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - name: contentId
+          in: query
+          description: >
+            Search for grade columns associated with this content item.
+            
+            **Since**: 3000.11.0
+          required: false
+          schema:
+            type: string
+        - name: displayName
+          in: query
+          description: >
+            The 'displayName' value to use as search criteria.
+            
+            Currently only supports 'contains' searches.
+            
+            **Since**: 3300.2.0
+          required: false
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: >
+            The 'name' value to use as search criteria.
+            
+            Currently only supports 'contains' searches.
+            
+            **Since**: 3900.11.0
+          required: false
+          schema:
+            type: string
+        - name: gradebookCategoryId
+          in: query
+          description: >
+            Search for grade columns associated with the 'gradebookCategoryId'.
+            
+            comma-delimited list of the gradebook category ids.
+            
+            **Since**: 3900.11.0
+          required: false
+          schema:
+            type: array
+            items:
+                type: string
+          style: form
+          explode: false
+        - name: created
+          in: query
+          description: >
+            Search for grade columns with a created date relative to this value. 'createdCompare' may also be sent to control search behavior.
+            
+            **Since**: 3900.76.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter.  Supported values:
+            
+            - lessThan
+            - greaterOrEqual
+            Defaults to greaterOrEqual if not specified.
+            
+            **Since**: 3900.76.0
+            
+            
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+            default: greaterOrEqual
+        - name: modified
+          in: query
+          description: >
+            Search for grade columns with a modified date relative to this value. 'modifiedCompare' may also be sent to control search behavior.
+            
+            **Since**: 3900.76.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter.  Supported values:
+            
+            - lessThan
+            - greaterOrEqual
+            Defaults to greaterOrEqual if not specified.
+            
+            **Since**: 3900.76.0
+            
+            
+            | Type      | Description
+            | --------- | --------- |
+            | lessThan |  |
+            | greaterOrEqual |  |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+            default: greaterOrEqual
+        - name: expand
+          in: query
+          description: >
+            A comma-delimited list of fields to expand as part of the response. Expanded fields may cause additional load time. Supported fields are:
+            
+            - rubricAssociations
+          required: false
+          schema:
+            type: array
+            items:
+                type: string
+          style: form
+          explode: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                required:
+                  - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GradeColumn"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v2/courses/{courseId}/gradebook/columns/{columnId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/columnId"
+    get:
+      deprecated: false
+      tags:
+        - course grades
+      summary: Get Grade Column
+      description: >
+        Loads a specific grade column.
+        
+        The entitlement "course.gradebook.MODIFY" is needed. Alternatively, student users may view the grade column if they are enrolled in the course, and the mygrade tool is available in the course, and the column is visible to the student. Observers may view the grade column if course access is allowed for observers and the associated observee is a student that satisfies all conditions required by a student user to view grade columns.
+        
+        Student or observer users may view a limited subset of grade column fields:
+        
+        - id
+        - name
+        - description
+        - externalGrade
+        - contentId
+        - score.possible
+        - grading.type
+        - grading.due
+        - grading.attemptsAllowed
+        - grading.scoringModel
+        - formula
+        - availability.available
+        
+        **Since**: 3200.10.0
+      parameters:
+        - $ref: "#/components/parameters/includedFields"
+        - name: expand
+          in: query
+          description: >
+            A comma-delimited list of fields to expand as part of the response. Expanded fields may cause additional load time. Supported fields are:
+            
+            - rubricAssociations
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GradeColumn"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v2/courses/{courseId}/gradebook/columns/{columnId}/attempts":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/columnId"
+    get:
+      deprecated: false
+      tags:
+        - course grades
+      summary: Get Column Attempts
+      description: >
+        Returns a list of attempts associated with the specified grade column.
+        
+        The 'course.gradebook.MODIFY' entitlement is needed to view column attempts. Alternatively, if the 'userId' query parameter is specified, and the user making the request matches the specified 'userId', then the user may view his/her own attempt.  When querying an anonymous grade column, if the release criteria has not yet been met, then the 'userId' attribute will not be populated for the returned column attempts.  If the release criteria has not been met and the 'userId' query parameter is specified, a 403 response is returned, unless the requesting user matches the specified 'userId' value.
+        
+        A subset of attempt properties are available to a student when requesting his or her own attempts:
+        
+        - id
+        - userId
+        - groupAttemptId
+        - status
+        - displayGrade.scaleType
+        - displayGrade.score
+        - displayGrade.text
+        - groupOverride
+        - feedback
+        - studentComments
+        - studentSubmission
+        - exempt
+        - created
+        
+        When this endpoint is called by the API Gateway User, the response will only contain attributes visible to a Grader. If an Attempt is InProgress, then a Student's submission & comments would not be visible to the API Gateway User. If an Attempt is NeedsGrading, then a Student's submission & comments are visible to the API Gateway User.
+        
+        If the caller has the course.assessment.EXECUTE entitlement, and the attempt is associated with an assessment where the flag to require secure taking is enabled, and the attempt status is InProgress, then the studentSubmission is omitted unless the call comes from a secure browser.
+        
+        If the caller has the course.assessment.EXECUTE entitlement, and the attempt is associated with an assessment where the flag to require secure reviewing is enabled, and the attempt status is not InProgress, then the studentSubmission is omitted unless the call comes from a secure browser.
+        
+        **Since**: 3300.0.0
+      parameters:
+        - $ref: "#/components/parameters/paging.offset"
+        - $ref: "#/components/parameters/paging.includePermissions"
+        - $ref: "#/components/parameters/paging.limit"
+        - $ref: "#/components/parameters/includedFields"
+        - name: userId
+          in: query
+          description: >
+            Search for grade column attempts submitted by this user. This may be the primary ID, or any of the secondary IDs prefixed with the ID type.            
+            
+            **Since**: 3100.4.0
+          required: false
+          schema:
+            type: string
+          examples:
+            primary:
+              value: _123_1
+            externalId:
+              value: externalId:jsmith
+            userName:
+              value: userName:jsmith
+            uuid:
+              value: uuid:915c7567d76d444abf1eed56aad3beb5
+        - name: attemptStatuses
+          in: query
+          # All deprecated values were removed since they're unsupported, not just deprecated
+          description: >
+            Search for grade column attempts with one of these statuses.
+            
+            **Since**: 3100.4.0
+            
+            
+            | Type      | Description
+            | --------- | --------- |
+            | NotAttempted | none of the students in a group has submitted an attempt; applies only to group assessments |
+            | InProgress | attempt activity has commenced, but has not been submitted for grading |
+            | NeedsGrading | attempt has been submitted for grading, but has not been fully graded |
+            | Completed | a grade has been entered for the attempt |
+            | InMoreProgress | attempt has been graded, but more student activity occurred after the grade was entered; applies only to collaborative tools such as discussions |
+            | NeedsMoreGrading | additional student activity occurring after a grade was entered requires that the attempt be regraded; applies only to collaborative tools such as discussions |
+
+          required: false
+          schema:
+            type: string
+            enum:
+              - NotAttempted
+              - InProgress
+              - NeedsGrading
+              - Completed
+              - InMoreProgress
+              - NeedsMoreGrading
+        - name: created
+          in: query
+          description: >
+            Search for attempts with created date relative to this value. 'createdCompare' may also be sent to control search behavior.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: createdCompare
+          in: query
+          description: >
+            Used alongside the 'created' search parameter. Defaults to greaterOrEqual if not specified.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+            default: greaterOrEqual
+        - name: modified
+          in: query
+          description: >
+            Search for attempts with modified date relative to this value. 'modifiedCompare' may also be sent to control search behavior.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: modifiedCompare
+          in: query
+          description: >
+            Used alongside the 'modified' search parameter. Defaults to greaterOrEqual if not specified.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+            default: greaterOrEqual
+        - name: attemptDate
+          in: query
+          description: >
+            Search for attempts with attempt date relative to this value. 'attemptDateCompare' may also be sent to control search behavior.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: attemptDateCompare
+          in: query
+          description: >
+            Used alongside the 'attemptDate' search parameter. Defaults to greaterOrEqual if not specified.
+            
+            **Since**: 3800.0.0
+          required: false
+          schema:
+            type: string
+            enum:
+              - lessThan
+              - greaterOrEqual
+            default: greaterOrEqual
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                # TODO: Differs from web docs because fuck Anthology
+                type: object
+                required:
+                  - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GradebookAttempt"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+  "/v2/courses/{courseId}/gradebook/columns/{columnId}/attempts/{attemptId}":
+    parameters:
+      - $ref: "#/components/parameters/courseId"
+      - $ref: "#/components/parameters/columnId"
+      - $ref: "#/components/parameters/attemptId"
+      - $ref: "#/components/parameters/includedFields"
+    get:
+      deprecated: false
+      tags:
+        - course grades
+      summary: Get Column Attempt
+      description: >
+        Loads the grade column attempt for the specified id.
+        
+        The 'course.gradebook.MODIFY' entitlement is needed to view an attempt. Alternatively, if the user making the request is also the user associated with the attempt grade, then the user may view his/her own attempt.  When accessing an anonymous grade column attempt, if the release criteria has not yet been met, then the 'userId' attribute will not be populated for the returned attempt.
+        
+        A subset of attempt properties are available to a student when requesting his or her own attempt:
+        
+        - id
+        - userId
+        - groupAttemptId
+        - status
+        - displayGrade.scaleType
+        - displayGrade.score
+        - displayGrade.text
+        - groupOverride
+        - feedback
+        - studentComments
+        - studentSubmission
+        - exempt
+        - created
+        
+        When this endpoint is called by the API Gateway User, the response will only contain attributes visible to a Grader. If an Attempt is InProgress, then a Student's submission & comments would not be visible to the API Gateway User. If an Attempt is NeedsGrading, then a Student's submission & comments are visible to the API Gateway User.
+        
+        If the caller has the course.assessment.EXECUTE entitlement, and the attempt is associated with an assessment where the flag to require secure taking is enabled, and the attempt status is InProgress, then the studentSubmission is omitted unless the call comes from a secure browser.
+        
+        If the caller has the course.assessment.EXECUTE entitlement, and the attempt is associated with an assessment where the flag to require secure reviewing is enabled, and the attempt status is not InProgress, then the studentSubmission is omitted unless the call comes from a secure browser.
+        
+        **Since**: 3300.0.0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GradebookAttempt"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestException"
+
   # Terms
   "/v1/terms":
     get:
@@ -3044,6 +3558,451 @@ components:
 
             **Deprecated**: since 3900.89.0. Use creatorUserId instead.
           readOnly: true
+    # Course Grades
+    GradeColumn:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The primary ID of the grade column.
+          readOnly: true
+        externalId:
+          type: string
+          description: The externalId for this grade column.
+        externalToolId:
+          type: string
+          description: >
+            The externalId for this grade column.
+            
+            **Since**: 3500.2.0
+        name:
+          type: string
+          description: The name of the grade column.
+        displayName:
+          type: string
+          description: >
+            The display name of the grade column. Only applicable for Classic courses. Ultra courses will simply use the `name` field.
+            
+            **Since**: 3300.2.0
+        description:
+          type: string
+          description: The description of the grade column.
+        externalGrade:
+          type: boolean
+          description: Whether this grade column is an external grade column.
+        created:
+          type: string
+          format: date-time
+          description: The date this grade column was created.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          description: Most recent date in which this column was modified.
+          readOnly: true
+        contentId:
+          type: string
+          description: >
+            For grade columns associated with a content item, the ID of the content item.
+            
+            **Since**: 3000.11.0
+          readOnly: true
+        score:
+          type: object
+          title: GradeColumn.Score
+          description: Settings controlling the numerical scoring of this grade column.
+          properties:
+            possible:
+              type: number
+              description: The points possible for this grade column.
+        availability:
+          type: object
+          title: GradeColumn.Availability
+          description: Settings controlling the availability/visibility of grade column data.
+          properties:
+            available:
+              type: string
+              enum:
+                - Yes
+                - No
+              description: >
+                Whether this grade column is available to students
+                
+                
+                | Type      | Description
+                | --------- | --------- |
+                | Yes | Students may view the grade column. |
+                | No | Students may not view the grade column. |
+
+          grading:
+            type: object
+            title: GradeColumn.Grading
+            description: Settings controlling whether numerical and text grade values for this grade column are calculated, determined based on attempts, or manually entered.
+            properties:
+              type:
+                type: string
+                enum:
+                  - Attempts
+                  - Calculated
+                  - Manual
+                readOnly: true
+                description: >
+                  The type of Grading settings for this Grade Column.
+                  
+                  
+                  | Type      | Description
+                  | --------- | --------- |
+                  | Attempts | Indicates score and grade values are determined based on user attempts |
+                  | Calculated | Indicates score and grade values are determined by applying a calculated formula. |
+                  | Manual | Indicates score and grade values are manually entered. |
+
+              due:
+                type: string
+                format: date-time
+                description: The date on which attempts are due for the grade column.
+              attemptsAllowed:
+                type: integer
+                format: int32
+                description: Number of attempts allowed for the grade column.
+              scoringModel:
+                type: string
+                enum:
+                  - Last
+                  - Highest
+                  - Lowest
+                  - First
+                  - Average
+                description: The scoring model for the submitted grade column attempts.
+              schemaId:
+                type: string
+                description: >
+                  The ID of the grade schema associated with this grade column. Mutable since 3400.2.0
+                  
+                  **Since**: 3200.13.0
+              anonymousGrading:
+                type: object
+                title: GradeColumn.Grading.AnonymousGrading
+                description: Settings for anonymous grading.
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - None
+                      - AfterAllGraded
+                      - Date
+                    description: >
+                      The type of AnonymousGrading settings for this Attempts based Grade Column.
+                      
+                      
+                      | Type      | Description
+                      | --------- | --------- |
+                      | None | Indicates anonymous grading is not enabled. |
+                      | AfterAllGraded | Indicates anonymized grades are released after all attempts have been graded. |
+                      | Date | Indicates anonymized grades are released after a specified release date. |
+
+                  releaseAfter:
+                    type: string
+                    format: date-time
+                    description: Date after which grades are released from being anonymized, if AnonymousGrading type is 'Date'.
+              # Not properly documented, cannot include
+              #rubricAssociations:
+              #  description: The list of Rubric Associations.
+              #  type: array
+              #  items:
+                  # TODO
+                  #$ref: "#/components/schemas/RubricAssociation"
+              #    type: object
+          gradebookCategoryId:
+            type: string
+            description: >
+              The gradebook category ID for the grade column.
+              
+              **Since**: 3400.2.0
+          formula:
+            description: >
+              The formula used for determining the value for the grade column, if it is a calculated column.
+              
+              **Since**: 3400.5.0
+            $ref: "#/components/schemas/GradingFormula"
+          includeInCalculations:
+            type: boolean
+            description: >
+              Indicates whether or not this column is included in gradebook calculations. Cannot be set for Ultra courses. Default: true
+              
+              **Since**: 3800.4.0
+          showStatisticsToStudents:
+            type: boolean
+            description: >
+              Indicates whether or not column statistics are shown to students. Read-only for Ultra courses. Default: false
+              
+              **Since**: 3800.4.0
+          scoreProviderHandle:
+            type: string
+            # The what?
+            description: >
+              The score provider handle for the grade column.
+              
+              **Since**: 3900.3.0
+            readOnly: true
+          learningOutcome:
+            type: object
+            title: GradeColumn.LearningOutcome
+            description: Settings controlling the learning outcome performance values for this grade column.
+            properties:
+              signature:
+                type: boolean
+                description: Whether this grade column is considered a key column to student outcome.
+                readOnly: true
+              # When mocking API calls columnScale was never returned, I'm therefore excluding the field for now
+              # This just adds to the fact this seems to be a dev thing
+              #columnScale:
+              #  # These seem like dev comments lmao
+              #  description: >
+              #    The list of learning outcome column scales for this grade column. Build the list using the EntityScaleItems and ColumnScaleItems from the ColumnTORest. Save the list in the _columnScale variable so if it is called again, it doesn't have to be rebuilt.
+              #
+              #    If the entityScale or columnScale is null or empty, return an empty list. If the entityScale and columnScale are not the same size, return an empty list.
+              #  type: array
+              #  items:
+              #    #$ref: "#/components/schemas/ColumnScale"
+              #    type: object
+    GradingFormula:
+      type: object
+      properties:
+        formula:
+          type: string
+        # Not properly documented anywhere so the field is removed
+        #aliases:
+        #  type: object
+        #  additionalProperties:
+    GradebookAttempt:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The primary ID for this attempt.
+          readOnly: true
+        userId:
+          type: string
+          description: The user ID associated with this attempt. Defaults to the authenticated user on create. Can be specified as a user other than the authenticated user if the authenticated user has the "course.gradebook.MODIFY" entitlement and the authenticated application has the "course.attempt.nonowner.SUBMIT" entitlement.
+          readOnly: true
+        groupAttemptId:
+          type: string
+          description: The group attempt ID associated with this student attempt.
+          readOnly: true
+        groupOverride:
+          type: boolean
+          description: Whether the score associated with this student attempt was overridden from the associated group attempt score. A value is only returned if the attempt grade is currently overridden.
+          readOnly: true
+        status:
+          description: >
+            The status of this attempt.
+            
+            
+            | Type      | Description
+            | --------- | --------- |
+            | NotAttempted | none of the students in a group has submitted an attempt; applies only to group assessments |
+            | InProgress | attempt activity has commenced, but has not been submitted for grading |
+            | NeedsGrading | attempt has been submitted for grading, but has not been fully graded |
+            | Completed | a grade has been entered for the attempt |
+            | InMoreProgress | attempt has been graded, but more student activity occurred after the grade was entered; applies only to collaborative tools such as discussions |
+            | NeedsMoreGrading | additional student activity occurring after a grade was entered requires that the attempt be regraded; applies only to collaborative tools such as discussions |
+
+          type: string
+          enum:
+            - NotAttempted
+            - InProgress
+            - NeedsGrading
+            - Completed
+            - InMoreProgress
+            - NeedsMoreGrading
+        readyToPost:
+          type: boolean
+          description: The ready to post status of the attempt. Only applicable to ultra courses and when the status of the attempt is 'needsgrading'. For any other attempt status values the readyToPost value is not applicable.
+          readOnly: true
+        displayGrade:
+          description: The display grade associated with this attempt.
+          $ref: "#/components/schemas/DisplayGrade"
+        text:
+          type: string
+          description: The text grade associated with this attempt.
+        score:
+          type: number
+          description: The score associated with this attempt.
+        reconciliationMode:
+          description: >
+            The reconciliation mode to use when reconciling the attempt grade. When modifying reconciliationMode, score is also required. A new score will not be calculated based on the reconciliationMode
+            
+            **Since**: 3700.2.0
+          type: string
+          enum:
+            - Average
+            - Highest
+            - Lowest
+            - Custom
+        notes:
+          type: string
+          description: The instructor notes associated with this attempt.
+        feedback:
+          type: string
+          description: The instructor feedback associated with this attempt.
+        groupAttemptStudentComments:
+          type: string
+          description: The group attempt student comments associated with this attempt.
+        studentComments:
+          type: string
+          description: The student comments associated with this attempt.
+        studentSubmission:
+          type: string
+          description: The student submission text associated with this attempt.
+        exempt:
+          type: boolean
+          description: Whether the score associated with this attempt is ignored when computing the user's grade for the associated grade column.
+        created:
+          type: string
+          format: date-time
+          description: The date on which this attempt was created.
+          readOnly: true
+        attemptDate:
+          type: string
+          format: date-time
+          description: Return the attempt date associated with this attempt.
+          readOnly: true
+        modified:
+          type: string
+          format: date-time
+          description: >
+            The date when the attempt was modified.
+            
+            **Since**: 3800.0.0
+          readOnly: true
+        attemptReceipt:
+          description: >
+            The attempt receipt associated with this attempt.
+            
+            **Since**: 3900.22.0
+          $ref: "#/components/schemas/EmbeddedAttemptReceipt"
+    DisplayGrade:
+      type: object
+      properties:
+        scaleType:
+          description: The type of Grade Column Grading Schema used when creating the displayed grade.
+          readOnly: true
+          type: string
+          enum:
+            - Percent
+            - Score
+            - Tabular
+            - Text
+        score:
+          type: number
+          description: The displayed score.
+          readOnly: true
+        possible:
+          type: number
+          description: >
+            The maximum possible points. This property does not take the grading schema into account. Regardless of the schema (percentage, letter, etc), this property will only return the maximum points possible for the column.
+            
+            Only exception case is, when the Ultra Overall grade is overridden and has a non-score based schema. In that case, this method will return 100, since the override is stored/shown as a percentage.
+            
+            In case the column's value is calculated from other columns, the value will not take into account the exempted columns' value.
+            
+            **Since**: 3900.41.0
+          readOnly: true
+        text:
+          type: string
+          description: The displayed text grade, based on the Grade Column Grading Schema or Grade Notation description.
+          readOnly: true
+    EmbeddedAttemptReceipt:
+      type: object
+      properties:
+        receiptId:
+          type: string
+          description: The ID of the receipt.
+          readOnly: true
+        submissionDate:
+          type: string
+          format: date-time
+          description: The date the associated attempt was submitted.
+          readOnly: true
+        submissionTotalSize:
+          type: integer
+          format: int64
+          description: >
+            The total size of the submission in bytes.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        courseId:
+          type: string
+          description: >
+            The related course id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        gradableItemId:
+          type: string
+          description: >
+            The related gradable item id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        attemptId:
+          type: string
+          description: >
+            The related attempt id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        userId:
+          type: string
+          description: >
+            The related submitter user id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        groupAttemptId:
+          type: string
+          description: >
+            The related group attempt id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        groupId:
+          type: string
+          description: >
+            The related group id.
+            
+            **Since**: 3900.37.0
+          readOnly: true
+        responseStatus:
+          description: >
+            The associated response status
+            
+            **Since**: 3900.37.0
+            
+            
+            | Type      | Description
+            | --------- | --------- |
+            | ReceiptAndAttemptExist | Both the attempt receipt and the related attempt exist and there is access to both. |
+            | ReceiptExistsButAttemptDoesNot | The attempt receipt exist but the attempt was deleted and there is access to the attempt receipt through the course context. |
+            | ReceiptExistsNoAccessToAttempt | The attempt receipt exists but there is no access to the attempt. |
+            | ReceiptExistsColumnSoftDeleted | The attempt receipt exists but the column was deleted. |
+          readOnly: true
+          type: string
+          enum:
+            - ReceiptAndAttemptExist
+            - ReceiptExistsButAttemptDoesNot
+            - ReceiptExistsNoAccessToAttempt
+            - ReceiptExistsColumnSoftDeleted
+        submissionType:
+          description: Indicator of whether the submission is submitted automatically or not.
+          readOnly: true
+          type: string
+          enum:
+            - ManuallySubmitted
+            - AutomaticallySubmittedByBrowser
+            - AutomaticallySubmittedByServer
+            - Unknown
     # Terms
     Term:
       type: object
@@ -3216,6 +4175,29 @@ components:
       schema:
         type: string
       example: _123_1
+    columnId:
+      name: columnId
+      in: path
+      description: The grade column ID. This may be the primary ID, or any of the secondary IDs prefixed with the ID type. The ID may also be the keyword 'finalGrade', which indicates that the course's final grade column is specified.
+      required: true
+      schema:
+        type: string
+      examples:
+        primary:
+          summary: Primary ID type.
+          value: _123_1
+        externalId:
+          summary: External ID type.
+          value: externalId:column1
+        finalGrade:
+          summary: finalGrade
+          value: finalGrade
+    attemptId:
+      name: attemptId
+      in: path
+      required: true
+      schema:
+        type: string
     termId:
       name: termId
       in: path
