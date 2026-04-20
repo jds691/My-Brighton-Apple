@@ -3036,8 +3036,9 @@ components:
               format: url
               description: URL of the LTI link.
             customParameters:
-              # I give up, it's a string now. It'll be good enough
-              type: string
+              type: object
+              additionalProperties:
+                type: string
               description: customParameters is a map of custom parameters to POST to the specified launch URL. Learn serializes the entire custom parameters map, so you should specify all custom parameters when the map is changed.
     ContentHandler.ContentFileTOPub:
       allOf:
