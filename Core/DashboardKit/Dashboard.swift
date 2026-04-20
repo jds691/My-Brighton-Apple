@@ -191,7 +191,7 @@ public final class Dashboard: Identifiable {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
         let targetDashboardId: Dashboard.ID = self.id
-        var fetchRequest = FetchDescriptor<E>(predicate: #Predicate { $0.dashboardId == targetDashboardId })
+        var fetchRequest = FetchDescriptor<E>()
         fetchRequest.fetchLimit = fetchLimit
 
         do {

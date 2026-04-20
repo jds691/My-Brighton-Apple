@@ -3634,137 +3634,137 @@ components:
                 | Yes | Students may view the grade column. |
                 | No | Students may not view the grade column. |
 
-          grading:
-            type: object
-            title: GradeColumn.Grading
-            description: Settings controlling whether numerical and text grade values for this grade column are calculated, determined based on attempts, or manually entered.
-            properties:
-              type:
-                type: string
-                enum:
-                  - Attempts
-                  - Calculated
-                  - Manual
-                readOnly: true
-                description: >
-                  The type of Grading settings for this Grade Column.
-                  
-                  
-                  | Type      | Description
-                  | --------- | --------- |
-                  | Attempts | Indicates score and grade values are determined based on user attempts |
-                  | Calculated | Indicates score and grade values are determined by applying a calculated formula. |
-                  | Manual | Indicates score and grade values are manually entered. |
+        grading:
+          type: object
+          title: GradeColumn.Grading
+          description: Settings controlling whether numerical and text grade values for this grade column are calculated, determined based on attempts, or manually entered.
+          properties:
+            type:
+              type: string
+              enum:
+                - Attempts
+                - Calculated
+                - Manual
+              readOnly: true
+              description: >
+                The type of Grading settings for this Grade Column.
+                
+                
+                | Type      | Description
+                | --------- | --------- |
+                | Attempts | Indicates score and grade values are determined based on user attempts |
+                | Calculated | Indicates score and grade values are determined by applying a calculated formula. |
+                | Manual | Indicates score and grade values are manually entered. |
 
-              due:
-                type: string
-                format: date-time
-                description: The date on which attempts are due for the grade column.
-              attemptsAllowed:
-                type: integer
-                format: int32
-                description: Number of attempts allowed for the grade column.
-              scoringModel:
-                type: string
-                enum:
-                  - Last
-                  - Highest
-                  - Lowest
-                  - First
-                  - Average
-                description: The scoring model for the submitted grade column attempts.
-              schemaId:
-                type: string
-                description: >
-                  The ID of the grade schema associated with this grade column. Mutable since 3400.2.0
-                  
-                  **Since**: 3200.13.0
-              anonymousGrading:
-                type: object
-                title: GradeColumn.Grading.AnonymousGrading
-                description: Settings for anonymous grading.
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - None
-                      - AfterAllGraded
-                      - Date
-                    description: >
-                      The type of AnonymousGrading settings for this Attempts based Grade Column.
-                      
-                      
-                      | Type      | Description
-                      | --------- | --------- |
-                      | None | Indicates anonymous grading is not enabled. |
-                      | AfterAllGraded | Indicates anonymized grades are released after all attempts have been graded. |
-                      | Date | Indicates anonymized grades are released after a specified release date. |
+            due:
+              type: string
+              format: date-time
+              description: The date on which attempts are due for the grade column.
+            attemptsAllowed:
+              type: integer
+              format: int32
+              description: Number of attempts allowed for the grade column.
+            scoringModel:
+              type: string
+              enum:
+                - Last
+                - Highest
+                - Lowest
+                - First
+                - Average
+              description: The scoring model for the submitted grade column attempts.
+            schemaId:
+              type: string
+              description: >
+                The ID of the grade schema associated with this grade column. Mutable since 3400.2.0
+                
+                **Since**: 3200.13.0
+            anonymousGrading:
+              type: object
+              title: GradeColumn.Grading.AnonymousGrading
+              description: Settings for anonymous grading.
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - None
+                    - AfterAllGraded
+                    - Date
+                  description: >
+                    The type of AnonymousGrading settings for this Attempts based Grade Column.
+                    
+                    
+                    | Type      | Description
+                    | --------- | --------- |
+                    | None | Indicates anonymous grading is not enabled. |
+                    | AfterAllGraded | Indicates anonymized grades are released after all attempts have been graded. |
+                    | Date | Indicates anonymized grades are released after a specified release date. |
 
-                  releaseAfter:
-                    type: string
-                    format: date-time
-                    description: Date after which grades are released from being anonymized, if AnonymousGrading type is 'Date'.
-              # Not properly documented, cannot include
-              #rubricAssociations:
-              #  description: The list of Rubric Associations.
-              #  type: array
-              #  items:
-                  # TODO
-                  #$ref: "#/components/schemas/RubricAssociation"
-              #    type: object
-          gradebookCategoryId:
-            type: string
-            description: >
-              The gradebook category ID for the grade column.
-              
-              **Since**: 3400.2.0
-          formula:
-            description: >
-              The formula used for determining the value for the grade column, if it is a calculated column.
-              
-              **Since**: 3400.5.0
-            $ref: "#/components/schemas/GradingFormula"
-          includeInCalculations:
-            type: boolean
-            description: >
-              Indicates whether or not this column is included in gradebook calculations. Cannot be set for Ultra courses. Default: true
-              
-              **Since**: 3800.4.0
-          showStatisticsToStudents:
-            type: boolean
-            description: >
-              Indicates whether or not column statistics are shown to students. Read-only for Ultra courses. Default: false
-              
-              **Since**: 3800.4.0
-          scoreProviderHandle:
-            type: string
-            # The what?
-            description: >
-              The score provider handle for the grade column.
-              
-              **Since**: 3900.3.0
-            readOnly: true
-          learningOutcome:
-            type: object
-            title: GradeColumn.LearningOutcome
-            description: Settings controlling the learning outcome performance values for this grade column.
-            properties:
-              signature:
-                type: boolean
-                description: Whether this grade column is considered a key column to student outcome.
-                readOnly: true
-              # When mocking API calls columnScale was never returned, I'm therefore excluding the field for now
-              # This just adds to the fact this seems to be a dev thing
-              #columnScale:
-              #  # These seem like dev comments lmao
-              #  description: >
-              #    The list of learning outcome column scales for this grade column. Build the list using the EntityScaleItems and ColumnScaleItems from the ColumnTORest. Save the list in the _columnScale variable so if it is called again, it doesn't have to be rebuilt.
-              #
-              #    If the entityScale or columnScale is null or empty, return an empty list. If the entityScale and columnScale are not the same size, return an empty list.
-              #  type: array
-              #  items:
-              #    #$ref: "#/components/schemas/ColumnScale"
-              #    type: object
+                releaseAfter:
+                  type: string
+                  format: date-time
+                  description: Date after which grades are released from being anonymized, if AnonymousGrading type is 'Date'.
+            # Not properly documented, cannot include
+            #rubricAssociations:
+            #  description: The list of Rubric Associations.
+            #  type: array
+            #  items:
+                # TODO
+                #$ref: "#/components/schemas/RubricAssociation"
+            #    type: object
+        gradebookCategoryId:
+          type: string
+          description: >
+            The gradebook category ID for the grade column.
+            
+            **Since**: 3400.2.0
+        formula:
+          description: >
+            The formula used for determining the value for the grade column, if it is a calculated column.
+            
+            **Since**: 3400.5.0
+          $ref: "#/components/schemas/GradingFormula"
+        includeInCalculations:
+          type: boolean
+          description: >
+            Indicates whether or not this column is included in gradebook calculations. Cannot be set for Ultra courses. Default: true
+            
+            **Since**: 3800.4.0
+        showStatisticsToStudents:
+          type: boolean
+          description: >
+            Indicates whether or not column statistics are shown to students. Read-only for Ultra courses. Default: false
+            
+            **Since**: 3800.4.0
+        scoreProviderHandle:
+          type: string
+          # The what?
+          description: >
+            The score provider handle for the grade column.
+            
+            **Since**: 3900.3.0
+          readOnly: true
+        learningOutcome:
+          type: object
+          title: GradeColumn.LearningOutcome
+          description: Settings controlling the learning outcome performance values for this grade column.
+          properties:
+            signature:
+              type: boolean
+              description: Whether this grade column is considered a key column to student outcome.
+              readOnly: true
+            # When mocking API calls columnScale was never returned, I'm therefore excluding the field for now
+            # This just adds to the fact this seems to be a dev thing
+            #columnScale:
+            #  # These seem like dev comments lmao
+            #  description: >
+            #    The list of learning outcome column scales for this grade column. Build the list using the EntityScaleItems and ColumnScaleItems from the ColumnTORest. Save the list in the _columnScale variable so if it is called again, it doesn't have to be rebuilt.
+            #
+            #    If the entityScale or columnScale is null or empty, return an empty list. If the entityScale and columnScale are not the same size, return an empty list.
+            #  type: array
+            #  items:
+            #    #$ref: "#/components/schemas/ColumnScale"
+            #    type: object
     GradingFormula:
       type: object
       properties:
