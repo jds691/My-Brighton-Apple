@@ -84,6 +84,23 @@ public struct GradebookAttempt: Hashable, Identifiable, Sendable {
         }
     }
 
+    init(from cachedGradebookAttempt: CachedGradebookAttempt) {
+        self.id = cachedGradebookAttempt.id
+        self.userId = cachedGradebookAttempt.userId
+        self.groupAttemptId = cachedGradebookAttempt.groupAttemptId
+        self.groupOverride = cachedGradebookAttempt.groupOverride
+        self.status = Status(from: cachedGradebookAttempt.status)
+        self.readyToPost = cachedGradebookAttempt.readyToPost
+        self.displayGrade = cachedGradebookAttempt.displayGrade
+        self.score = cachedGradebookAttempt.score
+        self.feedback = cachedGradebookAttempt.feedback
+        self.studentComments = cachedGradebookAttempt.studentComments
+        self.studentSubmission = cachedGradebookAttempt.studentSubmission
+        self.exempt = cachedGradebookAttempt.exempt
+        self.created = cachedGradebookAttempt.created
+        self.attemptRecipt = cachedGradebookAttempt.attemptRecipt
+    }
+
     public enum Status: Hashable, Sendable {
         case notAttempted
         case inProgress
@@ -95,6 +112,23 @@ public struct GradebookAttempt: Hashable, Identifiable, Sendable {
 
         init(from gradebookAttemptStatusSchema: Components.Schemas.GradebookAttempt.StatusPayload) {
             switch gradebookAttemptStatusSchema {
+                case .notAttempted:
+                    self = .notAttempted
+                case .inProgress:
+                    self = .inProgress
+                case .needsGrading:
+                    self = .needsGrading
+                case .completed:
+                    self = .completed
+                case .inMoreProgress:
+                    self = .inMoreProgress
+                case .needsMoreGrading:
+                    self = .needsMoreGrading
+            }
+        }
+
+        init(from cachedGradebookAttemptStatus: CachedGradebookAttempt.Status) {
+            switch cachedGradebookAttemptStatus {
                 case .notAttempted:
                     self = .notAttempted
                 case .inProgress:

@@ -215,6 +215,18 @@ extension LearnKitService: LearnKitAPI {
         return try await cache.getGradeColumn(for: identifier, in: course)
     }
 
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
+        return try await cache.getGradebookAttempts(for: columnIdentifier, in: course)
+    }
+
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        return try await cache.getGradebookAttempt(by: attemptId, for: columnIdentifier, in: course)
+    }
+
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        return try await cache.getLastGradebookAttempt(for: columnIdentifier, in: course)
+    }
+
     // MARK: Content
     /// Refreshes the local cache version of the content for the given identifier.
     /// - Parameters:

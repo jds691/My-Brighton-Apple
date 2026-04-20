@@ -459,6 +459,68 @@ extension BbCache: LearnKitAPI {
         }
     }
 
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [CachedGradebookAttempt] {
+        var descriptor = FetchDescriptor<CachedGradeColumn>(predicate: #Predicate<CachedGradeColumn>{ $0.id == columnIdentifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        guard let gradeColumn = try modelContext.fetch(descriptor).first else {
+            Self.logger.warning("Unable to find CachedGradeColumn for id '\(columnIdentifier)' in course '\(course)' when calling `\(#function)`")
+            return []
+        }
+
+        return gradeColumn.attempts
+    }
+
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: #Predicate<CachedGradebookAttempt>{ $0.id == attemptId && $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradebookAttempt = results.first {
+            return firstGradebookAttempt
+        } else {
+            return nil
+        }
+    }
+
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
+        // TODO: Double check this
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(
+            predicate: #Predicate<CachedGradebookAttempt>{ $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course },
+            sortBy: [SortDescriptor(\.created, order: .reverse)]
+        )
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradebookAttempt = results.first {
+            return firstGradebookAttempt
+        } else {
+            return nil
+        }
+    }
+
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
+        return try await getGradebookAttempts(for: columnIdentifier, in: course).map { GradebookAttempt(from: $0) }
+    }
+
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        if let cachedGradebookAttempt: CachedGradebookAttempt = try await getGradebookAttempt(by: attemptId, for: columnIdentifier, in: course) {
+            return GradebookAttempt(from: cachedGradebookAttempt)
+        } else {
+            return nil
+        }
+    }
+
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        if let cachedGradebookAttempt: CachedGradebookAttempt = try await getLastGradebookAttempt(for: columnIdentifier, in: course) {
+            return GradebookAttempt(from: cachedGradebookAttempt)
+        } else {
+            return nil
+        }
+    }
+
     // MARK: Content
     func getSpecialContentNode(for identifier: String, in course: Course.ID) async throws -> Content? {
         switch identifier {
