@@ -20,6 +20,7 @@ class CachedContent {
     var creationDate: Date
     var lastModified: Date
     var positionIndex: Int
+    // TODO: Check if we should keep this around
     var hasGradebookColumns: Bool?
     var hasAssociatedGroups: Bool?
     var shouldLaunchInNewWindow: Bool
@@ -33,6 +34,8 @@ class CachedContent {
     var course: CachedCourse?
     @Relationship(inverse: \CachedContent.parent)
     var children: [CachedContent] = []
+    @Relationship(inverse: \CachedGradeColumn.relatedContent)
+    var associatedGradeColumns: [CachedGradeColumn] = []
 
     init(from contentModel: Content) {
         self.id = contentModel.id
