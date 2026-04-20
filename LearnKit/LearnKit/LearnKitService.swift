@@ -180,6 +180,15 @@ extension LearnKitService: LearnKitAPI {
         return try await cache.getCourseAnnouncement(for: identifier, in: course)
     }
 
+    // MARK: Course Grades
+    public func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
+        return try await cache.getAllGradeColumns(for: courseIdentifier)
+    }
+
+    public func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> GradeColumn? {
+        return try await cache.getGradeColumn(for: identifier, in: course)
+    }
+
     // MARK: Content
     /// Refreshes the local cache version of the content for the given identifier.
     /// - Parameters:

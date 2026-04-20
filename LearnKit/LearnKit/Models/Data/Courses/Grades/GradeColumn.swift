@@ -57,7 +57,6 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
             let name = gradeColumnSchema.name,
             let possibleScore = gradeColumnSchema.score?.possible,
             let grading = gradeColumnSchema.grading,
-            let availability = gradeColumnSchema.availability,
             let gradebookCategoryId = gradeColumnSchema.gradebookCategoryId,
             let scoreProviderHandle = gradeColumnSchema.scoreProviderHandle,
 
@@ -93,6 +92,28 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
         self.isSignature = gradeColumnSchema.learningOutcome?.signature ?? false
     }
 
+    init(from cachedGradeColumn: CachedGradeColumn) {
+        self.id = cachedGradeColumn.id
+        self.externalId = cachedGradeColumn.externalId
+        self.externalToolId = cachedGradeColumn.externalToolId
+        self.name = cachedGradeColumn.name
+        self.displayName = cachedGradeColumn.displayName
+        self.description = cachedGradeColumn._description
+        self.externalGrade = cachedGradeColumn.externalGrade
+        self.created = cachedGradeColumn.created
+        self.modified = cachedGradeColumn.modified
+        self.contentId = cachedGradeColumn.relatedContent?.id
+        self.possibleScore = cachedGradeColumn.possibleScore
+        self.isAvailable = cachedGradeColumn.isAvailable
+        self.grading = Grading(from: cachedGradeColumn.grading)
+        self.gradebookCategoryId = cachedGradeColumn.gradebookCategoryId
+        self.formula = cachedGradeColumn.formula
+        self.includeInCalculations = cachedGradeColumn.includeInCalculations
+        self.showStatisticsToStudents = cachedGradeColumn.showStatisticsToStudents
+        self.scoreProviderHandle = cachedGradeColumn.scoreProviderHandle
+        self.isSignature = cachedGradeColumn.isSignature
+    }
+
     public struct Grading: Hashable, Sendable {
         let dueDate: Date
         let attemptsAllowed: Int
@@ -123,6 +144,14 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
             self.scoringModel = ScoringModel(from: scoringModelSchema)
             self.schemaId = gradeColumnGradingSchema.schemaId
             self.anonymousGradingType = anonymousGradingModel
+        }
+
+        init(from cachedGradeColumnGrading: CachedGradeColumn.Grading) {
+            self.dueDate = cachedGradeColumnGrading.dueDate
+            self.attemptsAllowed = cachedGradeColumnGrading.attemptsAllowed
+            self.scoringModel = ScoringModel(from: cachedGradeColumnGrading.scoringModel)
+            self.schemaId = cachedGradeColumnGrading.schemaId
+            self.anonymousGradingType = AnonymousGrading(from: cachedGradeColumnGrading.anonymousGradingType)
         }
 
         public enum AnonymousGrading: Hashable, Sendable {
@@ -160,6 +189,17 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
                         self = .date(releaseAfter)
                 }
             }
+
+            init(from cachedGradeColumnGradingAnonymousGrading: CachedGradeColumn.Grading.AnonymousGrading) {
+                switch cachedGradeColumnGradingAnonymousGrading {
+                    case .none:
+                        self = .none
+                    case .afterAllGraded:
+                        self = .afterAllGraded
+                    case .date(let releaseAfter):
+                        self = .date(releaseAfter)
+                }
+            }
         }
 
         public enum ScoringModel: Hashable, Sendable {
@@ -177,6 +217,21 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
                         self = .highest
                     case .lowest:
                         self = .lowest
+                    case .first:
+                        self = .first
+                    case .average:
+                        self = .average
+                }
+            }
+
+            init(from cachedGradeColumnGradingScoring: CachedGradeColumn.Grading.ScoringModel) {
+                switch cachedGradeColumnGradingScoring {
+                    case .last:
+                        self = .last
+                    case .highest:
+                        self = .highest
+                    case .lowest:
+                        self = .highest
                     case .first:
                         self = .first
                     case .average:

@@ -377,6 +377,44 @@ extension BbCache: LearnKitAPI {
         }
     }
 
+    // MARK: Course Grades
+    func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [CachedGradeColumn] {
+        var descriptor = FetchDescriptor<CachedCourse>(predicate: #Predicate<CachedCourse>{ $0.id == courseIdentifier })
+        descriptor.fetchLimit = 1
+
+        guard let course = try modelContext.fetch(descriptor).first else {
+            Self.logger.warning("Unable to find CachedCourse for id '\(courseIdentifier)' when calling `\(#function)`")
+            return []
+        }
+
+        return course.gradeColumns
+    }
+
+    func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradeColumn? {
+        var descriptor = FetchDescriptor<CachedGradeColumn>(predicate: #Predicate<CachedGradeColumn>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradeColumn = results.first {
+            return firstGradeColumn
+        } else {
+            return nil
+        }
+    }
+
+    func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
+        return try await getAllGradeColumns(for: courseIdentifier).map { GradeColumn(from: $0) }
+    }
+
+    func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> GradeColumn? {
+        if let cachedGradeColumn: CachedGradeColumn = try await getGradeColumn(for: identifier, in: course) {
+            return GradeColumn(from: cachedGradeColumn)
+        } else {
+            return nil
+        }
+    }
+
     // MARK: Content
     func getSpecialContentNode(for identifier: String, in course: Course.ID) async throws -> Content? {
         switch identifier {
