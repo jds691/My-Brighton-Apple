@@ -181,6 +181,32 @@ extension LearnKitService: LearnKitAPI {
     }
 
     // MARK: Course Grades
+    @discardableResult
+    public func refreshGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
+        let clientOutput = try await client.getV2CoursesCourseIdGradebookColumns(.init(path: .init(courseId: courseIdentifier)))
+
+        let results: Operations.GetV2CoursesCourseIdGradebookColumns.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .notFound(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelGradeColumns = results.results.compactMap({ GradeColumn(from: $0) })
+
+        await cache.indexGradeColumns(modelGradeColumns, for: courseIdentifier)
+        return modelGradeColumns
+    }
+
     public func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
         return try await cache.getAllGradeColumns(for: courseIdentifier)
     }
