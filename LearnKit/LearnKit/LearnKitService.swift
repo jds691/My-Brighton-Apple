@@ -69,7 +69,7 @@ extension LearnKitService: LearnKitAPI {
                 .init(name: "state", value: UUID().uuidString)
             ])
 
-        let callbackURL: URL = try await session.authenticate(
+        let _: URL = try await session.authenticate(
             using: authURL,
             callback: .customScheme("mybrighton"),
             additionalHeaderFields: [
@@ -128,7 +128,7 @@ extension LearnKitService: LearnKitAPI {
                 results = try netResults.body.json
             case .badRequest(let error):
                 throw try LearnKitError.restError(RestError(from: error.body.json))
-            case .undocumented(statusCode: let statusCode, let error):
+            case .undocumented(statusCode: let statusCode, _):
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
@@ -363,7 +363,7 @@ extension LearnKitService: LearnKitAPI {
                 results = try netResults.body.json
             case .forbidden(let error):
                 throw try LearnKitError.restError(RestError(from: error.body.json))
-            case .undocumented(statusCode: let statusCode, let error):
+            case .undocumented(statusCode: let statusCode, _):
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
