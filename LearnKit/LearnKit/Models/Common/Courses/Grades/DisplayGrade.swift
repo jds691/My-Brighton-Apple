@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DisplayGrade: Hashable, Sendable {
+public struct DisplayGrade: Hashable, Codable, Sendable {
     public let scale: ScaleType
     public let score: Double?
     public let text: String?
@@ -20,11 +20,11 @@ public struct DisplayGrade: Hashable, Sendable {
         self.text = displayGradeSchema.text
     }
 
-    public enum ScaleType: Hashable, Sendable {
-        case percent
-        case score
-        case tabular
-        case text
+    public enum ScaleType: String, Hashable, Codable, Sendable {
+        case percent = "Percent"
+        case score = "Score"
+        case tabular = "Tabular"
+        case text = "Text"
 
         init(from displayGradeScaleTypeSchema: Components.Schemas.DisplayGrade.ScaleTypePayload) {
             switch displayGradeScaleTypeSchema {

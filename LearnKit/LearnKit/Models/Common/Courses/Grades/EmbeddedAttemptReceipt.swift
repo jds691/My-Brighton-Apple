@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct EmbeddedAttemptReceipt: Hashable, Sendable {
+public struct EmbeddedAttemptReceipt: Hashable, Codable, Sendable {
     public let receiptId: String
     public let submissionDate: Date
     public let submissionTotalSize: Int64?
@@ -51,11 +51,11 @@ public struct EmbeddedAttemptReceipt: Hashable, Sendable {
         }
     }
 
-    public enum ResponseStatus: Hashable, Sendable {
-        case receiptAndAttemptExist
-        case receiptExistsButAttemptDoesNot
-        case receiptExistsNoAccessToAttempt
-        case receiptExistsColumnSoftDeleted
+    public enum ResponseStatus: String, Hashable, Codable, Sendable {
+        case receiptAndAttemptExist = "ReceiptAndAttemptExist"
+        case receiptExistsButAttemptDoesNot = "ReceiptExistsButAttemptDoesNot"
+        case receiptExistsNoAccessToAttempt = "ReceiptExistsNoAccessToAttempt"
+        case receiptExistsColumnSoftDeleted = "ReceiptExistsColumnSoftDeleted"
 
         init(from embeddedAttemptReciptResponseStatusSchema: Components.Schemas.EmbeddedAttemptReceipt.ResponseStatusPayload) {
             switch embeddedAttemptReciptResponseStatusSchema {
@@ -71,11 +71,11 @@ public struct EmbeddedAttemptReceipt: Hashable, Sendable {
         }
     }
 
-    public enum SubmissionType: Hashable, Sendable {
-        case manuallySubmitted
-        case automaticallySubmittedByBrowser
-        case automaticallySubmittedByServer
-        case unknown
+    public enum SubmissionType: String, Hashable, Codable, Sendable {
+        case manuallySubmitted = "ManuallySubmitted"
+        case automaticallySubmittedByBrowser = "AutomaticallySubmittedByBrowser"
+        case automaticallySubmittedByServer = "AutomaticallySubmittedByServer"
+        case unknown = "Unknown"
 
         init(from embeddedAttemptReciptSubmissionTypeSchema: Components.Schemas.EmbeddedAttemptReceipt.SubmissionTypePayload) {
             switch embeddedAttemptReciptSubmissionTypeSchema {

@@ -34,6 +34,8 @@ class CachedGradeColumn {
     // Replaces the contentId field
     var relatedContent: CachedContent?
     var course: CachedCourse?
+    @Relationship(inverse: \CachedGradebookAttempt.associatedGradeColumn)
+    var attempts: [CachedGradebookAttempt] = []
 
     init(from gradeColumnModel: GradeColumn) {
         self.id = gradeColumnModel.id
