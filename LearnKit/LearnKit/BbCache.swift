@@ -265,6 +265,37 @@ actor BbCache {
         }
     }
 
+    func indexGradebookAttempts(_ attempts: [GradebookAttempt], for columnIdentifier: GradeColumn.ID, in courseIdentifier: Course.ID) async {
+        for attempt in attempts {
+            do {
+                let associatedGradeColumn: CachedGradeColumn? = try await getGradeColumn(for: columnIdentifier, in: courseIdentifier)
+                let cachedGradebookAttempt: CachedGradebookAttempt? = try await getGradebookAttempt(by: attempt.id, for: columnIdentifier, in: courseIdentifier)
+
+#if DEBUG
+                assert(associatedGradeColumn != nil)
+#endif
+
+                if let existingCachedGradebookAttempt = cachedGradebookAttempt {
+                    existingCachedGradebookAttempt.copyValues(from: attempt)
+                    existingCachedGradebookAttempt.associatedGradeColumn = associatedGradeColumn
+                } else {
+                    let newCachedGradebookAttempt = CachedGradebookAttempt(from: attempt)
+                    newCachedGradebookAttempt.associatedGradeColumn = associatedGradeColumn
+
+                    modelContext.insert(newCachedGradebookAttempt)
+                }
+            } catch {
+                Self.logger.error("Error while indexing gradebook attempt '\(attempt.id)' for grade column '\(columnIdentifier)' in course '\(courseIdentifier)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during grade column index: \(error)")
+        }
+    }
+
     // MARK: Content
     func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
         for item in content {

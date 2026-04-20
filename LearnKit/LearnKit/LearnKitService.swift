@@ -215,6 +215,32 @@ extension LearnKitService: LearnKitAPI {
         return try await cache.getGradeColumn(for: identifier, in: course)
     }
 
+    @discardableResult
+    public func refreshGradebookAttempts(for columnIdentifier: GradeColumn.ID, in courseIdentifier: Course.ID) async throws -> [GradebookAttempt] {
+        let clientOutput = try await client.getV2CoursesCourseIdGradebookColumnsColumnIdAttempts(.init(path: .init(courseId: courseIdentifier, columnId: columnIdentifier)))
+
+        let results: Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Output.Ok.Body.JsonPayload?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = try netResults.body.json
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .notFound(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        let modelGradebookAttempts = results.results.compactMap({ GradebookAttempt(from: $0) })
+
+        await cache.indexGradebookAttempts(modelGradebookAttempts, for: columnIdentifier, in: courseIdentifier)
+        return modelGradebookAttempts
+    }
+
     func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
         return try await cache.getGradebookAttempts(for: columnIdentifier, in: course)
     }
