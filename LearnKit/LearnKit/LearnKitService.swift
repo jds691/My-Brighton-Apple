@@ -206,6 +206,38 @@ extension LearnKitService: LearnKitAPI {
         await cache.indexGradeColumns(modelGradeColumns, for: courseIdentifier)
         return modelGradeColumns
     }
+    /// Refreshes the local cache for the given GradeColumn by communicating with the Learn instance and returns the new or existing data.
+    ///
+    /// This method will always return the grade column whether data has changed or not. It will throw if the identified grade column could not be found.
+    /// - Parameters:
+    ///   - columnIdentifier: Unique ID for the GradeColumn.
+    ///   - courseIdentifier: Unique ID for the Course the GradeColumn is contained in.
+    /// - Returns: New or existing GradeColumn data.
+    @discardableResult
+    public func refreshGradeColumn(for columnIdentifier: GradeColumn.ID, in courseIdentifier: Course.ID) async throws -> GradeColumn {
+        let clientOutput = try await client.getV2CoursesCourseIdGradebookColumnsColumnId(.init(path: .init(courseId: courseIdentifier, columnId: columnIdentifier)))
+
+        let results: Operations.GetV2CoursesCourseIdGradebookColumnsColumnId.Output.Ok.Body?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = netResults.body
+            case .badRequest(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .notFound(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let gradeColumnSchema = try? results?.json else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let gradeColumn = GradeColumn(from: gradeColumnSchema) else { throw LearnKitError.cannotParseRemoteSchema }
+
+        await cache.indexGradeColumns([gradeColumn], for: courseIdentifier)
+        return gradeColumn
+    }
 
     public func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
         return try await cache.getAllGradeColumns(for: courseIdentifier)
@@ -239,6 +271,38 @@ extension LearnKitService: LearnKitAPI {
 
         await cache.indexGradebookAttempts(modelGradebookAttempts, for: columnIdentifier, in: courseIdentifier)
         return modelGradebookAttempts
+    }
+
+    /// Refreshes the local cache for the given GradebookAttempt by communicating with the Learn instance and returns the new or existing data.
+    ///
+    /// This method will always return the gradebook attempt whether data has changed or not. It will throw if the identified gradebook attempt could not be found.
+    /// - Parameters:
+    ///   - attemptIdentifier: Unique ID for the GradebookAttempt.
+    ///   - columnIdentifier: Unique ID for the GradeColumn this attempt is for.
+    ///   - courseIdentifier: Unique ID for the Course the GradeColumn is contained in.
+    /// - Returns: New or existing GradebookAttempt data.
+    @discardableResult
+    public func refreshGradebookAttempt(for attemptIdentifier: GradebookAttempt.ID, in columnIdentifier: GradeColumn.ID, for courseIdentifier: Course.ID) async throws -> GradebookAttempt {
+        let clientOutput = try await client.getV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId(.init(path: .init(courseId: courseIdentifier, columnId: columnIdentifier, attemptId: attemptIdentifier)))
+
+        let results: Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Output.Ok.Body?
+
+        switch clientOutput {
+            case .ok(let netResults):
+                results = netResults.body
+            case .forbidden(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .notFound(let error):
+                throw try LearnKitError.restError(RestError(from: error.body.json))
+            case .undocumented(statusCode: let statusCode, _):
+                throw LearnKitError.unknown(statusCode: statusCode)
+        }
+
+        guard let gradebookAttemptSchema = try? results?.json else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let gradebookAttempt = GradebookAttempt(from: gradebookAttemptSchema) else { throw LearnKitError.cannotParseRemoteSchema }
+
+        await cache.indexGradebookAttempts([gradebookAttempt], for: columnIdentifier, in: courseIdentifier)
+        return gradebookAttempt
     }
 
     func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
