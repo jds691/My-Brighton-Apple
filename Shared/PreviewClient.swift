@@ -563,6 +563,23 @@ struct PreviewClient: APIProtocol {
         }
     }
 
+    // TODO: Implement Gradebook API
+    func getV2CoursesCourseIdGradebookColumns(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumns.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumns.Output {
+        fatalError()
+    }
+
+    func getV2CoursesCourseIdGradebookColumnsColumnId(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnId.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnId.Output {
+        fatalError()
+    }
+
+    func getV2CoursesCourseIdGradebookColumnsColumnIdAttempts(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Output {
+        fatalError()
+    }
+
+    func getV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Output {
+        fatalError()
+    }
+
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {
         fatalError()
     }

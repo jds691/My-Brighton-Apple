@@ -20,6 +20,7 @@ class CachedContent {
     var creationDate: Date
     var lastModified: Date
     var positionIndex: Int
+    // TODO: Check if we should keep this around
     var hasGradebookColumns: Bool?
     var hasAssociatedGroups: Bool?
     var shouldLaunchInNewWindow: Bool
@@ -33,6 +34,8 @@ class CachedContent {
     var course: CachedCourse?
     @Relationship(inverse: \CachedContent.parent)
     var children: [CachedContent] = []
+    @Relationship(inverse: \CachedGradeColumn.relatedContent)
+    var associatedGradeColumns: [CachedGradeColumn] = []
 
     init(from contentModel: Content) {
         self.id = contentModel.id
@@ -82,12 +85,11 @@ class CachedContent {
         case courseLink(target: Course.ID)
         // TODO: Replace later with Discussion.ID
         case discussionLink(target: String)
-        case ltiLink(_ url: URL, parameters: String)
+        case ltiLink(_ url: URL, parameters: [String: String])
         case contentFile(uploadId: String, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
-        // TODO: target = Assessment.ID, gradeColumn = GradeColumn.ID
-        case testLink(target: String, gradeColumn: String)
-        // TODO: gradeColumn = GradeColumn.ID
-        case assignment(gradeColumn: String, isGroup: Bool)
+        // TODO: target = Assessment.ID
+        case testLink(target: String, gradeColumn: GradeColumn.ID)
+        case assignment(gradeColumn: GradeColumn.ID, isGroup: Bool)
         case ltiPlacement
 
         init(from contentHandlerModel: Content.Handler) {

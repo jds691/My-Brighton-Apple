@@ -39,6 +39,8 @@ class CachedCourse {
     var rootContent: [CachedContent] = []
     @Relationship(inverse: \CachedCourseAnnouncement.course)
     var announcements: [CachedCourseAnnouncement] = []
+    @Relationship(inverse: \CachedGradeColumn.course)
+    var gradeColumns: [CachedGradeColumn] = []
 
     init(from courseModel: Course) {
         self.id = courseModel.id

@@ -221,6 +221,81 @@ actor BbCache {
         }
     }
 
+    // MARK: Course Grades
+    func indexGradeColumns(_ columns: [GradeColumn], for courseIdentifier: Course.ID) async {
+        for column in columns {
+            do {
+                let cachedCourse: CachedCourse? = try await getCourse(for: courseIdentifier)
+                let associatedContent: CachedContent? = column.contentId != nil ? try await getContent(for: column.contentId!, in: courseIdentifier) : nil
+                let cachedGradeColumn: CachedGradeColumn? = try await getGradeColumn(for: column.id, in: courseIdentifier)
+
+#if DEBUG
+                assert(cachedCourse != nil)
+                if column.contentId != nil {
+                    assert(associatedContent != nil)
+                }
+#endif
+
+                if let existingCachedGradeColumn = cachedGradeColumn {
+                    existingCachedGradeColumn.copyValues(from: column)
+                    existingCachedGradeColumn.course = cachedCourse
+
+                    if let existingAssociatedContent = associatedContent {
+                        existingCachedGradeColumn.relatedContent = existingAssociatedContent
+                    }
+                } else {
+                    let newCachedGradeColumn = CachedGradeColumn(from: column)
+                    newCachedGradeColumn.course = cachedCourse
+
+                    if let existingAssociatedContent = associatedContent {
+                        newCachedGradeColumn.relatedContent = existingAssociatedContent
+                    }
+
+                    modelContext.insert(newCachedGradeColumn)
+                }
+            } catch {
+                Self.logger.error("Error while indexing grade column '\(column.id)' in course '\(courseIdentifier)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during grade column index: \(error)")
+        }
+    }
+
+    func indexGradebookAttempts(_ attempts: [GradebookAttempt], for columnIdentifier: GradeColumn.ID, in courseIdentifier: Course.ID) async {
+        for attempt in attempts {
+            do {
+                let associatedGradeColumn: CachedGradeColumn? = try await getGradeColumn(for: columnIdentifier, in: courseIdentifier)
+                let cachedGradebookAttempt: CachedGradebookAttempt? = try await getGradebookAttempt(by: attempt.id, for: columnIdentifier, in: courseIdentifier)
+
+#if DEBUG
+                assert(associatedGradeColumn != nil)
+#endif
+
+                if let existingCachedGradebookAttempt = cachedGradebookAttempt {
+                    existingCachedGradebookAttempt.copyValues(from: attempt)
+                    existingCachedGradebookAttempt.associatedGradeColumn = associatedGradeColumn
+                } else {
+                    let newCachedGradebookAttempt = CachedGradebookAttempt(from: attempt)
+                    newCachedGradebookAttempt.associatedGradeColumn = associatedGradeColumn
+
+                    modelContext.insert(newCachedGradebookAttempt)
+                }
+            } catch {
+                Self.logger.error("Error while indexing gradebook attempt '\(attempt.id)' for grade column '\(columnIdentifier)' in course '\(courseIdentifier)': \(error)")
+            }
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            Self.logger.error("Error while saving modelContext during grade column index: \(error)")
+        }
+    }
+
     // MARK: Content
     func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
         for item in content {
@@ -372,6 +447,106 @@ extension BbCache: LearnKitAPI {
 
         if let firstCAnnouncement = results.first {
             return firstCAnnouncement
+        } else {
+            return nil
+        }
+    }
+
+    // MARK: Course Grades
+    func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [CachedGradeColumn] {
+        var descriptor = FetchDescriptor<CachedCourse>(predicate: #Predicate<CachedCourse>{ $0.id == courseIdentifier })
+        descriptor.fetchLimit = 1
+
+        guard let course = try modelContext.fetch(descriptor).first else {
+            Self.logger.warning("Unable to find CachedCourse for id '\(courseIdentifier)' when calling `\(#function)`")
+            return []
+        }
+
+        return course.gradeColumns
+    }
+
+    func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradeColumn? {
+        var descriptor = FetchDescriptor<CachedGradeColumn>(predicate: #Predicate<CachedGradeColumn>{ $0.id == identifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradeColumn = results.first {
+            return firstGradeColumn
+        } else {
+            return nil
+        }
+    }
+
+    func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn] {
+        return try await getAllGradeColumns(for: courseIdentifier).map { GradeColumn(from: $0) }
+    }
+
+    func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> GradeColumn? {
+        if let cachedGradeColumn: CachedGradeColumn = try await getGradeColumn(for: identifier, in: course) {
+            return GradeColumn(from: cachedGradeColumn)
+        } else {
+            return nil
+        }
+    }
+
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [CachedGradebookAttempt] {
+        var descriptor = FetchDescriptor<CachedGradeColumn>(predicate: #Predicate<CachedGradeColumn>{ $0.id == columnIdentifier && $0.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        guard let gradeColumn = try modelContext.fetch(descriptor).first else {
+            Self.logger.warning("Unable to find CachedGradeColumn for id '\(columnIdentifier)' in course '\(course)' when calling `\(#function)`")
+            return []
+        }
+
+        return gradeColumn.attempts
+    }
+
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: #Predicate<CachedGradebookAttempt>{ $0.id == attemptId && $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course })
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradebookAttempt = results.first {
+            return firstGradebookAttempt
+        } else {
+            return nil
+        }
+    }
+
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
+        // TODO: Double check this
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(
+            predicate: #Predicate<CachedGradebookAttempt>{ $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course },
+            sortBy: [SortDescriptor(\.created, order: .reverse)]
+        )
+        descriptor.fetchLimit = 1
+
+        let results = try modelContext.fetch(descriptor)
+
+        if let firstGradebookAttempt = results.first {
+            return firstGradebookAttempt
+        } else {
+            return nil
+        }
+    }
+
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
+        return try await getGradebookAttempts(for: columnIdentifier, in: course).map { GradebookAttempt(from: $0) }
+    }
+
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        if let cachedGradebookAttempt: CachedGradebookAttempt = try await getGradebookAttempt(by: attemptId, for: columnIdentifier, in: course) {
+            return GradebookAttempt(from: cachedGradebookAttempt)
+        } else {
+            return nil
+        }
+    }
+
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+        if let cachedGradebookAttempt: CachedGradebookAttempt = try await getLastGradebookAttempt(for: columnIdentifier, in: course) {
+            return GradebookAttempt(from: cachedGradebookAttempt)
         } else {
             return nil
         }

@@ -5,6 +5,8 @@
 //  Created by Neo Salmon on 23/09/2025.
 //
 
+// TODO: Documentation
+
 /// Collection of methods required to be implemented by the service and offline cache actor.
 protocol LearnKitAPI {
     // MARK: (System) Announcements
@@ -23,6 +25,13 @@ protocol LearnKitAPI {
     // MARK: Course Announcements
     func getAllCourseAnnouncements(for courseIdentifier: Course.ID) async throws -> [CourseAnnouncement]
     func getCourseAnnouncement(for identifier: CourseAnnouncement.ID, in course: Course.ID) async throws -> CourseAnnouncement?
+
+    // MARK: Course Grades
+    func getAllGradeColumns(for courseIdentifier: Course.ID) async throws -> [GradeColumn]
+    func getGradeColumn(for identifier: GradeColumn.ID, in course: Course.ID) async throws -> GradeColumn?
+    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt]
+    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt?
+    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt?
 
     // MARK: Content
     /// Gets a list of all root content inside of the course.
