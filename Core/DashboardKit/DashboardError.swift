@@ -23,4 +23,6 @@ public enum DashboardError: Error {
     case fetchFailed
     /// An attempt to delete an entry within the service failed.
     case deleteFailed
+    /// An attempt to erase and reinitialise a dashboards modelContainer failed.
+    case eraseFailed
 }
