@@ -98,7 +98,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelSystemAnnouncements = results.results.compactMap({ SystemAnnouncement(from: $0) })
 
         await cache.indexSystemAnnouncements(modelSystemAnnouncements)
@@ -132,7 +132,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelCourses = results.results.compactMap({ Course(from: $0) })
 
         await cache.indexCourses(modelCourses)
@@ -165,7 +165,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelCourseAnnouncements = results.results.compactMap({ CourseAnnouncement(from: $0) })
 
         await cache.indexCourseAnnouncements(modelCourseAnnouncements, for: courseIdentifier)
@@ -200,7 +200,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelGradeColumns = results.results.compactMap({ GradeColumn(from: $0) })
 
         await cache.indexGradeColumns(modelGradeColumns, for: courseIdentifier)
@@ -232,7 +232,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let gradeColumnSchema = try? results?.json else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let gradeColumnSchema = try? results?.json else { throw LearnKitError.cannotParseRemoteSchema }
         guard let gradeColumn = GradeColumn(from: gradeColumnSchema) else { throw LearnKitError.cannotParseRemoteSchema }
 
         await cache.indexGradeColumns([gradeColumn], for: courseIdentifier)
@@ -266,7 +266,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelGradebookAttempts = results.results.compactMap({ GradebookAttempt(from: $0) })
 
         await cache.indexGradebookAttempts(modelGradebookAttempts, for: columnIdentifier, in: courseIdentifier)
@@ -298,7 +298,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let gradebookAttemptSchema = try? results?.json else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let gradebookAttemptSchema = try? results?.json else { throw LearnKitError.cannotParseRemoteSchema }
         guard let gradebookAttempt = GradebookAttempt(from: gradebookAttemptSchema) else { throw LearnKitError.cannotParseRemoteSchema }
 
         await cache.indexGradebookAttempts([gradebookAttempt], for: columnIdentifier, in: courseIdentifier)
@@ -348,7 +348,7 @@ extension LearnKitService: LearnKitAPI {
         do {
             foundChildren = try clientChildrenOutput.ok.body.json.results
         } catch {
-            throw LearnKitError.unknown(statusCode: nil)
+            throw LearnKitError.cannotParseRemoteSchema
         }
 
         let finalResults: [Content]
@@ -383,7 +383,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelContent = results.results.compactMap({ Content(from: $0) })
 
         await cache.indexContent(modelContent, for: courseIdentifier)
@@ -431,7 +431,7 @@ extension LearnKitService: LearnKitAPI {
                 throw LearnKitError.unknown(statusCode: statusCode)
         }
 
-        guard let results else { throw LearnKitError.unknown(statusCode: nil) }
+        guard let results else { throw LearnKitError.cannotParseRemoteSchema }
         let modelTerms = results.results.compactMap({ Term(from: $0) })
 
         await cache.indexTerms(modelTerms)
