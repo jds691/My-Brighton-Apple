@@ -85,7 +85,7 @@ class CachedContent {
         case courseLink(target: Course.ID)
         // TODO: Replace later with Discussion.ID
         case discussionLink(target: String)
-        case ltiLink(_ url: URL, parameters: [String: String])
+        case ltiLink(_ url: URL, parameters: Data)
         case contentFile(uploadId: String, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
         // TODO: target = Assessment.ID
         case testLink(target: String, gradeColumn: GradeColumn.ID)
@@ -105,7 +105,12 @@ class CachedContent {
                 case .discussionLink(let target):
                     self = .discussionLink(target: target)
                 case .ltiLink(let url, let parameters):
-                    self = .ltiLink(url, parameters: parameters)
+                    if let parameterData = try? JSONSerialization.data(withJSONObject: parameters) {
+                        self = .ltiLink(url, parameters: parameterData)
+                    } else {
+                        print("customParameters for handler in CachedContent cannot be encoded into data. A loss of data will occur.")
+                        self = .ltiLink(url, parameters: Data())
+                    }
                 case .contentFile(let uploadId, let fileName, let mimeType, let duplicateFileHandling):
                     self = .contentFile(uploadId: uploadId, fileName: fileName, mimeType: mimeType, duplicateFileHandling: duplicateFileHandling == nil ? nil : ContentFileDuplicateFileHandelingType(from: duplicateFileHandling!))
                 case .testLink(let target, let gradeColumn):

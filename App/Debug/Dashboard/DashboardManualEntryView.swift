@@ -93,6 +93,8 @@ struct DashboardManualEntryView: View {
                                 errorText = "SwiftData failed to fetch a certain type of entry."
                             case .deleteFailed:
                                 errorText = "SwiftData failed to delete an entry."
+                            case .eraseFailed:
+                                errorText = "Erasing a SwiftData ModelContainer failed."
                         }
 
                         showPostError = true

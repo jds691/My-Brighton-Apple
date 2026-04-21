@@ -163,7 +163,12 @@ public struct Content: Hashable, Identifiable, Sendable {
                 case .discussionLink(let target):
                     self = .discussionLink(target: target)
                 case .ltiLink(let url, let parameters):
-                    self = .ltiLink(url, parameters: parameters)
+                    if let dict = try? JSONDecoder().decode([String: String].self, from: parameters) {
+                        self = .ltiLink(url, parameters: dict)
+                    } else {
+                        Content.logger.warning("Unable to deserialise customParameters for content handler. A loss of data will occur.")
+                        self = .ltiLink(url, parameters: [:])
+                    }
                 case .contentFile(let uploadId, let fileName, let mimeType, let duplicateFileHandling):
                     self = .contentFile(uploadId: uploadId, fileName: fileName, mimeType: mimeType, duplicateFileHandling: duplicateFileHandling == nil ? nil : ContentFileDuplicateFileHandelingType(from: duplicateFileHandling!))
                 case .testLink(let target, let gradeColumn):

@@ -37,7 +37,11 @@ struct DebugOptionsView: View {
 
                 Section {
                     Button("Erase all contents") {
-                        dashboardService.debugEraseContent()
+                        do {
+                            try dashboardService.eraseContent()
+                        } catch {
+
+                        }
                     }
                 }
 

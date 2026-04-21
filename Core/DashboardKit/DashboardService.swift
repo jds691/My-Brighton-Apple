@@ -10,35 +10,14 @@ import SwiftData
 
 public final class DashboardService {
     private let dashboards: [Dashboard]
-
-    // Copied from LearnKit
-    private let modelExecutor: any ModelExecutor
-    private let modelContainer: ModelContainer
-    private var modelContext: ModelContext { modelExecutor.modelContext }
+    private let inMemory: Bool
 
     public init(inMemory: Bool = false, dashboards: [Dashboard]) {
+        self.inMemory = inMemory
         self.dashboards = dashboards
 
-        var entryTypes: [any PersistentModel.Type] = []
-        for categories in self.dashboards.map(\.categories) {
-            for category in categories {
-                entryTypes.append(DashboardService.extractEntryType(from: category))
-            }
-        }
-
-        do {
-            let schemaV1: Schema = .init(entryTypes)
-
-            let config: ModelConfiguration = .init("Dashboard", schema: schemaV1, isStoredInMemoryOnly: inMemory, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
-
-            self.modelContainer = try .init(for: schemaV1, configurations: config)
-            self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
-
-            for dashboard in dashboards {
-                dashboard.modelContext = modelContext
-            }
-        } catch {
-            fatalError("Failed to initialise modelContainer, unable to continue.")
+        for dashboard in dashboards {
+            dashboard.initialiseModelContainer(inMemory: inMemory)
         }
     }
 
@@ -64,12 +43,10 @@ public final class DashboardService {
         try dashboard.changeEntry(with: id, updates: updates)
     }
 
-    public func debugEraseContent() {
-        do {
-            try modelContainer.erase()
-            exit(0)
-        } catch {
-            print(error)
+    public func eraseContent() throws (DashboardError) {
+        for dashboard in dashboards {
+            try dashboard.eraseModelContainer()
+            dashboard.initialiseModelContainer(inMemory: self.inMemory)
         }
     }
 

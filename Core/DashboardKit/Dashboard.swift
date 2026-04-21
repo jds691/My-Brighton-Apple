@@ -14,9 +14,14 @@ import SwiftUI
 public final class Dashboard: Identifiable {
     private let entryTypes: [any DashboardEntry.Type]
     let categories: [any Category]
-    var modelContext: ModelContext?
 
     public let id: String
+
+    // Copied from LearnKit
+    private var wasLastContainerInitInMemory: Bool = false
+    private var modelExecutor: (any ModelExecutor)?
+    private var modelContainer: ModelContainer?
+    private var modelContext: ModelContext? { modelExecutor?.modelContext }
 
     @ObservationIgnored
     private var didPerformInitialFetch: Bool = false
@@ -54,9 +59,32 @@ public final class Dashboard: Identifiable {
         self.id = id
         self.categories = categories
         self._entries = []
-        self.modelContext = nil
 
         self.entryTypes = self.categories.map { DashboardService.extractEntryType(from: $0) }
+    }
+
+    func initialiseModelContainer(inMemory: Bool) {
+        do {
+            wasLastContainerInitInMemory = inMemory
+            let schemaV1: Schema = .init(entryTypes)
+
+            let config: ModelConfiguration = .init("Dashboard_\(self.id)", schema: schemaV1, isStoredInMemoryOnly: inMemory, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+
+            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer!))
+            self.modelContext?.autosaveEnabled = false
+        } catch {
+            fatalError("Failed to initialise modelContainer for Dashboard '\(self.id)', unable to continue.")
+        }
+    }
+
+    func eraseModelContainer() throws (DashboardError) {
+        do {
+            try modelContainer?.erase()
+            initialiseModelContainer(inMemory: wasLastContainerInitInMemory)
+        } catch {
+            throw .eraseFailed
+        }
     }
 
     func storeEntry(_ entry: some DashboardEntry) throws (DashboardError) {
