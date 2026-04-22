@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import EventKit
+#if canImport(EventKitUI)
+import EventKitUI
+#endif
 import LearnKit
 #if canImport(UIKit)
 import UIKit
@@ -15,6 +19,8 @@ import AppKit
 import CoreDesign
 
 struct ModuleGradeColumnView: View {
+    @Environment(\.openURL) private var openUrl
+
     @Environment(\.courseId) private var courseId
     @Environment(\.learnKitService) private var learnKit
 
@@ -31,6 +37,11 @@ struct ModuleGradeColumnView: View {
 
     @State private var gradeColumn: GradeColumn? = nil
     @State private var attempts: [GradebookAttempt]? = nil
+
+    #if canImport(EventKitUI)
+    @State private var eventStore = EKEventStore()
+    @State private var showEventAddView: Bool = false
+    #endif
 
     init(columnId: GradeColumn.ID) {
         self.gradeColumnId = columnId
@@ -80,20 +91,35 @@ struct ModuleGradeColumnView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbar {
+            ToolbarItemGroup(placement: .secondaryAction) {
+                #if canImport(EventKitUI)
+                Button {
+                    showEventAddView = true
+                } label: {
+                    Label("Add to Calendar", systemImage: "calendar.badge.plus")
+                }
+                .disabled(gradeColumn == nil)
+
+                Divider()
+                #endif
+            }
+        }
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {
                 $0
                     .navigationSubtitle(gradeColumn?.grading.dueDate != nil ? "Due: \(dueDateFormatter.string(from: gradeColumn!.grading.dueDate))" : "")
                     .safeAreaBar(edge: .bottom) {
-                        Button {
-
-                        } label: {
-                            Label("Open in My Studies", systemImage: "arrow.up.forward.app")
-                                .padding(8)
+                        if let onlineUrl {
+                            Button {
+                                openUrl(onlineUrl, prefersInApp: true)
+                            } label: {
+                                Label("Open in My Studies", systemImage: "arrow.up.forward.app")
+                                    .padding(8)
+                            }
+                            .buttonStyle(.glassProminent)
+                            .padding(.bottom, 16)
                         }
-                        .buttonStyle(.glassProminent)
-                        .disabled(true)
-                        .padding(.bottom, 16)
                     }
             } else {
                 $0
@@ -105,15 +131,16 @@ struct ModuleGradeColumnView: View {
                         }
                     }
                     .safeAreaInset(edge: .bottom) {
-                        Button {
-
-                        } label: {
-                            Label("Open in My Studies", systemImage: "arrow.up.forward.app")
-                                .padding(8)
+                        if let onlineUrl {
+                            Button {
+                                openUrl(onlineUrl)
+                            } label: {
+                                Label("Open in My Studies", systemImage: "arrow.up.forward.app")
+                                    .padding(8)
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .padding(.bottom, 16)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(true)
-                        .padding(.bottom, 16)
                     }
             }
         }
@@ -154,6 +181,32 @@ struct ModuleGradeColumnView: View {
                 // TODO: Show error and dismiss
             }
         }
+        #if canImport(EventKitUI)
+        .sheet(isPresented: $showEventAddView) {
+            EventEditView(dueDateEvent)
+                .ignoresSafeArea()
+        }
+        #endif
+    }
+
+    private var dueDateEvent: EKEvent? {
+        guard let gradeColumn, let courseId else { return nil }
+
+        var event = EKEvent(eventStore: eventStore)
+        event.title = "Assignment: \(gradeColumn.name)"
+        event.startDate = gradeColumn.grading.dueDate
+        event.endDate = gradeColumn.grading.dueDate
+        if let onlineUrl {
+            event.url = onlineUrl
+        }
+
+        return event
+    }
+
+    private var onlineUrl: URL? {
+        guard let gradeColumn, let contentId = gradeColumn.contentId, let courseId else { return nil }
+
+        return URL(string: "https://studentcentral.brighton.ac.uk/ultra/redirect?redirectType=nautilus&courseId=\(courseId)&contentId=\(contentId)")!
     }
 }
 
