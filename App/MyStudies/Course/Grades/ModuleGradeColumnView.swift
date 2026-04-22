@@ -7,13 +7,27 @@
 
 import SwiftUI
 import LearnKit
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+import CoreDesign
 
 struct ModuleGradeColumnView: View {
     @Environment(\.courseId) private var courseId
     @Environment(\.learnKitService) private var learnKit
 
     private let gradeColumnId: GradeColumn.ID
+
+    private let dueDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeStyle = .short
+        formatter.locale = Locale.current
+
+        return formatter
+    }()
 
     @State private var gradeColumn: GradeColumn? = nil
     @State private var attempts: [GradebookAttempt]? = nil
@@ -39,6 +53,23 @@ struct ModuleGradeColumnView: View {
                         .font(.title3.bold())
                         .padding(.bottom, -12)
                 }
+
+                Section {
+                    if let attempts {
+                        if attempts.isEmpty {
+                            NoContentView("No Attempts Made")
+                                .frame(height: 80)
+                        } else {
+                            VStack(alignment: .leading, spacing: 0) {
+
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Attempts")
+                        .font(.title3.bold())
+                        .padding(.bottom, -12)
+                }
             }
         }
         .myBrightonBackground()
@@ -50,6 +81,7 @@ struct ModuleGradeColumnView: View {
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {
                 $0
+                    .navigationSubtitle(gradeColumn?.grading.dueDate != nil ? "Due: \(dueDateFormatter.string(from: gradeColumn!.grading.dueDate))" : "")
                     .safeAreaBar(edge: .bottom) {
                         Button {
 
@@ -63,6 +95,13 @@ struct ModuleGradeColumnView: View {
                     }
             } else {
                 $0
+                    .toolbar {
+                        ToolbarItemGroup(placement: .principal) {
+                            Text("Timetable")
+                            Text(gradeColumn?.grading.dueDate != nil ? "Due: \(dueDateFormatter.string(from: gradeColumn!.grading.dueDate))" : "")
+                                .foregroundStyle(.brightonSecondary)
+                        }
+                    }
                     .safeAreaInset(edge: .bottom) {
                         Button {
 
@@ -121,21 +160,16 @@ extension ModuleGradeColumnView {
     var dueDateString: LocalizedStringResource {
         guard let gradeColumn else { return "" }
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-        dateFormatter.timeStyle = .short
-        dateFormatter.locale = Locale.current
-
         if gradeColumn.grading.dueDate < .now {
             return .init(
                 "course.gradecolumn.overview.duedate.past",
-                defaultValue: "This assignment was due on **\(dateFormatter.string(from: gradeColumn.grading.dueDate))**.",
+                defaultValue: "This assignment was due on **\(dueDateFormatter.string(from: gradeColumn.grading.dueDate))**.",
                 table: "My Studies",
             )
         } else {
             return .init(
                 "course.gradecolumn.overview.duedate.present",
-                defaultValue: "This assignment is due on **\(dateFormatter.string(from: gradeColumn.grading.dueDate))**.",
+                defaultValue: "This assignment is due on **\(dueDateFormatter.string(from: gradeColumn.grading.dueDate))**.",
                 table: "My Studies",
             )
         }
