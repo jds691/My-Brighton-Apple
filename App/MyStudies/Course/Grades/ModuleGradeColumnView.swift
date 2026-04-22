@@ -53,6 +53,7 @@ struct ModuleGradeColumnView: View {
                         .font(.title3.bold())
                         .padding(.bottom, -12)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                 Section {
                     if let attempts {
@@ -70,6 +71,7 @@ struct ModuleGradeColumnView: View {
                         .font(.title3.bold())
                         .padding(.bottom, -12)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .myBrightonBackground()
