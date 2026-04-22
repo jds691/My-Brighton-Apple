@@ -507,7 +507,14 @@ extension BbCache: LearnKitAPI {
     }
 
     func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
-        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: #Predicate<CachedGradebookAttempt>{ $0.id == attemptId && $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course })
+        let predicate = #Predicate<CachedGradebookAttempt> { cachedAttempt in
+            if let associatedGradeColumn = cachedAttempt.associatedGradeColumn, let columnCourse = associatedGradeColumn.course {
+                return cachedAttempt.id == attemptId && associatedGradeColumn.id == columnIdentifier && columnCourse.id == course
+            } else {
+                return false
+            }
+        }
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: predicate)
         descriptor.fetchLimit = 1
 
         let results = try modelContext.fetch(descriptor)
@@ -521,8 +528,16 @@ extension BbCache: LearnKitAPI {
 
     func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
         // TODO: Double check this
+        let predicate = #Predicate<CachedGradebookAttempt> { cachedAttempt in
+            if let associatedGradeColumn = cachedAttempt.associatedGradeColumn, let columnCourse = associatedGradeColumn.course {
+                return associatedGradeColumn.id == columnIdentifier && columnCourse.id == course
+            } else {
+                return false
+            }
+        }
+
         var descriptor = FetchDescriptor<CachedGradebookAttempt>(
-            predicate: #Predicate<CachedGradebookAttempt>{ $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course },
+            predicate: predicate,
             sortBy: [SortDescriptor(\.created, order: .reverse)]
         )
         descriptor.fetchLimit = 1
