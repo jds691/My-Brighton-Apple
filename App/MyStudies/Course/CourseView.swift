@@ -96,7 +96,7 @@ struct CourseView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .secondaryAction) {
                     Section {
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades) {
+                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(nil)) {
                             Label("Grades", systemImage: "checkmark.seal.text.page")
                         }
 
@@ -164,7 +164,7 @@ struct CourseView: View {
                         .legacyToolbar(visible: !showTitle, showBackButton: true) {
                             Menu {
                                 Section {
-                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades) {
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(nil)) {
                                         Label("Grades", systemImage: "checkmark.seal.text.page")
                                     }
 

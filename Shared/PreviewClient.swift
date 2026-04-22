@@ -253,6 +253,26 @@ struct PreviewClient: APIProtocol {
                 links: [],
                 subtype: nil
             ),
+            .init(
+                id: "_0_4",
+                parentId: "0",
+                title: "Example Gradebook Column",
+                body: nil,
+                description: nil,
+                created: .now,
+                modified: .now,
+                position: 4,
+                hasChildren: false,
+                hasGradebookColumns: true,
+                hasAssociatedGroups: nil,
+                launchInNewWindow: false,
+                reviewable: false,
+                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
+                contentHandler: .resourceXBbAssignment(.init(value1: .init(id: "resource/x-bb-assignment"), value2: .init(gradeColumnId: "_0_1__0_1", groupContent: false))),
+                copyHistory: nil,
+                links: [],
+                subtype: nil
+            ),
         ],
 
         "_130430_1": [
@@ -451,6 +471,47 @@ struct PreviewClient: APIProtocol {
         ]
     ]
 
+    let gradebookColumns: Dictionary<String, [Components.Schemas.GradeColumn]> = [
+        "_0_1": [
+            .init(
+                id: "_0_1__0_1",
+                externalId: nil,
+                externalToolId: nil,
+                name: "Example Assessment",
+                displayName: nil,
+                description: nil,
+                externalGrade: nil,
+                created: nil,
+                modified: nil,
+                contentId: "_0_4",
+                score: .init(possible: 100.0),
+                availability: .init(available: .yes),
+                grading: .init(
+                    _type: .attempts,
+                    due: .now.addingTimeInterval(862000),
+                    attemptsAllowed: 0,
+                    scoringModel: .last,
+                    schemaId: "0",
+                    anonymousGrading: .init(_type: .afterAllGraded, releaseAfter: nil)
+                ),
+                gradebookCategoryId: "0",
+                formula: nil,
+                includeInCalculations: nil,
+                showStatisticsToStudents: nil,
+                scoreProviderHandle: "resource/x-bb-assessment",
+                learningOutcome: nil
+            )
+        ],
+        "_130430_1": [],
+        "_130438_1": [],
+        "_130441_1": [],
+        "_129556_1": []
+    ]
+
+    let gradebookColumnAttempts: Dictionary<String, [Components.Schemas.GradebookAttempt]> = [
+        "_0_1__0_1": []
+    ]
+
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
         return .ok(.init(body: .json(.init(results: systemAnnouncements))))
     }
@@ -563,21 +624,44 @@ struct PreviewClient: APIProtocol {
         }
     }
 
-    // TODO: Implement Gradebook API
     func getV2CoursesCourseIdGradebookColumns(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumns.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumns.Output {
-        fatalError()
+        if let columns = gradebookColumns[input.path.courseId] {
+            return .ok(.init(body: .json(.init(results: columns))))
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
     }
 
     func getV2CoursesCourseIdGradebookColumnsColumnId(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnId.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnId.Output {
-        fatalError()
+        if let columns = gradebookColumns[input.path.courseId] {
+            if let column = columns.first(where: { $0.id == input.path.columnId }) {
+                return .ok(.init(body: .json(column)))
+            } else {
+                return .notFound(.init(body: .json(.init(message: "Unable to find gradebook column for id"))))
+            }
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
     }
 
     func getV2CoursesCourseIdGradebookColumnsColumnIdAttempts(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Output {
-        fatalError()
+        if let attempts = gradebookColumnAttempts[input.path.columnId] {
+            return .ok(.init(body: .json(.init(results: attempts))))
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
     }
 
     func getV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Output {
-        fatalError()
+        if let attempts = gradebookColumnAttempts[input.path.columnId] {
+            if let attempt = attempts.first(where: { $0.id == input.path.attemptId }) {
+                return .ok(.init(body: .json(attempt)))
+            } else {
+                return .notFound(.init(body: .json(.init(message: "Unable to find gradebook attempt for id"))))
+            }
+        } else {
+            return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
+        }
     }
 
     func deleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId(_ input: LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Input) async throws -> LearnKit.Operations.DeleteV1CoursesCourseIdContentsContentIdAdaptiveReleaseRulesRuleIdCriteriaCriterionId.Output {

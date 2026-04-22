@@ -49,8 +49,16 @@ struct ContentListCard: View {
                 Image(systemName: isBbPage ? "richtext.page" : "folder")
                     .resizable()
                     .scaledToFit()
-            default:
+            case .assignment(gradeColumn: _, isGroup: _):
                 Image(systemName: "questionmark.text.page")
+                    .resizable()
+                    .scaledToFit()
+            case .ltiLink(_, parameters: _):
+                Image(systemName: "globe.desk")
+                    .resizable()
+                    .scaledToFit()
+            default:
+                Image(systemName: "questionmark")
                     .resizable()
                     .scaledToFit()
         }

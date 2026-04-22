@@ -12,7 +12,7 @@ struct ModuleGradesView: View {
         List {
             Text("Test")
         }
-        .navigationTitle("Grades")
+        .navigationTitle("Assignments")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

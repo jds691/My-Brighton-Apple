@@ -106,7 +106,7 @@ public enum Navigation: Hashable {
                 public var id: Self { self }
 
                 case announcements(CourseAnnouncement.ID?)
-                case grades
+                case grades(GradeColumn.ID?)
                 case dueDates
                 case messages(String?) // Replace with Message.ID
                 case discussions(String?) // Replace with Discussion.ID

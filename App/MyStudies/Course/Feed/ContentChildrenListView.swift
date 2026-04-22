@@ -78,6 +78,8 @@ struct ContentChildrenListView: View {
         switch content.handler {
             case .contentItem, .contentFolder(isBbPage: _):
                 return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.content(content.id)
+            case .assignment(gradeColumn: let gradeColumnId, isGroup: _):
+                return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(gradeColumnId)
             default:
                 return -1
         }
