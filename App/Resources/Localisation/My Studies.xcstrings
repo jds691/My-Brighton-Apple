@@ -24,6 +24,28 @@
         }
       }
     },
+    "course.gradecolumn.overview.duedate.past" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment was due on **%@**."
+          }
+        }
+      }
+    },
+    "course.gradecolumn.overview.duedate.present" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment is due on **%@**."
+          }
+        }
+      }
+    },
     "course.gradecolumn.status.due" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

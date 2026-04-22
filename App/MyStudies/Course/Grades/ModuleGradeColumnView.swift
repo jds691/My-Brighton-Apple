@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LearnKit
+import UIKit
 
 struct ModuleGradeColumnView: View {
     @Environment(\.courseId) private var courseId
@@ -23,8 +24,21 @@ struct ModuleGradeColumnView: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            if let gradeColumn, let attempts {
-                ModuleGradeColumnStatusBanner(column: gradeColumn, attempts: attempts)
+            VStack(alignment: .leading, spacing: 16) {
+                if let gradeColumn, let attempts {
+                    ModuleGradeColumnStatusBanner(column: gradeColumn, attempts: attempts)
+                }
+
+                Section {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("\(NSTextList(markerFormat: .circle, options: 0).marker(forItemNumber: 0)) \(dueDateString)")
+                        Text("\(NSTextList(markerFormat: .circle, options: 0).marker(forItemNumber: 1)) Please check My Studies for more information.")
+                    }
+                } header: {
+                    Text("Overview")
+                        .font(.title3.bold())
+                        .padding(.bottom, -12)
+                }
             }
         }
         .myBrightonBackground()
@@ -98,6 +112,32 @@ struct ModuleGradeColumnView: View {
             } catch {
                 // TODO: Show error and dismiss
             }
+        }
+    }
+}
+
+// MARK: Localisation
+extension ModuleGradeColumnView {
+    var dueDateString: LocalizedStringResource {
+        guard let gradeColumn else { return "" }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        dateFormatter.timeStyle = .short
+        dateFormatter.locale = Locale.current
+
+        if gradeColumn.grading.dueDate < .now {
+            return .init(
+                "course.gradecolumn.overview.duedate.past",
+                defaultValue: "This assignment was due on **\(dateFormatter.string(from: gradeColumn.grading.dueDate))**.",
+                table: "My Studies",
+            )
+        } else {
+            return .init(
+                "course.gradecolumn.overview.duedate.present",
+                defaultValue: "This assignment is due on **\(dateFormatter.string(from: gradeColumn.grading.dueDate))**.",
+                table: "My Studies",
+            )
         }
     }
 }
