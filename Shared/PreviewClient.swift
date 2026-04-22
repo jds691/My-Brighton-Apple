@@ -261,7 +261,7 @@ struct PreviewClient: APIProtocol {
                 description: nil,
                 created: .now,
                 modified: .now,
-                position: 4,
+                position: -1,
                 hasChildren: false,
                 hasGradebookColumns: true,
                 hasAssociatedGroups: nil,

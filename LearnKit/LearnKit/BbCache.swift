@@ -584,7 +584,13 @@ extension BbCache: LearnKitAPI {
         // I have no idea why this was needed, but it is
         let nodeId: String = rootNode.id
 
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        let predicate = #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course }
+        let descriptor = FetchDescriptor<CachedContent>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.positionIndex)]
+        )
+
+        return try modelContext.fetch(descriptor).compactMap({ Content(from: $0) })
     }
 
     public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
@@ -596,7 +602,13 @@ extension BbCache: LearnKitAPI {
             parentIdentifier = identifier
         }
 
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        let predicate = #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course }
+        let descriptor = FetchDescriptor<CachedContent>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.positionIndex)]
+        )
+
+        return try modelContext.fetch(descriptor).compactMap({ Content(from: $0) })
     }
 
     public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {
