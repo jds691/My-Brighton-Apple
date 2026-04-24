@@ -155,6 +155,17 @@ struct ModuleGradeColumnView: View {
             if #available(iOS 26, macOS 26, *) {
                 $0
                     .navigationSubtitle(gradeColumn?.grading.dueDate != nil ? "Due: \(dueDateFormatter.string(from: gradeColumn!.grading.dueDate))" : "")
+                #if os(macOS)
+                    .toolbar {
+                        if let onlineUrl {
+                            ToolbarItem(placement: .primaryAction) {
+                                Button("Open in My Studies") {
+                                    openUrl(onlineUrl, prefersInApp: true)
+                                }
+                            }
+                        }
+                    }
+                #else
                     .safeAreaBar(edge: .bottom) {
                         if let onlineUrl {
                             Button {
@@ -167,6 +178,7 @@ struct ModuleGradeColumnView: View {
                             .padding(.bottom, 16)
                         }
                     }
+                #endif
             } else {
                 $0
                     .toolbar {
@@ -175,7 +187,18 @@ struct ModuleGradeColumnView: View {
                             Text(gradeColumn?.grading.dueDate != nil ? "Due: \(dueDateFormatter.string(from: gradeColumn!.grading.dueDate))" : "")
                                 .foregroundStyle(.brightonSecondary)
                         }
+
+                        #if os(macOS)
+                        if let onlineUrl {
+                            ToolbarItem(placement: .primaryAction) {
+                                Button("Open in My Studies") {
+                                    openUrl(onlineUrl)
+                                }
+                            }
+                        }
+                        #endif
                     }
+                #if !os(macOS)
                     .safeAreaInset(edge: .bottom) {
                         if let onlineUrl {
                             Button {
@@ -188,6 +211,7 @@ struct ModuleGradeColumnView: View {
                             .padding(.bottom, 16)
                         }
                     }
+                #endif
             }
         }
         .task(id: gradeColumnId) {
@@ -235,6 +259,7 @@ struct ModuleGradeColumnView: View {
         #endif
     }
 
+    #if canImport(EventKitUI)
     private var dueDateEvent: EKEvent? {
         guard let gradeColumn else { return nil }
 
@@ -248,6 +273,7 @@ struct ModuleGradeColumnView: View {
 
         return event
     }
+    #endif
 
     private var onlineUrl: URL? {
         guard let gradeColumn, let contentId = gradeColumn.contentId, let courseId else { return nil }

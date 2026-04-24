@@ -13,28 +13,23 @@ struct ModuleGradebookAttemptRow: View {
     let column: GradeColumn
     let attempt: GradebookAttempt
     let attemptNumber: Int
-    let isSubmittedGrade: Bool
 
-    init(gradeColumn: GradeColumn, attempt: GradebookAttempt, attemptNumber: Int, isSubmittedGrade: Bool = false) {
+    init(gradeColumn: GradeColumn, attempt: GradebookAttempt, attemptNumber: Int) {
         self.column = gradeColumn
         self.attempt = attempt
         self.attemptNumber = attemptNumber
-        self.isSubmittedGrade = isSubmittedGrade
     }
 
     var body: some View {
         HStack {
             HStack(spacing: 8) {
                 Image(systemName: "trophy")
+                    .resizable()
+                    .scaledToFit()
                     .frame(width: 24, height: 24)
                 VStack(alignment: .leading) {
-                    Text(isSubmittedGrade ? "Graded Attempt" : "Attempt #\(attemptNumber)")
+                    Text("Attempt #\(attemptNumber)")
                         .font(.headline)
-                    if isSubmittedGrade {
-                        Text("Attempt #\(attemptNumber)")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
                 }
             }
 
