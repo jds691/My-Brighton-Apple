@@ -38,6 +38,31 @@ struct ModuleGradeColumnView: View {
     @State private var gradeColumn: GradeColumn? = nil
     @State private var attempts: [GradebookAttempt]? = nil
 
+    var gradedAttempt: GradebookAttempt? {
+        guard let gradeColumn, let attempts, !attempts.isEmpty else { return nil }
+
+        switch gradeColumn.grading.scoringModel {
+            case .last:
+                return attempts
+                    .sorted(by: { $0.created > $1.created })
+                    .first(where: { $0.status == .completed })
+            case .highest:
+                return attempts
+                    .sorted(by: { ($0.score ?? -1) > ($1.score ?? -1) })
+                    .first(where: { $0.status == .completed })
+            case .lowest:
+                return attempts
+                    .sorted(by: { ($0.score ?? -1) < ($1.score ?? -1) })
+                    .first(where: { $0.status == .completed })
+            case .first:
+                return attempts
+                    .sorted(by: { $0.created < $1.created })
+                    .first(where: { $0.status == .completed })
+            case .average:
+                return nil
+        }
+    }
+
     #if canImport(EventKitUI)
     @State private var eventStore = EKEventStore()
     @State private var showEventAddView: Bool = false
@@ -66,19 +91,40 @@ struct ModuleGradeColumnView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
+                if let gradedAttempt, let gradeColumn, let attempts {
+                    Section {
+                        if let attemptIndex = attempts.firstIndex(of: gradedAttempt) {
+                            ModuleGradebookAttemptRow(gradeColumn: gradeColumn, attempt: gradedAttempt, attemptNumber: attempts.count - attemptIndex)
+                        } else {
+                            ModuleGradebookAttemptRow(gradeColumn: gradeColumn, attempt: gradedAttempt, attemptNumber: -1)
+                        }
+                    } header: {
+                        Text("Graded Attempt")
+                            .font(.title3.bold())
+                            .padding(.bottom, -12)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
                 Section {
-                    if let attempts {
+                    if let gradeColumn, let attempts {
                         if attempts.isEmpty {
                             NoContentView("No Attempts Made")
                                 .frame(height: 80)
                         } else {
-                            VStack(alignment: .leading, spacing: 0) {
-
+                            VStack(alignment: .leading, spacing: 4) {
+                                ForEach(attempts.filter({ $0.id != (gradedAttempt?.id ?? "") }), id: \.id) { attempt in
+                                    if let attemptIndex = attempts.firstIndex(of: attempt) {
+                                        ModuleGradebookAttemptRow(gradeColumn: gradeColumn, attempt: attempt, attemptNumber: attempts.count - attemptIndex)
+                                    } else {
+                                        ModuleGradebookAttemptRow(gradeColumn: gradeColumn, attempt: attempt, attemptNumber: -1)
+                                    }
+                                }
                             }
                         }
                     }
                 } header: {
-                    Text("Attempts")
+                    Text(gradedAttempt != nil ? "Other Attempts" : "Attempts")
                         .font(.title3.bold())
                         .padding(.bottom, -12)
                 }
@@ -190,9 +236,9 @@ struct ModuleGradeColumnView: View {
     }
 
     private var dueDateEvent: EKEvent? {
-        guard let gradeColumn, let courseId else { return nil }
+        guard let gradeColumn else { return nil }
 
-        var event = EKEvent(eventStore: eventStore)
+        let event = EKEvent(eventStore: eventStore)
         event.title = "Assignment: \(gradeColumn.name)"
         event.startDate = gradeColumn.grading.dueDate
         event.endDate = gradeColumn.grading.dueDate

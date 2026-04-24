@@ -509,7 +509,52 @@ struct PreviewClient: APIProtocol {
     ]
 
     let gradebookColumnAttempts: Dictionary<String, [Components.Schemas.GradebookAttempt]> = [
-        "_0_1__0_1": []
+        "_0_1__0_1": [
+            .init(
+                id: "_0",
+                userId: nil,
+                groupAttemptId: nil,
+                groupOverride: nil,
+                status: .needsGrading,
+                readyToPost: nil,
+                displayGrade: nil,
+                text: nil,
+                score: 0.0,
+                reconciliationMode: nil,
+                notes: nil,
+                feedback: nil,
+                groupAttemptStudentComments: nil,
+                studentComments: nil,
+                studentSubmission: nil,
+                exempt: false,
+                created: .now.addingTimeInterval(-100),
+                attemptDate: nil,
+                modified: nil,
+                attemptReceipt: nil
+            ),
+            .init(
+                id: "_1",
+                userId: nil,
+                groupAttemptId: nil,
+                groupOverride: nil,
+                status: .completed,
+                readyToPost: nil,
+                displayGrade: nil,
+                text: nil,
+                score: 50.0,
+                reconciliationMode: nil,
+                notes: nil,
+                feedback: nil,
+                groupAttemptStudentComments: nil,
+                studentComments: nil,
+                studentSubmission: nil,
+                exempt: false,
+                created: .now.addingTimeInterval(-50),
+                attemptDate: nil,
+                modified: nil,
+                attemptReceipt: nil
+            )
+        ]
     ]
 
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {

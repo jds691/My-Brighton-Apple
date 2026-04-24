@@ -503,7 +503,7 @@ extension BbCache: LearnKitAPI {
             return []
         }
 
-        return gradeColumn.attempts
+        return gradeColumn.attempts.sorted(by: { $0.created > $1.created })
     }
 
     func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
