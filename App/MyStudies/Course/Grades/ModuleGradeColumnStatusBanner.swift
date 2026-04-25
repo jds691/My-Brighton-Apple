@@ -39,12 +39,10 @@ struct ModuleGradeColumnStatusBanner: View {
 
     @ViewBuilder
     private var icon: some View {
-        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first {
-            if mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
-                Image(systemName: "checkmark.circle")
-                    .resizable()
-                    .scaledToFit()
-            }
+        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first, mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
+            Image(systemName: "checkmark.circle")
+                .resizable()
+                .scaledToFit()
         } else {
             Image(systemName: "info.circle")
                 .resizable()
@@ -53,14 +51,12 @@ struct ModuleGradeColumnStatusBanner: View {
     }
 
     private var statusText: LocalizedStringResource {
-        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first {
-            if mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
-                return .init(
-                    "course.gradecolumn.status.submitted",
-                    defaultValue: "This assignment has been submitted.",
-                    table: "My Studies",
-                )
-            }
+        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first, mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
+            return .init(
+                "course.gradecolumn.status.submitted",
+                defaultValue: "This assignment has been submitted.",
+                table: "My Studies",
+            )
         } else if column.grading.dueDate < .now {
             return .init(
                 "course.gradecolumn.status.overdue",
@@ -74,19 +70,13 @@ struct ModuleGradeColumnStatusBanner: View {
                 table: "My Studies",
             )
         }
-
-        return "--"
     }
 
     private var statusColor: Color {
-        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first {
-            if mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
-                return .Gradebook.statusSubmitted
-            }
+        if let mostRecentAttempt = attempts.sorted(by: { $0.created > $1.created }).first, mostRecentAttempt.status == .completed || mostRecentAttempt.status == .needsGrading || mostRecentAttempt.status == .needsMoreGrading {
+            return .Gradebook.statusSubmitted
         } else {
             return .Gradebook.statusWarning
         }
-
-        return .gray
     }
 }
