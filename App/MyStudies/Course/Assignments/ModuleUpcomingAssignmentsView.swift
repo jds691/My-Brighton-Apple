@@ -30,7 +30,7 @@ struct ModuleUpcomingAssignmentsView: View {
 
                 UpcomingAssignmentsView(for: self.course)
                     .hidesHeader()
-                    .showNoContentOnAllHiddenColumns("No Upcoming Assignments")
+                    .showNoContentOnAllHiddenColumns()
             }
             .padding(.horizontal, 16)
         }

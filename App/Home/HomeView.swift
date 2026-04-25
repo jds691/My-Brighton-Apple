@@ -85,6 +85,8 @@ struct HomeView: View {
                     ) {
                         VStack(alignment: .leading, spacing: 16) {
                             TimetableHomeWidgetView()
+                                .padding(hSizeClass == .compact ? .horizontal : .leading, 16)
+                            UpcomingAssignmentsHomeWidgetView()
                         }
                     } secondaryContent: {
                         VStack(alignment: .leading, spacing: 16) {
@@ -155,8 +157,8 @@ struct HomeView: View {
                                 }
                             }
                         }
+                        .padding(.horizontal, 16)
                     }
-                    .padding(.horizontal, 16)
                 }
                 .scrollClipDisabled()
                 .disabled(showCustomisationEditor)

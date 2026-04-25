@@ -511,14 +511,13 @@ struct PreviewClient: APIProtocol {
     ]
 
     let gradebookColumnAttempts: Dictionary<String, [Components.Schemas.GradebookAttempt]> = [
-        // TODO: Switch the status back to completed and needsGrading for both
         "_0_1__0_1": [
-            .init(
+            /*.init(
                 id: "_0",
                 userId: nil,
                 groupAttemptId: nil,
                 groupOverride: nil,
-                status: .inProgress,
+                status: .needsGrading,
                 readyToPost: nil,
                 displayGrade: nil,
                 text: nil,
@@ -540,7 +539,7 @@ struct PreviewClient: APIProtocol {
                 userId: nil,
                 groupAttemptId: nil,
                 groupOverride: nil,
-                status: .inProgress,
+                status: .completed,
                 readyToPost: nil,
                 displayGrade: nil,
                 text: nil,
@@ -556,7 +555,7 @@ struct PreviewClient: APIProtocol {
                 attemptDate: nil,
                 modified: nil,
                 attemptReceipt: nil
-            )
+            )*/
         ]
     ]
 
