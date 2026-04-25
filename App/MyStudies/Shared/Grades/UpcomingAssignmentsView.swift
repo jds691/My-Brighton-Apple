@@ -22,6 +22,9 @@ struct UpcomingAssignmentsView: View {
     private var showHeader: Bool = true
 
     @State private var customisations: CourseCustomisation?
+    @State private var thumbnailDidChangeObserver: (any NSObjectProtocol)? = nil
+    @State private var thumbnailImage: Image? = nil
+
     @State private var gradeColumns: [GradeColumn]? = nil
     // Contains the IDs of columns that do not have valid submissions
     @State private var shownColumns: [GradeColumn.ID]? = nil
@@ -139,8 +142,73 @@ struct UpcomingAssignmentsView: View {
         VStack(alignment: .leading) {
             if showHeader, let customisations {
                 // TODO: Placeholder
-                Text(customisations.displayNameOverride ?? course.name)
-                    .bold()
+                HStack {
+                    if let thumbnailImage {
+                        thumbnailImage
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .circular))
+                            .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(course.courseId)
+                            .font(customisations.fontDesign.swiftUIFont(.subheadline))
+                        Text(customisations.displayNameOverride ?? course.name)
+                            .font(customisations.fontDesign.swiftUIFont(.body))
+                    }
+                    .modifier(TextEffectsViewModifier(customisations.textEffects))
+                    .foregroundStyle(customisations.textColor.resolved)
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background {
+                    CustomisedBackgroundView(customisations.background)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                        .clipped()
+                        .blur(radius: 15)
+                        .padding([.horizontal, .top], -30)
+                }
+                .onAppear {
+                    if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true) {
+#if canImport(UIKit)
+                        if let uiThumbnailImage = UIImage(contentsOfFile: thumbnailUrl.path(percentEncoded: false)) {
+                            thumbnailImage = Image(uiImage: uiThumbnailImage)
+                        }
+#elseif canImport(AppKit)
+                        if let nsThumbnailImage = NSImage(contentsOf: thumbnailUrl) {
+                            thumbnailImage = Image(nsImage: nsThumbnailImage)
+                        }
+#endif
+                    }
+
+                    thumbnailDidChangeObserver = NotificationCenter.default.addObserver(forName: CustomisationService.thumbnailDidRefresh, object: nil, queue: OperationQueue.main) { notification in
+                        guard let courseId = notification.userInfo?["courseId"] as? String, courseId == course.id else { return }
+
+                        MainActor.assumeIsolated {
+                            if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true) {
+#if canImport(UIKit)
+                                if let uiThumbnailImage = UIImage(contentsOfFile: thumbnailUrl.path(percentEncoded: false)) {
+                                    thumbnailImage = Image(uiImage: uiThumbnailImage)
+                                }
+#elseif canImport(AppKit)
+                                if let nsThumbnailImage = NSImage(contentsOf: thumbnailUrl) {
+                                    thumbnailImage = Image(nsImage: nsThumbnailImage)
+                                }
+#endif
+                            } else {
+                                thumbnailImage = nil
+                            }
+                        }
+                    }
+                }
+                .onDisappear {
+                    if let thumbnailDidChangeObserver {
+                        NotificationCenter.default.removeObserver(thumbnailDidChangeObserver)
+                    }
+                }
             }
 
             Group {
@@ -148,7 +216,8 @@ struct UpcomingAssignmentsView: View {
                     UpcomingAssignmentsGradeColumnRow(column)
                 }
             }
-            .padding(16)
+            .padding([.horizontal, .bottom], 16)
+            .padding(.top, showHeader && customisations != nil ? 4 : 16)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.brightonBackground)
