@@ -47,7 +47,9 @@ struct CourseView: View {
                 header
                     .flexibleHeaderContent()
                 VStack(alignment: .leading, spacing: 16) {
-                    ModuleAssignmentsScrollView()
+                    if let course {
+                        ModuleUpcomingAssignmentsView(course)
+                    }
                     ModuleAnnouncementsScrollView(announcements: $announcements, onAnnouncementTapped: presentAnnouncement)
                     content
                         .scenePadding(.horizontal)

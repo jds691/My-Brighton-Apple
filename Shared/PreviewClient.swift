@@ -483,7 +483,9 @@ struct PreviewClient: APIProtocol {
                 externalGrade: nil,
                 created: nil,
                 modified: nil,
-                contentId: "_0_4",
+                contentId: nil,
+                // TODO: Put back
+                //contentId: "_0_4",
                 score: .init(possible: 100.0),
                 availability: .init(available: .yes),
                 grading: .init(
@@ -509,13 +511,14 @@ struct PreviewClient: APIProtocol {
     ]
 
     let gradebookColumnAttempts: Dictionary<String, [Components.Schemas.GradebookAttempt]> = [
+        // TODO: Switch the status back to completed and needsGrading for both
         "_0_1__0_1": [
             .init(
                 id: "_0",
                 userId: nil,
                 groupAttemptId: nil,
                 groupOverride: nil,
-                status: .needsGrading,
+                status: .inProgress,
                 readyToPost: nil,
                 displayGrade: nil,
                 text: nil,
@@ -537,7 +540,7 @@ struct PreviewClient: APIProtocol {
                 userId: nil,
                 groupAttemptId: nil,
                 groupOverride: nil,
-                status: .completed,
+                status: .inProgress,
                 readyToPost: nil,
                 displayGrade: nil,
                 text: nil,

@@ -107,6 +107,7 @@ public enum Navigation: Hashable {
 
                 case announcements(CourseAnnouncement.ID?)
                 case grades(GradeColumn.ID?)
+                @available(*, deprecated, message: "No longer planned to be implemented. Will be removed in the future.")
                 case dueDates
                 case messages(String?) // Replace with Message.ID
                 case discussions(String?) // Replace with Discussion.ID
