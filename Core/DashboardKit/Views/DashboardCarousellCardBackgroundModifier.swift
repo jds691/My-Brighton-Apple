@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreDesign
 
 struct DashboardCarousellCardBackgroundModifier: ViewModifier {
     let style: DashboardCarousell.BackgroundCardStyle
@@ -19,12 +20,7 @@ struct DashboardCarousellCardBackgroundModifier: ViewModifier {
             case .standard:
                 content
                     .padding(16)
-                    .background(.brightonBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 16, style: .circular)
-                            .strokeBorder(lineWidth: 3, antialiased: true)
-                    }
+                    .contraCard()
             case .clear:
                 if #available(iOS 26, macOS 26, *) {
                     content

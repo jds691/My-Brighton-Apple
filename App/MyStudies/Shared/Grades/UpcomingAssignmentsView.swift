@@ -53,13 +53,7 @@ struct UpcomingAssignmentsView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(16)
-                    .background(.brightonBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                    .containerShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 16, style: .circular)
-                            .strokeBorder(lineWidth: 3, antialiased: true)
-                    }
+                    .contraCard()
             }
         }
         // Logic
@@ -200,13 +194,7 @@ struct UpcomingAssignmentsView: View {
                 .padding(.top, showHeader && customisations != nil ? 4 : 16)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.brightonBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-            .containerShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-            .overlay {
-                RoundedRectangle(cornerRadius: 16, style: .circular)
-                    .strokeBorder(lineWidth: 3, antialiased: true)
-            }
+            .contraCard()
         } else {
             EmptyView()
         }

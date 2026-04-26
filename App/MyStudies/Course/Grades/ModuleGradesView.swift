@@ -8,6 +8,7 @@
 import SwiftUI
 import LearnKit
 import Router
+import CoreDesign
 
 struct ModuleGradesView: View {
     @Environment(\.courseId) private var courseId
@@ -18,15 +19,56 @@ struct ModuleGradesView: View {
 
     var body: some View {
         Group {
-            if let courseId, let columns, let attempts {
-                List {
-                    ForEach(columns, id: \.id) { column in
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(column.id)) {
-                            UpcomingAssignmentsGradeColumnRow(column)
+            if let columns, let attempts {
+                let pendingAssignments: [GradeColumn] = columns
+                    .filter({ !$0.isSubmitted(basedOn: attempts[$0.id] ?? []) })
+                    .sorted(by: { $0.grading.dueDate < $1.grading.dueDate })
+                let submittedAssignments: [GradeColumn] = columns
+                    .filter({ $0.isSubmitted(basedOn: attempts[$0.id] ?? []) })
+                    .sorted(by: { $0.grading.dueDate < $1.grading.dueDate })
+
+                ScrollView(.vertical) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        if !pendingAssignments.isEmpty {
+                            Section {
+                                ForEach(pendingAssignments, id: \.id) { column in
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(column.id)) {
+                                        UpcomingAssignmentsGradeColumnRow(column)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(16)
+                                            .contraCard()
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            } header: {
+                                Text("Due Assignments")
+                                    .font(.title3.bold())
+                                    .padding(.bottom, -12)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .buttonStyle(.plain)
+
+                        if !submittedAssignments.isEmpty {
+                            Section {
+                                ForEach(submittedAssignments, id: \.id) { column in
+                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(column.id)) {
+                                        UpcomingAssignmentsGradeColumnRow(column)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(16)
+                                            .contraCard()
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            } header: {
+                                Text("Submitted Assignments")
+                                    .font(.title3.bold())
+                                    .padding(.bottom, -12)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                 }
+                .contentMargins(16, for: .scrollContent)
             } else {
                 ProgressView()
                     .task {
@@ -72,6 +114,7 @@ struct ModuleGradesView: View {
                     }
             }
         }
+        .myBrightonBackground()
         .navigationTitle("Assignments")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)

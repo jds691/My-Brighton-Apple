@@ -30,12 +30,7 @@ struct ContentListCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(.brightonBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16, style: .circular)
-                .strokeBorder(lineWidth: 3, antialiased: true)
-        }
+        .contraCard()
     }
 
     @ViewBuilder
