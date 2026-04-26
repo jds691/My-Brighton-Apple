@@ -44,7 +44,11 @@ struct CameraCaptureView: UIViewControllerRepresentable {
         
         public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             dismiss()
-            image = (info[UIImagePickerController.InfoKey.editedImage] as? UIImage) ?? (info[UIImagePickerController.InfoKey.originalImage] as? UIImage)
+            if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                image = editedImage.withFixedOrientation()
+            } else if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                image = originalImage.withFixedOrientation()
+            }
         }
         
         public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -53,8 +57,8 @@ struct CameraCaptureView: UIViewControllerRepresentable {
     }
 }
 
-/*fileprivate extension UIImage {
-    func _fixOrientation() -> UIImage? {
+fileprivate extension UIImage {
+    func withFixedOrientation() -> UIImage? {
         guard imageOrientation != .up else {
             return self
         }
@@ -70,5 +74,4 @@ struct CameraCaptureView: UIViewControllerRepresentable {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
-*/
 #endif
