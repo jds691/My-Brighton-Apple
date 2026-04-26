@@ -11,11 +11,16 @@ import Router
 import CoreDesign
 
 struct ModuleGradesView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Environment(\.courseId) private var courseId
     @Environment(\.learnKitService) private var learnKit
 
     @State private var columns: [GradeColumn]? = nil
     @State private var attempts: [GradeColumn.ID: [GradebookAttempt]]? = nil
+
+    @State private var showErrorMessage: Bool = false
+    @State private var errorMessage: String? = nil
 
     var body: some View {
         Group {
@@ -109,7 +114,20 @@ struct ModuleGradesView: View {
 
                             self.columns = targetColumns
                         } catch {
-                            // TODO: Show error and return
+                            errorMessage = error.localizedDescription
+                            showErrorMessage = true
+                        }
+                    }
+                    .alert("Unable to load assignments", isPresented: $showErrorMessage) {
+                        Button("OK") {
+                            dismiss()
+                            errorMessage = nil
+                        }
+                    } message: {
+                        if let errorMessage {
+                            Text(errorMessage)
+                        } else {
+                            Text("An unknown error occurred.")
                         }
                     }
             }

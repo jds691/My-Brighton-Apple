@@ -19,6 +19,7 @@ import AppKit
 import CoreDesign
 
 struct ModuleGradeColumnView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openUrl
 
     @Environment(\.courseId) private var courseId
@@ -37,6 +38,9 @@ struct ModuleGradeColumnView: View {
 
     @State private var gradeColumn: GradeColumn? = nil
     @State private var attempts: [GradebookAttempt]? = nil
+
+    @State private var showErrorMessage: Bool = false
+    @State private var errorMessage: String? = nil
 
     var gradedAttempt: GradebookAttempt? {
         guard let gradeColumn, let attempts, !attempts.isEmpty else { return nil }
@@ -236,7 +240,8 @@ struct ModuleGradeColumnView: View {
                     self.gradeColumn = try await learnKit.refreshGradeColumn(for: self.gradeColumnId, in: courseId)
                 }
             } catch {
-                // TODO: Show error and dismiss
+                errorMessage = "Unable to load assignment information."
+                showErrorMessage = true
             }
 
             do {
@@ -248,7 +253,20 @@ struct ModuleGradeColumnView: View {
                     self.attempts = try await learnKit.getGradebookAttempts(for: self.gradeColumnId, in: courseId)
                 }
             } catch {
-                // TODO: Show error and dismiss
+                errorMessage = "Unable to load assignment attempts."
+                showErrorMessage = true
+            }
+        }
+        .alert("Unable to load assignment", isPresented: $showErrorMessage) {
+            Button("OK") {
+                dismiss()
+                errorMessage = nil
+            }
+        } message: {
+            if let errorMessage {
+                Text(errorMessage)
+            } else {
+                Text("An unknown error occurred.")
             }
         }
         #if canImport(EventKitUI)
