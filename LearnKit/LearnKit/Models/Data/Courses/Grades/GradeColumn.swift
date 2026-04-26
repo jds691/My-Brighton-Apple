@@ -115,11 +115,11 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
     }
 
     public struct Grading: Hashable, Sendable {
-        let dueDate: Date
-        let attemptsAllowed: Int
-        let scoringModel: Grading.ScoringModel
-        let schemaId: String?
-        let anonymousGradingType: Grading.AnonymousGrading
+        public let dueDate: Date
+        public let attemptsAllowed: Int
+        public let scoringModel: Grading.ScoringModel
+        public let schemaId: String?
+        public let anonymousGradingType: Grading.AnonymousGrading
 
         init?(from gradeColumnGradingSchema: Components.Schemas.GradeColumn.GradingPayload) {
             guard

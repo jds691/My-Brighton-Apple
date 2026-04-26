@@ -11,14 +11,19 @@ import CoreDesign
 import Router
 
 // TODO: Remove forced unwraps
-// TODO: Show alert and dismiss on errors
 struct ContentChildrenListView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.courseId) private var courseId
 
     private var contentId: Content.ID
 
     @State private var children: [Content] = []
+
+    @State private var showErrorMessage: Bool = false
+    @State private var errorMessage: String? = nil
+    @State private var errorCausedDuringInit: Bool = false
 
     init(for contentIdentifier: Content.ID) {
         self.contentId = contentIdentifier
@@ -41,12 +46,7 @@ struct ContentChildrenListView: View {
             }
         }
         .task(id: contentId) {
-            do {
-                try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId!)
-                children = try await learnKit.getChildContent(for: contentId, in: courseId!)
-            } catch {
-                print(error)
-            }
+            await initView()
         }
         .refreshable {
             do {
@@ -55,8 +55,42 @@ struct ContentChildrenListView: View {
 
                 mergeChildren(with: modifiedChildren)
             } catch {
+                errorCausedDuringInit = false
+                showErrorMessage = true
                 print(error)
             }
+        }
+        .alert("Unable to load content", isPresented: $showErrorMessage) {
+            if errorCausedDuringInit {
+                Button("Retry") {
+                    errorMessage = nil
+                    Task {
+                        await initView()
+                    }
+                }
+            }
+
+            Button("Cancel", role: .cancel) {
+                dismiss()
+                errorMessage = nil
+            }
+        } message: {
+            if let errorMessage {
+                Text(errorMessage)
+            } else {
+                Text("An unknown error occurred.")
+            }
+        }
+    }
+
+    private func initView() async {
+        do {
+            try await learnKit.refreshContent(for: contentId, includeChildren: true, in: courseId!)
+            children = try await learnKit.getChildContent(for: contentId, in: courseId!)
+        } catch {
+            errorCausedDuringInit = true
+            showErrorMessage = true
+            print(error)
         }
     }
 
@@ -78,6 +112,8 @@ struct ContentChildrenListView: View {
         switch content.handler {
             case .contentItem, .contentFolder(isBbPage: _):
                 return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.content(content.id)
+            case .assignment(gradeColumn: let gradeColumnId, isGroup: _):
+                return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(gradeColumnId)
             default:
                 return -1
         }

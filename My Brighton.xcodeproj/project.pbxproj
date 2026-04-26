@@ -341,8 +341,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Calendar/EventEditView.swift,
 				CoreDesign/Camera/CameraCaptureView.swift,
 				CoreDesign/Camera/CameraCaptureViewModifier.swift,
+				CoreDesign/Contra/ContraCardViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -492,8 +494,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Calendar/EventEditView.swift,
 				CoreDesign/Camera/CameraCaptureView.swift,
 				CoreDesign/Camera/CameraCaptureViewModifier.swift,
+				CoreDesign/Contra/ContraCardViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -538,8 +542,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				CoreDesign/Background.swift,
+				CoreDesign/Calendar/EventEditView.swift,
 				CoreDesign/Camera/CameraCaptureView.swift,
 				CoreDesign/Camera/CameraCaptureViewModifier.swift,
+				CoreDesign/Contra/ContraCardViewModifier.swift,
 				"CoreDesign/Flexible Header/FlexibleHeader.swift",
 				"CoreDesign/Flexible Header/HeaderBlur.swift",
 				CoreDesign/ModifierBranch.swift,
@@ -1844,6 +1850,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets *.icon (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.ultra";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";
@@ -1899,6 +1906,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_CAMERA = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.framework *.gch *.xcode* *.xcassets *.icon (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.ultra";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "App/Resources/My-Brighton-Info.plist";

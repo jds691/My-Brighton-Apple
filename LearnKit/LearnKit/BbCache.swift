@@ -503,11 +503,18 @@ extension BbCache: LearnKitAPI {
             return []
         }
 
-        return gradeColumn.attempts
+        return gradeColumn.attempts.sorted(by: { $0.created > $1.created })
     }
 
     func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
-        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: #Predicate<CachedGradebookAttempt>{ $0.id == attemptId && $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course })
+        let predicate = #Predicate<CachedGradebookAttempt> { cachedAttempt in
+            if let associatedGradeColumn = cachedAttempt.associatedGradeColumn, let columnCourse = associatedGradeColumn.course {
+                return cachedAttempt.id == attemptId && associatedGradeColumn.id == columnIdentifier && columnCourse.id == course
+            } else {
+                return false
+            }
+        }
+        var descriptor = FetchDescriptor<CachedGradebookAttempt>(predicate: predicate)
         descriptor.fetchLimit = 1
 
         let results = try modelContext.fetch(descriptor)
@@ -521,8 +528,16 @@ extension BbCache: LearnKitAPI {
 
     func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> CachedGradebookAttempt? {
         // TODO: Double check this
+        let predicate = #Predicate<CachedGradebookAttempt> { cachedAttempt in
+            if let associatedGradeColumn = cachedAttempt.associatedGradeColumn, let columnCourse = associatedGradeColumn.course {
+                return associatedGradeColumn.id == columnIdentifier && columnCourse.id == course
+            } else {
+                return false
+            }
+        }
+
         var descriptor = FetchDescriptor<CachedGradebookAttempt>(
-            predicate: #Predicate<CachedGradebookAttempt>{ $0.associatedGradeColumn?.id == columnIdentifier && $0.associatedGradeColumn?.course?.id == course },
+            predicate: predicate,
             sortBy: [SortDescriptor(\.created, order: .reverse)]
         )
         descriptor.fetchLimit = 1
@@ -584,7 +599,13 @@ extension BbCache: LearnKitAPI {
         // I have no idea why this was needed, but it is
         let nodeId: String = rootNode.id
 
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        let predicate = #Predicate<CachedContent>{ $0.parent?.id == nodeId && $0.course?.id == course }
+        let descriptor = FetchDescriptor<CachedContent>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.positionIndex)]
+        )
+
+        return try modelContext.fetch(descriptor).compactMap({ Content(from: $0) })
     }
 
     public func getChildContent(for identifier: Content.ID, in course: Course.ID) async throws -> [Content] {
@@ -596,7 +617,13 @@ extension BbCache: LearnKitAPI {
             parentIdentifier = identifier
         }
 
-        return try modelContext.fetch(FetchDescriptor<CachedContent>(predicate: #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course })).compactMap({ Content(from: $0) })
+        let predicate = #Predicate<CachedContent>{ $0.parent?.id == parentIdentifier && $0.course?.id == course }
+        let descriptor = FetchDescriptor<CachedContent>(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.positionIndex)]
+        )
+
+        return try modelContext.fetch(descriptor).compactMap({ Content(from: $0) })
     }
 
     public func getContent(for identifier: Content.ID, in course: Course.ID) async throws -> Content? {

@@ -26,9 +26,14 @@ fileprivate struct ModuleSubrouteNavigationDestinationViewModifier: ViewModifier
                     case .content(let contentId):
                         ContentWrapperView(for: contentId)
                             .environment(\.courseId, courseId)
-                    case .grades:
-                        ModuleGradesView()
-                            .environment(\.courseId, courseId)
+                    case .grades(let gradeColumnId):
+                        if let gradeColumnId {
+                            ModuleGradeColumnView(columnId: gradeColumnId)
+                                .environment(\.courseId, courseId)
+                        } else {
+                            ModuleGradesView()
+                                .environment(\.courseId, courseId)
+                        }
                     case .announcements(let announcementId):
                         ModuleAnnouncementsListView(initialAnnouncementId: announcementId, onAnnouncementTapped: onAnnouncementTapped)
                             .environment(\.courseId, courseId)

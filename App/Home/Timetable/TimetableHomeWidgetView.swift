@@ -93,12 +93,7 @@ struct TimetableHomeWidgetView: View {
                     ProgressView()
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(16)
-                        .background(.brightonBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 16, style: .circular)
-                                .strokeBorder(lineWidth: 3, antialiased: true)
-                        }
+                        .contraCard()
                 } else if upcomingOrCurrentClasses.isEmpty {
                     if hadClassesToday {
                         NoContentView("Classes Finished for Today")
@@ -115,12 +110,7 @@ struct TimetableHomeWidgetView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(16)
-                    .background(.brightonBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 16, style: .circular)
-                            .strokeBorder(lineWidth: 3, antialiased: true)
-                    }
+                    .contraCard()
                 }
             }
             .task(id: context.date) {

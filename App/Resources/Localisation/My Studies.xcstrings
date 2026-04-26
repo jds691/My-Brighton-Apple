@@ -23,6 +23,61 @@
           }
         }
       }
+    },
+    "course.gradecolumn.overview.duedate.past" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment was due on **%@**."
+          }
+        }
+      }
+    },
+    "course.gradecolumn.overview.duedate.present" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment is due on **%@**."
+          }
+        }
+      }
+    },
+    "course.gradecolumn.status.due" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment has not been submitted yet."
+          }
+        }
+      }
+    },
+    "course.gradecolumn.status.overdue" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment is overdue.\n\n**Late submissions may still be possible.** Check My Studies online for more information."
+          }
+        }
+      }
+    },
+    "course.gradecolumn.status.submitted" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This assignment has been submitted."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

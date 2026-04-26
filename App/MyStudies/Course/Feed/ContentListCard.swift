@@ -30,12 +30,7 @@ struct ContentListCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(.brightonBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16, style: .circular)
-                .strokeBorder(lineWidth: 3, antialiased: true)
-        }
+        .contraCard()
     }
 
     @ViewBuilder
@@ -49,8 +44,16 @@ struct ContentListCard: View {
                 Image(systemName: isBbPage ? "richtext.page" : "folder")
                     .resizable()
                     .scaledToFit()
-            default:
+            case .assignment(gradeColumn: _, isGroup: _):
                 Image(systemName: "questionmark.text.page")
+                    .resizable()
+                    .scaledToFit()
+            case .ltiLink(_, parameters: _):
+                Image(systemName: "globe.desk")
+                    .resizable()
+                    .scaledToFit()
+            default:
+                Image(systemName: "questionmark")
                     .resizable()
                     .scaledToFit()
         }

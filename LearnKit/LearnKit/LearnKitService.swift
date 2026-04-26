@@ -305,15 +305,15 @@ extension LearnKitService: LearnKitAPI {
         return gradebookAttempt
     }
 
-    func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
+    public func getGradebookAttempts(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> [GradebookAttempt] {
         return try await cache.getGradebookAttempts(for: columnIdentifier, in: course)
     }
 
-    func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+    public func getGradebookAttempt(by attemptId: GradebookAttempt.ID, for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
         return try await cache.getGradebookAttempt(by: attemptId, for: columnIdentifier, in: course)
     }
 
-    func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
+    public func getLastGradebookAttempt(for columnIdentifier: GradeColumn.ID, in course: Course.ID) async throws -> GradebookAttempt? {
         return try await cache.getLastGradebookAttempt(for: columnIdentifier, in: course)
     }
 
