@@ -38,7 +38,6 @@ struct UpcomingAssignmentsHomeWidgetView: View {
                         .scrollIndicators(.hidden)
                     } else {
                         rootContent(courses)
-                            .padding(.horizontal, 16)
                     }
                 } else {
                     NoContentView {
@@ -90,7 +89,16 @@ struct UpcomingAssignmentsHomeWidgetView: View {
                             }
 
                             for column in columns {
-                                if await !column.isSubmitted(in: course.id, using: learnKit) {
+                                let cachedAttempts = try await learnKit.getGradebookAttempts(for: column.id, in: course.id)
+
+                                let attempts: [GradebookAttempt]
+                                if cachedAttempts.isEmpty {
+                                    attempts = try await learnKit.refreshGradebookAttempts(for: column.id, in: course.id)
+                                } else {
+                                    attempts = cachedAttempts
+                                }
+
+                                if await !column.isSubmitted(basedOn: attempts) {
                                     return (course: course, needsSubmitted: true)
                                 }
                             }
@@ -123,7 +131,19 @@ struct UpcomingAssignmentsHomeWidgetView: View {
                 UpcomingAssignmentsView(for: course)
             }
             .buttonStyle(.plain)
-            .containerRelativeFrame([.horizontal], count: 5, span: 5, spacing: 0)
+            // THIS EVIL FUCKING MODIFIER CAUSES THE PROGRAM TO LOCK UP DUE TO OBSERVATION CHANGES
+            // WHEN IT IS NOT INSIDE OF A SCROLLVIEW CONTAINER
+            //
+            // IT IS NOT LOCKED AWAY IN MODIFERIBRANCH HELL
+            .modifierBranch {
+                if hSizeClass == .compact {
+                    $0
+                        .containerRelativeFrame([.horizontal], count: 5, span: 5, spacing: 0)
+                } else {
+                    $0
+                        .padding(.leading, 16)
+                }
+            }
         }
     }
 }

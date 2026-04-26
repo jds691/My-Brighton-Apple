@@ -86,7 +86,9 @@ struct HomeView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             TimetableHomeWidgetView()
                                 .padding(hSizeClass == .compact ? .horizontal : .leading, 16)
+                            //#if !os(macOS)
                             UpcomingAssignmentsHomeWidgetView()
+                            //#endif
                         }
                     } secondaryContent: {
                         VStack(alignment: .leading, spacing: 16) {

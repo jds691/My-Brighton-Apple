@@ -34,7 +34,7 @@ struct UpcomingAssignmentsView: View {
     }
 
     var body: some View {
-        Group {
+        VStack(alignment: .leading, spacing: 0) {
             if let gradeColumns, let shownColumns {
                 if showNoContentOnAllHiddenColumns && (gradeColumns.isEmpty || shownColumns.isEmpty) {
                     NoContentView {
@@ -96,7 +96,7 @@ struct UpcomingAssignmentsView: View {
                                 if attempts.isEmpty { return (columnId: column.id, submitted: false) }
                             }
 
-                            return (columnId: column.id, submitted: await column.isSubmitted(in: course.id, using: learnKit))
+                            return (columnId: column.id, submitted: await column.isSubmitted(basedOn: attempts))
                         }
                     }
 

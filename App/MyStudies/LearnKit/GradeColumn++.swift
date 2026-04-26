@@ -8,18 +8,7 @@
 import LearnKit
 
 extension GradeColumn {
-    func isSubmitted(in courseIdentifier: Course.ID, using learnKit: LearnKitService) async -> Bool {
-        guard let cachedAttempts = try? await learnKit.getGradebookAttempts(for: self.id, in: courseIdentifier) else { return false }
-
-        let attempts: [GradebookAttempt]
-        if cachedAttempts.isEmpty {
-            guard let refreshedAttempts = try? await learnKit.refreshGradebookAttempts(for: self.id, in: courseIdentifier) else { return false }
-
-            attempts = refreshedAttempts
-        } else {
-            attempts = cachedAttempts
-        }
-
+    func isSubmitted(basedOn attempts: [GradebookAttempt]) -> Bool {
         switch self.grading.scoringModel {
             case .last:
                 return attempts
