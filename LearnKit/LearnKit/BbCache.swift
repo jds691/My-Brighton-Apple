@@ -129,10 +129,10 @@ actor BbCache {
     private func indexCoursesIntoSpotlight(_ courses: [Course]) async {
         var csItems: [CSSearchableItem] = []
         for course in courses {
-            async let courseAppEntity = CourseEntity(from: course)
-            let courseAttributes = CSSearchableItemAttributeSet()
-
             let customisations = CustomisationService.shared.getCourseCustomisation(for: course.id)
+
+            let courseAppEntity = CourseEntity(from: course, with: customisations)
+            let courseAttributes = CSSearchableItemAttributeSet()
 
             courseAttributes.title = course.name
             courseAttributes.displayName = customisations.displayNameOverride ?? course.name
@@ -142,6 +142,11 @@ actor BbCache {
                 course.courseId,
                 course.externalAccessUrl.absoluteString
             ]
+
+            if customisations.displayNameOverride != nil {
+                courseAttributes.alternateNames?.append(course.name)
+            }
+
             courseAttributes.keywords = [
                 "course",
                 "module",
@@ -152,7 +157,7 @@ actor BbCache {
             courseAttributes.thumbnailURL = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true)
 
             let courseCsItem = CSSearchableItem(uniqueIdentifier: "course/\(course.id)", domainIdentifier: nil, attributeSet: courseAttributes)
-            await courseCsItem.associateAppEntity(courseAppEntity)
+            courseCsItem.associateAppEntity(courseAppEntity)
 
             csItems.append(courseCsItem)
         }
@@ -738,7 +743,8 @@ extension BbCache {
 
             for course in courses {
                 do {
-                    let courseAnnouncementsFetchDescriptor = FetchDescriptor<CachedCourseAnnouncement>(predicate: #Predicate { $0.course?.id == course.id })
+                    let courseId: String = course.id
+                    let courseAnnouncementsFetchDescriptor = FetchDescriptor<CachedCourseAnnouncement>(predicate: #Predicate { $0.course?.id == courseId })
                     let courseAnnouncements = try modelContext.fetch(courseAnnouncementsFetchDescriptor).compactMap({ CourseAnnouncement(from: $0) })
                     group.addTask { [self] in
                         await indexCourseAnnouncementsIntoSpotlight(courseAnnouncements, for: course.id)

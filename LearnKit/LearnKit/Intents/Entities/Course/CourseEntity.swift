@@ -16,12 +16,10 @@ public struct CourseEntity: AppEntity {
     }
     
     public var displayRepresentation: DisplayRepresentation {
-        let customisations = CustomisationService.shared.getCourseCustomisation(for: self.id)
-
         if let thumbnailUrl = CustomisationService.shared.thumbnailUrl(for: self.id, nilIfNonExistent: true) {
-            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(url: thumbnailUrl))
+            return .init(title: "\(self.name)", image: .init(url: thumbnailUrl))
         } else {
-            return .init(title: "\(customisations.displayNameOverride ?? self.name)", image: .init(systemName: "books.vertical", isTemplate: true))
+            return .init(title: "\(self.name)", image: .init(systemName: "books.vertical", isTemplate: true))
         }
     }
     
@@ -33,9 +31,9 @@ public struct CourseEntity: AppEntity {
     @Property(title: "Name")
     public var name: String
 
-    public init(from courseModel: Course) async {
+    public init(from courseModel: Course, with customisations: CourseCustomisation) {
         self.id = courseModel.id
-        self.name = courseModel.name
+        self.name = customisations.displayNameOverride ?? courseModel.name
     }
 }
 
