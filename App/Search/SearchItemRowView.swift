@@ -31,7 +31,7 @@ struct SearchItemRowView: View {
             Spacer()
 
             Image(systemName: "chevron.forward")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.brightonSecondary)
         }
     }
 
@@ -54,8 +54,14 @@ struct SearchItemRowView: View {
         if let imageData = csItem.attributeSet.thumbnailData {
             #if os(iOS)
             Image(uiImage: UIImage(data: imageData) ?? UIImage())
+                .aspectRatio(1.0, contentMode: .fit)
+                .frame(width: 45, height: 45)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
             #else
             Image(nsImage: NSImage(data: imageData) ?? NSImage())
+                .aspectRatio(1.0, contentMode: .fit)
+                .frame(width: 45, height: 45)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
             #endif
         } else if colorScheme == .dark, let darkImage = csItem.attributeSet.darkThumbnailURL {
             AsyncImage(url: darkImage) {
@@ -63,7 +69,7 @@ struct SearchItemRowView: View {
                     .resizable()
                     .aspectRatio(1.0, contentMode: .fit)
                     .frame(width: 45, height: 45)
-                    .clipShape(ContainerRelativeShape())
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .circular))
             } placeholder: {
                 EmptyView()
             }
@@ -73,7 +79,7 @@ struct SearchItemRowView: View {
                     .resizable()
                     .aspectRatio(1.0, contentMode: .fit)
                     .frame(width: 45, height: 45)
-                    .clipShape(ContainerRelativeShape())
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .circular))
             } placeholder: {
                 EmptyView()
             }

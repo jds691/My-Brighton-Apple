@@ -25,62 +25,62 @@ struct SearchView: View {
         @Bindable var searchManager = searchManager
         
         root
-        .myBrightonBackground()
-        .navigationTitle("Search")
-#if !os(macOS)
-        .searchable(
-            text: $searchManager.searchTerm,
-            isPresented: $searchManager.isSearching,
-            prompt: searchPrompt
-        )
-        .searchSuggestions {
-            ForEach(searchSuggestions.sorted(by: { $0.suggestion.compare(byRank: $1.suggestion) == .orderedDescending }), id: \.id) { suggestion in
-                Text(suggestion.suggestion.localizedAttributedSuggestion)
-                    .searchCompletion(String(suggestion.suggestion.localizedAttributedSuggestion.characters))
-                    .onTapGesture {
-                        searchManager.currentQuery.userEngaged(suggestion, visibleSuggestions: searchSuggestions, interaction: .select)
-                    }
-            }
-        }
-#endif
-        .onAppear {
-            CSUserQuery.prepare()
-        }
-        .task(id: searchManager.searchTerm) {
-            guard !searchManager.searchTerm.isEmpty else {
-                searchSuggestions = []
-                searchResults = []
-                return
-            }
-
-            do {
-                try await Task.sleep(for: .seconds(0.3))
-
-                await searchManager.requestUserQueryUpdate()
-                searchSuggestions = []
-                searchResults = []
-                for try await response in searchManager.currentQuery.responses {
-                    switch response {
-                        case .item(let item):
-                            searchResults.append(item)
-                            break
-                        case .suggestion(let suggestion):
-                            searchSuggestions.append(suggestion)
-                            break
-                        @unknown default:
-                            break
-                    }
+            .myBrightonBackground()
+            .navigationTitle("Search")
+    #if !os(macOS)
+            .searchable(
+                text: $searchManager.searchTerm,
+                isPresented: $searchManager.isSearching,
+                prompt: searchPrompt
+            )
+            .searchSuggestions {
+                ForEach(searchSuggestions.sorted(by: { $0.suggestion.compare(byRank: $1.suggestion) == .orderedDescending }), id: \.id) { suggestion in
+                    Text(suggestion.suggestion.localizedAttributedSuggestion)
+                        .searchCompletion(String(suggestion.suggestion.localizedAttributedSuggestion.characters))
+                        .onTapGesture {
+                            searchManager.currentQuery.userEngaged(suggestion, visibleSuggestions: searchSuggestions, interaction: .select)
+                        }
                 }
-            } catch {
-                print(error)
             }
-        }
-        .alert("Cannot navigate to \(invalidItemTitle ?? "Unknown")", isPresented: $showNavigationError) {
-            Button("OK") {
-                showNavigationError = false
-                invalidItemTitle = nil
+    #endif
+            .onAppear {
+                CSUserQuery.prepare()
             }
-        }
+            .task(id: searchManager.searchTerm) {
+                guard !searchManager.searchTerm.isEmpty else {
+                    searchSuggestions = []
+                    searchResults = []
+                    return
+                }
+
+                do {
+                    try await Task.sleep(for: .seconds(0.3))
+
+                    await searchManager.requestUserQueryUpdate()
+                    searchSuggestions = []
+                    searchResults = []
+                    for try await response in searchManager.currentQuery.responses {
+                        switch response {
+                            case .item(let item):
+                                searchResults.append(item)
+                                break
+                            case .suggestion(let suggestion):
+                                searchSuggestions.append(suggestion)
+                                break
+                            @unknown default:
+                                break
+                        }
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+            .alert("Cannot navigate to \(invalidItemTitle ?? "Unknown")", isPresented: $showNavigationError) {
+                Button("OK") {
+                    showNavigationError = false
+                    invalidItemTitle = nil
+                }
+            }
     }
 
     @ViewBuilder
@@ -89,8 +89,8 @@ struct SearchView: View {
 
         if searchManager.searchTerm.isEmpty {
             // TODO: Keep a history of previous search results
-            List {
-
+            VStack {
+                
             }
         } else if searchResults.isEmpty {
             VStack {
@@ -110,10 +110,29 @@ struct SearchView: View {
                         }
                     } label: {
                         SearchItemRowView(item: result.item)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        #if os(macOS)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 16)
+                        #endif
                     }
                     .buttonStyle(.plain)
+                    .listRowSeparator(.hidden)
+                    #if os(iOS)
+                    .listRowSpacing(8)
+                    #endif
+                    .listRowBackground(
+                        ContainerRelativeShape()
+                            .foregroundStyle(.brightonBackground)
+                            .contraCard()
+                            .padding(3)
+                    )
                 }
             }
+            .scrollContentBackground(.hidden)
+            #if os(macOS)
+            .contentMargins(16, for: .scrollContent)
+            #endif
         }
     }
 
