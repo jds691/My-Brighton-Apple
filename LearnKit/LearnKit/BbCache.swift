@@ -729,11 +729,28 @@ extension BbCache {
     /// >important: Reindexing is only performed using the locally persisted cache. If there are remote changes not yet fetched they will not be reflected in newly indexed content.
     func reindexAllContent() async throws {
         let coursesFetchDescriptor = FetchDescriptor<CachedCourse>()
-
         let courses = try modelContext.fetch(coursesFetchDescriptor).compactMap({ Course(from: $0) })
-        async let courseIndexing: () = indexCoursesIntoSpotlight(courses)
 
-        await courseIndexing
+        await withTaskGroup(isolation: self) { group in
+            group.addTask { [self] in
+                await indexCoursesIntoSpotlight(courses)
+            }
+
+            for course in courses {
+                do {
+                    let courseAnnouncementsFetchDescriptor = FetchDescriptor<CachedCourseAnnouncement>(predicate: #Predicate { $0.course?.id == course.id })
+                    let courseAnnouncements = try modelContext.fetch(courseAnnouncementsFetchDescriptor).compactMap({ CourseAnnouncement(from: $0) })
+                    group.addTask { [self] in
+                        await indexCourseAnnouncementsIntoSpotlight(courseAnnouncements, for: course.id)
+                    }
+                } catch {
+                    Self.logger.error("Error when indexing course announcements for course '\(course.id)': \(error.localizedDescription)")
+
+                }
+            }
+
+            await group.waitForAll()
+        }
     }
 
     /// Reindexes all content stored in the cache for the given identifiers back into CoreSpotlight.
