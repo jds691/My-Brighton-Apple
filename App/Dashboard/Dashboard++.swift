@@ -54,9 +54,12 @@ enum DashboardID: String, CaseIterable {
 
     public var categories: [any DashboardKit.Category] {
         switch self {
-            case .yourUpdates:
-                [TempCategory()]
             case .importantUpdates:
+                [
+                    ExhibitionWelcomeCategory(),
+                    TempCategory()
+                ]
+            case .yourUpdates:
                 [TempCategory()]
         }
     }

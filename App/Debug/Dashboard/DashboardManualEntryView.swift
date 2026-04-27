@@ -128,6 +128,21 @@ struct DashboardManualEntryView: View {
                 .onAppear {
                     entry = TempEntry()
                 }
+            } else if entryType === ExhibitionWelcomeEntry.self {
+                Group {
+                    if let exhibitionWelcomeEntry = entry as? ExhibitionWelcomeEntry {
+                        @Bindable var exhibitionWelcomeEntry = exhibitionWelcomeEntry
+
+                        TextField("Title", text: $exhibitionWelcomeEntry.title)
+                        TextField("Body", text: $exhibitionWelcomeEntry.text)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = ExhibitionWelcomeEntry()
+                }
             }
         } else {
             Text("Cannot render editor")
