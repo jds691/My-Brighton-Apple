@@ -25,6 +25,7 @@ struct SearchItemRowView: View {
                 name
                 if let description = csItem.attributeSet.contentDescription {
                     Text(description)
+                        .lineLimit(3)
                 }
             }
 
@@ -40,12 +41,15 @@ struct SearchItemRowView: View {
         if let displayName = csItem.attributeSet.displayName {
             Text(displayName)
                 .bold()
+                .lineLimit(3)
         } else if let title = csItem.attributeSet.title {
             Text(title)
                 .bold()
+                .lineLimit(3)
         } else {
             Text("No Title")
                 .bold()
+                .lineLimit(3)
         }
     }
 

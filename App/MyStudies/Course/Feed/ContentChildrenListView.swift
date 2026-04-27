@@ -37,10 +37,8 @@ struct ContentChildrenListView: View {
             } else {
                 LazyVStack(alignment: .leading, spacing: 8) {
                     ForEach(children, id: \.id) { child in
-                        NavigationLink(value: getNavDestination(for: child)) {
-                            ContentListCard(for: child)
-                        }
-                        .buttonStyle(.plain)
+                        ContentListCard(for: child)
+                            .modifier(ContentListCardInteractionViewModifier(child))
                     }
                 }
             }
@@ -106,16 +104,5 @@ struct ContentChildrenListView: View {
         }
 
         children.sort(by: { $0.positionIndex < $1.positionIndex })
-    }
-
-    private func getNavDestination(for content: Content) -> any Hashable {
-        switch content.handler {
-            case .contentItem, .contentFolder(isBbPage: _), .contentLesson:
-                return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.content(content.id)
-            case .assignment(gradeColumn: let gradeColumnId, isGroup: _):
-                return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(gradeColumnId)
-            default:
-                return -1
-        }
     }
 }
