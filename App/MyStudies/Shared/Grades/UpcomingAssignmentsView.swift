@@ -72,9 +72,11 @@ struct UpcomingAssignmentsView: View {
                         return
                     } else {
                         self.gradeColumns = gradeColumns
+                            .sorted(by: { $0.grading.dueDate < $1.grading.dueDate })
                     }
                 } else {
                     self.gradeColumns = gradeColumns
+                        .sorted(by: { $0.grading.dueDate < $1.grading.dueDate })
                 }
 
                 self.shownColumns = try await withThrowingTaskGroup(returning: [GradeColumn.ID].self) { group in
@@ -185,15 +187,17 @@ struct UpcomingAssignmentsView: View {
                     }
                 }
 
-                Group {
-                    ForEach(displayRowColumns, id: \.id) { column in
-                        UpcomingAssignmentsGradeColumnRow(column)
+                VStack(alignment: .leading, spacing: 16) {
+                    Group {
+                        ForEach(displayRowColumns, id: \.id) { column in
+                            UpcomingAssignmentsGradeColumnRow(column)
+                        }
                     }
                 }
                 .padding([.horizontal, .bottom], 16)
                 .padding(.top, showHeader && customisations != nil ? 4 : 16)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .contraCard()
         } else {
             EmptyView()

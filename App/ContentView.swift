@@ -156,6 +156,7 @@ struct ContentView: View {
                 if courses.isEmpty {
                     courses = try await learnKit.refreshCourses()
                 }
+                courses.sort(by: { $0.id < $1.id })
 
                 for course in courses {
                     courseCustomisations.updateValue(CustomisationService.shared.getCourseCustomisation(for: course.id), forKey: course.id)

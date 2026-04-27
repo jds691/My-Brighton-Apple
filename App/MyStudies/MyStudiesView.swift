@@ -31,7 +31,7 @@ struct MyStudiesView: View {
     @State private var searchTerm: String = ""
 
     private var favouriteCustomisations: [CourseCustomisation] {
-        customisations.filter({ $0.isFavourite })
+        customisations.filter({ $0.isFavourite }).sorted(by: { $0.courseId < $1.courseId })
     }
 
     var body: some View {
@@ -73,7 +73,7 @@ struct MyStudiesView: View {
                 }
 
                 ForEach(terms.sorted(by: { $0.id > $1.id }), id: \.id) { term in
-                    let coursesInTerm: [Course] = courses.filter({ course in course.termId == term.id && !favouriteCustomisations.contains(where: { $0.courseId == course.id }) })
+                    let coursesInTerm: [Course] = courses.filter({ course in course.termId == term.id && !favouriteCustomisations.contains(where: { $0.courseId == course.id }) }).sorted(by: { $0.id < $1.id })
 
                     if !coursesInTerm.isEmpty {
                         Section {
