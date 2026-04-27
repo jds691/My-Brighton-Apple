@@ -1,7 +1,10 @@
 .DS_Store
 Keys.txt
 Icon.pxd
+
+# Preview Data
 old.json
+Shared/Resources/PreviewClientData.xcassets/
 
 # Xcode
 #

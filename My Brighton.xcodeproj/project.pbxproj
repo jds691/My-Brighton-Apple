@@ -367,6 +367,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				PreviewClient.swift,
+				Resources/PreviewClientData.xcassets,
 			);
 			target = 684DFF762E56318A00E6C316 /* WidgetsExtension */;
 		};
@@ -374,6 +375,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				PreviewClient.swift,
+				Resources/PreviewClientData.xcassets,
 				"SharedBundle++.swift",
 			);
 			target = 680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */;
