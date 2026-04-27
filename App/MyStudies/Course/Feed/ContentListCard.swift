@@ -40,6 +40,10 @@ struct ContentListCard: View {
                 Image(systemName: "richtext.page")
                     .resizable()
                     .scaledToFit()
+            case .contentLesson:
+                Image(systemName: "graduationcap")
+                    .resizable()
+                    .scaledToFit()
             case .contentFolder(isBbPage: let isBbPage):
                 Image(systemName: isBbPage ? "richtext.page" : "folder")
                     .resizable()
