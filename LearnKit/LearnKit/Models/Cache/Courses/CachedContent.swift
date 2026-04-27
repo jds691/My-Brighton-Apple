@@ -34,8 +34,6 @@ class CachedContent {
     var course: CachedCourse?
     @Relationship(inverse: \CachedContent.parent)
     var children: [CachedContent] = []
-    @Relationship(inverse: \CachedGradeColumn.relatedContent)
-    var associatedGradeColumns: [CachedGradeColumn] = []
 
     init(from contentModel: Content) {
         self.id = contentModel.id

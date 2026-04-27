@@ -45,15 +45,40 @@ struct PreviewClient: APIProtocol {
     ]
 
     let gradebookColumns: [String: [Components.Schemas.GradeColumn]] = [
-        "_130430_1": [],
-        "_130431_1": [],
-        "_130442_1": [],
-        "_130438_1": [],
-        "_130441_1": []
+        "_130430_1": try! decoder.decode([Components.Schemas.GradeColumn].self, from: NSDataAsset(name: "Preview Data/GradeColumns/_130430_1")!.data),
+        "_130431_1": try! decoder.decode([Components.Schemas.GradeColumn].self, from: NSDataAsset(name: "Preview Data/GradeColumns/_130431_1")!.data),
+        "_130442_1": try! decoder.decode([Components.Schemas.GradeColumn].self, from: NSDataAsset(name: "Preview Data/GradeColumns/_130442_1")!.data),
+        "_130438_1": try! decoder.decode([Components.Schemas.GradeColumn].self, from: NSDataAsset(name: "Preview Data/GradeColumns/_130438_1")!.data),
+        "_130441_1": try! decoder.decode([Components.Schemas.GradeColumn].self, from: NSDataAsset(name: "Preview Data/GradeColumns/_130441_1")!.data)
     ]
 
     let gradebookColumnAttempts: [String: [String: [Components.Schemas.GradebookAttempt]]] = [
-        :
+        "_130430_1": [
+            "_747860_1": [],
+            "_747864_1": [],
+            "_747865_1": [],
+            "_751801_1": [],
+            "_751804_1": []
+        ],
+        "_130431_1": [:],
+        "_130438_1": [
+            "_751858_1": [],
+            "_751860_1": [],
+            "_762321_1": [],
+            "_762322_1": []
+        ],
+        "_130441_1": [
+            "_758433_1": [],
+            "_758434_1": [],
+            "_758436_1": [],
+            "_758437_1": [],
+            "_763414_1": [],
+            "_763415_1": []
+        ],
+        "_130442_1": [
+            "_759273_1": [],
+            "_759276_1": []
+        ],
     ]
 
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
