@@ -89,10 +89,9 @@ struct SearchView: View {
 
         if searchManager.searchTerm.isEmpty {
             // TODO: Keep a history of previous search results
-            List {
-
+            VStack {
+                
             }
-            .scrollContentBackground(.hidden)
         } else if searchResults.isEmpty {
             VStack {
                 ContentUnavailableView.search
