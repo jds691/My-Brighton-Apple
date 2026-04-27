@@ -82,6 +82,10 @@ public enum Navigation: Hashable {
                     guard components.count >= 2 else { return nil }
 
                     self = Route.myStudies(.module(String(components[1]), nil))
+                case "announcement":
+                    guard components.count >= 3 else { return nil }
+
+                    self = Route.myStudies(.module(String(components[1]), .announcements(String(components[2]))))
                 case "content":
                     guard components.count >= 3 else { return nil }
 
