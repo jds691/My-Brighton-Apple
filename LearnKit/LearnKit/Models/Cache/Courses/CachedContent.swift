@@ -82,11 +82,12 @@ class CachedContent {
         case contentItem
         case externalLink(_ url: URL)
         case contentFolder(isBbPage: Bool)
+        case contentLesson
         case courseLink(target: Course.ID)
         // TODO: Replace later with Discussion.ID
         case discussionLink(target: String)
         case ltiLink(_ url: URL, parameters: Data)
-        case contentFile(uploadId: String, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
+        case contentFile(uploadId: String?, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
         // TODO: target = Assessment.ID
         case testLink(target: String, gradeColumn: GradeColumn.ID)
         case assignment(gradeColumn: GradeColumn.ID, isGroup: Bool)
@@ -119,6 +120,8 @@ class CachedContent {
                     self = .assignment(gradeColumn: gradeColumn, isGroup: isGroup)
                 case .ltiPlacement:
                     self = .ltiPlacement
+                case .contentLesson:
+                    self = .contentLesson
             }
         }
 

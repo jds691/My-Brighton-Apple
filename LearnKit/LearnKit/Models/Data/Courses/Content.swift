@@ -37,9 +37,6 @@ public struct Content: Hashable, Identifiable, Sendable {
             let creationDate = contentSchema.created,
             let lastModified = contentSchema.modified,
             let positionIndex = contentSchema.position,
-            let hasChildren = contentSchema.hasChildren,
-            let shouldLaunchInNewWindow = contentSchema.launchInNewWindow,
-            let isReviewable = contentSchema.reviewable,
             let availability = contentSchema.availability,
             let handler = contentSchema.contentHandler,
             let links = contentSchema.links,
@@ -64,11 +61,11 @@ public struct Content: Hashable, Identifiable, Sendable {
         self.creationDate = creationDate
         self.lastModified = lastModified
         self.positionIndex = Int(positionIndex)
-        self.hasChildren = hasChildren
+        self.hasChildren = contentSchema.hasChildren ?? false
         self.hasGradebookColumns = contentSchema.hasGradebookColumns
         self.hasAssociatedGroups = contentSchema.hasAssociatedGroups
-        self.shouldLaunchInNewWindow = shouldLaunchInNewWindow
-        self.isReviewable = isReviewable
+        self.shouldLaunchInNewWindow = contentSchema.launchInNewWindow ?? false
+        self.isReviewable = contentSchema.reviewable ?? false
         self.availability = availabilityModel
         self.handler = handlerModel
         do {
@@ -114,11 +111,12 @@ public struct Content: Hashable, Identifiable, Sendable {
         case contentItem
         case externalLink(_ url: URL)
         case contentFolder(isBbPage: Bool)
+        case contentLesson
         case courseLink(target: Course.ID)
         // TODO: Replace later with Discussion.ID
         case discussionLink(target: String)
         case ltiLink(_ url: URL, parameters: [String: String])
-        case contentFile(uploadId: String, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
+        case contentFile(uploadId: String?, fileName: String, mimeType: String, duplicateFileHandling: ContentFileDuplicateFileHandelingType?)
         // TODO: target = Assessment.ID
         case testLink(target: String, gradeColumn: GradeColumn.ID)
         case assignment(gradeColumn: GradeColumn.ID, isGroup: Bool)
@@ -144,9 +142,13 @@ public struct Content: Hashable, Identifiable, Sendable {
                 case .resourceXBbFile(let params):
                     self = .contentFile(uploadId: params.value2.file.uploadId, fileName: params.value2.file.fileName, mimeType: params.value2.file.mimeType, duplicateFileHandling: ContentFileDuplicateFileHandelingType(from: params.value2.file.duplicateFileHandling))
                 case .resourceXBbFolder(let params):
-                    self = .contentFolder(isBbPage: params.value2.isBbPage)
+                    self = .contentFolder(isBbPage: params.value2.isBbPage ?? false)
                 case .resourceXBbForumlink(let params):
                     self = .discussionLink(target: params.value2.discussionId)
+                case .resourceXBbLesson(_):
+                    self = .contentLesson
+                case .resourceXBbBltiplacementLibguideTools(_):
+                    self = .ltiPlacement
             }
         }
 
@@ -177,6 +179,8 @@ public struct Content: Hashable, Identifiable, Sendable {
                     self = .assignment(gradeColumn: gradeColumn, isGroup: isGroup)
                 case .ltiPlacement:
                     self = .ltiPlacement
+                case .contentLesson:
+                    self = .contentLesson
             }
         }
 

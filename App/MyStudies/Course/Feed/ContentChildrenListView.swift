@@ -110,7 +110,7 @@ struct ContentChildrenListView: View {
 
     private func getNavDestination(for content: Content) -> any Hashable {
         switch content.handler {
-            case .contentItem, .contentFolder(isBbPage: _):
+            case .contentItem, .contentFolder(isBbPage: _), .contentLesson:
                 return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.content(content.id)
             case .assignment(gradeColumn: let gradeColumnId, isGroup: _):
                 return Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(gradeColumnId)

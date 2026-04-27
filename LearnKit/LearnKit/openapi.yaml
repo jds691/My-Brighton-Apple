@@ -2930,12 +2930,15 @@ components:
           "resource/x-bb-document": "#/components/schemas/ContentHandler.ContentItemTOPub"
           "resource/x-bb-externallink": "#/components/schemas/ContentHandler.ExternalLinkTOPub"
           "resource/x-bb-folder": "#/components/schemas/ContentHandler.ContentFolderTOPub"
+          "resource/x-bb-lesson": "#/components/schemas/ContentHandler.ContentLessonTOPub"
           "resource/x-bb-courselink": "#/components/schemas/ContentHandler.CourseLinkTOPub"
           "resource/x-bb-forumlink": "#/components/schemas/ContentHandler.DiscussionLinkTOPub"
           "resource/x-bb-blti-link": "#/components/schemas/ContentHandler.BasicLTITOPub"
           "resource/x-bb-file": "#/components/schemas/ContentHandler.ContentFileTOPub"
           "resource/x-bb-asmt-test-link": "#/components/schemas/ContentHandler.TestLinkTOPub"
           "resource/x-bb-assignment": "#/components/schemas/ContentHandler.AssignmentTOPub"
+          # Custom extensions
+          "resource/x-bb-bltiplacement-libguide-tools": "#/components/schemas/ContentHandler.XLtiPlacementLibGuideTOPub"
     ContentHandler.Common:
       type: object
       required:
@@ -2982,12 +2985,16 @@ components:
       allOf:
         - $ref: "#/components/schemas/ContentHandler.Common"
         - type: object
-          required:
-            - isBbPage
           properties:
             isBbPage:
               type: boolean
               description: Whether the object represents a page in its own right.
+    ContentHandler.ContentLessonTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
+    ContentHandler.XLtiPlacementLibGuideTOPub:
+      allOf:
+        - $ref: "#/components/schemas/ContentHandler.Common"
     ContentHandler.CourseLinkTOPub:
       allOf:
         - $ref: "#/components/schemas/ContentHandler.Common"
@@ -3004,6 +3011,7 @@ components:
               description: The Blackboard object type of the linked object.
               enum:
                 - Unset
+                - Content
                 - CourseAssessment
                 - CourseTOC
                 - Forum
@@ -3051,7 +3059,6 @@ components:
               type: object
               name: ContentHandler.ContentFileTOPub.FileInfo
               required:
-                - uploadId
                 - fileName
                 - mimeType
               properties:
@@ -3375,7 +3382,7 @@ components:
                     - Continuous
                     - DateRange
                     - FixedNumDays
-                    - UseTerm
+                    - Term
                 start:
                   type: string
                   format: date-time
@@ -3463,9 +3470,14 @@ components:
             **Since**: 3200.3.0
           readOnly: true
         copyHistory:
-          type: object
-          # TODO: Figure out wtf this actually is
           description: List of source courses UUIDs, populated only if the current course was created as the result of a course copy.
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                format: uuid
     # Course Announcements
     CourseAnnouncement:
       type: object

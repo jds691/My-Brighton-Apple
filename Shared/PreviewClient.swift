@@ -9,554 +9,51 @@ import Foundation
 import LearnKit
 internal import OpenAPIRuntime
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
 struct PreviewClient: APIProtocol {
+    static let decoder: JSONDecoder = {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.dateDecodingStrategy = .iso8601
+
+        return jsonDecoder
+    }()
     let systemAnnouncements: [Components.Schemas.SystemAnnouncement] = []
 
-    let courses: [Components.Schemas.Course] = [
-        // Debug
-        .init(
-            id: "_0_1",
-            uuid: nil,
-            externalId: nil,
-            dataSourceId: nil,
-            courseId: "MB_DEBUG",
-            name: "Debugging Course",
-            description: nil,
-            created: .now,
-            modified: .now,
-            organization: false,
-            ultraStatus: .ultra,
-            allowGuests: nil,
-            allowObservers: nil,
-            closedComplete: false,
-            termId: "_0_1",
-            availability:
-                    .init(
-                        available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
-                    ),
-            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
-            locale: .init(id: nil, force: false),
-            hasChildren: nil,
-            parentId: nil,
-            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra",
-            guestAccessUrl: nil,
-            copyHistory: nil
-        ),
-        // Final Year
-        .init(
-            id: "_130430_1",
-            uuid: nil,
-            externalId: nil,
-            dataSourceId: nil,
-            courseId: "CI601_2025",
-            name: "2025 CI601 The Computing Project",
-            description: nil,
-            created: .now,
-            modified: .now,
-            organization: false,
-            ultraStatus: .ultra,
-            allowGuests: nil,
-            allowObservers: nil,
-            closedComplete: false,
-            termId: "_290_1",
-            availability:
-                    .init(
-                        available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
-                    ),
-            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
-            locale: .init(id: nil, force: false),
-            hasChildren: nil,
-            parentId: nil,
-            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra/courses/_130430_1/outline",
-            guestAccessUrl: nil,
-            copyHistory: nil
-        ),
-        .init(
-            id: "_130438_1",
-            uuid: nil,
-            externalId: nil,
-            dataSourceId: nil,
-            courseId: "CI615_2025",
-            name: "2025 CI615 Object-Oriented Design and Architecture",
-            description: nil,
-            created: .now,
-            modified: .now,
-            organization: false,
-            ultraStatus: .ultra,
-            allowGuests: nil,
-            allowObservers: nil,
-            closedComplete: false,
-            termId: "_290_1",
-            availability:
-                    .init(
-                        available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
-                    ),
-            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
-            locale: .init(id: nil, force: false),
-            hasChildren: nil,
-            parentId: nil,
-            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra/courses/_130438_1/outline",
-            guestAccessUrl: nil,
-            copyHistory: nil
-        ),
-        .init(
-            id: "_130441_1",
-            uuid: nil,
-            externalId: nil,
-            dataSourceId: nil,
-            courseId: "CI642_2025",
-            name: "2025 CI642 Advanced Artificial Intelligence",
-            description: nil,
-            created: .now,
-            modified: .now,
-            organization: false,
-            ultraStatus: .ultra,
-            allowGuests: nil,
-            allowObservers: nil,
-            closedComplete: false,
-            termId: "_290_1",
-            availability:
-                    .init(
-                        available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
-                    ),
-            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
-            locale: .init(id: nil, force: false),
-            hasChildren: nil,
-            parentId: nil,
-            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra/courses/_130441_1/outline",
-            guestAccessUrl: nil,
-            copyHistory: nil
-        ),
+    let courses: [Components.Schemas.Course] = try! decoder.decode([Components.Schemas.Course].self, from: NSDataAsset(name: "Preview Data/Courses")!.data)
 
-        // Second Year
-        .init(
-            id: "_129556_1",
-            uuid: nil,
-            externalId: nil,
-            dataSourceId: nil,
-            courseId: "CI512_2024",
-            name: "2024 CI512 Intelligent Systems 1",
-            description: nil,
-            created: .now,
-            modified: .now,
-            organization: false,
-            ultraStatus: .ultra,
-            allowGuests: nil,
-            allowObservers: nil,
-            closedComplete: false,
-            termId: "_164_1",
-            availability:
-                    .init(
-                        available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
-                    ),
-            enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
-            locale: .init(id: nil, force: false),
-            hasChildren: nil,
-            parentId: nil,
-            externalAccessUrl: "https://studentcentral.brighton.ac.uk/ultra/courses/_129556_1/outline",
-            guestAccessUrl: nil,
-            copyHistory: nil
-        )
-    ]
-
-    let terms: [Components.Schemas.Term] = [
-        .init(
-            id: "_0_1",
-            externalId: nil,
-            dataSourceId: nil,
-            name: "DEBUG",
-            description: nil,
-            availability: .init(available: .yes, duration: .init(_type: .dateRange, start: .now, end: .now, daysOfUse: nil))
-        ),
-        .init(
-            id: "_290_1",
-            externalId: nil,
-            dataSourceId: nil,
-            name: "2025-2026",
-            description: nil,
-            availability: .init(available: .yes, duration: .init(_type: .dateRange, start: .now, end: .now, daysOfUse: nil))
-        ),
-        .init(
-            id: "_164_1",
-            externalId: nil,
-            dataSourceId: nil,
-            name: "2024-2025",
-            description: nil,
-            availability: .init(available: .yes, duration: .init(_type: .dateRange, start: .now, end: .now, daysOfUse: nil))
-        )
-    ]
+    let terms: [Components.Schemas.Term] = try! decoder.decode([Components.Schemas.Term].self, from: NSDataAsset(name: "Preview Data/Terms")!.data)
 
     let courseContents: Dictionary<String, [Components.Schemas.Content]> = [
-        "_0_1": [
-            .init(
-                id: "0",
-                parentId: nil,
-                title: "ROOT",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-            .init(
-                id: "0_0",
-                parentId: "0",
-                title: "Example Document",
-                body: nil,
-                description: "Example debugging document from Anthology",
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: true))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-            .init(
-                id: "0_1",
-                parentId: "0_0",
-                title: "ultraDocumentBody",
-                body: "<!-- {\"bbMLEditorVersion\":1} --><div data-bbid=\"bbml-editor-id_9c6a9556-80a5-496c-b10d-af2a9ab22d45\"><h2>Header Large</h2><h5>Header Medium</h5><h6>Header Small</h6><p><strong>Bold </strong><em>Italic<span style=\"text-decoration: underline;\">Italic Underline</span></em></p><ul><li><span style=\"text-decoration: underline;\"><em></em></span>Bullet 1</li><li>Bullet 2</li></ul><p><img /></p><p><span>\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.\"</span></p><p><span>&lt;braces test=\"values\" other=\"encoded values\"&gt;</span></p><p>Header Small</p><ol><li>Number 1</li><li>Number 2</li></ol><p>Just words followed by a formula<img align=\"middle\" alt=\"3 divided by 4 2 root of 7\" class=\"Wirisformula\" data-mathml=\"Â«math xmlns=Â¨[http://www.w3.org/1998/Math/MathMLÂ¨Â»Â«mnÂ»3Â«/mnÂ»Â«moÂ»/Â«/moÂ»Â«mnÂ»4Â«/mnÂ»Â«mrootÂ»Â«mnÂ»7Â«/mnÂ»Â«mnÂ»2Â«/mnÂ»Â«/mrootÂ»Â«/mathÂ»](https://community.blackboard.com/external-link.jspa?url=http%3A//www.w3.org/1998/Math/MathML%25C2%25A8%25C2%25BB%25C2%25ABmn%25C2%25BB3%25C2%25AB/mn%25C2%25BB%25C2%25ABmo%25C2%25BB/%25C2%25AB/mo%25C2%25BB%25C2%25ABmn%25C2%25BB4%25C2%25AB/mn%25C2%25BB%25C2%25ABmroot%25C2%25BB%25C2%25ABmn%25C2%25BB7%25C2%25AB/mn%25C2%25BB%25C2%25ABmn%25C2%25BB2%25C2%25AB/mn%25C2%25BB%25C2%25AB/mroot%25C2%25BB%25C2%25AB/math%25C2%25BB)\" /></p><p><a href=\"[http://www.blackboard.com](https://community.blackboard.com/external-link.jspa?url=http%3A//www.blackboard.com/)\">Blackboard</a></p></div>",
-                description: "Example debugging document from Anthology",
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: false,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbDocument(.init(value1: .init(id: "resource/x-bb-document"))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-            .init(
-                id: "_0_4",
-                parentId: "0",
-                title: "Example Gradebook Column",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: -1,
-                hasChildren: false,
-                hasGradebookColumns: true,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbAssignment(.init(value1: .init(id: "resource/x-bb-assignment"), value2: .init(gradeColumnId: "_0_1__0_1", groupContent: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-        ],
-
-        "_130430_1": [
-            .init(
-                id: "0",
-                parentId: nil,
-                title: "ROOT",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-        ],
-        "_130438_1": [
-            .init(
-                id: "0",
-                parentId: nil,
-                title: "ROOT",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-        ],
-        "_130441_1": [
-            .init(
-                id: "0",
-                parentId: nil,
-                title: "ROOT",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-        ],
-
-        "_129556_1": [
-            .init(
-                id: "0",
-                parentId: nil,
-                title: "ROOT",
-                body: nil,
-                description: nil,
-                created: .now,
-                modified: .now,
-                position: 0,
-                hasChildren: true,
-                hasGradebookColumns: nil,
-                hasAssociatedGroups: nil,
-                launchInNewWindow: false,
-                reviewable: false,
-                availability: .init(available: .yes, allowGuests: true, allowObservers: true, adaptiveRelease: .init()),
-                contentHandler: .resourceXBbFolder(.init(value1: .init(id: "resource/x-bb-folder"), value2: .init(isBbPage: false))),
-                copyHistory: nil,
-                links: [],
-                subtype: nil
-            ),
-        ]
+        "_130430_1": try! decoder.decode([Components.Schemas.Content].self, from: NSDataAsset(name: "Preview Data/Contents/_130430_1")!.data),
+        "_130431_1": try! decoder.decode([Components.Schemas.Content].self, from: NSDataAsset(name: "Preview Data/Contents/_130431_1")!.data),
+        "_130442_1": try! decoder.decode([Components.Schemas.Content].self, from: NSDataAsset(name: "Preview Data/Contents/_130442_1")!.data),
+        "_130438_1": try! decoder.decode([Components.Schemas.Content].self, from: NSDataAsset(name: "Preview Data/Contents/_130438_1")!.data),
+        "_130441_1": try! decoder.decode([Components.Schemas.Content].self, from: NSDataAsset(name: "Preview Data/Contents/_130441_1")!.data)
     ]
 
     let courseAnnouncements: Dictionary<String, [Components.Schemas.CourseAnnouncement]> = [
-        "_0_1" : [
-            .init(
-                id: "_0_1",
-                title: "Test announcement #1",
-                body: "<p><strong>PLEASE</strong> work.</p>",
-                draft: false,
-                availability: .init(
-                    duration: .init(
-                        _type: .permanent,
-                        start: nil,
-                        end: nil
-                    )
-                ),
-                creatorUserId: "_691_1",
-                created: .now,
-                modified: .now,
-                participants: nil,
-                position: 0,
-                readCount: nil,
-                creator: nil
-            ),
-            .init(
-                id: "_1_1",
-                title: "Test announcement #2",
-                body: "<p>Omg it does.</p>",
-                draft: false,
-                availability: .init(
-                    duration: .init(
-                        _type: .permanent,
-                        start: nil,
-                        end: nil
-                    )
-                ),
-                creatorUserId: "_691_1",
-                created: .now,
-                modified: .now,
-                participants: nil,
-                position: 1,
-                readCount: nil,
-                creator: nil
-            ),
-            .init(
-                id: "_2_1",
-                title: "Test announcement #3",
-                body: "<h4><strong>YIPPEE :3</strong></h4>",
-                draft: false,
-                availability: .init(
-                    duration: .init(
-                        _type: .permanent,
-                        start: nil,
-                        end: nil
-                    )
-                ),
-                creatorUserId: "_691_1",
-                created: .now,
-                modified: .now,
-                participants: nil,
-                position: 2,
-                readCount: nil,
-                creator: nil
-            ),
-            .init(
-                id: "_3_1",
-                title: "Test announcement #4",
-                body: "<math><mrow></mrow></math>",
-                draft: false,
-                availability: .init(
-                    duration: .init(
-                        _type: .permanent,
-                        start: nil,
-                        end: nil
-                    )
-                ),
-                creatorUserId: "_691_1",
-                created: .now,
-                modified: .now,
-                participants: nil,
-                position: 3,
-                readCount: nil,
-                creator: nil
-            ),
-            .init(
-                id: "_4_1",
-                title: "Test announcement #5",
-                body: "<a></>",
-                draft: false,
-                availability: .init(
-                    duration: .init(
-                        _type: .permanent,
-                        start: nil,
-                        end: nil
-                    )
-                ),
-                creatorUserId: "_691_1",
-                created: .now,
-                modified: .now,
-                participants: nil,
-                position: 4,
-                readCount: nil,
-                creator: nil
-            )
-        ]
+        "_130430_1": try! decoder.decode([Components.Schemas.CourseAnnouncement].self, from: NSDataAsset(name: "Preview Data/Announcements/_130430_1")!.data),
+        "_130431_1": try! decoder.decode([Components.Schemas.CourseAnnouncement].self, from: NSDataAsset(name: "Preview Data/Announcements/_130431_1")!.data),
+        "_130442_1": try! decoder.decode([Components.Schemas.CourseAnnouncement].self, from: NSDataAsset(name: "Preview Data/Announcements/_130442_1")!.data),
+        "_130438_1": try! decoder.decode([Components.Schemas.CourseAnnouncement].self, from: NSDataAsset(name: "Preview Data/Announcements/_130438_1")!.data),
+        "_130441_1": try! decoder.decode([Components.Schemas.CourseAnnouncement].self, from: NSDataAsset(name: "Preview Data/Announcements/_130441_1")!.data)
     ]
 
-    let gradebookColumns: Dictionary<String, [Components.Schemas.GradeColumn]> = [
-        "_0_1": [
-            .init(
-                id: "_0_1__0_1",
-                externalId: nil,
-                externalToolId: nil,
-                name: "Example Assessment",
-                displayName: nil,
-                description: nil,
-                externalGrade: nil,
-                created: nil,
-                modified: nil,
-                contentId: nil,
-                // TODO: Put back
-                //contentId: "_0_4",
-                score: .init(possible: 100.0),
-                availability: .init(available: .yes),
-                grading: .init(
-                    _type: .attempts,
-                    due: .now.addingTimeInterval(862000),
-                    attemptsAllowed: 0,
-                    scoringModel: .last,
-                    schemaId: "0",
-                    anonymousGrading: .init(_type: .afterAllGraded, releaseAfter: nil)
-                ),
-                gradebookCategoryId: "0",
-                formula: nil,
-                includeInCalculations: nil,
-                showStatisticsToStudents: nil,
-                scoreProviderHandle: "resource/x-bb-assessment",
-                learningOutcome: nil
-            )
-        ],
+    let gradebookColumns: [String: [Components.Schemas.GradeColumn]] = [
         "_130430_1": [],
+        "_130431_1": [],
+        "_130442_1": [],
         "_130438_1": [],
-        "_130441_1": [],
-        "_129556_1": []
+        "_130441_1": []
     ]
 
-    let gradebookColumnAttempts: Dictionary<String, [Components.Schemas.GradebookAttempt]> = [
-        "_0_1__0_1": [
-            .init(
-                id: "_0",
-                userId: nil,
-                groupAttemptId: nil,
-                groupOverride: nil,
-                status: .inProgress,
-                readyToPost: nil,
-                displayGrade: nil,
-                text: nil,
-                score: 0.0,
-                reconciliationMode: nil,
-                notes: nil,
-                feedback: nil,
-                groupAttemptStudentComments: nil,
-                studentComments: nil,
-                studentSubmission: nil,
-                exempt: false,
-                created: .now.addingTimeInterval(-100),
-                attemptDate: nil,
-                modified: nil,
-                attemptReceipt: nil
-            ),
-            .init(
-                id: "_1",
-                userId: nil,
-                groupAttemptId: nil,
-                groupOverride: nil,
-                status: .inProgress,
-                readyToPost: nil,
-                displayGrade: nil,
-                text: nil,
-                score: 50.0,
-                reconciliationMode: nil,
-                notes: nil,
-                feedback: nil,
-                groupAttemptStudentComments: nil,
-                studentComments: nil,
-                studentSubmission: nil,
-                exempt: false,
-                created: .now.addingTimeInterval(-50),
-                attemptDate: nil,
-                modified: nil,
-                attemptReceipt: nil
-            )
-        ]
+    let gradebookColumnAttempts: [String: [String: [Components.Schemas.GradebookAttempt]]] = [
+        :
     ]
 
     func getV1Announcements(_ input: LearnKit.Operations.GetV1Announcements.Input) async throws -> LearnKit.Operations.GetV1Announcements.Output {
@@ -692,7 +189,7 @@ struct PreviewClient: APIProtocol {
     }
 
     func getV2CoursesCourseIdGradebookColumnsColumnIdAttempts(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttempts.Output {
-        if let attempts = gradebookColumnAttempts[input.path.columnId] {
+        if let attempts = gradebookColumnAttempts[input.path.courseId]?[input.path.columnId] {
             return .ok(.init(body: .json(.init(results: attempts))))
         } else {
             return .forbidden(.init(body: .json(.init(message: "User does not have access to course"))))
@@ -700,7 +197,7 @@ struct PreviewClient: APIProtocol {
     }
 
     func getV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId(_ input: LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Input) async throws -> LearnKit.Operations.GetV2CoursesCourseIdGradebookColumnsColumnIdAttemptsAttemptId.Output {
-        if let attempts = gradebookColumnAttempts[input.path.columnId] {
+        if let attempts = gradebookColumnAttempts[input.path.courseId]?[input.path.columnId] {
             if let attempt = attempts.first(where: { $0.id == input.path.attemptId }) {
                 return .ok(.init(body: .json(attempt)))
             } else {

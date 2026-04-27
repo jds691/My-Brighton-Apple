@@ -34,6 +34,8 @@ struct ContentWrapperView: View {
                         } else {
                             ContentFolderView(content: contentBinding)
                         }
+                    case .contentLesson:
+                        ContentFolderView(content: contentBinding)
                     default:
                         errorView
                 }
