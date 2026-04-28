@@ -27,10 +27,13 @@ struct UpcomingAssignmentsHomeWidgetView: View {
                 if !courses.isEmpty {
                     if hSizeClass == .compact {
                         ScrollView(.horizontal) {
-                            LazyHStack {
+                            // Why isn't this lazy?
+                            // Causes issue with view sizing causing contents to get clipped
+                            // LazyHStack only takes height of the first element
+                            HStack(alignment: .top) {
                                 rootContent(courses)
                             }
-                            .fixedSize(horizontal: false, vertical: true)
+                            //.fixedSize(horizontal: false, vertical: true)
                             .scrollTargetLayout()
                         }
                         .contentMargins(.horizontal, 16, for: .scrollContent)

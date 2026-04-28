@@ -54,30 +54,30 @@ struct PreviewClient: APIProtocol {
 
     let gradebookColumnAttempts: [String: [String: [Components.Schemas.GradebookAttempt]]] = [
         "_130430_1": [
-            "_747860_1": [],
-            "_747864_1": [],
-            "_747865_1": [],
-            "_751801_1": [],
-            "_751804_1": []
+            "_747860_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_747860_1")!.data),
+            "_747864_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_747864_1")!.data),
+            "_747865_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_747865_1")!.data),
+            "_751801_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_751801_1")!.data),
+            "_751804_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_751804_1")!.data)
         ],
         "_130431_1": [:],
         "_130438_1": [
-            "_751858_1": [],
-            "_751860_1": [],
-            "_762321_1": [],
-            "_762322_1": []
+            "_751858_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_751858_1")!.data),
+            "_751860_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_751860_1")!.data),
+            "_762321_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_762321_1")!.data),
+            "_762322_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_762322_1")!.data)
         ],
         "_130441_1": [
-            "_758433_1": [],
-            "_758434_1": [],
-            "_758436_1": [],
-            "_758437_1": [],
-            "_763414_1": [],
-            "_763415_1": []
+            "_758433_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_758433_1")!.data),
+            "_758434_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_758434_1")!.data),
+            "_758436_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_758436_1")!.data),
+            "_758437_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_758437_1")!.data),
+            "_763414_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_763414_1")!.data),
+            "_763415_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_763415_1")!.data)
         ],
         "_130442_1": [
-            "_759273_1": [],
-            "_759276_1": []
+            "_759273_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_759273_1")!.data),
+            "_759276_1": try! decoder.decode([Components.Schemas.GradebookAttempt].self, from: NSDataAsset(name: "Preview Data/GradeColumns/Attempts/_759276_1")!.data)
         ],
     ]
 
