@@ -5,6 +5,7 @@
 //  Created by Neo Salmon on 13/10/2025.
 //
 
+#if LEARNKIT_LIVE_DATA
 import Foundation
 import LearnKit
 internal import OpenAPIRuntime
@@ -285,3 +286,4 @@ struct PreviewClient: APIProtocol {
         fatalError()
     }
 }
+#endif
