@@ -30,6 +30,9 @@ struct MyStudiesView: View {
 
     @State private var searchTerm: String = ""
 
+    @State private var showErrorMessage: Bool = false
+    @State private var errorMessage: String? = nil
+
     private var favouriteCustomisations: [CourseCustomisation] {
         customisations.filter({ $0.isFavourite }).sorted(by: { $0.courseId < $1.courseId })
     }
@@ -124,6 +127,15 @@ struct MyStudiesView: View {
                     CourseView(id: moduleId)
             }
         }
+        .alert("Error loading view", isPresented: $showErrorMessage) {
+
+        } message: {
+            if let errorMessage {
+                Text(errorMessage)
+            } else {
+                Text("An unknown error has occured.")
+            }
+        }
         .task {
 #if DEBUG
             if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
@@ -148,7 +160,8 @@ struct MyStudiesView: View {
                     customisations.append(CustomisationService.shared.getCourseCustomisation(for: course.id))
                 }
             } catch {
-                print(error)
+                errorMessage = error.localizedDescription
+                showErrorMessage = true
             }
         }
         .refreshable {
@@ -156,7 +169,8 @@ struct MyStudiesView: View {
                 updateAndReplaceTerms(try await learnKitService.refreshTerms())
                 updateAndReplaceCourses(try await learnKitService.refreshCourses())
             } catch {
-                print(error)
+                errorMessage = error.localizedDescription
+                showErrorMessage = true
             }
         }
         .sheet(item: $courseToCustomise) { course in

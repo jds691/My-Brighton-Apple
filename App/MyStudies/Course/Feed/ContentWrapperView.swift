@@ -9,12 +9,16 @@ import SwiftUI
 import LearnKit
 
 // TODO: Remove forced unwraps
-// TODO: Show alert and dismiss on errors
 struct ContentWrapperView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.courseId) private var courseId
 
     private let contentId: Content.ID
+
+    @State private var showErrorMessage: Bool = false
+    @State private var errorMessage: String? = nil
 
     @State private var content: Content? = nil
 
@@ -41,13 +45,26 @@ struct ContentWrapperView: View {
                 }
             } else {
                 ProgressView()
-            }
-        }
-        .task {
-            do {
-                content = try await learnKit.getContent(for: contentId, in: courseId!)
-            } catch {
-                print(error)
+                    .task {
+                        do {
+                            content = try await learnKit.getContent(for: contentId, in: courseId!)
+                        } catch {
+                            errorMessage = error.localizedDescription
+                            showErrorMessage = true
+                        }
+                    }
+                    .alert("Unable to load content", isPresented: $showErrorMessage) {
+                        Button("OK") {
+                            dismiss()
+                            errorMessage = nil
+                        }
+                    } message: {
+                        if let errorMessage {
+                            Text(errorMessage)
+                        } else {
+                            Text("An unknown error occurred.")
+                        }
+                    }
             }
         }
     }
