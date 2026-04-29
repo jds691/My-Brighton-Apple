@@ -23,7 +23,7 @@ class CachedGradeColumn {
     var possibleScore: Double
     var isAvailable: Bool
     var grading: CachedGradeColumn.Grading
-    var gradebookCategoryId: String
+    var gradebookCategoryId: String?
     var formula: String?
     var includeInCalculations: Bool
     var showStatisticsToStudents: Bool
@@ -32,7 +32,7 @@ class CachedGradeColumn {
 
     // Relational fields
     // Replaces the contentId field
-    var relatedContent: CachedContent?
+    var relatedContentId: CachedContent.ID?
     var course: CachedCourse?
     @Relationship(inverse: \CachedGradebookAttempt.associatedGradeColumn)
     var attempts: [CachedGradebookAttempt] = []
@@ -56,9 +56,9 @@ class CachedGradeColumn {
         self.showStatisticsToStudents = gradeColumnModel.showStatisticsToStudents
         self.scoreProviderHandle = gradeColumnModel.scoreProviderHandle
         self.isSignature = gradeColumnModel.isSignature
+        self.relatedContentId = gradeColumnModel.contentId
 
         // Relational fields, will be set by BbCache
-        self.relatedContent = nil
         self.course = nil
     }
 
@@ -81,6 +81,7 @@ class CachedGradeColumn {
         self.showStatisticsToStudents = gradeColumnModel.showStatisticsToStudents
         self.scoreProviderHandle = gradeColumnModel.scoreProviderHandle
         self.isSignature = gradeColumnModel.isSignature
+        self.relatedContentId = gradeColumnModel.contentId
     }
 
     public struct Grading: Hashable, Codable, Sendable {
@@ -88,14 +89,18 @@ class CachedGradeColumn {
         let attemptsAllowed: Int
         let scoringModel: Grading.ScoringModel
         let schemaId: String?
-        let anonymousGradingType: Grading.AnonymousGrading
+        let anonymousGradingType: Grading.AnonymousGrading?
 
         init(from gradeColumnGradingModel: GradeColumn.Grading) {
             self.dueDate = gradeColumnGradingModel.dueDate
             self.attemptsAllowed = Int(gradeColumnGradingModel.attemptsAllowed)
             self.scoringModel = ScoringModel(from: gradeColumnGradingModel.scoringModel)
             self.schemaId = gradeColumnGradingModel.schemaId
-            self.anonymousGradingType = AnonymousGrading(from: gradeColumnGradingModel.anonymousGradingType)
+            if let gradeColumnGradingAnonymousGradingModel = gradeColumnGradingModel.anonymousGradingType {
+                self.anonymousGradingType = AnonymousGrading(from: gradeColumnGradingAnonymousGradingModel)
+            } else {
+                self.anonymousGradingType = CachedGradeColumn.Grading.AnonymousGrading.none
+            }
         }
 
         public enum AnonymousGrading: Hashable, Codable, Sendable {

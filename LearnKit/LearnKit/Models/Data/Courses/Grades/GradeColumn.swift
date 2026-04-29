@@ -43,7 +43,7 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
     // The availability enum is only Yes or No i.e. Bool
     public let isAvailable: Bool
     public let grading: GradeColumn.Grading
-    public let gradebookCategoryId: String
+    public let gradebookCategoryId: String?
     public let formula: String?
     public let includeInCalculations: Bool
     public let showStatisticsToStudents: Bool
@@ -57,7 +57,6 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
             let name = gradeColumnSchema.name,
             let possibleScore = gradeColumnSchema.score?.possible,
             let grading = gradeColumnSchema.grading,
-            let gradebookCategoryId = gradeColumnSchema.gradebookCategoryId,
             let scoreProviderHandle = gradeColumnSchema.scoreProviderHandle,
 
                 // Required Data Models
@@ -84,7 +83,7 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
         self.possibleScore = possibleScore
         self.isAvailable = gradeColumnSchema.availability?.available == .yes
         self.grading = gradingModel
-        self.gradebookCategoryId = gradebookCategoryId
+        self.gradebookCategoryId = gradeColumnSchema.gradebookCategoryId
         self.formula = gradeColumnSchema.formula?.formula
         self.includeInCalculations = gradeColumnSchema.includeInCalculations ?? false
         self.showStatisticsToStudents = gradeColumnSchema.showStatisticsToStudents ?? false
@@ -102,7 +101,7 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
         self.externalGrade = cachedGradeColumn.externalGrade
         self.created = cachedGradeColumn.created
         self.modified = cachedGradeColumn.modified
-        self.contentId = cachedGradeColumn.relatedContent?.id
+        self.contentId = cachedGradeColumn.relatedContentId
         self.possibleScore = cachedGradeColumn.possibleScore
         self.isAvailable = cachedGradeColumn.isAvailable
         self.grading = Grading(from: cachedGradeColumn.grading)
@@ -119,17 +118,14 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
         public let attemptsAllowed: Int
         public let scoringModel: Grading.ScoringModel
         public let schemaId: String?
-        public let anonymousGradingType: Grading.AnonymousGrading
+        public let anonymousGradingType: Grading.AnonymousGrading?
 
         init?(from gradeColumnGradingSchema: Components.Schemas.GradeColumn.GradingPayload) {
             guard
                 // Grade Column Grading Fields
                 let dueDate = gradeColumnGradingSchema.due,
                 let attemptsAllowed = gradeColumnGradingSchema.attemptsAllowed,
-                let scoringModelSchema = gradeColumnGradingSchema.scoringModel,
-                let anonymousGradingSchema = gradeColumnGradingSchema.anonymousGrading,
-
-                let anonymousGradingModel = Grading.AnonymousGrading(from: anonymousGradingSchema)
+                let scoringModelSchema = gradeColumnGradingSchema.scoringModel
             else {
                 GradeColumn.logger.error("gradeColumnGradingSchema is missing minimum required fields, unable to construt data model.")
 #if DEBUG
@@ -143,7 +139,12 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
             self.attemptsAllowed = Int(attemptsAllowed)
             self.scoringModel = ScoringModel(from: scoringModelSchema)
             self.schemaId = gradeColumnGradingSchema.schemaId
-            self.anonymousGradingType = anonymousGradingModel
+
+            if let anonymousGradingSchema = gradeColumnGradingSchema.anonymousGrading, let anonymousGradingModel = Grading.AnonymousGrading(from: anonymousGradingSchema) {
+                self.anonymousGradingType = anonymousGradingModel
+            } else {
+                self.anonymousGradingType = nil
+            }
         }
 
         init(from cachedGradeColumnGrading: CachedGradeColumn.Grading) {
@@ -151,7 +152,12 @@ public struct GradeColumn: Hashable, Identifiable, Sendable {
             self.attemptsAllowed = cachedGradeColumnGrading.attemptsAllowed
             self.scoringModel = ScoringModel(from: cachedGradeColumnGrading.scoringModel)
             self.schemaId = cachedGradeColumnGrading.schemaId
-            self.anonymousGradingType = AnonymousGrading(from: cachedGradeColumnGrading.anonymousGradingType)
+
+            if let cachedGradeColumnGradingAnonymousGrading = cachedGradeColumnGrading.anonymousGradingType {
+                self.anonymousGradingType = AnonymousGrading(from: cachedGradeColumnGradingAnonymousGrading)
+            } else {
+                self.anonymousGradingType = nil
+            }
         }
 
         public enum AnonymousGrading: Hashable, Sendable {

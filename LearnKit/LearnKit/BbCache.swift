@@ -235,30 +235,18 @@ actor BbCache {
         for column in columns {
             do {
                 let cachedCourse: CachedCourse? = try await getCourse(for: courseIdentifier)
-                let associatedContent: CachedContent? = column.contentId != nil ? try await getContent(for: column.contentId!, in: courseIdentifier) : nil
                 let cachedGradeColumn: CachedGradeColumn? = try await getGradeColumn(for: column.id, in: courseIdentifier)
 
 #if DEBUG
                 assert(cachedCourse != nil)
-                if column.contentId != nil {
-                    assert(associatedContent != nil)
-                }
 #endif
 
                 if let existingCachedGradeColumn = cachedGradeColumn {
                     existingCachedGradeColumn.copyValues(from: column)
                     existingCachedGradeColumn.course = cachedCourse
-
-                    if let existingAssociatedContent = associatedContent {
-                        existingCachedGradeColumn.relatedContent = existingAssociatedContent
-                    }
                 } else {
                     let newCachedGradeColumn = CachedGradeColumn(from: column)
                     newCachedGradeColumn.course = cachedCourse
-
-                    if let existingAssociatedContent = associatedContent {
-                        newCachedGradeColumn.relatedContent = existingAssociatedContent
-                    }
 
                     modelContext.insert(newCachedGradeColumn)
                 }

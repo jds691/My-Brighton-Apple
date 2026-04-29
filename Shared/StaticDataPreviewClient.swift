@@ -5,6 +5,7 @@
 //  Created by Neo Salmon on 13/10/2025.
 //
 
+#if !LEARNKIT_LIVE_DATA
 import Foundation
 import LearnKit
 internal import OpenAPIRuntime
@@ -33,7 +34,7 @@ struct PreviewClient: APIProtocol {
             availability:
                     .init(
                         available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                        duration: .init(_type: .term, start: nil, end: nil, daysOfUse: nil)
                     ),
             enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
             locale: .init(id: nil, force: false),
@@ -63,7 +64,7 @@ struct PreviewClient: APIProtocol {
             availability:
                     .init(
                         available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                        duration: .init(_type: .term, start: nil, end: nil, daysOfUse: nil)
                     ),
             enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
             locale: .init(id: nil, force: false),
@@ -92,7 +93,7 @@ struct PreviewClient: APIProtocol {
             availability:
                     .init(
                         available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                        duration: .init(_type: .term, start: nil, end: nil, daysOfUse: nil)
                     ),
             enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
             locale: .init(id: nil, force: false),
@@ -121,7 +122,7 @@ struct PreviewClient: APIProtocol {
             availability:
                     .init(
                         available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                        duration: .init(_type: .term, start: nil, end: nil, daysOfUse: nil)
                     ),
             enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
             locale: .init(id: nil, force: false),
@@ -152,7 +153,7 @@ struct PreviewClient: APIProtocol {
             availability:
                     .init(
                         available: .term,
-                        duration: .init(_type: .useTerm, start: nil, end: nil, daysOfUse: nil)
+                        duration: .init(_type: .term, start: nil, end: nil, daysOfUse: nil)
                     ),
             enrollment: .init(_type: .instructorLed, start: nil, end: nil, accessCode: nil),
             locale: .init(id: nil, force: false),
@@ -763,3 +764,4 @@ struct PreviewClient: APIProtocol {
         fatalError()
     }
 }
+#endif

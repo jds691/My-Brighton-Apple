@@ -37,6 +37,10 @@ struct CourseView: View {
 
     @State private var showCustomisationEditor: Bool = false
 
+    @State private var showErrorMessage: Bool = false
+    @State private var errorOccurredDuringInit: Bool = false
+    @State private var errorMessage: String? = nil
+
     init(id: Course.ID) {
         self.courseId = id
         self.customisations = CourseCustomisation()
@@ -219,45 +223,30 @@ struct CourseView: View {
             
 #endif
             .moduleSubrouteNavigationDestination(onAnnouncementTapped: presentAnnouncement)
-            .task {
-                self.customisations = CustomisationService.shared.getCourseCustomisation(for: courseId)
-
-                do {
-                    #if DEBUG
-                    if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-                        try await learnKit.refreshCourses()
-                    }
-                    #endif
-                    course = try await learnKit.getCourse(for: courseId)
-
-                    do {
-                        rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
-                    } catch {
-                        rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
+            .alert(errorOccurredDuringInit ? "Unable to load course" : "Unable to refresh course", isPresented: $showErrorMessage) {
+                if errorOccurredDuringInit {
+                    Button("Retry") {
+                        errorMessage = nil
+                        errorOccurredDuringInit = false
                     }
 
-                    assert(rootContent != nil)
-
-                    do {
-                        announcements = try await learnKit.refreshCourseAnnouncements(for: courseId)
-                    } catch {
-                        announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
+                    Button("Cancel") {
+                        dismiss()
                     }
-
-                    assert(announcements != nil)
-
-                    print("Loaded course")
-
-                    do {
-                        if let course {
-                            try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course, with: customisations)))
-                        }
-                    } catch {
-
+                } else {
+                    Button("OK") {
+                        errorMessage = nil
                     }
-                } catch {
-                    print(error)
                 }
+            } message: {
+                if let errorMessage {
+                    Text(errorMessage)
+                } else {
+                    Text("An unknown error has occurred.")
+                }
+            }
+            .task(id: courseId) {
+                await initView()
             }
             .refreshable {
                 do {
@@ -274,7 +263,8 @@ struct CourseView: View {
                     try await updatedRootContent
 
                 } catch {
-                    print(error)
+                    errorMessage = error.localizedDescription
+                    showErrorMessage = true
                 }
             }
             .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
@@ -444,6 +434,49 @@ struct CourseView: View {
         selectedAnnouncement = announcement
         showAnnouncementModal = true
         #endif
+    }
+
+    private func initView() async {
+        self.customisations = CustomisationService.shared.getCourseCustomisation(for: courseId)
+
+        do {
+#if DEBUG
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                try await learnKit.refreshCourses()
+            }
+#endif
+            course = try await learnKit.getCourse(for: courseId)
+
+            do {
+                rootContent = try await learnKit.refreshContent(for: "ROOT", includeChildren: false, in: courseId).first
+            } catch {
+                rootContent = try await learnKit.getContent(for: "ROOT", in: courseId)
+            }
+
+            assert(rootContent != nil)
+
+            do {
+                announcements = try await learnKit.refreshCourseAnnouncements(for: courseId)
+            } catch {
+                announcements = try await learnKit.getAllCourseAnnouncements(for: courseId)
+            }
+
+            assert(announcements != nil)
+
+            print("Loaded course")
+
+            do {
+                if let course {
+                    try await IntentDonationManager.shared.donate(intent: OpenCourseIntent(course: CourseEntity(from: course, with: customisations)))
+                }
+            } catch {
+
+            }
+        } catch {
+            errorOccurredDuringInit = true
+            errorMessage = error.localizedDescription
+            showErrorMessage = true
+        }
     }
 }
 

@@ -444,7 +444,7 @@ public struct Course: Hashable, Identifiable, Sendable {
                         }
 
                         self = .numberOfDays(Int(days))
-                    case .useTerm:
+                    case .term:
                         self = .inheritFromTerm
                 }
             }

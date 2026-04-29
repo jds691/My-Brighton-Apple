@@ -22,6 +22,7 @@ struct ContentFolderView: View {
         ScrollView {
             ContentChildrenListView(for: content.id)
         }
+        .myBrightonBackground()
         .contentMargins(16, for: .scrollContent)
         .navigationTitle(content.title)
     }

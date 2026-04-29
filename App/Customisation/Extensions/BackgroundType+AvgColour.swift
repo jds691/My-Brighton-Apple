@@ -71,10 +71,10 @@ extension BackgroundType {
         let rgb = simd_float3(resolvedColor.linearRed, resolvedColor.linearGreen, resolvedColor.linearBlue)
         let luminance = simd_dot(rec709Luma, rgb)
 
-        if ( luminance <= (216/24389)) {       // The CIE standard states 0.008856 but 216/24389 is the intent for 0.008856451679036
-            return luminance * (24389/27);  // The CIE standard states 903.3, but 24389/27 is the intent, making 903.296296296296296
+        if luminance <= (216/24389) { // The CIE standard states 0.008856 but 216/24389 is the intent for 0.008856451679036
+            return luminance * (24389/27) // The CIE standard states 903.3, but 24389/27 is the intent, making 903.296296296296296
         } else {
-            return pow(luminance,(1/3)) * 116 - 16;
+            return pow(luminance,(1/3)) * 116 - 16
         }
     }
 }
