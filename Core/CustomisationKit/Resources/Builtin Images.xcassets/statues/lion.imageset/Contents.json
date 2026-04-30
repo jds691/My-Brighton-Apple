@@ -35,6 +35,30 @@
       "filename" : "lion@3x-P3.jpg",
       "idiom" : "universal",
       "scale" : "3x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "lion~macOS.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "lion~macOS~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "lion~macOS@2x.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "lion~macOS@2x~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
     }
   ],
   "info" : {
