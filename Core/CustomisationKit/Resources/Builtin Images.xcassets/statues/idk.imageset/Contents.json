@@ -35,6 +35,30 @@
       "filename" : "idk@3x-P3.jpg",
       "idiom" : "universal",
       "scale" : "3x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "idk~macOS.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "idk~macOS~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "idk~macOS@2x.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "idk~macOS@2x~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
     }
   ],
   "info" : {

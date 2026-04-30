@@ -213,7 +213,8 @@ public final class CustomisationService {
             try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
         }
 
-        let customImageFile = customImageCache.appending(path: courseId, directoryHint: .notDirectory)
+        let uuid = UUID()
+        let customImageFile = customImageCache.appending(path: uuid.uuidString, directoryHint: .notDirectory)
 
         if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
             return try fm.replaceItemAt(customImageFile, withItemAt: url.url, backupItemName: courseId + "_BAK") ?? customImageFile
@@ -235,7 +236,8 @@ public final class CustomisationService {
             try fm.createDirectory(at: customImageCache, withIntermediateDirectories: true)
         }
 
-        let customImageFile = customImageCache.appending(path: courseId, directoryHint: .notDirectory)
+        let uuid = UUID()
+        let customImageFile = customImageCache.appending(path: uuid.uuidString, directoryHint: .notDirectory)
 
         if fm.fileExists(atPath: customImageFile.path(percentEncoded: false)) {
             try fm.removeItem(at: customImageFile)
