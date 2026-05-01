@@ -1,0 +1,26 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "AuthenticationError.invalidCredentials.errorDescription" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The username or password provided are incorrect."
+          }
+        }
+      }
+    },
+    "AuthenticationError.protectedCall.errorDescription" : {
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must be signed in to make this request."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}
