@@ -145,7 +145,6 @@ struct MyBrightonApp: App {
         #if os(macOS)
         Window("Sign In", id: "sign-in") {
             OnboardingView()
-                .scenePadding()
                 .environment(router)
                 .environment(searchManager)
                 .environment(\.learnKitService, learnKitService)
@@ -153,10 +152,13 @@ struct MyBrightonApp: App {
                 .environment(\.dashboardService, dashboardService)
                 .environment(\.accountService, accountService)
                 .handlesExternalEvents(preferring: [], allowing: [])
+                .windowFullScreenBehavior(.disabled)
+                .windowResizeBehavior(.disabled)
         }
         .restorationBehavior(.disabled)
         .windowResizability(.contentSize)
         .windowIdealSize(.fitToContent)
+        .windowStyle(.hiddenTitleBar)
         .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
 

@@ -10,6 +10,8 @@ import SwiftUI
 struct OnboardingView: View {
     @Binding var canShowContentView: Bool
 
+    @State private var displayedScreen: DisplayedScreen = .welcome
+
     @available(macOS 15.0, *)
     init() {
         self._canShowContentView = .constant(false)
@@ -25,6 +27,25 @@ struct OnboardingView: View {
     }
 
     var body: some View {
-        Text("Getting on that board fr fr")
+        NavigationStack {
+            switch displayedScreen {
+                case .welcome:
+                    OnboardingWelcomeView(displayedScreen: $displayedScreen)
+                        .transition(.slide)
+                default:
+                    EmptyView()
+                        .transition(.slide)
+            }
+        }
     }
+
+    enum DisplayedScreen: Hashable {
+        case welcome
+        case signIn
+        case customise
+    }
+}
+
+#Preview(traits: .unauthenticatedAccount) {
+    OnboardingView()
 }

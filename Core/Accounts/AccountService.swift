@@ -14,6 +14,10 @@ public final class AccountService: Sendable {
 
     private let userDefaults: UserDefaults
 
+#if DEBUG
+    private let isStatusForced: Bool
+#endif
+
     public init() {
         self.userDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
 
@@ -28,9 +32,34 @@ public final class AccountService: Sendable {
         } else {
             self.authenticationStatus = .notAuthenticated
         }
+
+#if DEBUG
+        self.isStatusForced = false
+#endif
+    }
+
+    public init(forcedStatus: AuthenticationStatus) {
+#if DEBUG
+        self.userDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
+
+        self.authenticationStatus = forcedStatus
+        self.isStatusForced = true
+#else
+        self.init()
+#endif
     }
 
     public func signIn(username: String, password: String) async throws(AuthenticationError) {
+#if DEBUG
+        if isStatusForced {
+            if authenticationStatus != .authenticated {
+                throw .invalidCredentials
+            } else {
+                return
+            }
+        }
+#endif
+
         /*
          This function is hardcoded to accept one set of credentials. This is for demo purposes.
 
@@ -54,12 +83,24 @@ public final class AccountService: Sendable {
     }
 
     public func clearAuthenticatedAccount() {
+#if DEBUG
+        if isStatusForced {
+            return
+        }
+#endif
+
         userDefaults.removeObject(forKey: UserDefaultsKeys.lastUserNameHash.rawValue)
         userDefaults.set(Date.now, forKey: UserDefaultsKeys.authExpiryDate.rawValue)
         self.authenticationStatus = .notAuthenticated
     }
 
     public func markAuthenticationExpired() {
+#if DEBUG
+        if isStatusForced {
+            return
+        }
+#endif
+        
         userDefaults.set(Date.now, forKey: UserDefaultsKeys.authExpiryDate.rawValue)
         self.authenticationStatus = .authenticationExpired
     }

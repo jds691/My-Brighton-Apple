@@ -63,15 +63,17 @@ struct RootView: View {
                         }
                     }
 #else
-                EmptyView()
-                    .onAppear {
-                        if accountService.authenticationStatus == .authenticated {
-                            canShowContentView = true
-                        } else {
-                            openWindow(id: "sign-in")
-                            dismiss()
-                        }
+                VStack {
+                    EmptyView()
+                }
+                .onAppear {
+                    if accountService.authenticationStatus == .authenticated {
+                        canShowContentView = true
+                    } else {
+                        openWindow(id: "sign-in")
+                        dismiss()
                     }
+                }
 #endif
             }
         }
