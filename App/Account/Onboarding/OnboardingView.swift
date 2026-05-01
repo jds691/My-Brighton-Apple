@@ -32,6 +32,9 @@ struct OnboardingView: View {
                 case .welcome:
                     OnboardingWelcomeView(displayedScreen: $displayedScreen)
                         .transition(.slide)
+                case .signIn:
+                    OnboardingSignInView(displayedScreen: $displayedScreen)
+                        .transition(.slide)
                 default:
                     EmptyView()
                         .transition(.slide)

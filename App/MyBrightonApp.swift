@@ -132,6 +132,7 @@ struct MyBrightonApp: App {
             .environment(\.learnKitService, learnKitService)
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
+            .environment(\.accountService, accountService)
 #if os(macOS)
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false

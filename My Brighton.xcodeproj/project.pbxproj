@@ -382,6 +382,7 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				CoreDesign/TextField/ContraTextFieldStyle.swift,
 			);
 			target = 6840C75F2F61F7010097B1FA /* CoreDesign */;
 		};
@@ -546,6 +547,7 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				CoreDesign/TextField/ContraTextFieldStyle.swift,
 				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
 				CustomisationKit/Customisations/HomeCustomisation.swift,
@@ -601,6 +603,7 @@
 				"CoreDesign/Pre-Liquid Glass/LegacyToolbarViewModifier.swift",
 				"CoreDesign/Pre-Liquid Glass/ViewModifier+DesignSystemAwareLabelStyle.swift",
 				CoreDesign/SplitStack.swift,
+				CoreDesign/TextField/ContraTextFieldStyle.swift,
 				"CustomisationKit/Codable/Color+Codable.swift",
 				CustomisationKit/Customisations/CourseCustomisation.swift,
 				CustomisationKit/Customisations/HomeCustomisation.swift,

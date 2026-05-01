@@ -48,6 +48,7 @@ struct OnboardingWelcomeView: View {
                         .padding(8)
                 }
                 .buttonStyle(.glassProminent)
+                .keyboardShortcut(.defaultAction)
             } else {
                 Button {
                     withAnimation {
@@ -58,12 +59,14 @@ struct OnboardingWelcomeView: View {
                         .padding(8)
                 }
                 .buttonStyle(.borderedProminent)
+                .keyboardShortcut(.defaultAction)
             }
 
 #endif
         }
         .navigationTitle("Welcome")
 #if os(iOS)
+        .frame(maxHeight: .infinity, alignment: .topLeading)
         .navigationBarTitleDisplayMode(.inline)
         .modifierBranch {
             if #available(iOS 26, macOS 26, *) {
@@ -79,6 +82,7 @@ struct OnboardingWelcomeView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .buttonStyle(.glassProminent)
+                        .keyboardShortcut(.defaultAction)
                     }
             } else {
                 $0
@@ -93,6 +97,7 @@ struct OnboardingWelcomeView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .buttonStyle(.borderedProminent)
+                        .keyboardShortcut(.defaultAction)
                     }
             }
         }

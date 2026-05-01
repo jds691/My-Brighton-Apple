@@ -12,6 +12,7 @@ import WidgetKit
 import Timetable
 import CoreSpotlight
 import LearnKit
+import Accounts
 
 struct DebugOptionsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -21,6 +22,7 @@ struct DebugOptionsView: View {
     @Environment(\.learnKitService) private var learnKitService
     @Environment(\.timetableService) private var timetableService
     @Environment(\.dashboardService) private var dashboardService
+    @Environment(\.accountService) private var accountService
 
     @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
 
@@ -91,6 +93,16 @@ struct DebugOptionsView: View {
                         CSSearchableIndex.default().deleteAllSearchableItems()
                     }
                 }
+
+                Section("Accounts") {
+                    Button("Mark authentication as expired") {
+                        accountService.markAuthenticationExpired()
+                    }
+
+                    Button("Clear authentication") {
+                        accountService.clearAuthenticatedAccount()
+                    }
+                }
             }
             .navigationTitle("Debug")
             .toolbar {
@@ -108,6 +120,9 @@ struct DebugOptionsView: View {
                     }
                 }
             }
+            #if os(macOS)
+            .scenePadding()
+            #endif
         }
     }
 }
