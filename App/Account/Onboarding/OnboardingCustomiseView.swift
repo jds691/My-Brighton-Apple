@@ -270,6 +270,8 @@ struct OnboardingCustomiseView: View {
                     }
                 }
             }
+
+            MyBrightonAppShortcuts.updateAppShortcutParameters()
         } catch {
             print(error)
         }
