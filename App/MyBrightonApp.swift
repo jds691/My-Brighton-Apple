@@ -73,7 +73,7 @@ struct MyBrightonApp: App {
     }
     
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "main") {
             RootView()
                 .environment(router)
                 .environment(searchManager)

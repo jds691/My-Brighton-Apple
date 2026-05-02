@@ -1,0 +1,39 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "home.header.tod.afternoon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Good Afternoon"
+          }
+        }
+      }
+    },
+    "home.header.tod.evening" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Good Evening"
+          }
+        }
+      }
+    },
+    "home.header.tod.morning" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Good Morning"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}
