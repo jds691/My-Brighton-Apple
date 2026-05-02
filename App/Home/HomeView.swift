@@ -13,6 +13,7 @@ import Router
 import CoreDesign
 import DashboardKit
 import CustomisationKit
+import Accounts
 
 struct HomeView: View {
     @Environment(\.webAuthenticationSession) private var webAuthenticationSession
@@ -30,6 +31,7 @@ struct HomeView: View {
     @Environment(Router.self) private var router
     @Environment(SearchManager.self) private var searchManager: SearchManager
     @Environment(\.learnKitService) private var learnKitService
+    @Environment(\.accountService) private var accountService
 
     @State private var scrollPosition: CGPoint = .zero
     @State private var showTitle: Bool = false
@@ -268,14 +270,6 @@ struct HomeView: View {
         }
     }
 
-    //MARK: Localisation
-    private let signOutMessage: String = .init(
-        localized: "SIGN_OUT_MESSAGE",
-        defaultValue: "You'll need to sign back in to use My Brighton. Your UniCard will also be removed from Apple Wallet and Automatic Top-Up via Apple Pay will be cancelled.",
-        table: "Account",
-        comment: "Shown in an alert when the user signs out. Signing out removes their student ID from Apple Wallet and disables auto top-up if it is set up via Apple Pay."
-    )
-
     @ViewBuilder
     private func primaryMenu(_ proxy: ScrollViewProxy) -> some View {
         Menu {
@@ -310,11 +304,13 @@ struct HomeView: View {
                 Label("Send Feedback", systemImage: "bubble.and.pencil")
             }
 
+            #if os(iOS)
             Button(role: .destructive) {
                 showSignOut = true
             } label: {
                 Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.forward")
             }
+            #endif
 
 #if DEBUG
             Divider()
@@ -332,14 +328,17 @@ struct HomeView: View {
                 Label("More Options", systemImage: "ellipsis.circle")
             }
         }
+        #if os(iOS)
         .confirmationDialog("Sign Out", isPresented: $showSignOut) {
             Button(role: .destructive) {
+                accountService.signOut()
             } label: {
                 Text("Sign Out")
             }
         } message: {
-            Text(signOutMessage)
+            Text(LocalizedStringResource.Account.alertSignOutConfirm)
         }
+        #endif
     }
 }
 

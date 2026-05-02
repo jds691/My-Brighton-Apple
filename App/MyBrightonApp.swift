@@ -15,6 +15,7 @@ import Router
 import Notifier
 import DashboardKit
 import CustomisationKit
+import Accounts
 #if os(macOS)
 import ServiceManagement
 #endif
@@ -25,10 +26,13 @@ struct MyBrightonApp: App {
     // So 2 windows on iPadOS will *always* point to the same location even if the current nav destination is changed between differetn windows
     @State private var searchManager: SearchManager = SearchManager.shared
     @State private var router: Router
+    private let accountService: AccountService
     private let notifier: Notifier
     private let dashboardService: DashboardService
     private let learnKitService: LearnKitService
     private let timetableService: TimetableService
+
+    @State private var showGlobalSignOut: Bool = false
 
     private let defaultAppStorage: UserDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
 
@@ -43,9 +47,10 @@ struct MyBrightonApp: App {
         self.notifier = Notifier(router: appRouter)
         self.router = appRouter
 
-        self.learnKitService = LearnKitService(client: PreviewClient())
+        self.learnKitService = LearnKitService(client: PreviewClient(), inMemory: false)
         //self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())
         self.timetableService = TimetableService(notifier: self.notifier)
+        self.accountService = AccountService()
 
 
         // Taken from sample code, idk why it's like this but I shall accept it
@@ -70,13 +75,15 @@ struct MyBrightonApp: App {
     }
     
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        WindowGroup(id: "main") {
+            RootView()
                 .environment(router)
                 .environment(searchManager)
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
             #if os(macOS)
                 .onAppear {
                     NSWindow.allowsAutomaticWindowTabbing = false
@@ -100,7 +107,7 @@ struct MyBrightonApp: App {
             ImportFromDevicesCommands()
             #endif
 
-            AccountCommands()
+            AccountCommands(showSignOut: $showGlobalSignOut, accountService: self.accountService)
             CourseCommands()
         }
         #if !os(macOS)
@@ -128,6 +135,8 @@ struct MyBrightonApp: App {
             .environment(\.learnKitService, learnKitService)
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
+            .environment(\.accountService, accountService)
+            .environment(\.notifier, notifier)
 #if os(macOS)
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
@@ -139,6 +148,36 @@ struct MyBrightonApp: App {
         .handlesExternalEvents(matching: [])
 
         #if os(macOS)
+        Window("Sign In", id: "sign-in") {
+            OnboardingView()
+                .environment(router)
+                .environment(searchManager)
+                .environment(\.learnKitService, learnKitService)
+                .environment(\.timetableService, timetableService)
+                .environment(\.dashboardService, dashboardService)
+                .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
+                .handlesExternalEvents(preferring: [], allowing: [])
+                .windowFullScreenBehavior(.disabled)
+                .windowResizeBehavior(.disabled)
+        }
+        .restorationBehavior(.disabled)
+        .windowResizability(.contentSize)
+        .windowIdealSize(.fitToContent)
+        .windowStyle(.hiddenTitleBar)
+        .defaultAppStorage(defaultAppStorage)
+        .handlesExternalEvents(matching: [])
+
+        AlertScene("Sign Out", isPresented: $showGlobalSignOut) {
+            Button(role: .destructive) {
+                accountService.signOut()
+            } label: {
+                Text("Sign Out")
+            }
+        } message: {
+            Text(LocalizedStringResource.Account.alertSignOutConfirm)
+        }
+
         Settings {
             AccountView()
                 .scenePadding()
@@ -147,6 +186,8 @@ struct MyBrightonApp: App {
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
         .defaultAppStorage(defaultAppStorage)
@@ -166,6 +207,8 @@ struct MyBrightonApp: App {
             .environment(\.learnKitService, learnKitService)
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
+            .environment(\.accountService, accountService)
+            .environment(\.notifier, notifier)
             .containerBackground(.brightonBackground, for: .window)
             .toolbarBackground(.hidden, for: .windowToolbar)
             .onAppear {
@@ -181,6 +224,8 @@ struct MyBrightonApp: App {
                 .environment(\.learnKitService, learnKitService)
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
+                .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
                 .handlesExternalEvents(preferring: ["timetable="], allowing: ["timetable="])
         }
         .windowResizability(.contentSize)

@@ -20,29 +20,32 @@ import CustomisationKit
 /// - Indexes SwiftData information into CoreSpotlight
 actor BbCache {
     private static let logger: Logger = Logger(subsystem: "com.neo.LearnKit", category: "BbCache")
+    private static let schemaV1: Schema = .init([
+        CachedCourse.self,
+        CachedContent.self,
+        CachedTerm.self,
+        CachedSystemAnnouncement.self,
+        CachedCourseAnnouncement.self,
+        CachedGradeColumn.self,
+        CachedGradebookAttempt.self
+    ])
 
     // TODO: Consider protection class
     private let searchableIndex: CSSearchableIndex = CSSearchableIndex(name: "LearnKit")
 
-    private let modelExecutor: any ModelExecutor
-    private let modelContainer: ModelContainer
+    private var modelExecutor: any ModelExecutor
+    private var modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
-    
+
+    private let wasInitInMemory: Bool
+
     /// Initialises the cache database with the current schema version.
     init() {
+        self.wasInitInMemory = false
         do {
-            let schemaV1: Schema = .init([
-                CachedCourse.self,
-                CachedContent.self,
-                CachedTerm.self,
-                CachedSystemAnnouncement.self,
-                CachedCourseAnnouncement.self,
-                CachedGradeColumn.self,
-                CachedGradebookAttempt.self
-            ])
-            let config: ModelConfiguration = .init("BbCache", schema: schemaV1, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init("BbCache", schema: Self.schemaV1, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
-            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelContainer = try .init(for: Self.schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
@@ -52,19 +55,11 @@ actor BbCache {
     /// Initialises a version of the cache database designed for testing and previews.
     /// - Parameter inMemoryOnly: Indicates if the database is in-memory only, useful for initialising many instances in test suites,
     init(inMemoryOnly: Bool) {
+        self.wasInitInMemory = inMemoryOnly
         do {
-            let schemaV1: Schema = .init([
-                CachedCourse.self,
-                CachedContent.self,
-                CachedTerm.self,
-                CachedSystemAnnouncement.self,
-                CachedCourseAnnouncement.self,
-                CachedGradeColumn.self,
-                CachedGradebookAttempt.self
-            ])
-            let config: ModelConfiguration = .init("BbCache", schema: schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init("BbCache", schema: Self.schemaV1, isStoredInMemoryOnly: inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
-            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelContainer = try .init(for: Self.schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
         } catch {
             fatalError("Failed to initialise modelContainer, unable to continue.")
@@ -366,6 +361,28 @@ actor BbCache {
 
 // MARK: LearnKitAPI
 extension BbCache: LearnKitAPI {
+    // MARK: Caching
+    func eraseAllCache() async throws(LearnKitError) {
+        do {
+            try await searchableIndex.deleteAllSearchableItems()
+            try modelContainer.erase()
+            initialiseModelContainer()
+        } catch {
+            throw .cacheEraseFailed
+        }
+    }
+
+    private func initialiseModelContainer() {
+        do {
+            let config: ModelConfiguration = .init("BbCache", schema: Self.schemaV1, isStoredInMemoryOnly: self.wasInitInMemory, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+
+            self.modelContainer = try .init(for: Self.schemaV1, configurations: config)
+            self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
+        } catch {
+            fatalError("Failed to initialise modelContainer, unable to continue.")
+        }
+    }
+
     // MARK: (System) Announcements
     func getAllSystemAnnouncements() async throws -> [SystemAnnouncement] {
         return try modelContext.fetch(FetchDescriptor<CachedSystemAnnouncement>()).compactMap({ SystemAnnouncement(from: $0) })

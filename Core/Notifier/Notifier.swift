@@ -13,7 +13,15 @@ import Router
 @MainActor
 public final class Notifier: NSObject, @MainActor UNUserNotificationCenterDelegate {
     private static let logger: Logger = Logger(subsystem: "com.neo.Notifier", category: "Notifier")
-    private let router: Router
+    private let router: Router?
+
+    public override init() {
+        self.router = nil
+
+        super.init()
+
+        UNUserNotificationCenter.current().setNotificationCategories(Set(NotificationCategory.allCases.map { UNNotificationCategory(for: $0) }))
+    }
 
     public init(router: Router) {
         self.router = router
@@ -28,6 +36,11 @@ public final class Notifier: NSObject, @MainActor UNUserNotificationCenterDelega
         } catch {
             return false
         }
+    }
+
+    public func removeAllNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
     // MARK: Timetable
@@ -76,7 +89,7 @@ public final class Notifier: NSObject, @MainActor UNUserNotificationCenterDelega
 
     // MARK: UNUserNotificationCenterDelegate
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let category = NotificationCategory(rawValue: response.notification.request.content.categoryIdentifier) else { return }
+        guard let category = NotificationCategory(rawValue: response.notification.request.content.categoryIdentifier), let router else { return }
 
         switch category {
             case .timetabledClass:

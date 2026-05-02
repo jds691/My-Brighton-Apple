@@ -1,0 +1,18 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "alert.sign-out.confirm" : {
+      "comment" : "Shown in an alert when the user signs out. Signing out removes their student ID from Apple Wallet and disables auto top-up if it is set up via Apple Pay.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will erase all content and data from My Brighton.\nYou will need to sign back in to continue using the app.\n\nAre you sure you want to sign out?"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}

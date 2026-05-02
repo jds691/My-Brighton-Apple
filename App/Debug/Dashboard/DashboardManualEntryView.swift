@@ -109,6 +109,9 @@ struct DashboardManualEntryView: View {
         } message: {
             Text(errorText)
         }
+#if os(macOS)
+        .scenePadding()
+#endif
     }
 
     @ViewBuilder

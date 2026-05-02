@@ -20,9 +20,15 @@ import CoreImage.CIFilterBuiltins
 nonisolated
 public final class CustomisationService {
     nonisolated(unsafe) public static var inMemoryOnly: Bool = false
+
+    private static let schemaV1: Schema = .init([
+        CourseCustomisation.self,
+        HomeCustomisation.self
+    ])
+
     // Also copied from LearnKit
-    private let modelExecutor: any ModelExecutor
-    private let modelContainer: ModelContainer
+    private var modelExecutor: any ModelExecutor
+    private var modelContainer: ModelContainer
     private var modelContext: ModelContext { modelExecutor.modelContext }
 
     private let graphicsContext: CIContext
@@ -44,13 +50,9 @@ public final class CustomisationService {
         graphicsContext = CIContext(options: [.workingColorSpace: kCFNull!, .outputColorSpace: kCFNull!])
 
         do {
-            let schemaV1: Schema = .init([
-                CourseCustomisation.self,
-                HomeCustomisation.self
-            ])
-            let config: ModelConfiguration = .init("Customisation", schema: schemaV1, isStoredInMemoryOnly: Self.inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
+            let config: ModelConfiguration = .init("Customisation", schema: Self.schemaV1, isStoredInMemoryOnly: Self.inMemoryOnly, groupContainer: .identifier("group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton"))
 
-            self.modelContainer = try .init(for: schemaV1, configurations: config)
+            self.modelContainer = try .init(for: Self.schemaV1, configurations: config)
             self.modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
 
             self.modelContext.autosaveEnabled = false
@@ -78,6 +80,13 @@ public final class CustomisationService {
             .colibri3,
             .colibri4
         ]
+    }
+
+    public func eraseAll() async throws {
+        try modelContext.delete(model: CourseCustomisation.self)
+        try modelContext.delete(model: HomeCustomisation.self)
+
+        try modelContext.save()
     }
 
     public func getCourseCustomisation(for courseId: String) -> CourseCustomisation {

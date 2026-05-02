@@ -79,6 +79,8 @@ public final class Dashboard: Identifiable {
     }
 
     func eraseModelContainer() throws (DashboardError) {
+        _entries = []
+        
         do {
             try modelContainer?.erase()
             initialiseModelContainer(inMemory: wasLastContainerInitInMemory)

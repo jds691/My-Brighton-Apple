@@ -6,13 +6,30 @@
 //
 
 import SwiftUI
+import Accounts
 
 struct AccountCommands: Commands {
+    private let accountService: AccountService
+
+    @Binding private var showSignOut: Bool
+
+    init(showSignOut: Binding<Bool>, accountService: AccountService) {
+        self._showSignOut = showSignOut
+        self.accountService = accountService
+    }
+
     var body: some Commands {
+        #if os(macOS)
         CommandGroup(before: .appTermination) {
-            Button("Sign Out") {
-                
+            Button {
+                showSignOut = true
+            } label: {
+                Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.forward")
             }
+            .disabled(accountService.authenticationStatus != .authenticated)
         }
+        #else
+        EmptyCommands()
+        #endif
     }
 }

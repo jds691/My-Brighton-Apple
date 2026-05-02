@@ -14,7 +14,7 @@ class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
 
         Task {
             defer { semaphore.signal() }
-            return try await LearnKitService(client: PreviewClient()).reindexAllContent()
+            return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexAllContent()
         }
 
         semaphore.wait()
@@ -27,7 +27,7 @@ class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
 
         Task {
             defer { semaphore.signal() }
-            return try await LearnKitService(client: PreviewClient()).reindexContent(withIdentifiers: identifiers)
+            return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexContent(withIdentifiers: identifiers)
         }
 
         semaphore.wait()

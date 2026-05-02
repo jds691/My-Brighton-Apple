@@ -145,7 +145,7 @@ struct AccountView: View {
                     Text("Sign Out")
                 }
             } message: {
-                Text(signOutMessage)
+                Text("")
             }
             #if os(iOS)
             .sheet(isPresented: $showManageOnline) {
@@ -155,12 +155,4 @@ struct AccountView: View {
             #endif
         }
     }
-    
-    //MARK: Localisation
-    private let signOutMessage: String = .init(
-        localized: "SIGN_OUT_MESSAGE",
-        defaultValue: "You'll need to sign back in to use My Brighton. Your UniCard will also be removed from Apple Wallet and Automatic Top-Up via Apple Pay will be cancelled.",
-        table: "Account",
-        comment: "Shown in an alert when the user signs out. Signing out removes their student ID from Apple Wallet and disables auto top-up if it is set up via Apple Pay."
-    )
 }

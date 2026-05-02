@@ -9,6 +9,9 @@
 
 /// Collection of methods required to be implemented by the service and offline cache actor.
 protocol LearnKitAPI {
+    // MARK: Caching
+    func eraseAllCache() async throws(LearnKitError)
+
     // MARK: (System) Announcements
     func getAllSystemAnnouncements() async throws -> [SystemAnnouncement]
     func getSystemAnnouncement(for identifier: SystemAnnouncement.ID) async throws -> SystemAnnouncement?
