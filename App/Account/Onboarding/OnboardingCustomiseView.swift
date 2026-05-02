@@ -248,7 +248,7 @@ struct OnboardingCustomiseView: View {
             currentDownloadTask = "Downloading course announcements"
             try await withThrowingTaskGroup { group in
                 for course in courses {
-                    group.addTask { try await learnKit.getAllCourseAnnouncements(for: course.id) }
+                    group.addTask { try await learnKit.refreshCourseAnnouncements(for: course.id) }
                 }
 
                 try await group.waitForAll()
@@ -256,7 +256,7 @@ struct OnboardingCustomiseView: View {
             currentDownloadTask = "Downloading assignments"
             try await withThrowingTaskGroup { group in
                 for course in courses {
-                    group.addTask { (columns: try await learnKit.getAllGradeColumns(for: course.id), courseId: course.id) }
+                    group.addTask { (columns: try await learnKit.refreshGradeColumns(for: course.id), courseId: course.id) }
                 }
 
                 for try await result in group {
@@ -270,7 +270,7 @@ struct OnboardingCustomiseView: View {
                 }
             }
         } catch {
-
+            print(error)
         }
     }
 

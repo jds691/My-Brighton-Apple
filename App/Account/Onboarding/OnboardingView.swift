@@ -55,17 +55,16 @@ struct OnboardingView: View {
         .task {
             displayedScreen = .welcome
 
+            #if os(macOS)
             do {
                 try await Task.sleep(nanoseconds: 1_000_000)
             } catch {
 
             }
 
-            #if os(macOS)
             dismissWindow(id: "main")
             dismissWindow(id: "course-announcement")
             dismissWindow(id: "timetable")
-            #endif
             dismissWindow(id: "module")
 
             notifier.removeAllNotifications()
@@ -94,6 +93,7 @@ struct OnboardingView: View {
             }
 
             MyBrightonAppShortcuts.updateAppShortcutParameters()
+            #endif
         }
     }
 

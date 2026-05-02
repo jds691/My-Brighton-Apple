@@ -6,11 +6,22 @@
 //
 
 import SwiftUI
+import LearnKit
+import CustomisationKit
+import Timetable
 
 struct RootView: View {
     @Environment(\.accountService) private var accountService
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
+
+    @Environment(\.timetableService) private var timetableService
+    @Environment(\.learnKitService) private var learnKit
+    @Environment(\.dashboardService) private var dashboardService
+    @Environment(\.notifier) private var notifier
+    @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
+
+    @Environment(\.dismissWindow) private var dismissWindow
 
     @State private var showAuthErrorAlert: Bool = false
 
@@ -54,6 +65,41 @@ struct RootView: View {
                     .task {
                         if accountService.authenticationStatus == .authenticated {
                             canShowContentView = true
+                        } else {
+                                do {
+                                    try await Task.sleep(nanoseconds: 1_000_000)
+                                } catch {
+
+                                }
+
+                                dismissWindow(id: "module")
+
+                                notifier.removeAllNotifications()
+
+                                timetableURL = nil
+                                timetableService.clearCalendarCache()
+                                timetableService.setRemoteURL(nil)
+
+                                do {
+                                    try dashboardService.eraseContent()
+
+                                } catch {
+                                    fatalError()
+                                }
+
+                                do {
+                                    try await CustomisationService.shared.eraseAll()
+                                } catch {
+                                    fatalError()
+                                }
+
+                                do {
+                                    try await learnKit.eraseAllCache()
+                                } catch {
+                                    fatalError("LearnKit could not be erased. Unable to safely continue!")
+                                }
+
+                                MyBrightonAppShortcuts.updateAppShortcutParameters()
                         }
                     }
 #else

@@ -40,8 +40,8 @@ public final class LearnKitService: Sendable {
     /// This initialiser is only intended to be used for previews.
     /// >important: Some API calls will not function with custom clients.
     /// - Parameter client: Custom client to use for REST calls.
-    public init(client: any APIProtocol) {
-        self.cache = BbCache(inMemoryOnly: true)
+    public init(client: any APIProtocol, inMemory: Bool = true) {
+        self.cache = BbCache(inMemoryOnly: inMemory)
         self.baseURL = nil
         self.client = client
     }

@@ -47,7 +47,7 @@ struct MyBrightonApp: App {
         self.notifier = Notifier(router: appRouter)
         self.router = appRouter
 
-        self.learnKitService = LearnKitService(client: PreviewClient())
+        self.learnKitService = LearnKitService(client: PreviewClient(), inMemory: false)
         //self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())
         self.timetableService = TimetableService(notifier: self.notifier)
         self.accountService = AccountService()
