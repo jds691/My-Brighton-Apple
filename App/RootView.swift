@@ -21,23 +21,22 @@ struct RootView: View {
             if canShowContentView {
                 ContentView()
                     .task {
-                        if accountService.authenticationStatus != .authenticated {
+                        if accountService.authenticationStatus == .signedOut {
+                            showSignIn()
+                        } else if accountService.authenticationStatus != .authenticated {
                             showAuthErrorAlert = true
                         }
                     }
                     .onChange(of: accountService.authenticationStatus) {
-                        if accountService.authenticationStatus != .authenticated {
+                        if accountService.authenticationStatus == .signedOut {
+                            showSignIn()
+                        } else if accountService.authenticationStatus != .authenticated {
                             showAuthErrorAlert = true
                         }
                     }
                     .alert("Sign In Error", isPresented: $showAuthErrorAlert) {
                         Button("OK") {
-#if os(macOS)
-                            openWindow(id: "sign-in")
-                            dismiss()
-#else
-                            canShowContentView = false
-#endif
+                            showSignIn()
                         }
                     } message: {
                         switch accountService.authenticationStatus {
@@ -45,7 +44,7 @@ struct RootView: View {
                                 Text("You must be signed in to use My Brighton.")
                             case .authenticationExpired:
                                 Text("This session has expired. You must sign back in.")
-                            case .authenticated:
+                            case .authenticated, .signedOut:
                                 Text("An unknown error has occurred.")
                         }
                     }
@@ -72,5 +71,14 @@ struct RootView: View {
 #endif
             }
         }
+    }
+
+    private func showSignIn() {
+#if os(macOS)
+        openWindow(id: "sign-in")
+        dismiss()
+#else
+        canShowContentView = false
+#endif
     }
 }

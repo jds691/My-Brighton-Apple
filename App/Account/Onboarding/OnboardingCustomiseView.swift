@@ -84,6 +84,10 @@ struct OnboardingCustomiseView: View {
                 Text(timeOfDayString() + ",")
                     .bold()
                 TextField("Name", text: $overrideName)
+                    .multilineTextAlignment(.center)
+                #if os(iOS)
+                    .textInputAutocapitalization(.words)
+                #endif
             }
             .font(.largeTitle)
 
@@ -136,6 +140,33 @@ struct OnboardingCustomiseView: View {
                     .safeAreaInset(edge: .bottom) {
                         interactionView
                     }
+            }
+        }
+#endif
+#if canImport(UIKit)
+        .cameraCapture(isPresented: $showProfilePictureCamera, image: $takenProfilePicture, preferredCamera: .front)
+        .onChange(of: takenProfilePicture) {
+            guard let takenProfilePicture else { return }
+
+            Task {
+                do {
+                    let url = try await CustomisationService.storeProfilePicture(takenProfilePicture)
+
+                    // A hack, but a functional hack
+                    let existingPfp = homeCustomisations.profilePictureOverrideUrl
+                    homeCustomisations.profilePictureOverrideUrl = url
+                    if let existingPfp {
+                        do {
+                            try FileManager.default.removeItem(at: existingPfp)
+                        } catch {
+                            print(error)
+                        }
+                    }
+
+                    self.selectedUserProfilePhoto = nil
+                } catch {
+                    print(error)
+                }
             }
         }
 #endif

@@ -32,6 +32,8 @@ struct MyBrightonApp: App {
     private let learnKitService: LearnKitService
     private let timetableService: TimetableService
 
+    @State private var showGlobalSignOut: Bool = false
+
     private let defaultAppStorage: UserDefaults = UserDefaults(suiteName: "group.\(Bundle.main.developmentTeamId).com.neo.My-Brighton")!
 
 #if os(iOS)
@@ -105,7 +107,7 @@ struct MyBrightonApp: App {
             ImportFromDevicesCommands()
             #endif
 
-            AccountCommands()
+            AccountCommands(showSignOut: $showGlobalSignOut, accountService: self.accountService)
             CourseCommands()
         }
         #if !os(macOS)
@@ -165,6 +167,16 @@ struct MyBrightonApp: App {
         .windowStyle(.hiddenTitleBar)
         .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: [])
+
+        AlertScene("Sign Out", isPresented: $showGlobalSignOut) {
+            Button(role: .destructive) {
+                accountService.signOut()
+            } label: {
+                Text("Sign Out")
+            }
+        } message: {
+            Text(LocalizedStringResource.Account.alertSignOutConfirm)
+        }
 
         Settings {
             AccountView()

@@ -16,8 +16,12 @@ struct CameraCaptureView: UIViewControllerRepresentable {
     @Binding var image: UIImage?
     @Environment(\.dismiss) var dismiss
 
-    public init(image: Binding<UIImage?>) {
+    private let preferredCamera: PreferredCamera
+
+    public init(image: Binding<UIImage?>, preferredCamera: PreferredCamera = .rear) {
         self._image = image
+
+        self.preferredCamera = preferredCamera
     }
 
     public func makeCoordinator() -> Coordinator {
@@ -27,6 +31,7 @@ struct CameraCaptureView: UIViewControllerRepresentable {
     public func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
+        picker.cameraDevice = preferredCamera.uiImagePickerControllerCameraDevice
         picker.delegate = context.coordinator
         return picker
     }

@@ -82,6 +82,17 @@ public final class AccountService: Sendable {
         return .exhibitionAccount
     }
 
+    public func signOut() {
+#if DEBUG
+        if isStatusForced {
+            return
+        }
+#endif
+
+        userDefaults.set(Date.now, forKey: UserDefaultsKeys.authExpiryDate.rawValue)
+        self.authenticationStatus = .signedOut
+    }
+
     public func clearAuthenticatedAccount() {
 #if DEBUG
         if isStatusForced {

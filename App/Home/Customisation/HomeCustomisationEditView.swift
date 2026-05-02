@@ -151,7 +151,7 @@ struct HomeCustomisationEditView: View {
             }
         }
 #if canImport(UIKit)
-        .cameraCapture(isPresented: $showProfilePictureCamera, image: $takenProfilePicture)
+        .cameraCapture(isPresented: $showProfilePictureCamera, image: $takenProfilePicture, preferredCamera: .front)
         .onChange(of: takenProfilePicture) {
             guard let takenProfilePicture else { return }
 

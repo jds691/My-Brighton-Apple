@@ -11,5 +11,6 @@ import Foundation
 public enum AuthenticationStatus: Hashable, Sendable {
     case notAuthenticated
     case authenticationExpired
+    case signedOut
     case authenticated
 }
