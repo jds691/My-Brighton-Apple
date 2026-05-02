@@ -128,6 +128,7 @@ struct UpcomingAssignmentsHomeWidgetView: View {
             } label: {
                 UpcomingAssignmentsView(for: course)
             }
+            .contentShape(RoundedRectangle(cornerRadius: 16, style: .circular))
             .buttonStyle(.plain)
             // THIS EVIL FUCKING MODIFIER CAUSES THE PROGRAM TO LOCK UP DUE TO OBSERVATION CHANGES
             // WHEN IT IS NOT INSIDE OF A SCROLLVIEW CONTAINER

@@ -142,7 +142,7 @@ struct UpcomingAssignmentsView: View {
                     .background {
                         CustomisedBackgroundView(customisations.background)
                             .aspectRatio(contentMode: .fill)
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0)
                             .clipped()
                             .blur(radius: 15)
                             .padding([.horizontal, .top], -30)
