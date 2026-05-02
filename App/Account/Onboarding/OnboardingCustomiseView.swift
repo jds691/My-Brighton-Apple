@@ -85,6 +85,7 @@ struct OnboardingCustomiseView: View {
                     .bold()
                 TextField("Name", text: $overrideName)
                     .multilineTextAlignment(.center)
+                    .textFieldStyle(.underlined)
                 #if os(iOS)
                     .textInputAutocapitalization(.words)
                 #endif

@@ -12,9 +12,17 @@ import CoreDesign
 
 struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.accountService) private var accountService
 
     @Binding var customisations: HomeCustomisation
     var opaqueBlur: Bool
+
+    @State private var realName: String = ""
+
+    init(customisations: Binding<HomeCustomisation>, opaqueBlur: Bool) {
+        self._customisations = customisations
+        self.opaqueBlur = opaqueBlur
+    }
 
     var body: some View {
         CustomisedBackgroundView(customisations.background)
@@ -50,21 +58,20 @@ struct HomeHeaderView: View {
                     }
                     .modifier(TextEffectsViewModifier(customisations.textEffects))
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        TimelineView(.everyMinute) { context in
-                            // TODO: Source the hard coded name from elsewhere
-                            Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? "Neo")!")
-                                .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
-                                .modifier(TextEffectsViewModifier(customisations.textEffects))
-                        }
-                        Text("No new updates")
-                            .font(customisations.fontDesign.swiftUIFont(.body))
+                    TimelineView(.everyMinute) { context in
+                        Text("\(timeOfDayString(context.date)), \(customisations.displayNameOverride ?? realName)!")
+                            .font(customisations.fontDesign.swiftUIFont(.largeTitle).bold())
                             .modifier(TextEffectsViewModifier(customisations.textEffects))
                     }
                 }
                 .foregroundStyle(customisations.textColor.resolved)
                 .scenePadding()
                 .padding(.bottom, 16)
+            }
+            .onAppear {
+                if let fullName = try? accountService.getAccountDetails().fullName {
+                    realName = String(fullName.split(separator: " ").first ?? "")
+                }
             }
     }
 
