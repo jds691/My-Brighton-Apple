@@ -20,6 +20,7 @@ public enum LearnKitError: Error {
     /// - The return status from the server is OK but the response body is not JSON
     /// - The remote object is missing required fields for model initialisation
     case cannotParseRemoteSchema
+    case cacheEraseFailed
     /// Represents unknown errors encountered by the service.
     ///
     /// - Parameter statusCode: Status code for the error, if one is available.

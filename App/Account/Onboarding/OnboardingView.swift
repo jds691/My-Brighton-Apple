@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import LearnKit
+import CustomisationKit
 
 struct OnboardingView: View {
+    @Environment(\.learnKitService) private var learnKit
+
     @Binding var canShowContentView: Bool
 
     @State private var displayedScreen: DisplayedScreen = .welcome
@@ -42,6 +46,21 @@ struct OnboardingView: View {
         }
         .onAppear {
             displayedScreen = .welcome
+        }
+        .task {
+            do {
+                try await CustomisationService.shared.eraseAll()
+            } catch {
+                fatalError()
+            }
+
+            do {
+                try await learnKit.eraseAllCache()
+            } catch {
+                fatalError("LearnKit could not be erased. Unable to safely continue!")
+            }
+
+            MyBrightonAppShortcuts.updateAppShortcutParameters()
         }
     }
 

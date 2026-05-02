@@ -80,6 +80,11 @@ extension LearnKitService: LearnKitAPI {
         return true
     }
 
+    // MARK: Caching
+    public func eraseAllCache() async throws(LearnKitError) {
+        try await cache.eraseAllCache()
+    }
+
     // MARK: (System) Announcements
     @discardableResult
     public func refreshSystemAnnouncements(for courseIdentifier: Course.ID) async throws -> [SystemAnnouncement] {
