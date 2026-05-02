@@ -330,7 +330,7 @@ extension CustomisationService {
             return nil
         }
     }
-    // For first launch *nothing* will have thumbnails
+
     @concurrent
     public func updateThumbnail(for courseId: String, fallbackName: String) async {
         let customisations = getCourseCustomisation(for: courseId)

@@ -240,6 +240,7 @@ struct OnboardingCustomiseView: View {
             currentDownloadTask = "Downloading course contents"
             try await withThrowingTaskGroup { group in
                 for course in courses {
+                    await CustomisationService.shared.updateThumbnail(for: course.id, fallbackName: course.name)
                     group.addTask { try await learnKit.refreshContent(for: "ROOT", includeChildren: true, in: course.id) }
                 }
 
