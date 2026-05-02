@@ -57,11 +57,6 @@ struct RootView: View {
                             canShowContentView = true
                         }
                     }
-                    .onChange(of: accountService.authenticationStatus) {
-                        if accountService.authenticationStatus == .authenticated {
-                            canShowContentView = true
-                        }
-                    }
 #else
                 VStack {
                     EmptyView()

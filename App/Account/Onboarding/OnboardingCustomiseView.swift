@@ -97,6 +97,7 @@ struct OnboardingCustomiseView: View {
         }
         .onAppear {
             homeCustomisations = CustomisationService.shared.getHomeCustomisation()
+            overrideName = (try? accountService.getAccountDetails().fullName) ?? ""
         }
         .photosPicker(isPresented: $showProfilePicturePicker, selection: $selectedUserProfilePhoto, matching: .images)
         .task(id: selectedUserProfilePhoto) {
