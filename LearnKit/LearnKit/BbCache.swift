@@ -195,6 +195,8 @@ actor BbCache {
     }
 
     private func indexCourseAnnouncementsIntoSpotlight(_ announcements: [CourseAnnouncement], for courseIdentifier: Course.ID) async {
+        let course: Course? = try? await getCourse(for: courseIdentifier)
+
         var csItems: [CSSearchableItem] = []
         for announcement in announcements {
             let cAnnouncementAttributes = CSSearchableItemAttributeSet(contentType: UTType.message)
@@ -214,6 +216,13 @@ actor BbCache {
             let cAnnouncementCsItem = CSSearchableItem(uniqueIdentifier: "announcement/\(courseIdentifier)/\(announcement.id)", domainIdentifier: nil, attributeSet: cAnnouncementAttributes)
             if case .restricted(start: _, end: let end) = announcement.availability {
                 cAnnouncementCsItem.expirationDate = end
+            }
+
+            if let course {
+                cAnnouncementAttributes.containerIdentifier = course.id
+                cAnnouncementAttributes.containerTitle = course.name
+                cAnnouncementAttributes.containerDisplayName = course.name
+                cAnnouncementAttributes.containerOrder = NSNumber(integerLiteral: announcement.positionIndex)
             }
 
             csItems.append(cAnnouncementCsItem)
