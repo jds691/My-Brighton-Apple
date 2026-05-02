@@ -19,26 +19,36 @@ struct SearchItemRowView: View {
     }
 
     var body: some View {
-        HStack {
-            image
+        VStack(alignment: .leading) {
+            HStack {
+                image
 
-            VStack(alignment: .leading) {
-                name
-                if let description = csItem.attributeSet.contentDescription {
-                    Text(description)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(3)
+                VStack(alignment: .leading) {
+                    name
+                    if let description = csItem.attributeSet.contentDescription {
+                        Text(description)
+                            .foregroundStyle(.brightonSecondary)
+                            .lineLimit(3)
+                    }
+                    if let textContent = csItem.attributeSet.textContent {
+                        Text(textContent)
+                            .lineLimit(3)
+                    }
                 }
-                if let textContent = csItem.attributeSet.textContent {
-                    Text(textContent)
-                        .lineLimit(3)
-                }
+
+                Spacer()
+
+                Image(systemName: "chevron.forward")
+                    .foregroundStyle(.brightonSecondary)
             }
 
-            Spacer()
-
-            Image(systemName: "chevron.forward")
-                .foregroundStyle(.brightonSecondary)
+            if let containerName = csItem.attributeSet.containerDisplayName {
+                Divider()
+                Label(containerName, systemImage: "graduationcap")
+                    .lineLimit(1)
+                    .font(.caption2)
+                    .foregroundStyle(.brightonSecondary)
+            }
         }
     }
 

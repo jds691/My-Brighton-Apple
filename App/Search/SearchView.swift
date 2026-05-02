@@ -121,6 +121,8 @@ struct SearchView: View {
                         #if os(macOS)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 16)
+                        #else
+                            .padding(4)
                         #endif
                     }
                     .buttonStyle(.plain)

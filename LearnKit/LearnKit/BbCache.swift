@@ -338,14 +338,25 @@ actor BbCache {
     }
 
     private func indexCourseContentIntoSpotlight(_ content: [Content], for courseId: Course.ID) async {
+        let course: Course? = try? await getCourse(for: courseId)
         var csItems: [CSSearchableItem] = []
         for contentItem in content {
+            // Filters ROOT folder and BbPage children
+            if contentItem.parentId == nil || contentItem.title == "ultraDocumentBody" { continue }
+
+            let parent: Content?
+            if let parentId = contentItem.parentId {
+                parent = try? await getContent(for: parentId, in: courseId)
+            } else {
+                parent = nil
+            }
+
             let contentAttributes = CSSearchableItemAttributeSet()
 
             contentAttributes.title = contentItem.title
             contentAttributes.displayName = contentItem.title
             contentAttributes.contentDescription = contentItem.description
-            if let body = contentItem.body {
+            if let body = contentItem.body, !body.isEmpty {
                 contentAttributes.textContent = returnBbMLText(body)
             }
 
@@ -357,27 +368,53 @@ actor BbCache {
             contentAttributes.contentModificationDate = contentItem.lastModified
             contentAttributes.identifier = contentItem.id
 
+            if let parent {
+                contentAttributes.containerIdentifier = parent.id
+                contentAttributes.containerTitle = parent.title
+                if parent.title == "ROOT" {
+                    contentAttributes.containerDisplayName = course?.name
+                } else {
+                    contentAttributes.containerDisplayName = (course?.name ?? "") + " - " + parent.title
+                }
+                contentAttributes.containerOrder = NSNumber(integerLiteral: contentItem.positionIndex)
+            } else if let course {
+                contentAttributes.containerIdentifier = course.id
+                contentAttributes.containerTitle = course.name
+                contentAttributes.containerDisplayName = course.name
+                contentAttributes.containerOrder = NSNumber(integerLiteral: contentItem.positionIndex)
+            }
+
             switch contentItem.handler {
                 case .contentItem:
                     contentAttributes.setValue(NSString("richtext.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
-                case .externalLink(_):
+                case .externalLink(let url):
                     contentAttributes.setValue(NSString("globe"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append("link")
+                    contentAttributes.contentType = UTType.url.identifier
+                    contentAttributes.contentURL = url
                 case .contentFolder(isBbPage: let isBbPage):
+                    contentAttributes.contentType = UTType.folder.identifier
                     contentAttributes.setValue(isBbPage ? NSString("richtext.page") : NSString("folder"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     if !isBbPage {
                         contentAttributes.keywords?.append("folder")
+                    } else {
+                        if let ultraDocumentChild = try? await getChildContent(for: contentItem.id, in: courseId).first {
+                            if let body = ultraDocumentChild.body, !body.isEmpty {
+                                contentAttributes.textContent = returnBbMLText(body)
+                            }
+                        }
                     }
                 case .contentLesson:
+                    contentAttributes.contentType = UTType.folder.identifier
                     contentAttributes.setValue(NSString("graduationcap"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append(contentsOf: ["folder", "lesson"])
-                case .courseLink(target: let target):
+                case .courseLink(target: _):
                     contentAttributes.setValue(NSString("globe"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
-                case .discussionLink(target: let target):
+                case .discussionLink(target: _):
                     contentAttributes.setValue(NSString("questionmark"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
-                case .ltiLink(_, parameters: let parameters):
+                case .ltiLink(_, parameters: _):
                     contentAttributes.setValue(NSString("globe.desk"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
-                case .contentFile(uploadId: let uploadId, fileName: let fileName, mimeType: let mimeType, duplicateFileHandling: let duplicateFileHandling):
+                case .contentFile(uploadId: _, fileName: _, mimeType: let mimeType, duplicateFileHandling: _):
                     let iconName: NSString
                     if let utType = UTType(mimeType: mimeType) {
                         contentAttributes.contentType = utType.identifier
@@ -395,15 +432,16 @@ actor BbCache {
                                 iconName = NSString("questionmark")
                         }
                     } else {
+                        contentAttributes.contentType = UTType.item.identifier
                         iconName = NSString("questionmark")
                     }
 
                     contentAttributes.setValue(iconName, forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append("file")
-                case .testLink(target: let target, gradeColumn: let gradeColumn):
+                case .testLink(target: _, gradeColumn: _):
                     contentAttributes.setValue(NSString("questionmark.text.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append("assignment")
-                case .assignment(gradeColumn: let gradeColumn, isGroup: let isGroup):
+                case .assignment(gradeColumn: _, isGroup: _):
                     contentAttributes.setValue(NSString("questionmark.text.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append("assignment")
                 case .ltiPlacement:

@@ -66,6 +66,7 @@ final class SearchManager {
             "thumbnailData",
             "thumbnailURL",
             "darkThumbnailURL",
+            "containerDisplayName",
             LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.rawValue
         ]
 
