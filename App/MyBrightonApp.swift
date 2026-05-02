@@ -81,6 +81,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
                 .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
             #if os(macOS)
                 .onAppear {
                     NSWindow.allowsAutomaticWindowTabbing = false
@@ -133,6 +134,7 @@ struct MyBrightonApp: App {
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
             .environment(\.accountService, accountService)
+            .environment(\.notifier, notifier)
 #if os(macOS)
             .onAppear {
                 NSWindow.allowsAutomaticWindowTabbing = false
@@ -152,6 +154,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
                 .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
                 .handlesExternalEvents(preferring: [], allowing: [])
                 .windowFullScreenBehavior(.disabled)
                 .windowResizeBehavior(.disabled)
@@ -172,6 +175,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
                 .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
                 .handlesExternalEvents(preferring: [], allowing: [])
         }
         .defaultAppStorage(defaultAppStorage)
@@ -192,6 +196,7 @@ struct MyBrightonApp: App {
             .environment(\.timetableService, timetableService)
             .environment(\.dashboardService, dashboardService)
             .environment(\.accountService, accountService)
+            .environment(\.notifier, notifier)
             .containerBackground(.brightonBackground, for: .window)
             .toolbarBackground(.hidden, for: .windowToolbar)
             .onAppear {
@@ -208,6 +213,7 @@ struct MyBrightonApp: App {
                 .environment(\.timetableService, timetableService)
                 .environment(\.dashboardService, dashboardService)
                 .environment(\.accountService, accountService)
+                .environment(\.notifier, notifier)
                 .handlesExternalEvents(preferring: ["timetable="], allowing: ["timetable="])
         }
         .windowResizability(.contentSize)

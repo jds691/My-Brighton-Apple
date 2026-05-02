@@ -85,6 +85,8 @@ public final class CustomisationService {
     public func eraseAll() async throws {
         try modelContext.delete(model: CourseCustomisation.self)
         try modelContext.delete(model: HomeCustomisation.self)
+
+        try modelContext.save()
     }
 
     public func getCourseCustomisation(for courseId: String) -> CourseCustomisation {

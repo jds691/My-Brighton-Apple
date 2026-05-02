@@ -8,9 +8,17 @@
 import SwiftUI
 import LearnKit
 import CustomisationKit
+import Timetable
+import Notifier
 
 struct OnboardingView: View {
+    @Environment(\.timetableService) private var timetableService
     @Environment(\.learnKitService) private var learnKit
+    @Environment(\.dashboardService) private var dashboardService
+    @Environment(\.notifier) private var notifier
+    @AppStorage(TimetableService.remoteURLUserDefaultsKey) private var timetableURL: URL?
+
+    @Environment(\.dismissWindow) private var dismissWindow
 
     @Binding var canShowContentView: Bool
 
@@ -44,10 +52,35 @@ struct OnboardingView: View {
                         .transition(.slide)
             }
         }
-        .onAppear {
-            displayedScreen = .welcome
-        }
         .task {
+            displayedScreen = .welcome
+
+            do {
+                try await Task.sleep(nanoseconds: 1_000_000)
+            } catch {
+
+            }
+
+            #if os(macOS)
+            dismissWindow(id: "main")
+            dismissWindow(id: "course-announcement")
+            dismissWindow(id: "timetable")
+            #endif
+            dismissWindow(id: "module")
+
+            notifier.removeAllNotifications()
+
+            timetableURL = nil
+            timetableService.clearCalendarCache()
+            timetableService.setRemoteURL(nil)
+
+            do {
+                try dashboardService.eraseContent()
+
+            } catch {
+                fatalError()
+            }
+
             do {
                 try await CustomisationService.shared.eraseAll()
             } catch {
