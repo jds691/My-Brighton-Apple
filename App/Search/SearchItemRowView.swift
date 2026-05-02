@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreSpotlight
+import LearnKit
 
 struct SearchItemRowView: View {
     @Environment(\.colorScheme) private var colorScheme
@@ -25,6 +26,11 @@ struct SearchItemRowView: View {
                 name
                 if let description = csItem.attributeSet.contentDescription {
                     Text(description)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(3)
+                }
+                if let textContent = csItem.attributeSet.textContent {
+                    Text(textContent)
                         .lineLimit(3)
                 }
             }
@@ -87,6 +93,11 @@ struct SearchItemRowView: View {
             } placeholder: {
                 EmptyView()
             }
+        } else if let sfSymbolIconName = csItem.attributeSet.value(forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey) as? NSString {
+            Image(systemName: String(sfSymbolIconName))
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
         }
     }
 }

@@ -11,6 +11,7 @@ import SwiftUI
 import AuthenticationServices
 import os
 import AppIntents
+import CoreSpotlight
 
 /// Overarching service to perform requests against LearnKit.
 ///
@@ -467,5 +468,16 @@ public extension LearnKitService {
     /// - Parameter identifiers: Identifiers of the content that should be reindexed.
     func reindexContent(withIdentifiers identifiers: [String]) async throws {
         try await cache.reindexContent(withIdentifiers: identifiers)
+    }
+
+    enum CoreSpotlightKeys: String {
+        case sfSymbolIconKey = "com_neo_LearnKit_SFSymbolThumbnailName"
+
+        public var csCustomAttributeKey: CSCustomAttributeKey {
+            switch self {
+                case .sfSymbolIconKey:
+                    CSCustomAttributeKey(keyName: "com_neo_LearnKit_SFSymbolThumbnailName", searchable: false, searchableByDefault: false, unique: false, multiValued: false)!
+            }
+        }
     }
 }

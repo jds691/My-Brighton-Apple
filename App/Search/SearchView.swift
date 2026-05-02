@@ -8,18 +8,23 @@
 import SwiftUI
 import CoreSpotlight
 import Router
+import LearnKit
 
 struct SearchView: View {
     @Environment(\.scenePhase) private var scenePhase
-    
+    @Environment(\.openURL) private var openURL
+
     @Environment(Router.self) private var router: Router
     @Environment(SearchManager.self) private var searchManager: SearchManager
+    @Environment(\.learnKitService) private var learnKit
 
     @State private var searchResults: [CSUserQuery.Item] = []
     @State private var searchSuggestions: [CSUserQuery.Suggestion] = []
 
     @State private var showNavigationError: Bool = false
     @State private var invalidItemTitle: String? = nil
+
+    @State private var currentNavTask: Task<Void, any Error>? = nil
 
     var body: some View {
         @Bindable var searchManager = searchManager
@@ -101,12 +106,14 @@ struct SearchView: View {
             List {
                 ForEach(searchResults, id: \.id) { result in
                     Button {
-                        searchManager.currentQuery.userEngaged(result, visibleItems: searchResults, interaction: .select)
-                        if let route = Navigation.Route(spotlightIdentifier: result.item.uniqueIdentifier) {
-                            router.navigate(to: .route(route))
-                        } else {
-                            invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
-                            showNavigationError = true
+                        if let currentNavTask {
+                            currentNavTask.cancel()
+                        }
+
+                        currentNavTask = Task {
+                            defer { currentNavTask = nil }
+
+                            await performNavigation(result)
                         }
                     } label: {
                         SearchItemRowView(item: result.item)
@@ -143,6 +150,73 @@ struct SearchView: View {
         table: "Search",
         comment: "Represents different things that a user can search for."
     )
+
+    private func performNavigation(_ result: CSUserQuery.Item) async {
+        searchManager.currentQuery.userEngaged(result, visibleItems: searchResults, interaction: .select)
+        if result.item.uniqueIdentifier.starts(with: "content/") {
+            let components = result.item.uniqueIdentifier.split(separator: "/")
+            guard components.count >= 3 else {
+                invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+                showNavigationError = true
+                return
+            }
+
+            let courseId: Course.ID = String(components[1])
+
+            guard let content = try? await learnKit.getContent(for: String(components[2]), in: courseId) else {
+                invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+                showNavigationError = true
+                return
+            }
+
+            switch content.handler {
+                case .contentItem, .contentFolder(isBbPage: _), .contentLesson:
+                    router.navigate(to: .route(.myStudies(.module(courseId, .content(content.id)))))
+                case .assignment(gradeColumn: let gradeColumnId, isGroup: _), .testLink(target: _, gradeColumn: let gradeColumnId):
+                    router.navigate(to: .route(.myStudies(.module(courseId, .grades(gradeColumnId)))))
+                case .externalLink(let url):
+                    if #available(iOS 26, macOS 26, *) {
+                        openURL(url, prefersInApp: true)
+                    } else {
+                        openURL(url)
+                    }
+                case .ltiLink(let url, parameters: let customParams):
+                    if var components = URLComponents(string: url.absoluteString) {
+                        components.queryItems = customParams.map {
+                            URLQueryItem(name: $0, value: $1)
+                        }
+
+                        if #available(iOS 26, macOS 26, *) {
+                            openURL(url, prefersInApp: true)
+                        } else {
+                            openURL(url)
+                        }
+                    } else {
+                        invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+                        showNavigationError = true
+                        return
+                    }
+                default:
+                    if !content.links.isEmpty {
+                        let resolvedUrl = URL(string: "https://studentcentral.brighton.ac.uk")!.appending(path: content.links.first!.href)
+                        if #available(iOS 26, macOS 26, *) {
+                            openURL(resolvedUrl, prefersInApp: true)
+                        } else {
+                            openURL(resolvedUrl)
+                        }
+                    } else {
+                        invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+                        showNavigationError = true
+                        return
+                    }
+            }
+        } else if let route = Navigation.Route(spotlightIdentifier: result.item.uniqueIdentifier) {
+            router.navigate(to: .route(route))
+        } else {
+            invalidItemTitle = result.item.attributeSet.title ?? "Unknown"
+            showNavigationError = true
+        }
+    }
 }
 
 #Preview(traits: .environmentObjects) {
