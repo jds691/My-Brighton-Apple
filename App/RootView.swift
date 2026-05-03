@@ -52,7 +52,7 @@ struct RootView: View {
                     } message: {
                         switch accountService.authenticationStatus {
                             case .notAuthenticated:
-                                Text("You must be signed in to use My Brighton.")
+                                Text("You must be signed in to use Project Demo.")
                             case .authenticationExpired:
                                 Text("This session has expired. You must sign back in.")
                             case .authenticated, .signedOut:

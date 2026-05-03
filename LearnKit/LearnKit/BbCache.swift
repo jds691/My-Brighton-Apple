@@ -146,7 +146,7 @@ actor BbCache {
             courseAttributes.keywords = [
                 "course",
                 "module",
-                "My Studies",
+                "Blackboard",
                 course.courseId
             ]
             courseAttributes.metadataModificationDate = course.lastModified
@@ -208,7 +208,7 @@ actor BbCache {
             ]
             cAnnouncementAttributes.keywords = [
                 "announcement",
-                "My Studies",
+                "Blackboard",
                 announcement.id
             ]
             if let chunks = try? BbMLParser().parse(announcement.body) {
@@ -379,7 +379,7 @@ actor BbCache {
 
             contentAttributes.keywords = [
                 "content",
-                "My Studies"
+                "Blackboard"
             ]
             contentAttributes.metadataModificationDate = contentItem.lastModified
             contentAttributes.contentModificationDate = contentItem.lastModified

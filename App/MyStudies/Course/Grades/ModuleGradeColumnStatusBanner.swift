@@ -60,7 +60,7 @@ struct ModuleGradeColumnStatusBanner: View {
         } else if column.grading.dueDate < .now {
             return .init(
                 "course.gradecolumn.status.overdue",
-                defaultValue: "This assignment is overdue.\n\n**Late submissions may still be possible.** Check My Studies online for more information.",
+                defaultValue: "This assignment is overdue.\n\n**Late submissions may still be possible.** Check Blackboard online for more information.",
                 table: "My Studies",
             )
         } else {

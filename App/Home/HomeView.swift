@@ -157,7 +157,7 @@ struct HomeView: View {
                                 }
 
                                 HomeResourceButton(url: URL(string: "https://unibrightonac.sharepoint.com/SitePages/Getting-around.aspx")!) {
-                                    Label("Belong at Brighton", image: "uni.logo")
+                                    Label("Belong", image: "uni.logo")
                                 }
                             }
                         }

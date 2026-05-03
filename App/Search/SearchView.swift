@@ -36,7 +36,7 @@ struct SearchView: View {
             .searchable(
                 text: $searchManager.searchTerm,
                 isPresented: $searchManager.isSearching,
-                prompt: searchPrompt
+                prompt: LocalizedStringResource.Search.promptSearch
             )
             .searchSuggestions {
                 ForEach(searchSuggestions.sorted(by: { $0.suggestion.compare(byRank: $1.suggestion) == .orderedDescending }), id: \.id) { suggestion in
@@ -144,14 +144,6 @@ struct SearchView: View {
             #endif
         }
     }
-
-    // MARK: Localisation
-    private let searchPrompt: String = .init(
-        localized: "prompt.search",
-        defaultValue: "Courses, Content, Societies",
-        table: "Search",
-        comment: "Represents different things that a user can search for."
-    )
 
     private func performNavigation(_ result: CSUserQuery.Item) async {
         searchManager.currentQuery.userEngaged(result, visibleItems: searchResults, interaction: .select)

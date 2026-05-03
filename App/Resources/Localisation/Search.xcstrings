@@ -3,12 +3,12 @@
   "strings" : {
     "prompt.search" : {
       "comment" : "Represents different things that a user can search for.",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Courses, Content, Societies"
+            "state" : "translated",
+            "value" : "Courses and Content"
           }
         }
       }

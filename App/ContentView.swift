@@ -145,7 +145,7 @@ struct ContentView: View {
         }
         .tabViewStyle(.sidebarAdaptable)
 #if os(macOS)
-        .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, placement: .sidebar)
+        .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, prompt: LocalizedStringResource.Search.promptSearch, placement: .sidebar)
 #endif
         .task {
             do {

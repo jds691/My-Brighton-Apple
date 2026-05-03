@@ -54,12 +54,12 @@ struct AnnouncementWindowView: View {
                     announcement = try await learnKit.getSystemAnnouncement(for: announcementId)
                 }
             } catch {
-                loadFailedMessage = "There was a problem loading this announcement. Try checking the My Studies website."
+                loadFailedMessage = "There was a problem loading this announcement. Try checking the Blackboard website."
                 showLoadFailedMessage = true
             }
 
             if announcement == nil {
-                loadFailedMessage = "The announcement could not be found. Try checking the My Studies website."
+                loadFailedMessage = "The announcement could not be found. Try checking the Blackboard website."
                 showLoadFailedMessage = true
             }
         }

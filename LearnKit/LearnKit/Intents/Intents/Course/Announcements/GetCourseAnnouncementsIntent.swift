@@ -9,7 +9,7 @@ import AppIntents
 
 public struct GetCourseAnnouncementsIntent: AppIntent {
     public static let title: LocalizedStringResource = "Get Course Announcements"
-    public static let description: IntentDescription? = IntentDescription("Gets all announcements for the chosen course", categoryName: "My Studies", resultValueName: "Announcements")
+    public static let description: IntentDescription? = IntentDescription("Gets all announcements for the chosen course", resultValueName: "Announcements")
 
     @Dependency
     private var learnKit: LearnKitService

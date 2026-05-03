@@ -45,22 +45,14 @@
 		<string>com.neo.My-Brighton.my-studies.course.announcement.view</string>
 	</array>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>My Brighton can send notifications when new content are added to your courses or societies or for important updates.</string>
+	<string>Project Demo can send notifications when new content are added to your courses or societies or for important updates.</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>person.text.rectangle</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>UniCard</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>account</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
 			<string>graduationcap</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>My Studies</string>
+			<string>Blackboard</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>myStudies</string>
 		</dict>
