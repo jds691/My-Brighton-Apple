@@ -50,8 +50,6 @@ struct ContentView: View {
             .sheet(item: $router.rootModal) { requestedModal in
                 Group {
                     switch requestedModal {
-                        case .account:
-                            AccountView()
                         case .timetableSetup:
                             TimetableSetupView()
                     }
@@ -80,16 +78,6 @@ struct ContentView: View {
             } label: {
                 Navigation.Route.myStudies(nil).label
             }
-
-            #if ENABLE_BSU
-            Tab(value: .bsu) {
-                NavigationStack(path: $router.path) {
-                    SocietiesView()
-                }
-            } label: {
-                Navigation.Route.bsu.label
-            }
-            #endif
             //.hidden(hSizeClass != .compact)
 
             TabSection("Courses") {

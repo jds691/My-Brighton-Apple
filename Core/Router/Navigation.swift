@@ -50,8 +50,6 @@ public enum Navigation: Hashable {
     #if canImport(UIKit)
     public init?(from shortcutItem: UIApplicationShortcutItem) {
         switch (shortcutItem.type) {
-            case "account":
-                self = .modal(.account)
             case "myStudies":
                 self = .route(.myStudies(nil))
             case "search":

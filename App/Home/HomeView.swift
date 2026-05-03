@@ -274,12 +274,6 @@ struct HomeView: View {
     private func primaryMenu(_ proxy: ScrollViewProxy) -> some View {
         Menu {
             Button {
-
-            } label: {
-                Label("Edit Sections", systemImage: "checklist")
-            }
-
-            Button {
                 withAnimation {
                     proxy.scrollTo(headerID, anchor: .top)
                     showCustomisationEditor = true
@@ -289,20 +283,6 @@ struct HomeView: View {
             }
 
             Divider()
-
-            Button {
-                router.navigate(to: .modal(.account))
-            } label: {
-                Label("Settings", systemImage: "gear")
-            }
-
-            Divider()
-
-            Button {
-
-            } label: {
-                Label("Send Feedback", systemImage: "bubble.and.pencil")
-            }
 
             #if os(iOS)
             Button(role: .destructive) {
