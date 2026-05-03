@@ -203,7 +203,6 @@ actor BbCache {
 
             cAnnouncementAttributes.title = announcement.title
             cAnnouncementAttributes.displayName = announcement.title
-            cAnnouncementAttributes.textContent = returnBbMLText(announcement.body)
             cAnnouncementAttributes.alternateNames = [
                 announcement.id,
             ]
@@ -212,6 +211,15 @@ actor BbCache {
                 "My Studies",
                 announcement.id
             ]
+            if let chunks = try? BbMLParser().parse(announcement.body) {
+                cAnnouncementAttributes.textContent = returnBbMLText(from: chunks)
+
+                for chunk in chunks {
+                    if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                        cAnnouncementAttributes.alternateNames?.append(attachmentInfo.name)
+                    }
+                }
+            }
             cAnnouncementAttributes.metadataModificationDate = announcement.lastModifiedDate
             let cAnnouncementCsItem = CSSearchableItem(uniqueIdentifier: "announcement/\(courseIdentifier)/\(announcement.id)", domainIdentifier: nil, attributeSet: cAnnouncementAttributes)
             if case .restricted(start: _, end: let end) = announcement.availability {
@@ -396,6 +404,15 @@ actor BbCache {
             switch contentItem.handler {
                 case .contentItem:
                     contentAttributes.setValue(NSString("richtext.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    if let body = contentItem.body, let chunks = try? BbMLParser().parse(body) {
+                        contentAttributes.textContent = returnBbMLText(from: chunks)
+
+                        for chunk in chunks {
+                            if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                                contentAttributes.alternateNames?.append(attachmentInfo.name)
+                            }
+                        }
+                    }
                 case .externalLink(let url):
                     contentAttributes.setValue(NSString("globe"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
                     contentAttributes.keywords?.append("link")
@@ -408,8 +425,14 @@ actor BbCache {
                         contentAttributes.keywords?.append("folder")
                     } else {
                         if let ultraDocumentChild = try? await getChildContent(for: contentItem.id, in: courseId).first {
-                            if let body = ultraDocumentChild.body, !body.isEmpty {
-                                contentAttributes.textContent = returnBbMLText(body)
+                            if let body = contentItem.body, let chunks = try? BbMLParser().parse(body) {
+                                contentAttributes.textContent = returnBbMLText(from: chunks)
+
+                                for chunk in chunks {
+                                    if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                                        contentAttributes.alternateNames?.append(attachmentInfo.name)
+                                    }
+                                }
                             }
                         }
                     }
@@ -839,6 +862,31 @@ extension BbCache: LearnKitAPI {
     }
 
     // MARK: BbML Formatting
+    private func returnBbMLText(from content: BbMLContent) -> String? {
+        let textChunks = content.filter({
+            if case .text(_) = $0 {
+                return true
+            } else {
+                return false
+            }
+        })
+
+        var attrString = AttributedString()
+        for textChunk in textChunks {
+            if !attrString.characters.isEmpty {
+                attrString.append(AttributedString("\n"))
+            }
+
+            guard case .text(let chunkText) = textChunk else {
+                return nil
+            }
+
+            attrString.append(chunkText)
+        }
+
+        return String(attrString.characters)
+    }
+
     private func returnBbMLText(_ bbMLString: String) -> String? {
         guard let content = try? BbMLParser().parse(bbMLString) else {
             return nil
