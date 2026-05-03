@@ -8,7 +8,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This will erase all content and data from My Brighton.\nYou will need to sign back in to continue using the app.\n\nAre you sure you want to sign out?"
+            "value" : "This will erase all content and data from Project Demo.\nYou will need to sign back in to continue using the app.\n\nAre you sure you want to sign out?"
           }
         }
       }

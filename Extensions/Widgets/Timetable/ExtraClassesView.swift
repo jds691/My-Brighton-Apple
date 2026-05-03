@@ -29,7 +29,10 @@ struct ExtraClassesView: View {
                 }
             }
 
-            Text("timetable.\(scheduledClasses.count).classes.later")
+            Text(.init(
+                "timetable.num.classes.later",
+                defaultValue: "\(scheduledClasses.count) more classes later",
+            ))
                 .lineLimit(1)
                 .font(.caption2)
                 .foregroundStyle(.brightonSecondary)

@@ -18,19 +18,17 @@ struct OnboardingWelcomeView: View {
                 .aspectRatio(1.0, contentMode: .fit)
                 .frame(width: 128.0, height: 128.0)
 
-            Text("Welcome to My Brighton")
+            Text("Welcome to Project Demo")
                 .font(.largeTitle.bold())
 
             Text("""
                 This is a vertical slice of potential improvements that can be made to the online student learning experience.
                 
-                The demo features working home, My Studies and search areas. Alongside system integrations.
+                The demo features working home, Blackboard and search areas. Alongside system integrations.
                 
                 To begin you’ll be taken though a sign-in flow.
                 
                 **The sign-in screen is for demo purposes only and does not perform actual authentication.**
-                
-                **This project is not affiliated with the University of Brighton.**
                 """)
 #if os(macOS)
             .frame(maxWidth: 300)

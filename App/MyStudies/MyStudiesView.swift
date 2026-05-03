@@ -115,8 +115,7 @@ struct MyStudiesView: View {
             .scenePadding()
         }
         .myBrightonBackground()
-        .navigationTitle("My Studies")
-        .searchable(text: $searchTerm, prompt: "Search Modules")
+        .navigationTitle("Blackboard")
         // TODO: Not being called on macOS
         // Idk wtf I'm supposed to do if macOS just won't call it
         // My only immediate guess is that iOS will call navigation destination when it's not on screen but macOS won't. However. Idfk
@@ -212,7 +211,7 @@ struct MyStudiesView: View {
                 MyStudiesView()
             }
         } label: {
-            Label("My Studies", systemImage: "graduationcap")
+            Label("Blackboard", systemImage: "graduationcap")
         }
     }
     .environment(router)

@@ -128,7 +128,7 @@ struct AnnouncementView: View {
                 (viewDismissAction ?? dismiss.callAsFunction)()
             }
         } message: {
-            Text("Unable to parse announcement content. Try viewing this content on the My Studies website.")
+            Text("Unable to parse announcement content. Try viewing this content on the Blackboard website.")
         }
     }
 

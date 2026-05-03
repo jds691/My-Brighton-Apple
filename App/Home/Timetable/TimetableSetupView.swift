@@ -63,9 +63,9 @@ struct TimetableSetupView: View {
             } footer: {
                 Text(
                         """
-You'll need to provide a link to your timetable from the timetable in the web My Brighton.
+You'll need to provide a link to your timetable from the timetable on the web.
 
-You can find it in [My Brighton > Timetable > Administration > My mobile](https://timetablego.brighton.ac.uk/CMISGo/Web/Timetable)
+You can find it in [Timetable > Administration > My mobile](https://timetablego.brighton.ac.uk/CMISGo/Web/Timetable)
 """
                 )
             }

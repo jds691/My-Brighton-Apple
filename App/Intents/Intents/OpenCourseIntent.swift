@@ -11,7 +11,7 @@ import Router
 
 struct OpenCourseIntent: AppIntent, OpenIntent {
     static let title: LocalizedStringResource = "Open Course"
-    static let description: IntentDescription? = IntentDescription("Opens the provided course", categoryName: "My Studies")
+    static let description: IntentDescription? = IntentDescription("Opens the provided course")
 
     @Parameter(title: "Course", description: "Course to open")
     var target: CourseEntity

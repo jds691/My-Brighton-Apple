@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import CustomisationKit
 
+@available(*, deprecated)
 struct StudentIDCard: View {
     private let homeCustomisation: HomeCustomisation
 

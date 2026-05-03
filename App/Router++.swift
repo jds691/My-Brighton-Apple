@@ -15,11 +15,11 @@ extension Navigation.Route {
             case .home:
                 Label("Home", image: .uniLogo)
             case .myStudies:
-                Label("My Studies", systemImage: "graduationcap")
+                Label("Blackboard", systemImage: "graduationcap")
             case .search:
                 Label("Search", systemImage: "magnifyingglass")
             case .bsu:
-                Label("Societies", image: .bsuLogo)
+                Label("Societies", systemImage: "figure")
         }
     }
 }

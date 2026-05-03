@@ -21,9 +21,9 @@ public final class HomeCustomisation {
     public init() {
         self.profilePictureOverrideUrl = nil
         self.displayNameOverride = nil
-        self.background = .builtInImage("placeholder/StudentIdBanner")
+        self.background = .builtInImage("default/default")
         self.fontDesign = .regular
         self.textColor = CodableColor.fromColor(.white)
-        self.textEffects = []
+        self.textEffects = [.dropShadow]
     }
 }

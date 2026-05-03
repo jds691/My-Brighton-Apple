@@ -86,7 +86,7 @@ struct ModuleGradeColumnView: View {
                 Section {
                     VStack(alignment: .leading, spacing: 0) {
                         Text("\(NSTextList(markerFormat: .circle, options: 0).marker(forItemNumber: 0)) \(dueDateString)")
-                        Text("\(NSTextList(markerFormat: .circle, options: 0).marker(forItemNumber: 1)) Please check My Studies for more information.")
+                        Text("\(NSTextList(markerFormat: .circle, options: 0).marker(forItemNumber: 1)) Please check Blackboard for more information.")
                     }
                 } header: {
                     Text("Overview")
@@ -163,7 +163,7 @@ struct ModuleGradeColumnView: View {
                     .toolbar {
                         if let onlineUrl {
                             ToolbarItem(placement: .primaryAction) {
-                                Button("Open in My Studies") {
+                                Button("Open in Blackboard") {
                                     openUrl(onlineUrl, prefersInApp: true)
                                 }
                             }
@@ -175,7 +175,7 @@ struct ModuleGradeColumnView: View {
                             Button {
                                 openUrl(onlineUrl, prefersInApp: true)
                             } label: {
-                                Label("Open in My Studies", systemImage: "arrow.up.forward.app")
+                                Label("Open in Blackboard", systemImage: "arrow.up.forward.app")
                                     .padding(8)
                             }
                             .buttonStyle(.glassProminent)
@@ -195,7 +195,7 @@ struct ModuleGradeColumnView: View {
                         #if os(macOS)
                         if let onlineUrl {
                             ToolbarItem(placement: .primaryAction) {
-                                Button("Open in My Studies") {
+                                Button("Open in Blackboard") {
                                     openUrl(onlineUrl)
                                 }
                             }
@@ -208,7 +208,7 @@ struct ModuleGradeColumnView: View {
                             Button {
                                 openUrl(onlineUrl)
                             } label: {
-                                Label("Open in My Studies", systemImage: "arrow.up.forward.app")
+                                Label("Open in Blackboard", systemImage: "arrow.up.forward.app")
                                     .padding(8)
                             }
                             .buttonStyle(.borderedProminent)
