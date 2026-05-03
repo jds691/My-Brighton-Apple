@@ -303,7 +303,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		28E311072A98E78D00ECC35C /* My Brighton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Brighton.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28E311072A98E78D00ECC35C /* Project Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28FB25142A99573D00D7FDB9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		28FB25162A99573D00D7FDB9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoreSpotlightIndexDelegate.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,7 +492,7 @@
 					ios,
 				);
 			};
-			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			target = 28E311062A98E78D00ECC35C /* Project Demo */;
 		};
 		68C863F02E96A03D0023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -578,7 +578,7 @@
 				Router/Router.swift,
 				Router/UserActivity.swift,
 			);
-			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			target = 28E311062A98E78D00ECC35C /* Project Demo */;
 		};
 		68C864142E96A0C70023B0AD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -727,7 +727,7 @@
 				LearnKit/RestError.swift,
 				LearnKitTests/BbCacheTests.swift,
 			);
-			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			target = 28E311062A98E78D00ECC35C /* Project Demo */;
 		};
 		68F19A592E9D1E12009701FD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -965,7 +965,7 @@
 		28E311082A98E78D00ECC35C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28E311072A98E78D00ECC35C /* My Brighton.app */,
+				28E311072A98E78D00ECC35C /* Project Demo.app */,
 				6835EF532E4E7ADD003B15BB /* LearnKit.framework */,
 				684DFF772E56318A00E6C316 /* WidgetsExtension.appex */,
 				680D649B2E6778770071DD6B /* CoreSpotlightIndexDelegate.appex */,
@@ -1069,9 +1069,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		28E311062A98E78D00ECC35C /* My Brighton */ = {
+		28E311062A98E78D00ECC35C /* Project Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "My Brighton" */;
+			buildConfigurationList = 28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "Project Demo" */;
 			buildPhases = (
 				28E311032A98E78D00ECC35C /* Sources */,
 				28E311042A98E78D00ECC35C /* Frameworks */,
@@ -1101,9 +1101,9 @@
 				68C863E52E96A03C0023B0AD /* Core */,
 				68F19A2A2E9D1E11009701FD /* LearnKit */,
 			);
-			name = "My Brighton";
+			name = "Project Demo";
 			productName = "My Brighton";
-			productReference = 28E311072A98E78D00ECC35C /* My Brighton.app */;
+			productReference = 28E311072A98E78D00ECC35C /* Project Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */ = {
@@ -1457,7 +1457,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				28E311062A98E78D00ECC35C /* My Brighton */,
+				28E311062A98E78D00ECC35C /* Project Demo */,
 				684DFF762E56318A00E6C316 /* WidgetsExtension */,
 				68EAC7DF2E7A089000A3F286 /* Router */,
 				680D649A2E6778770071DD6B /* CoreSpotlightIndexDelegate */,
@@ -1751,7 +1751,7 @@
 		};
 		686426602E68CC8600A088A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			target = 28E311062A98E78D00ECC35C /* Project Demo */;
 			targetProxy = 6864265F2E68CC8600A088A8 /* PBXContainerItemProxy */;
 		};
 		686426652E68CC8600A088A8 /* PBXTargetDependency */ = {
@@ -1811,7 +1811,7 @@
 		};
 		68F19A242E9D1DF5009701FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 28E311062A98E78D00ECC35C /* My Brighton */;
+			target = 28E311062A98E78D00ECC35C /* Project Demo */;
 			targetProxy = 68F19A232E9D1DF5009701FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -3155,7 +3155,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "My Brighton" */ = {
+		28E311152A98E78F00ECC35C /* Build configuration list for PBXNativeTarget "Project Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28E311162A98E78F00ECC35C /* Debug */,

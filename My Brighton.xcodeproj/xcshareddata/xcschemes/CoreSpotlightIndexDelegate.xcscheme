@@ -31,8 +31,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-               BuildableName = "My Brighton.app"
-               BlueprintName = "My Brighton"
+               BuildableName = "Project Demo.app"
+               BlueprintName = "Project Demo"
                ReferencedContainer = "container:My Brighton.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -86,8 +86,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-            BuildableName = "My Brighton.app"
-            BlueprintName = "My Brighton"
+            BuildableName = "Project Demo.app"
+            BlueprintName = "Project Demo"
             ReferencedContainer = "container:My Brighton.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -104,8 +104,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28E311062A98E78D00ECC35C"
-            BuildableName = "My Brighton.app"
-            BlueprintName = "My Brighton"
+            BuildableName = "Project Demo.app"
+            BlueprintName = "Project Demo"
             ReferencedContainer = "container:My Brighton.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
