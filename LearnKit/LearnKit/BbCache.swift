@@ -12,6 +12,7 @@ import CoreSpotlight
 import AppIntents
 import SwiftBbML
 import CustomisationKit
+import UniformTypeIdentifiers
 
 /// Handles all SwiftData and offline caching operations.
 ///
@@ -194,13 +195,14 @@ actor BbCache {
     }
 
     private func indexCourseAnnouncementsIntoSpotlight(_ announcements: [CourseAnnouncement], for courseIdentifier: Course.ID) async {
+        let course: Course? = try? await getCourse(for: courseIdentifier)
+
         var csItems: [CSSearchableItem] = []
         for announcement in announcements {
-            let cAnnouncementAttributes = CSSearchableItemAttributeSet()
+            let cAnnouncementAttributes = CSSearchableItemAttributeSet(contentType: UTType.message)
 
             cAnnouncementAttributes.title = announcement.title
             cAnnouncementAttributes.displayName = announcement.title
-            cAnnouncementAttributes.contentDescription = returnBbMLText(announcement.body)
             cAnnouncementAttributes.alternateNames = [
                 announcement.id,
             ]
@@ -209,10 +211,26 @@ actor BbCache {
                 "My Studies",
                 announcement.id
             ]
+            if let chunks = try? BbMLParser().parse(announcement.body) {
+                cAnnouncementAttributes.textContent = returnBbMLText(from: chunks)
+
+                for chunk in chunks {
+                    if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                        cAnnouncementAttributes.alternateNames?.append(attachmentInfo.name)
+                    }
+                }
+            }
             cAnnouncementAttributes.metadataModificationDate = announcement.lastModifiedDate
             let cAnnouncementCsItem = CSSearchableItem(uniqueIdentifier: "announcement/\(courseIdentifier)/\(announcement.id)", domainIdentifier: nil, attributeSet: cAnnouncementAttributes)
             if case .restricted(start: _, end: let end) = announcement.availability {
                 cAnnouncementCsItem.expirationDate = end
+            }
+
+            if let course {
+                cAnnouncementAttributes.containerIdentifier = course.id
+                cAnnouncementAttributes.containerTitle = course.name
+                cAnnouncementAttributes.containerDisplayName = course.name
+                cAnnouncementAttributes.containerOrder = NSNumber(integerLiteral: announcement.positionIndex)
             }
 
             csItems.append(cAnnouncementCsItem)
@@ -290,6 +308,8 @@ actor BbCache {
 
     // MARK: Content
     func indexContent(_ content: [Content], for courseIdentifier: Course.ID) async {
+        async let contentIndexing: () = indexCourseContentIntoSpotlight(content, for: courseIdentifier)
+
         for item in content {
             do {
                 let cachedCourse: CachedCourse? = try await getCourse(for: courseIdentifier)
@@ -329,6 +349,146 @@ actor BbCache {
             try modelContext.save()
         } catch {
             Self.logger.error("Error while saving modelContext during content index: \(error)")
+        }
+
+        await contentIndexing
+    }
+
+    private func indexCourseContentIntoSpotlight(_ content: [Content], for courseId: Course.ID) async {
+        let course: Course? = try? await getCourse(for: courseId)
+        var csItems: [CSSearchableItem] = []
+        for contentItem in content {
+            // Filters ROOT folder and BbPage children
+            if contentItem.parentId == nil || contentItem.title == "ultraDocumentBody" { continue }
+
+            let parent: Content?
+            if let parentId = contentItem.parentId {
+                parent = try? await getContent(for: parentId, in: courseId)
+            } else {
+                parent = nil
+            }
+
+            let contentAttributes = CSSearchableItemAttributeSet()
+
+            contentAttributes.title = contentItem.title
+            contentAttributes.displayName = contentItem.title
+            contentAttributes.contentDescription = contentItem.description
+            if let body = contentItem.body, !body.isEmpty {
+                contentAttributes.textContent = returnBbMLText(body)
+            }
+
+            contentAttributes.keywords = [
+                "content",
+                "My Studies"
+            ]
+            contentAttributes.metadataModificationDate = contentItem.lastModified
+            contentAttributes.contentModificationDate = contentItem.lastModified
+            contentAttributes.identifier = contentItem.id
+
+            if let parent {
+                contentAttributes.containerIdentifier = parent.id
+                contentAttributes.containerTitle = parent.title
+                if parent.title == "ROOT" {
+                    contentAttributes.containerDisplayName = course?.name
+                } else {
+                    contentAttributes.containerDisplayName = (course?.name ?? "") + " - " + parent.title
+                }
+                contentAttributes.containerOrder = NSNumber(integerLiteral: contentItem.positionIndex)
+            } else if let course {
+                contentAttributes.containerIdentifier = course.id
+                contentAttributes.containerTitle = course.name
+                contentAttributes.containerDisplayName = course.name
+                contentAttributes.containerOrder = NSNumber(integerLiteral: contentItem.positionIndex)
+            }
+
+            switch contentItem.handler {
+                case .contentItem:
+                    contentAttributes.setValue(NSString("richtext.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    if let body = contentItem.body, let chunks = try? BbMLParser().parse(body) {
+                        contentAttributes.textContent = returnBbMLText(from: chunks)
+
+                        for chunk in chunks {
+                            if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                                contentAttributes.alternateNames?.append(attachmentInfo.name)
+                            }
+                        }
+                    }
+                case .externalLink(let url):
+                    contentAttributes.setValue(NSString("globe"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    contentAttributes.keywords?.append("link")
+                    contentAttributes.contentType = UTType.url.identifier
+                    contentAttributes.contentURL = url
+                case .contentFolder(isBbPage: let isBbPage):
+                    contentAttributes.contentType = UTType.folder.identifier
+                    contentAttributes.setValue(isBbPage ? NSString("richtext.page") : NSString("folder"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    if !isBbPage {
+                        contentAttributes.keywords?.append("folder")
+                    } else {
+                        if let ultraDocumentChild = try? await getChildContent(for: contentItem.id, in: courseId).first {
+                            if let body = contentItem.body, let chunks = try? BbMLParser().parse(body) {
+                                contentAttributes.textContent = returnBbMLText(from: chunks)
+
+                                for chunk in chunks {
+                                    if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                                        contentAttributes.alternateNames?.append(attachmentInfo.name)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case .contentLesson:
+                    contentAttributes.contentType = UTType.folder.identifier
+                    contentAttributes.setValue(NSString("graduationcap"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    contentAttributes.keywords?.append(contentsOf: ["folder", "lesson"])
+                case .courseLink(target: _):
+                    contentAttributes.setValue(NSString("globe"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                case .discussionLink(target: _):
+                    contentAttributes.setValue(NSString("questionmark"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                case .ltiLink(_, parameters: _):
+                    contentAttributes.setValue(NSString("globe.desk"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                case .contentFile(uploadId: _, fileName: _, mimeType: let mimeType, duplicateFileHandling: _):
+                    let iconName: NSString
+                    if let utType = UTType(mimeType: mimeType) {
+                        contentAttributes.contentType = utType.identifier
+                        switch utType {
+                            case .image:
+                                iconName = NSString("photo")
+                                contentAttributes.keywords?.append("image")
+                            case .pdf:
+                                iconName = NSString("append.page")
+                                contentAttributes.keywords?.append("PDF")
+                            case .presentation:
+                                iconName = NSString("rectangle.on.rectangle.angled")
+                                contentAttributes.keywords?.append("presentation")
+                            default:
+                                iconName = NSString("questionmark")
+                        }
+                    } else {
+                        contentAttributes.contentType = UTType.item.identifier
+                        iconName = NSString("questionmark")
+                    }
+
+                    contentAttributes.setValue(iconName, forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    contentAttributes.keywords?.append("file")
+                case .testLink(target: _, gradeColumn: _):
+                    contentAttributes.setValue(NSString("questionmark.text.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    contentAttributes.keywords?.append("assignment")
+                case .assignment(gradeColumn: _, isGroup: _):
+                    contentAttributes.setValue(NSString("questionmark.text.page"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+                    contentAttributes.keywords?.append("assignment")
+                case .ltiPlacement:
+                    contentAttributes.setValue(NSString("questionmark"), forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey)
+            }
+
+            let contentCsItem = CSSearchableItem(uniqueIdentifier: "content/\(courseId)/\(contentItem.id)", domainIdentifier: nil, attributeSet: contentAttributes)
+
+            csItems.append(contentCsItem)
+        }
+
+        do {
+            try await searchableIndex.indexSearchableItems(csItems)
+        } catch {
+            Self.logger.error("Spotlight indexing error for course contents: \(error)")
         }
     }
 
@@ -702,6 +862,31 @@ extension BbCache: LearnKitAPI {
     }
 
     // MARK: BbML Formatting
+    private func returnBbMLText(from content: BbMLContent) -> String? {
+        let textChunks = content.filter({
+            if case .text(_) = $0 {
+                return true
+            } else {
+                return false
+            }
+        })
+
+        var attrString = AttributedString()
+        for textChunk in textChunks {
+            if !attrString.characters.isEmpty {
+                attrString.append(AttributedString("\n"))
+            }
+
+            guard case .text(let chunkText) = textChunk else {
+                return nil
+            }
+
+            attrString.append(chunkText)
+        }
+
+        return String(attrString.characters)
+    }
+
     private func returnBbMLText(_ bbMLString: String) -> String? {
         guard let content = try? BbMLParser().parse(bbMLString) else {
             return nil
@@ -751,12 +936,15 @@ extension BbCache {
                     let courseId: String = course.id
                     let courseAnnouncementsFetchDescriptor = FetchDescriptor<CachedCourseAnnouncement>(predicate: #Predicate { $0.course?.id == courseId })
                     let courseAnnouncements = try modelContext.fetch(courseAnnouncementsFetchDescriptor).compactMap({ CourseAnnouncement(from: $0) })
+
+                    let courseContentFetchDescriptor = FetchDescriptor<CachedContent>(predicate: #Predicate { $0.course?.id == courseId })
+                    let courseContent = try modelContext.fetch(courseContentFetchDescriptor).compactMap({ Content(from: $0) })
+
                     group.addTask { [self] in
                         await indexCourseAnnouncementsIntoSpotlight(courseAnnouncements, for: course.id)
+                        await indexCourseContentIntoSpotlight(courseContent, for: courseId)
                     }
                 } catch {
-                    Self.logger.error("Error when indexing course announcements for course '\(course.id)': \(error.localizedDescription)")
-
                 }
             }
 
@@ -785,12 +973,21 @@ extension BbCache {
                 return false
             }
         })
+        let courseContentItems = spotlightItems.filter({
+            if case .courseContent(id: _, courseId: _) = $0 {
+                return true
+            } else {
+                return false
+            }
+        })
 
         async let courseIndexing: () = reindexCourseItems(courseItems)
         async let cAnnouncementIndexing: () = reindexCAnnouncementItems(cAnnouncementItems)
+        async let courseContentIndexing: () = reindexCourseContentItems(courseContentItems)
 
         try await courseIndexing
         try await cAnnouncementIndexing
+        try await courseContentIndexing
     }
 
     func reindexCourseItems(_ identifiers: [SpotlightContentType]) async throws {
@@ -839,9 +1036,40 @@ extension BbCache {
         }
     }
 
+    func reindexCourseContentItems(_ identifiers: [SpotlightContentType]) async throws {
+        var idMappings: Dictionary<Course.ID, [Content.ID]> = [:]
+        for identifier in identifiers {
+            guard case .courseContent(id: let id, courseId: let courseId) = identifier else { continue }
+
+            if idMappings.keys.contains(courseId) {
+                idMappings[courseId]?.append(id)
+            } else {
+                idMappings[courseId] = [id]
+            }
+        }
+
+        try await withThrowingTaskGroup { group in
+            for mapping in idMappings {
+                let contentIds = mapping.value
+                let courseId = mapping.key
+
+                let fetchPredicate = #Predicate<CachedContent> { contentIds.contains($0.id) && $0.course?.id == courseId }
+                let fetchDescriptor = FetchDescriptor<CachedContent>(predicate: fetchPredicate)
+
+                let contents = try modelContext.fetch(fetchDescriptor).compactMap({ Content(from: $0) })
+
+                // Hmmmmmmm, seems suspicious
+                group.addTask { await self.indexCourseContentIntoSpotlight(contents, for: mapping.key) }
+            }
+
+            try await group.waitForAll()
+        }
+    }
+
     enum SpotlightContentType {
         case course(id: Course.ID)
         case courseAnnouncement(id: CourseAnnouncement.ID, courseId: Course.ID)
+        case courseContent(id: Content.ID, courseId: Course.ID)
 
         init?(from spotlightIdentifier: String) {
             let path = spotlightIdentifier.split(separator: "/")
@@ -864,6 +1092,13 @@ extension BbCache {
                     }
 
                     self = .courseAnnouncement(id: String(path[2]), courseId: String(path[1]))
+                case "content":
+                    guard path.count == 3 else {
+                        BbCache.logger.warning("Course Content Spotlight item is missing an ID, unable to index.")
+                        return nil
+                    }
+
+                    self = .courseContent(id: String(path[2]), courseId: String(path[1]))
                 default:
                     BbCache.logger.warning("Unknown Spotlight identifier group '\(path[0])'")
                     return nil

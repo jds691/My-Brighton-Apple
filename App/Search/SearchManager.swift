@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreSpotlight
+import LearnKit
 
 @Observable
 final class SearchManager {
@@ -61,9 +62,12 @@ final class SearchManager {
             "title",
             "displayName",
             "contentDescription",
+            "textContent",
             "thumbnailData",
             "thumbnailURL",
-            "darkThumbnailURL"
+            "darkThumbnailURL",
+            "containerDisplayName",
+            LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.rawValue
         ]
 
         return context

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreSpotlight
+import LearnKit
 
 struct SearchItemRowView: View {
     @Environment(\.colorScheme) private var colorScheme
@@ -18,21 +19,36 @@ struct SearchItemRowView: View {
     }
 
     var body: some View {
-        HStack {
-            image
+        VStack(alignment: .leading) {
+            HStack {
+                image
 
-            VStack(alignment: .leading) {
-                name
-                if let description = csItem.attributeSet.contentDescription {
-                    Text(description)
-                        .lineLimit(3)
+                VStack(alignment: .leading) {
+                    name
+                    if let description = csItem.attributeSet.contentDescription {
+                        Text(description)
+                            .foregroundStyle(.brightonSecondary)
+                            .lineLimit(3)
+                    }
+                    if let textContent = csItem.attributeSet.textContent {
+                        Text(textContent)
+                            .lineLimit(3)
+                    }
                 }
+
+                Spacer()
+
+                Image(systemName: "chevron.forward")
+                    .foregroundStyle(.brightonSecondary)
             }
 
-            Spacer()
-
-            Image(systemName: "chevron.forward")
-                .foregroundStyle(.brightonSecondary)
+            if let containerName = csItem.attributeSet.containerDisplayName {
+                Divider()
+                Label(containerName, systemImage: "graduationcap")
+                    .lineLimit(1)
+                    .font(.caption2)
+                    .foregroundStyle(.brightonSecondary)
+            }
         }
     }
 
@@ -87,6 +103,11 @@ struct SearchItemRowView: View {
             } placeholder: {
                 EmptyView()
             }
+        } else if let sfSymbolIconName = csItem.attributeSet.value(forCustomKey: LearnKitService.CoreSpotlightKeys.sfSymbolIconKey.csCustomAttributeKey) as? NSString {
+            Image(systemName: String(sfSymbolIconName))
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
         }
     }
 }

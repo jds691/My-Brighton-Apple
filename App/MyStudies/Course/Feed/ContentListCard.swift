@@ -63,7 +63,7 @@ struct ContentListCard: View {
                 if let utType = UTType(mimeType: mimeType) {
                     switch utType {
                         case .image:
-                            Image(systemName: "questionmark")
+                            Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
                         case .pdf:
