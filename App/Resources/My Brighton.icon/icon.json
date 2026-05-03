@@ -11,8 +11,15 @@
               "value" : true
             }
           ],
-          "image-name" : "1_icon-light.svg",
-          "name" : "1_icon-light"
+          "image-name" : "1_logo-dark.svg",
+          "name" : "1_logo-dark",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              0,
+              20
+            ]
+          }
         },
         {
           "hidden-specializations" : [
@@ -25,8 +32,15 @@
               "value" : true
             }
           ],
-          "image-name" : "1_icon-dark.svg",
-          "name" : "1_icon-dark"
+          "image-name" : "Logo-Launch.svg",
+          "name" : "1_dark",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              0,
+              20
+            ]
+          }
         }
       ],
       "shadow" : {

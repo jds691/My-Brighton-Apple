@@ -19,7 +19,7 @@ extension Navigation.Route {
             case .search:
                 Label("Search", systemImage: "magnifyingglass")
             case .bsu:
-                Label("Societies", image: .bsuLogo)
+                Label("Societies", systemImage: "figure")
         }
     }
 }
