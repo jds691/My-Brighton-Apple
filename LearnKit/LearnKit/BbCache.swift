@@ -525,6 +525,10 @@ extension BbCache: LearnKitAPI {
     func eraseAllCache() async throws(LearnKitError) {
         do {
             try await searchableIndex.deleteAllSearchableItems()
+        } catch {
+        }
+
+        do {
             try modelContainer.erase()
             initialiseModelContainer()
         } catch {
