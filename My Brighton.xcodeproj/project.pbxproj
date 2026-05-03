@@ -17,7 +17,6 @@
 		6834A7482F6AE2A300BC7D6B /* Notifier.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6834A7412F6AE2A300BC7D6B /* Notifier.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */; };
 		6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */; };
-		6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6835EF692E4E7D4A003B15BB /* KeychainSwift */; };
 		683BB4312FA4F835005117C7 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 683BB42B2FA4F835005117C7 /* Accounts.framework */; };
 		683BB4322FA4F835005117C7 /* Accounts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 683BB42B2FA4F835005117C7 /* Accounts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		683E322A2F5FC78000C24C00 /* Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EAC7E02E7A089000A3F286 /* Router.framework */; };
@@ -473,6 +472,9 @@
 				"Resources/My-Brighton-Info.plist",
 			);
 			platformFiltersByRelativePath = {
+				Licences/AcknowledgementsWindowView.swift = (
+					macos,
+				);
 				"Resources/Launch Screen.storyboard" = (
 					ios,
 				);
@@ -860,7 +862,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6835EF6A2E4E7D4A003B15BB /* KeychainSwift in Frameworks */,
 				6835EF682E4E7D4A003B15BB /* OpenAPIURLSession in Frameworks */,
 				6810B46E2F8C24FE00C203B0 /* CustomisationKit.framework in Frameworks */,
 				6835EF662E4E7D4A003B15BB /* OpenAPIRuntime in Frameworks */,
@@ -1170,7 +1171,6 @@
 			packageProductDependencies = (
 				6835EF652E4E7D4A003B15BB /* OpenAPIRuntime */,
 				6835EF672E4E7D4A003B15BB /* OpenAPIURLSession */,
-				6835EF692E4E7D4A003B15BB /* KeychainSwift */,
 				68278E9A2F467E0000C4A6EA /* SwiftBbML */,
 			);
 			productName = LearnKit;
@@ -1438,7 +1438,6 @@
 				689E99192E4B83ED00BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				689E99272E4B861100BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
-				6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				68E89BFB2E7E2AF200840A47 /* XCRemoteSwiftPackageReference "MXLCalendarManagerSwift" */,
 				683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */,
 			);
@@ -3286,14 +3285,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 24.0.0;
-			};
-		};
 		683F7D6E2EC7455E00B83DE3 /* XCRemoteSwiftPackageReference "SwiftBbML" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jds691/SwiftBbML";
@@ -3351,11 +3342,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 689E992A2E4B864600BEDD5E /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
 			productName = OpenAPIURLSession;
-		};
-		6835EF692E4E7D4A003B15BB /* KeychainSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6835A2512E4D37DE008D3DC6 /* XCRemoteSwiftPackageReference "keychain-swift" */;
-			productName = KeychainSwift;
 		};
 		6835EF6E2E4E7D60003B15BB /* OpenAPIGenerator */ = {
 			isa = XCSwiftPackageProductDependency;

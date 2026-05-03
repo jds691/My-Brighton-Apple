@@ -211,6 +211,13 @@ struct MyBrightonApp: App {
         .windowResizability(.contentSize)
         .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: ["timetable="])
+
+        Window("Acknowledgements", id: "acknowledgements") {
+            AcknowledgementsWindowView()
+                .handlesExternalEvents(preferring: [], allowing: [])
+        }
+        .handlesExternalEvents(matching: [])
+        .restorationBehavior(.disabled)
         #endif
     }
 }
