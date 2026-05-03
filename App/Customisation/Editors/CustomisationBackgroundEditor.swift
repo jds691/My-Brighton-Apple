@@ -18,6 +18,7 @@ struct CustomisationBackgroundEditor: View {
 
     @State private var backgroundColor: Color = .brightonSecondary
     @State private var backgroundImageBuiltInIdentifier: String = CustomisationService.getAlwaysPresentImagePath()
+    @State private var backgroundFileUrl: URL? = nil
 
     @State private var showBackgroundPicker: Bool = false
 
@@ -40,13 +41,15 @@ struct CustomisationBackgroundEditor: View {
                     Text("Colour")
                         .tag(Self.BackgroundType.color)
                     Text("Image")
-                        .tag(Self.BackgroundType.image)
+                        .tag(Self.BackgroundType.builtInImage)
+                    Text("Custom Image")
+                        .tag(Self.BackgroundType.customImage)
                 }
 
                 switch backgroundType {
                     case .color:
                         ColorPicker("Colour", selection: $backgroundColor)
-                    case .image:
+                    case .builtInImage, .customImage:
                         HStack {
                             Text("Image")
                             Spacer()
@@ -82,19 +85,21 @@ struct CustomisationBackgroundEditor: View {
                     case .builtInImage(let path):
                         backgroundImageBuiltInIdentifier = path
 
-                        if case .image = backgroundType {
+                        if case .builtInImage = backgroundType {
                             break
                         }
 
                         disableTwoWayOnChange = true
-                        backgroundType = .image
-                    case .customImage(_):
-                        if case .image = backgroundType {
+                        backgroundType = .builtInImage
+                    case .customImage(let url):
+                        backgroundFileUrl = url
+
+                        if case .customImage = backgroundType {
                             break
                         }
 
                         disableTwoWayOnChange = true
-                        backgroundType = .image
+                        backgroundType = .customImage
                 }
             }
             .onChange(of: backgroundType) {
@@ -107,8 +112,10 @@ struct CustomisationBackgroundEditor: View {
                 switch backgroundType {
                     case .color:
                         background = .color(.fromColor(backgroundColor))
-                    case .image:
+                    case .builtInImage:
                         background = .builtInImage(backgroundImageBuiltInIdentifier)
+                    case .customImage:
+                        background = .customImage(backgroundFileUrl ?? URL(string: "https://example.com/")!)
                 }
             }
             .onChange(of: backgroundColor) {
@@ -129,15 +136,17 @@ struct CustomisationBackgroundEditor: View {
                     backgroundType = .color
                 case .builtInImage(let path):
                     backgroundImageBuiltInIdentifier = path
-                    backgroundType = .image
-                case .customImage(_):
-                    backgroundType = .image
+                    backgroundType = .builtInImage
+                case .customImage(let url):
+                    backgroundFileUrl = url
+                    backgroundType = .customImage
             }
         }
     }
 
     private enum BackgroundType: Hashable {
         case color
-        case image
+        case builtInImage
+        case customImage
     }
 }
