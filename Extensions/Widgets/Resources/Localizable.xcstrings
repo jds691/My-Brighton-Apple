@@ -29,7 +29,7 @@
     "Timetable" : {
 
     },
-    "timetable.%lld.classes.later" : {
+    "timetable.num.classes.later" : {
       "localizations" : {
         "en-GB" : {
           "variations" : {
@@ -42,7 +42,7 @@
               },
               "other" : {
                 "stringUnit" : {
-                  "state" : "translated",
+                  "state" : "new",
                   "value" : "%lld more classes later"
                 }
               }

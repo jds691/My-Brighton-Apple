@@ -69,7 +69,7 @@ public final class CustomisationService {
     }
 
     public static func getAlwaysPresentImagePath() -> String {
-        "safety"
+        "default/default"
     }
 
     public static func getBuiltInColours() -> [Color] {

@@ -1,0 +1,68 @@
+{
+  "images" : [
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "default.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "default-P3.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "default@2x.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "default@2x-P3.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "default@3x 1.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "default@3x.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "default~macOS.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "default~macOS~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "display-gamut" : "sRGB",
+      "filename" : "default~macOS@2x.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "display-gamut" : "display-P3",
+      "filename" : "default~macOS@2x~P3.jpg",
+      "idiom" : "mac",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
