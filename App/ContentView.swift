@@ -78,7 +78,7 @@ struct ContentView: View {
             } label: {
                 Navigation.Route.myStudies(nil).label
             }
-            //.hidden(hSizeClass != .compact)
+            .hidden(hSizeClass != .compact)
 
             TabSection("Courses") {
                 ForEach(courses, id: \.id) { course in
