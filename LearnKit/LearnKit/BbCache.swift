@@ -389,6 +389,7 @@ actor BbCache {
             contentAttributes.metadataModificationDate = contentItem.lastModified
             contentAttributes.contentModificationDate = contentItem.lastModified
             contentAttributes.identifier = contentItem.id
+            contentAttributes.alternateNames = []
 
             if let parent {
                 contentAttributes.containerIdentifier = parent.id
