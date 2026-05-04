@@ -136,6 +136,7 @@ struct TimetableView: View {
                             .containerRelativeFrame([.vertical])
 
                         ContentUnavailableView("No Classes Today", systemImage: "calendar")
+                            .foregroundStyle(.primary, .brightonSecondary)
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
