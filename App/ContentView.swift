@@ -36,7 +36,7 @@ struct ContentView: View {
         @Bindable var router = router
         
         root
-            .onContinueRouterUserActivities()
+            .onContinueRouterUserActivities(learnKit: learnKit)
         // Not included in Router due to the dependency on SearchManager
             .onContinueUserActivity(CSQueryContinuationActionType, perform: { userActivity in
 

@@ -32,7 +32,6 @@ struct AnnouncementWindowView: View {
         Group {
             if let announcement {
                 AnnouncementView(announcement: announcement, onDismiss: { dismiss() })
-                    .headerLocation(.navigationBar)
                     .hidesDismissButton()
             } else {
                 ProgressView()

@@ -26,7 +26,13 @@ struct CourseView: View {
     @State private var course: Course? = nil
     @State private var rootContent: Content? = nil
 
-    @State private var showAnnouncementModal: Bool = false
+    @State private var showAnnouncementModal: Bool = false {
+        didSet {
+            if !showAnnouncementModal {
+                selectedAnnouncement = nil
+            }
+        }
+    }
     @State private var announcements: [any Announcement]? = nil
     @State private var selectedAnnouncement: (any Announcement)? = nil
 
@@ -206,15 +212,12 @@ struct CourseView: View {
                     showErrorMessage = true
                 }
             }
-            .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
+            .sheet(isPresented: $showAnnouncementModal) {
                 if let selectedAnnouncement {
                     AnnouncementView(announcement: selectedAnnouncement)
                         .environment(\.courseId, courseId)
                 } else {
                     EmptyView()
-                        .onAppear {
-                            dismiss()
-                        }
                 }
             }
             .sheet(isPresented: $showCustomisationEditor) {
