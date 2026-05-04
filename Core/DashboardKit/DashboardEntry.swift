@@ -11,10 +11,6 @@ import SwiftData
 public protocol DashboardEntry: AnyObject, Identifiable, PersistentModel {
     var id: String { get set }
 
-    /// Represents the dashboard this entry corresponds to.
-    ///
-    /// This value is set by DashboardKit. Manually set values will be overwritten at insertion.
-    var dashboardId: Dashboard.ID { get set }
     /// Represents the time at which this entry was first inserted.
     ///
     /// This value is set by DashboardKit. Manually set values will be overwritten at insertion.

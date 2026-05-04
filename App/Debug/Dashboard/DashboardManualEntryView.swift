@@ -132,6 +132,36 @@ struct DashboardManualEntryView: View {
                 .onAppear {
                     entry = ExhibitionWelcomeEntry()
                 }
+            } else if entryType === GradebookColumnDueEntry.self {
+                Group {
+                    if let dueEntry = entry as? GradebookColumnDueEntry {
+                        @Bindable var dueEntry = dueEntry
+
+                        TextField("Course ID", text: $dueEntry.courseId)
+                        TextField("Column ID", text: $dueEntry.columnId)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = GradebookColumnDueEntry()
+                }
+            } else if entryType === GradebookColumnOverdueEntry.self {
+                Group {
+                    if let dueEntry = entry as? GradebookColumnOverdueEntry {
+                        @Bindable var dueEntry = dueEntry
+
+                        TextField("Course ID", text: $dueEntry.courseId)
+                        TextField("Column ID", text: $dueEntry.columnId)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = GradebookColumnOverdueEntry()
+                }
             }
         } else {
             Text("Cannot render editor")

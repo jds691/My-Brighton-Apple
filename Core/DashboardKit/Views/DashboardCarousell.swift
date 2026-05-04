@@ -85,8 +85,6 @@ public struct DashboardCarousell: View {
                     }
                 }
                 .accessibilityHidden(true)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .fixedSize()
                 .font(.caption.monospaced())
 
                 if let category = dashboard.getCategory(for: entry) {

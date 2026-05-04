@@ -23,10 +23,13 @@ enum DashboardID: String, CaseIterable {
         switch self {
             case .importantUpdates:
                 [
-                    ExhibitionWelcomeCategory()
+                    ExhibitionWelcomeCategory(),
+                    GradebookColumnOverdueCategory()
                 ]
             case .yourUpdates:
-                []
+                [
+                    GradebookColumnDueCategory()
+                ]
         }
     }
 }
