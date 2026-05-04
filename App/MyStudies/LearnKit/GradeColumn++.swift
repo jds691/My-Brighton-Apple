@@ -7,6 +7,7 @@
 
 import LearnKit
 
+nonisolated
 extension GradeColumn {
     func isSubmitted(basedOn attempts: [GradebookAttempt]) -> Bool {
         switch self.grading.scoringModel {
