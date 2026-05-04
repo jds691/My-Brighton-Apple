@@ -302,6 +302,20 @@ struct OnboardingCustomiseView: View {
                 }
             }
 
+            do {
+                try await MainActor.run {
+                    let exebitionWelcomeMEssage = ExhibitionWelcomeEntry()
+                    exebitionWelcomeMEssage.title = "Welcome to the exhibition!"
+                    exebitionWelcomeMEssage.text = "Thank you for checking out my project. I am happy to talk about or show the code behind anything in-app. Please just ask :)"
+                    try dashboardService.postEntry(
+                        exebitionWelcomeMEssage,
+                        to: DashboardID.importantUpdates.rawValue
+                    )
+                }
+            } catch {
+
+            }
+
             MyBrightonAppShortcuts.updateAppShortcutParameters()
         } catch {
             print(error)
