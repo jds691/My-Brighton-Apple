@@ -17,13 +17,10 @@ enum Setting: String, Hashable, CaseIterable {
 public enum Modal: String, Hashable, Identifiable, CaseIterable {
     public var id: Modal { self }
 
-    case account
     case timetableSetup
 
     public var windowId: String {
         switch self {
-            case .account:
-                "account"
             default:
                 ""
         }
@@ -90,10 +87,25 @@ public final class Router {
                     appendToPath(homeSubRoute)
                 }
             case .myStudies(let myStudiesSubRoute):
+                #if os(macOS)
+                guard let myStudiesSubRoute else {
+                    Self.logger.error("My Studies navigation on macOS requires a subroute! Cannot navigate!")
+                    return
+                }
+                
+                switch myStudiesSubRoute {
+                    case .module(let courseId, let moduleSubRoute):
+                        currentRoute = .myStudies(.module(courseId, nil))
+                        if let moduleSubRoute {
+                            appendToPath(moduleSubRoute)
+                        }
+                }
+                #else
                 currentRoute = .myStudies(nil)
                 if let myStudiesSubRoute {
                     appendToPath(myStudiesSubRoute)
                 }
+                #endif
             // Non-paramitised routes
             default:
                 currentRoute = route

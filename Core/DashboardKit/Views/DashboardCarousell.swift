@@ -28,14 +28,14 @@ public struct DashboardCarousell: View {
             ScrollView(.horizontal) {
                 if backgroundCardStyle == .clear, #available(iOS 26, macOS 26, *) {
                     GlassEffectContainer {
-                        LazyHStack {
+                        LazyHStack(alignment: .top) {
                             cards
                         }
                         .fixedSize()
                         .scrollTargetLayout()
                     }
                 } else {
-                    LazyHStack {
+                    LazyHStack(alignment: .top) {
                         cards
                     }
                     .fixedSize()
@@ -85,8 +85,6 @@ public struct DashboardCarousell: View {
                     }
                 }
                 .accessibilityHidden(true)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .fixedSize()
                 .font(.caption.monospaced())
 
                 if let category = dashboard.getCategory(for: entry) {

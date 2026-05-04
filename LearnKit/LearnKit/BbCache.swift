@@ -149,6 +149,8 @@ actor BbCache {
                 "Blackboard",
                 course.courseId
             ]
+            courseAttributes.contentCreationDate = course.creationDate
+            courseAttributes.contentModificationDate = course.lastModified
             courseAttributes.metadataModificationDate = course.lastModified
             courseAttributes.thumbnailURL = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true)
 
@@ -220,6 +222,8 @@ actor BbCache {
                     }
                 }
             }
+            cAnnouncementAttributes.contentCreationDate = announcement.creationDate
+            cAnnouncementAttributes.contentModificationDate = announcement.lastModifiedDate
             cAnnouncementAttributes.metadataModificationDate = announcement.lastModifiedDate
             let cAnnouncementCsItem = CSSearchableItem(uniqueIdentifier: "announcement/\(courseIdentifier)/\(announcement.id)", domainIdentifier: nil, attributeSet: cAnnouncementAttributes)
             if case .restricted(start: _, end: let end) = announcement.availability {
@@ -381,9 +385,11 @@ actor BbCache {
                 "content",
                 "Blackboard"
             ]
+            contentAttributes.contentCreationDate = contentItem.creationDate
             contentAttributes.metadataModificationDate = contentItem.lastModified
             contentAttributes.contentModificationDate = contentItem.lastModified
             contentAttributes.identifier = contentItem.id
+            contentAttributes.alternateNames = []
 
             if let parent {
                 contentAttributes.containerIdentifier = parent.id
@@ -525,6 +531,10 @@ extension BbCache: LearnKitAPI {
     func eraseAllCache() async throws(LearnKitError) {
         do {
             try await searchableIndex.deleteAllSearchableItems()
+        } catch {
+        }
+
+        do {
             try modelContainer.erase()
             initialiseModelContainer()
         } catch {

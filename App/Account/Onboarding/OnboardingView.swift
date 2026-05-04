@@ -43,12 +43,15 @@ struct OnboardingView: View {
             switch displayedScreen {
                 case .welcome:
                     OnboardingWelcomeView(displayedScreen: $displayedScreen)
+                        .myBrightonBackground()
                         .transition(.slide)
                 case .signIn:
                     OnboardingSignInView(displayedScreen: $displayedScreen)
+                        .myBrightonBackground()
                         .transition(.slide)
                 case .customise:
                     OnboardingCustomiseView(displayContentView: $canShowContentView)
+                        .myBrightonBackground()
                         .transition(.slide)
             }
         }

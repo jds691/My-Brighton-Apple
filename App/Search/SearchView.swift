@@ -44,6 +44,7 @@ struct SearchView: View {
                         .searchCompletion(String(suggestion.suggestion.localizedAttributedSuggestion.characters))
                         .onTapGesture {
                             searchManager.currentQuery.userEngaged(suggestion, visibleSuggestions: searchSuggestions, interaction: .select)
+                            searchManager.searchTerm = String(suggestion.suggestion.localizedAttributedSuggestion.characters)
                         }
                 }
             }

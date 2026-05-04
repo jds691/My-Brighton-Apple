@@ -26,7 +26,13 @@ struct CourseView: View {
     @State private var course: Course? = nil
     @State private var rootContent: Content? = nil
 
-    @State private var showAnnouncementModal: Bool = false
+    @State private var showAnnouncementModal: Bool = false {
+        didSet {
+            if !showAnnouncementModal {
+                selectedAnnouncement = nil
+            }
+        }
+    }
     @State private var announcements: [any Announcement]? = nil
     @State private var selectedAnnouncement: (any Announcement)? = nil
 
@@ -71,7 +77,6 @@ struct CourseView: View {
             }
             .flexibleHeaderScrollView()
             .ignoresSafeArea(edges: [.top])
-            .focusedSceneValue(\.courseId, self.courseId)
             .myBrightonBackground()
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -101,20 +106,6 @@ struct CourseView: View {
             .navigationTitle(courseDisplayName)
             .toolbar {
                 ToolbarItemGroup(placement: .secondaryAction) {
-                    Section {
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(nil)) {
-                            Label("Grades", systemImage: "checkmark.seal.text.page")
-                        }
-
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.dueDates) {
-                            Label("Due Dates", systemImage: "calendar.badge.clock")
-                        }
-
-                        NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.messages(nil)) {
-                            Label("Messages", systemImage: "envelope")
-                        }
-                    }
-
                     Button {
                         customisations.isFavourite.toggle()
                     } label: {
@@ -129,22 +120,6 @@ struct CourseView: View {
                         showCustomisationEditor = true
                     } label: {
                         Label("Customise", systemImage: "paintbrush")
-                    }
-
-                    Menu {
-                        Section("Available Tools") {
-                            Button {
-
-                            } label: {
-                                Label {
-                                    Text("Panopto")
-                                } icon: {
-                                    Image("panopto.logo")
-                                }
-                            }
-                        }
-                    } label: {
-                        Label("Teaching Tools", systemImage: "wrench.adjustable")
                     }
                 }
             }
@@ -169,20 +144,6 @@ struct CourseView: View {
                         //.toolbarBackgroundVisibility(.hidden, for: .navigationBar)
                         .legacyToolbar(visible: !showTitle, showBackButton: true) {
                             Menu {
-                                Section {
-                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.grades(nil)) {
-                                        Label("Grades", systemImage: "checkmark.seal.text.page")
-                                    }
-
-                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.dueDates) {
-                                        Label("Due Dates", systemImage: "calendar.badge.clock")
-                                    }
-
-                                    NavigationLink(value: Navigation.Route.MyStudiesSubRoute.ModuleSubRoute.messages(nil)) {
-                                        Label("Messages", systemImage: "envelope")
-                                    }
-                                }
-
                                 Button {
                                     customisations.isFavourite.toggle()
                                 } label: {
@@ -197,22 +158,6 @@ struct CourseView: View {
                                     showCustomisationEditor = true
                                 } label: {
                                     Label("Customise", systemImage: "paintbrush")
-                                }
-
-                                Menu {
-                                    Section("Available Tools") {
-                                        Button {
-
-                                        } label: {
-                                            Label {
-                                                Text("Panopto")
-                                            } icon: {
-                                                Image("panopto.logo")
-                                            }
-                                        }
-                                    }
-                                } label: {
-                                    Label("Teaching Tools", systemImage: "wrench.adjustable")
                                 }
                             } label: {
                                 Label("More Options", systemImage: "ellipsis.circle")
@@ -267,15 +212,12 @@ struct CourseView: View {
                     showErrorMessage = true
                 }
             }
-            .sheet(isPresented: $showAnnouncementModal, onDismiss: { selectedAnnouncement = nil }) {
+            .sheet(isPresented: $showAnnouncementModal) {
                 if let selectedAnnouncement {
                     AnnouncementView(announcement: selectedAnnouncement)
                         .environment(\.courseId, courseId)
                 } else {
                     EmptyView()
-                        .onAppear {
-                            dismiss()
-                        }
                 }
             }
             .sheet(isPresented: $showCustomisationEditor) {

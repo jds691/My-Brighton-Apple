@@ -89,7 +89,7 @@ public final class Dashboard: Identifiable {
         }
     }
 
-    func storeEntry(_ entry: some DashboardEntry) throws (DashboardError) {
+    public func storeEntry(_ entry: some DashboardEntry) throws (DashboardError) {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
         var targetCategory: (any Category)? = nil
@@ -102,7 +102,6 @@ public final class Dashboard: Identifiable {
 
         guard targetCategory != nil else { throw .noValidCategory }
 
-        entry.dashboardId = self.id
         entry.creationDate = .now
         modelContext.insert(entry)
 
@@ -119,13 +118,12 @@ public final class Dashboard: Identifiable {
         }
     }
 
-    func deleteEntry<E: DashboardEntry>(by id: String, for type: E.Type) throws (DashboardError) {
+    public func deleteEntry<E: DashboardEntry>(by id: String, for type: E.Type) throws (DashboardError) {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
         do {
-            let targetDashboardId: Dashboard.ID = self.id
             try modelContext.delete(model: type, where: #Predicate {
-                $0.id == id && $0.dashboardId == targetDashboardId
+                $0.id == id
             })
         } catch {
             // TODO: Throw
@@ -144,7 +142,7 @@ public final class Dashboard: Identifiable {
         }
     }
 
-    func changeEntry<E: DashboardEntry>(with id: String, updates: @escaping (E) -> Void) throws (DashboardError) {
+    public func changeEntry<E: DashboardEntry>(with id: String, updates: @escaping (E) -> Void) throws (DashboardError) {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
         let existingEntry: E
@@ -162,8 +160,6 @@ public final class Dashboard: Identifiable {
 
         updates(existingEntry)
 
-        // Just in case
-        existingEntry.dashboardId = self.id
         do {
             try modelContext.save()
         } catch {
@@ -220,7 +216,6 @@ public final class Dashboard: Identifiable {
     private func getEntries<E: DashboardEntry>(for type: E.Type) throws (DashboardError) -> [E] {
         guard let modelContext else { throw .invalidInternalConfiguration }
 
-        let targetDashboardId: Dashboard.ID = self.id
         var fetchRequest = FetchDescriptor<E>()
         fetchRequest.fetchLimit = fetchLimit
 

@@ -101,14 +101,9 @@ struct MyBrightonApp: App {
         .handlesExternalEvents(matching: ["*"])
         .commands {
             SidebarCommands()
-            TextEditingCommands()
             ToolbarCommands()
-            #if os(macOS)
-            ImportFromDevicesCommands()
-            #endif
 
             AccountCommands(showSignOut: $showGlobalSignOut, accountService: self.accountService)
-            CourseCommands()
         }
         #if !os(macOS)
         .backgroundTask(.appRefresh("com.neo.My-Brighton.Timetable.refresh")) {
@@ -178,21 +173,6 @@ struct MyBrightonApp: App {
             Text(LocalizedStringResource.Account.alertSignOutConfirm)
         }
 
-        Settings {
-            AccountView()
-                .scenePadding()
-                .environment(router)
-                .environment(searchManager)
-                .environment(\.learnKitService, learnKitService)
-                .environment(\.timetableService, timetableService)
-                .environment(\.dashboardService, dashboardService)
-                .environment(\.accountService, accountService)
-                .environment(\.notifier, notifier)
-                .handlesExternalEvents(preferring: [], allowing: [])
-        }
-        .defaultAppStorage(defaultAppStorage)
-        .handlesExternalEvents(matching: [])
-
         WindowGroup(id: "course-announcement", for: CourseAnnouncementIDUnion.self) { $idUnion in
             Group {
                 if let idUnion = $idUnion.wrappedValue {
@@ -231,6 +211,13 @@ struct MyBrightonApp: App {
         .windowResizability(.contentSize)
         .defaultAppStorage(defaultAppStorage)
         .handlesExternalEvents(matching: ["timetable="])
+
+        Window("Acknowledgements", id: "acknowledgements") {
+            AcknowledgementsWindowView()
+                .handlesExternalEvents(preferring: [], allowing: [])
+        }
+        .handlesExternalEvents(matching: [])
+        .restorationBehavior(.disabled)
         #endif
     }
 }

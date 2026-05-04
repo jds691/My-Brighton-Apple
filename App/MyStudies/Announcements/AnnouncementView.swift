@@ -28,7 +28,6 @@ struct AnnouncementView: View {
 
     var announcement: any Announcement
     private var hideDismissButton: Bool = false
-    private var headerUsesSystemLocation: Bool = false
 
     @State private var bbML: BbMLContent? = nil
     @State private var showLoadFailedMessage: Bool = false
@@ -53,16 +52,27 @@ struct AnnouncementView: View {
             Group {
                 if let bbML {
                     ScrollView(.vertical) {
-                        if !headerUsesSystemLocation {
-                            header
-                        }
                         BbMLView(bbML)
                     }
                     .contentMargins(16, for: .scrollContent)
+                    #if os(iOS)
+                    .navigationBarTitleDisplayMode(.inline)
+                    #endif
+                    .modifierBranch {
+                        if #available(iOS 26, macOS 11, *) {
+                            $0
+                                .navigationTitle(announcement.title)
+                                .navigationSubtitle(dateAndTime)
+                        } else {
+                            $0
+                                .navigationTitle(announcement.title)
+                        }
+                    }
                 } else {
                     ProgressView()
                 }
             }
+            .myBrightonBackground()
             .toolbar {
                 if !hideDismissButton {
                     ToolbarItem(placement: .primaryAction) {
@@ -96,20 +106,6 @@ struct AnnouncementView: View {
             $0.isEligibleForHandoff = true
             $0.requiredUserInfoKeys = ["announcementID"]
         }
-        .modifierBranch {
-            if headerUsesSystemLocation {
-                if #available(iOS 26, macOS 11, *) {
-                    $0
-                        .navigationTitle(announcement.title)
-                        .navigationSubtitle(dateAndTime)
-                } else {
-                    $0
-                        .navigationTitle(announcement.title)
-                }
-            } else {
-                $0
-            }
-        }
         .onAppear {
             if viewDismissAction == nil {
                 viewDismissAction = { dismiss() }
@@ -131,37 +127,12 @@ struct AnnouncementView: View {
             Text("Unable to parse announcement content. Try viewing this content on the Blackboard website.")
         }
     }
-
-    @ViewBuilder
-    private var header: some View {
-        VStack(alignment: .leading) {
-            Text(announcement.title)
-                .font(.largeTitle.bold())
-            Text(verbatim: dateAndTime)
-                .lineLimit(1)
-                .font(.caption2)
-                .foregroundStyle(.brightonSecondary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    enum HeaderLocation: Hashable, Sendable {
-        case inline
-        case navigationBar
-    }
 }
 
 extension AnnouncementView {
     func hidesDismissButton(_ hide: Bool = true) -> Self {
         var view = self
         view.hideDismissButton = hide
-
-        return view
-    }
-
-    func headerLocation(_ location: HeaderLocation) -> Self {
-        var view = self
-        view.headerUsesSystemLocation = location == .navigationBar
 
         return view
     }

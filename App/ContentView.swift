@@ -36,7 +36,7 @@ struct ContentView: View {
         @Bindable var router = router
         
         root
-            .onContinueRouterUserActivities()
+            .onContinueRouterUserActivities(learnKit: learnKit)
         // Not included in Router due to the dependency on SearchManager
             .onContinueUserActivity(CSQueryContinuationActionType, perform: { userActivity in
 
@@ -50,8 +50,6 @@ struct ContentView: View {
             .sheet(item: $router.rootModal) { requestedModal in
                 Group {
                     switch requestedModal {
-                        case .account:
-                            AccountView()
                         case .timetableSetup:
                             TimetableSetupView()
                     }
@@ -80,17 +78,7 @@ struct ContentView: View {
             } label: {
                 Navigation.Route.myStudies(nil).label
             }
-
-            #if ENABLE_BSU
-            Tab(value: .bsu) {
-                NavigationStack(path: $router.path) {
-                    SocietiesView()
-                }
-            } label: {
-                Navigation.Route.bsu.label
-            }
-            #endif
-            //.hidden(hSizeClass != .compact)
+            .hidden(hSizeClass != .compact)
 
             TabSection("Courses") {
                 ForEach(courses, id: \.id) { course in

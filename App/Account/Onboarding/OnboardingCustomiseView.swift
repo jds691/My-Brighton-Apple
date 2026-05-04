@@ -11,6 +11,7 @@ import CoreDesign
 import Accounts
 import CustomisationKit
 import LearnKit
+import DashboardKit
 
 struct OnboardingCustomiseView: View {
     @Environment(\.openWindow) private var openWindow
@@ -18,6 +19,7 @@ struct OnboardingCustomiseView: View {
 
     @Environment(\.accountService) private var accountService
     @Environment(\.learnKitService) private var learnKit
+    @Environment(\.dashboardService) private var dashboardService
 
     @Binding var displayContentView: Bool
 
@@ -263,12 +265,55 @@ struct OnboardingCustomiseView: View {
                 for try await result in group {
                     try await withThrowingTaskGroup { attemptsGroup in
                         for column in result.columns {
-                            attemptsGroup.addTask { try await learnKit.refreshGradebookAttempts(for: column.id, in: result.courseId) }
+                            attemptsGroup.addTask {
+                                let attempts = try await learnKit.refreshGradebookAttempts(for: column.id, in: result.courseId)
+
+                                if !column.isSubmitted(basedOn: attempts) {
+                                    if column.grading.dueDate < .now {
+                                        do {
+                                            try await MainActor.run {
+                                                try dashboardService.postEntry(
+                                                    GradebookColumnOverdueEntry(courseId: result.courseId, columnId: column.id),
+                                                    to: DashboardID.importantUpdates.rawValue
+                                                )
+                                            }
+                                        } catch {
+
+                                        }
+                                    } else if column.grading.dueDate < .now.addingTimeInterval(604800) {
+                                        // 1 week
+                                        do {
+                                            try await MainActor.run {
+                                                try dashboardService.postEntry(
+                                                    GradebookColumnDueEntry(courseId: result.courseId, columnId: column.id),
+                                                    to: DashboardID.yourUpdates.rawValue
+                                                )
+                                            }
+                                        } catch {
+
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         try await attemptsGroup.waitForAll()
                     }
                 }
+            }
+
+            do {
+                try await MainActor.run {
+                    let exebitionWelcomeMEssage = ExhibitionWelcomeEntry()
+                    exebitionWelcomeMEssage.title = "Welcome to the exhibition!"
+                    exebitionWelcomeMEssage.text = "Thank you for checking out my project. I am happy to talk about or show the code behind anything in-app. Please just ask :)"
+                    try dashboardService.postEntry(
+                        exebitionWelcomeMEssage,
+                        to: DashboardID.importantUpdates.rawValue
+                    )
+                }
+            } catch {
+
             }
 
             MyBrightonAppShortcuts.updateAppShortcutParameters()

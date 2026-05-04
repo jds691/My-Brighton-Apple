@@ -117,21 +117,7 @@ struct DashboardManualEntryView: View {
     @ViewBuilder
     private func createViewForSelectedCategory() -> some View {
         if let selectedEntryType, let entryType = validEntryTypes[selectedEntryType] {
-            if entryType === TempEntry.self {
-                Group {
-                    if let tempEntry = entry as? TempEntry {
-                        @Bindable var tempEntry = tempEntry
-
-                        TextField("Idk", text: $tempEntry.idk)
-                    } else {
-                        Text("Type casting error")
-                            .foregroundStyle(.red)
-                    }
-                }
-                .onAppear {
-                    entry = TempEntry()
-                }
-            } else if entryType === ExhibitionWelcomeEntry.self {
+            if entryType === ExhibitionWelcomeEntry.self {
                 Group {
                     if let exhibitionWelcomeEntry = entry as? ExhibitionWelcomeEntry {
                         @Bindable var exhibitionWelcomeEntry = exhibitionWelcomeEntry
@@ -145,6 +131,36 @@ struct DashboardManualEntryView: View {
                 }
                 .onAppear {
                     entry = ExhibitionWelcomeEntry()
+                }
+            } else if entryType === GradebookColumnDueEntry.self {
+                Group {
+                    if let dueEntry = entry as? GradebookColumnDueEntry {
+                        @Bindable var dueEntry = dueEntry
+
+                        TextField("Course ID", text: $dueEntry.courseId)
+                        TextField("Column ID", text: $dueEntry.columnId)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = GradebookColumnDueEntry()
+                }
+            } else if entryType === GradebookColumnOverdueEntry.self {
+                Group {
+                    if let dueEntry = entry as? GradebookColumnOverdueEntry {
+                        @Bindable var dueEntry = dueEntry
+
+                        TextField("Course ID", text: $dueEntry.courseId)
+                        TextField("Column ID", text: $dueEntry.columnId)
+                    } else {
+                        Text("Type casting error")
+                            .foregroundStyle(.red)
+                    }
+                }
+                .onAppear {
+                    entry = GradebookColumnOverdueEntry()
                 }
             }
         } else {

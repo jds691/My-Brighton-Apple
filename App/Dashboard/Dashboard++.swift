@@ -11,39 +11,6 @@ import SwiftData
 import SwiftUI
 import Router
 
-@Model
-class TempEntry: DashboardEntry, NavigableEntry {
-    var dashboardId: DashboardKit.Dashboard.ID
-    
-    var id: String
-    
-    @Transient
-    var navigationPoint: Navigation = Navigation.modal(.account)
-
-    var creationDate: Date
-
-    var idk: String
-
-    required init() {
-        self.dashboardId = ""
-        self.id = ""
-        self.idk = ""
-        self.creationDate = .now
-    }
-}
-
-struct TempCategory: DashboardKit.Category {
-    let id: String = "TEMP"
-
-    let title: LocalizedStringResource = ""
-
-    let description: LocalizedStringResource? = nil
-
-    func content(dashboard: Dashboard, entry: TempEntry) -> some View {
-        Text(entry.idk)
-    }
-}
-
 enum DashboardID: String, CaseIterable {
     case yourUpdates = "inbox"
     case importantUpdates = "important"
@@ -57,10 +24,12 @@ enum DashboardID: String, CaseIterable {
             case .importantUpdates:
                 [
                     ExhibitionWelcomeCategory(),
-                    TempCategory()
+                    GradebookColumnOverdueCategory()
                 ]
             case .yourUpdates:
-                [TempCategory()]
+                [
+                    GradebookColumnDueCategory()
+                ]
         }
     }
 }
