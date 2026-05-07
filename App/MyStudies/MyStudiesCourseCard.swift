@@ -59,6 +59,7 @@ struct MyStudiesCourseCard: View {
         .overlay(alignment: favouriteButtonAlignment) {
             Button {
                 customisations.isFavourite.toggle()
+                CustomisationService.shared.saveOutstandingChanges()
             } label: {
                 Label("Mark as favourite", systemImage: customisations.isFavourite ? "star.fill" : "star")
                     .font(customisations.fontDesign.swiftUIFont(.body))

@@ -146,6 +146,7 @@ struct CourseView: View {
                             Menu {
                                 Button {
                                     customisations.isFavourite.toggle()
+                                    CustomisationService.shared.saveOutstandingChanges()
                                 } label: {
                                     if customisations.isFavourite {
                                         Label("Unfavourite", systemImage: "star.slash")
