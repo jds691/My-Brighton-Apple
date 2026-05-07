@@ -73,57 +73,8 @@ struct BbMLContentViewer: View {
         .userActivity(UserActivity.MyStudies.Content.view) {
             $0.title = "\(content.title) in {Module name}"
             // Spotlight
-            $0.isEligibleForSearch = true
             // App Intents
             //$0.appEntityIdentifier = .init(for: T##Entity, identifier: T##Entity.ID)
-        }
-        .toolbarTitleMenu {
-            Menu {
-                Section("Available Formats") {
-                    Button {
-
-                    } label: {
-                        Text("HTML")
-                        Text("For viewing in the browser and on mobile devices")
-                    }
-                    Button {
-
-                    } label: {
-                        Text("ePub")
-                        Text(
-                            "For reading as an e-book on an iPad and other e-book readers"
-                        )
-                    }
-                    Button {
-
-                    } label: {
-                        Text("Electronic Braille")
-                    }
-                    Button {
-
-                    } label: {
-                        Text("Audio")
-                    }
-                    Button {
-
-                    } label: {
-                        Text("BeeLine Reader")
-                    }
-                    Button {
-
-                    } label: {
-                        Text("Immersive Reader")
-
-                    }
-                    Button {
-
-                    } label: {
-                        Text("Translated Version")
-                    }
-                }
-            } label: {
-                Label("Export", systemImage: "square.and.arrow.up")
-            }
         }
         .task {
             await loadView(target: content)
