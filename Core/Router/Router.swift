@@ -87,25 +87,32 @@ public final class Router {
                     appendToPath(homeSubRoute)
                 }
             case .myStudies(let myStudiesSubRoute):
-                #if os(macOS)
-                guard let myStudiesSubRoute else {
-                    Self.logger.error("My Studies navigation on macOS requires a subroute! Cannot navigate!")
-                    return
-                }
-                
                 switch myStudiesSubRoute {
                     case .module(let courseId, let moduleSubRoute):
+                        #if os(iOS)
+                        if UITraitCollection.current.horizontalSizeClass == .regular {
+                            currentRoute = .myStudies(.module(courseId, nil))
+                            if let moduleSubRoute {
+                                appendToPath(moduleSubRoute)
+                            }
+                        } else {
+                            currentRoute = .myStudies(nil)
+                            appendToPath(myStudiesSubRoute!)
+                        }
+                        #else
                         currentRoute = .myStudies(.module(courseId, nil))
                         if let moduleSubRoute {
                             appendToPath(moduleSubRoute)
                         }
+                        #endif
+                    case .none:
+                        #if os(macOS)
+                        Self.logger.error("My Studies navigation on macOS requires a subroute! Cannot navigate!")
+                        return
+                        #else
+                        currentRoute = .myStudies(nil)
+                        #endif
                 }
-                #else
-                currentRoute = .myStudies(nil)
-                if let myStudiesSubRoute {
-                    appendToPath(myStudiesSubRoute)
-                }
-                #endif
             // Non-paramitised routes
             default:
                 currentRoute = route
