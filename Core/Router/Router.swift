@@ -49,11 +49,10 @@ public final class Router {
         }
     }*/
 
-    // TODO: Allow routes to register their own paths so the router can still control them but not interfere?
     private var paths: [Navigation.Route: NavigationPath] = [:]
 
+    @available(*, deprecated, message: "Trust")
     public var path: NavigationPath {
-        // TODO: Causes weird transitions to do it this way
         get {
             if let path = paths[currentRoute] {
                 return path
@@ -66,6 +65,29 @@ public final class Router {
         set {
             paths.updateValue(newValue, forKey: currentRoute)
         }
+    }
+
+    public func getPathBinding(for route: Navigation.Route) -> Binding<NavigationPath> {
+        return Binding(get: { [weak self] in
+            if let path = self?.paths[route] {
+                return path
+            } else {
+                if let self {
+                    self.paths.updateValue(NavigationPath(), forKey: route)
+                    if let path = self.paths[route] {
+                        return path
+                    } else {
+                        Self.logger.error("self.paths[route] in `\(#function)` Binding closure is nil. Returning empty NavigationPath")
+                        return NavigationPath()
+                    }
+                } else {
+                    Self.logger.error("self in `\(#function)` Binding closure is nil. Returning empty NavigationPath")
+                    return NavigationPath()
+                }
+            }
+        }, set: { [weak self] newValue in
+            self?.paths.updateValue(newValue, forKey: route)
+        })
     }
 
     public var rootModal: Modal? = nil
@@ -87,25 +109,32 @@ public final class Router {
                     appendToPath(homeSubRoute)
                 }
             case .myStudies(let myStudiesSubRoute):
-                #if os(macOS)
-                guard let myStudiesSubRoute else {
-                    Self.logger.error("My Studies navigation on macOS requires a subroute! Cannot navigate!")
-                    return
-                }
-                
                 switch myStudiesSubRoute {
                     case .module(let courseId, let moduleSubRoute):
+                        #if os(iOS)
+                        if UITraitCollection.current.horizontalSizeClass == .regular {
+                            currentRoute = .myStudies(.module(courseId, nil))
+                            if let moduleSubRoute {
+                                appendToPath(moduleSubRoute)
+                            }
+                        } else {
+                            currentRoute = .myStudies(nil)
+                            appendToPath(myStudiesSubRoute!)
+                        }
+                        #else
                         currentRoute = .myStudies(.module(courseId, nil))
                         if let moduleSubRoute {
                             appendToPath(moduleSubRoute)
                         }
+                        #endif
+                    case .none:
+                        #if os(macOS)
+                        Self.logger.error("My Studies navigation on macOS requires a subroute! Cannot navigate!")
+                        return
+                        #else
+                        currentRoute = .myStudies(nil)
+                        #endif
                 }
-                #else
-                currentRoute = .myStudies(nil)
-                if let myStudiesSubRoute {
-                    appendToPath(myStudiesSubRoute)
-                }
-                #endif
             // Non-paramitised routes
             default:
                 currentRoute = route
@@ -113,7 +142,7 @@ public final class Router {
     }
 
     public func resetNavigationPath() {
-        path = NavigationPath()
+        paths.updateValue(NavigationPath(), forKey: currentRoute)
     }
 
     @available(*, deprecated, message: "Use the enum based varients instead for type safety")
@@ -132,7 +161,10 @@ public final class Router {
             resetNavigationPath()
         }
 
-        path.append(subroute)
+        if !paths.contains(where: { (key, value) in key == currentRoute }) {
+            paths.updateValue(NavigationPath(), forKey: currentRoute)
+        }
+        self.paths[currentRoute]?.append(subroute)
     }
 
     // MARK: MyStudiesSubRoute
@@ -147,8 +179,11 @@ public final class Router {
         }
 
         print(subroute.id)
-        path.append(subroute)
-        print(path.count)
+        if !paths.contains(where: { (key, value) in key == currentRoute }) {
+            paths.updateValue(NavigationPath(), forKey: currentRoute)
+        }
+        self.paths[currentRoute]?.append(subroute)
+        print(paths[currentRoute]?.count ?? "IDK")
 
         switch subroute {
             case .module(_, let moduleSubRoute):
@@ -170,7 +205,9 @@ public final class Router {
         }
 
         print(subroute.id)
-        path.append(subroute)
-        print(path.count)
+        if !paths.contains(where: { (key, value) in key == currentRoute }) {
+            paths.updateValue(NavigationPath(), forKey: currentRoute)
+        }
+        self.paths[currentRoute]?.append(subroute)
     }
 }
