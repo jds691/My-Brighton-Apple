@@ -64,7 +64,7 @@ struct ContentView: View {
 
         TabView(selection: $router.currentRoute) {
             Tab(value: .home(nil)) {
-                NavigationStack(path: $router.path) {
+                NavigationStack(path: router.getPathBinding(for: .home(nil))) {
                     HomeView()
                 }
             } label: {
@@ -72,7 +72,7 @@ struct ContentView: View {
             }
 
             Tab(value: .myStudies(nil)) {
-                NavigationStack(path: $router.path) {
+                NavigationStack(path: router.getPathBinding(for: .myStudies(nil))) {
                     MyStudiesView()
                 }
             } label: {
@@ -83,7 +83,7 @@ struct ContentView: View {
             TabSection("Courses") {
                 ForEach(courses, id: \.id) { course in
                     Tab(value: Navigation.Route.myStudies(.module(course.id, nil))) {
-                        NavigationStack(path: $router.path) {
+                        NavigationStack(path: router.getPathBinding(for: .myStudies(.module(course.id, nil)))) {
                             CourseView(id: course.id)
                         }
                     } label: {
@@ -125,7 +125,7 @@ struct ContentView: View {
 
             if CSSearchableIndex.isIndexingAvailable() {
                 Tab(value: .search, role: .search) {
-                    NavigationStack(path: $router.path) {
+                    NavigationStack(path: router.getPathBinding(for: .search)) {
                         SearchView()
                     }
                 }

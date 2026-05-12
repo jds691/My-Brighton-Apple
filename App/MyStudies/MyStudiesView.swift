@@ -207,7 +207,7 @@ struct MyStudiesView: View {
     
     TabView {
         Tab {
-            NavigationStack(path: $router.path) {
+            NavigationStack(path: router.getPathBinding(for: .myStudies(nil))) {
                 MyStudiesView()
             }
         } label: {

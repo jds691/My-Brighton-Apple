@@ -17,6 +17,7 @@ struct BbMLContentViewer: View {
     @Environment(\.learnKitService) private var learnKit
     @Environment(\.locale) private var currentLocale
     @Environment(\.courseId) private var courseId
+    @Environment(\.dismiss) private var dismiss
 
     @Binding private var content: Content
 
@@ -60,7 +61,7 @@ struct BbMLContentViewer: View {
                 showLoadFailedMessage = false
                 loadFailedMessage = ""
 
-                router.path.removeLast()
+                dismiss()
             }
         } message: {
             Text(loadFailedMessage)
