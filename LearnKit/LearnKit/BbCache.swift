@@ -431,11 +431,12 @@ actor BbCache {
                         contentAttributes.keywords?.append("folder")
                     } else {
                         if let ultraDocumentChild = try? await getChildContent(for: contentItem.id, in: courseId).first {
-                            if let body = contentItem.body, let chunks = try? BbMLParser().parse(body) {
+                            if let body = ultraDocumentChild.body, let chunks = try? BbMLParser().parse(body) {
                                 contentAttributes.textContent = returnBbMLText(from: chunks)
 
                                 for chunk in chunks {
                                     if case .document(url: let url, attachmentInfo: let attachmentInfo) = chunk {
+                                        contentAttributes.alternateNames?.append(url.path(percentEncoded: false))
                                         contentAttributes.alternateNames?.append(attachmentInfo.name)
                                     }
                                 }
