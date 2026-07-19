@@ -131,7 +131,7 @@ struct ContentView: View {
                 }
             }
         }
-        .tabViewStyle(.sidebarAdaptable)
+        .modifier(ContentViewSidebarConfigurationViewModifier())
 #if os(macOS)
         .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, placement: .sidebar, prompt: LocalizedStringResource.Search.promptSearch)
 #endif
@@ -188,6 +188,19 @@ struct ContentView: View {
             if let thumbnailDidChangeObserver {
                 NotificationCenter.default.removeObserver(thumbnailDidChangeObserver)
             }
+        }
+    }
+}
+
+struct ContentViewSidebarConfigurationViewModifier: ViewModifier {    
+    func body(content: Self.Content) -> some View {
+        if #available(anyAppleOS 27, *) {
+            content
+                .tabViewStyle(.sidebarAdaptable)
+                .defaultTabBarPlacement(.sidebar)
+        } else {
+            content
+                .tabViewStyle(.sidebarAdaptable)
         }
     }
 }
