@@ -293,8 +293,17 @@ public struct Content: Hashable, Identifiable, Sendable {
             }
 
             init(from cachedContentAvailabilityAdaptiveSettings: CachedContent.Availability.AdaptiveReleaseSettings) {
-                self.availabilityStart = cachedContentAvailabilityAdaptiveSettings.availabilityStart
-                self.availabilityEnd = cachedContentAvailabilityAdaptiveSettings.availabilityEnd
+                if cachedContentAvailabilityAdaptiveSettings.availabilityStart == .distantPast {
+                    self.availabilityStart = nil
+                } else {
+                    self.availabilityStart = cachedContentAvailabilityAdaptiveSettings.availabilityStart
+                }
+                
+                if cachedContentAvailabilityAdaptiveSettings.availabilityEnd == .distantPast {
+                    self.availabilityEnd = nil
+                } else {
+                    self.availabilityEnd = cachedContentAvailabilityAdaptiveSettings.availabilityEnd
+                }
             }
         }
     }
