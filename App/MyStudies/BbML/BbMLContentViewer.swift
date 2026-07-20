@@ -47,12 +47,17 @@ struct BbMLContentViewer: View {
                 loadFailedMessage = ""
 
                 Task {
-                    try await learnKit
-                        .refreshContent(
-                            for: content.id,
-                            includeChildren: true,
-                            in: courseId!
-                        )
+                    do {
+                        try await learnKit
+                            .refreshContent(
+                                for: content.id,
+                                includeChildren: true,
+                                in: courseId!
+                            )
+                    } catch {
+                        print("Failed to refresh learnKit content '\(content.id)' in '\(courseId!)': \(error)")
+                    }
+                    
                     await loadView(target: content)
                 }
             }

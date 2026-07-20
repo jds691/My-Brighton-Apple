@@ -172,12 +172,12 @@ class CachedContent {
         }
 
         struct AdaptiveReleaseSettings: Hashable, Codable, Sendable {
-            let availabilityStart: Date?
-            let availabilityEnd: Date?
+            let availabilityStart: Date
+            let availabilityEnd: Date
 
             init(from contentAvailabilityAdaptiveSettingsModel: Content.Availability.AdaptiveReleaseSettings) {
-                self.availabilityStart = contentAvailabilityAdaptiveSettingsModel.availabilityStart
-                self.availabilityEnd = contentAvailabilityAdaptiveSettingsModel.availabilityEnd
+                self.availabilityStart = contentAvailabilityAdaptiveSettingsModel.availabilityStart ?? .distantPast
+                self.availabilityEnd = contentAvailabilityAdaptiveSettingsModel.availabilityEnd ?? .distantPast
             }
         }
     }

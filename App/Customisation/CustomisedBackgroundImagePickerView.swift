@@ -160,7 +160,7 @@ struct CustomisedBackgroundImagePickerView: View {
             do {
                 // Forces views to re-draw and fetch the new image if the previous image was also custom
                 // A hack? Surely not...
-                if case .customImage(let url) = background {
+                if case .customImage(_) = background {
                     background = .color(.fromColor(.brightonSecondary))
                 }
                 if let courseId {

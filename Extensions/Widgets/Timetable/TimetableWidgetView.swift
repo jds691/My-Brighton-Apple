@@ -161,6 +161,8 @@ struct TimetableWidgetView: View {
                             LargeTimetableWidgetView(entry: entry)
                         case .systemExtraLarge:
                             Text("No Content")
+                        case .systemExtraLargePortrait:
+                            Text("No Content")
                         case .accessoryCircular:
                             Text("No Content")
                         case .accessoryRectangular:

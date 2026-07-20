@@ -8,6 +8,8 @@
 import SwiftUI
 import Notifier
 
+private let defaultService: Notifier = Notifier()
+
 extension EnvironmentValues {
-    @Entry var notifier: Notifier = Notifier()
+    @Entry var notifier: Notifier = defaultService
 }

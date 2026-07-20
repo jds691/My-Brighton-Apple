@@ -74,7 +74,7 @@ public final class CustomisationService {
 
     public static func getBuiltInColours() -> [Color] {
         [
-            .accent,
+            .brandRed,
             .colibri1,
             .colibri2,
             .colibri3,

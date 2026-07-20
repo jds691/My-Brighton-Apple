@@ -24,7 +24,7 @@ import ServiceManagement
 struct MyBrightonApp: App {
     // As it turns out, Apple changed how some APIs work. It doesn't seem possible to seperate instances between windows anymore
     // So 2 windows on iPadOS will *always* point to the same location even if the current nav destination is changed between differetn windows
-    @State private var searchManager: SearchManager = SearchManager.shared
+    @State private var searchManager: SearchManager
     @State private var router: Router
     private let accountService: AccountService
     private let notifier: Notifier
@@ -46,6 +46,7 @@ struct MyBrightonApp: App {
         self.dashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
         self.notifier = Notifier(router: appRouter)
         self.router = appRouter
+        self.searchManager = SearchManager.shared
 
         self.learnKitService = LearnKitService(client: PreviewClient(), inMemory: false)
         //self.learnKitService = LearnKitService(learnInstanceURL: try! Servers.Server1.url())

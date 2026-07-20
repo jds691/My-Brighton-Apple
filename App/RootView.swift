@@ -9,6 +9,9 @@ import SwiftUI
 import LearnKit
 import CustomisationKit
 import Timetable
+import Accounts
+import DashboardKit
+import Notifier
 
 struct RootView: View {
     @Environment(\.accountService) private var accountService

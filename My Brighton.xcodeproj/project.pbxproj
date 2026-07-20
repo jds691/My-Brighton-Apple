@@ -92,20 +92,6 @@
 			remoteGlobalIDString = 683BB42A2FA4F835005117C7;
 			remoteInfo = Accounts;
 		};
-		683E01362E71DBC3004C2831 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6B508BD9171489940080AB4D;
-			remoteInfo = ICSExporter;
-		};
-		683E02692E71DC37004C2831 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6B508BD9171489940080AB4D;
-			remoteInfo = ICSExporter;
-		};
 		683E322C2F5FC78000C24C00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 28E310FF2A98E78C00ECC35C /* Project object */;
@@ -309,8 +295,6 @@
 		6834A7412F6AE2A300BC7D6B /* Notifier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notifier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6835EF532E4E7ADD003B15BB /* LearnKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LearnKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		683BB42B2FA4F835005117C7 /* Accounts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Accounts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
-		683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ICSExporter.xcodeproj; sourceTree = "<group>"; };
 		6840C7602F61F7010097B1FA /* CoreDesign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDesign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		684DFF772E56318A00E6C316 /* WidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		686426532E68CC8500A088A8 /* Timetable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Timetable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -992,22 +976,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		683E010C2E71DBC3004C2831 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				683E01372E71DBC3004C2831 /* ICSExporter.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		683E01982E71DC2F004C2831 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				683E026A2E71DC37004C2831 /* ICSExporter.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1444,16 +1412,6 @@
 			preferredProjectObjectVersion = 56;
 			productRefGroup = 28E311082A98E78D00ECC35C /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 683E01982E71DC2F004C2831 /* Products */;
-					ProjectRef = 683E01852E71DC2F004C2831 /* ICSExporter.xcodeproj */;
-				},
-				{
-					ProductGroup = 683E010C2E71DBC3004C2831 /* Products */;
-					ProjectRef = 683E00F92E71DBC3004C2831 /* ICSExporter.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				28E311062A98E78D00ECC35C /* Project Demo */,
@@ -1472,23 +1430,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		683E01372E71DBC3004C2831 /* ICSExporter.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ICSExporter.app;
-			remoteRef = 683E01362E71DBC3004C2831 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		683E026A2E71DC37004C2831 /* ICSExporter.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ICSExporter.app;
-			remoteRef = 683E02692E71DC37004C2831 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		28E311052A98E78D00ECC35C /* Resources */ = {

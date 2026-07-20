@@ -10,6 +10,7 @@ import LearnKit
 import CustomisationKit
 import Timetable
 import Notifier
+import DashboardKit
 
 struct OnboardingView: View {
     @Environment(\.timetableService) private var timetableService

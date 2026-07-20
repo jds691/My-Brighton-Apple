@@ -13,6 +13,7 @@ import Timetable
 import CoreSpotlight
 import LearnKit
 import Accounts
+import DashboardKit
 
 struct DebugOptionsView: View {
     @Environment(\.dismiss) private var dismiss

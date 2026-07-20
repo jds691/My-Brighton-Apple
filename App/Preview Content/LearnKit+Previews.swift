@@ -8,8 +8,10 @@
 import SwiftUI
 import LearnKit
 
+private let defaultService: LearnKitService = LearnKitService(learnInstanceURL: .init(string: "https://example.com")!)
+
 public extension EnvironmentValues {
-     @Entry var learnKitService: LearnKitService = LearnKitService(learnInstanceURL: .init(string: "https://example.com")!)
+     @Entry var learnKitService: LearnKitService = defaultService
 }
 
 struct LearnKitPreviewModifier: PreviewModifier {

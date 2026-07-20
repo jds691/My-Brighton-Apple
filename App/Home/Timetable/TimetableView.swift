@@ -269,7 +269,11 @@ struct TimetableView: View {
         .onChange(of: currentDate) {
             Task {
                 await refreshClassesForCurrentDate()
-                try await IntentDonationManager.shared.donate(intent: GetTimetableIntent(date: currentDate))
+                do {
+                    try await IntentDonationManager.shared.donate(intent: GetTimetableIntent(date: currentDate))
+                } catch {
+                    Self.logger.error("Failed to donate intent: \(error)")
+                }
             }
         }
         .task {
@@ -298,7 +302,11 @@ struct TimetableView: View {
 
             Task {
                 await refreshClassesForCurrentDate()
-                try await IntentDonationManager.shared.donate(intent: GetTimetableIntent(date: currentDate))
+                do {
+                    try await IntentDonationManager.shared.donate(intent: GetTimetableIntent(date: currentDate))
+                } catch {
+                    Self.logger.error("Failed to donate intent: \(error)")
+                }
             }
         }
         .toolbar {

@@ -14,7 +14,12 @@ class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
 
         Task {
             defer { semaphore.signal() }
-            return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexAllContent()
+            
+            do {
+                return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexAllContent()
+            } catch {
+                print("LearnKitService reindexAllContent failed: \(error)")
+            }
         }
 
         semaphore.wait()
@@ -27,7 +32,12 @@ class CoreSpotlightIndexDelegate: CSIndexExtensionRequestHandler {
 
         Task {
             defer { semaphore.signal() }
-            return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexContent(withIdentifiers: identifiers)
+            
+            do {
+                return try await LearnKitService(client: PreviewClient(), inMemory: false).reindexContent(withIdentifiers: identifiers)
+            } catch {
+                print("LearnKitService reindexContent(withIdentifiers:) failed for identifiers (\(identifiers.description)): \(error)")
+            }
         }
 
         semaphore.wait()
