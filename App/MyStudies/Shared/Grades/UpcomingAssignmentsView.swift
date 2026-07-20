@@ -92,7 +92,7 @@ struct UpcomingAssignmentsView: View {
                                 if attempts.isEmpty { return (columnId: column.id, submitted: false) }
                             }
 
-                            return (columnId: column.id, submitted: await column.isSubmitted(basedOn: attempts))
+                            return (columnId: column.id, submitted: column.isSubmitted(basedOn: attempts))
                         }
                     }
 

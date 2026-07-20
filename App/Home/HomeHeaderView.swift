@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import CustomisationKit
 import CoreDesign
+import Accounts
 
 struct HomeHeaderView: View {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency

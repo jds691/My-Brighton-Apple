@@ -131,7 +131,8 @@ struct ContentView: View {
                 }
             }
         }
-        .modifier(ContentViewSidebarConfigurationViewModifier())
+        .tabViewStyle(.sidebarAdaptable)
+        //.modifier(ContentViewSidebarConfigurationViewModifier())
 #if os(macOS)
         .searchable(text: $searchManager.searchTerm, isPresented: $searchManager.isSearching, placement: .sidebar, prompt: LocalizedStringResource.Search.promptSearch)
 #endif
@@ -192,7 +193,7 @@ struct ContentView: View {
     }
 }
 
-struct ContentViewSidebarConfigurationViewModifier: ViewModifier {    
+/*struct ContentViewSidebarConfigurationViewModifier: ViewModifier {
     func body(content: Self.Content) -> some View {
         if #available(anyAppleOS 27, *) {
             content
@@ -203,7 +204,7 @@ struct ContentViewSidebarConfigurationViewModifier: ViewModifier {
                 .tabViewStyle(.sidebarAdaptable)
         }
     }
-}
+}*/
 
 #Preview(traits: .environmentObjects, .learnKit, .customisationKit) {
     ContentView()

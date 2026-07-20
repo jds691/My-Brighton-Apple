@@ -27,6 +27,7 @@ public struct EventEditView: UIViewControllerRepresentable {
     
     public func updateUIViewController(_ uiViewController: EKEventEditViewController, context: Context) { }
     
+    @MainActor
     public class Coordinator: NSObject, EKEventEditViewDelegate {
         let dismiss: DismissAction
 

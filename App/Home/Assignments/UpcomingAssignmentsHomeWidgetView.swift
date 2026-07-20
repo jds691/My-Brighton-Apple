@@ -95,7 +95,7 @@ struct UpcomingAssignmentsHomeWidgetView: View {
                                     attempts = cachedAttempts
                                 }
 
-                                if await !column.isSubmitted(basedOn: attempts) {
+                                if !column.isSubmitted(basedOn: attempts) {
                                     return (course: course, needsSubmitted: true)
                                 }
                             }

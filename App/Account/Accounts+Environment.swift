@@ -8,8 +8,10 @@
 import SwiftUI
 import Accounts
 
+private let defaultService: AccountService = AccountService()
+
 extension EnvironmentValues {
-    @Entry var accountService: AccountService = AccountService()
+    @Entry var accountService: AccountService = defaultService
 }
 
 struct AccountServiceAuthenticatedPreviewModifier: PreviewModifier {

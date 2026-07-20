@@ -118,8 +118,18 @@ struct TimetableWidgetProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<TimetableWidgetProviderEntry>) -> Void) {
         // Wrapping the entire function body in a task counted as misuse and prevented widgets loading
         Task {
-            let todaysClasses = try await service.getClasses(after: .now.withoutTime)
-            let tomorrowClasses = try await service.getClasses(after: .now.withoutTime.addingTimeInterval(86400))
+            let todaysClasses: [ScheduledClass]
+            let tomorrowClasses: [ScheduledClass]
+            
+            do {
+                todaysClasses = try await service.getClasses(after: .now.withoutTime)
+                tomorrowClasses = try await service.getClasses(after: .now.withoutTime.addingTimeInterval(86400))
+            } catch {
+                print("Unable to fetch classes from TimetableService: \(error)")
+                
+                completion(.init(entries: [], policy: .never))
+                return
+            }
 
             var entries: [Entry] = []
 

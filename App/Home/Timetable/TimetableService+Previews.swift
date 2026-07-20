@@ -8,8 +8,10 @@
 import SwiftUI
 import Timetable
 
+private let defaultService: TimetableService = TimetableService(notifier: nil)
+
 public extension EnvironmentValues {
-    @Entry var timetableService: TimetableService = TimetableService(notifier: nil)
+    @Entry var timetableService: TimetableService = defaultService
 }
 
 struct TimetableServicePreviewModifier: PreviewModifier {

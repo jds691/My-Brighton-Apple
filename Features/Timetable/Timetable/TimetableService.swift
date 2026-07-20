@@ -71,7 +71,7 @@ public final class TimetableService: @unchecked Sendable {
 
         Task {
             defer { semaphore.signal() }
-            calendar = try await MXLCalendarManager().parse(icsString: icsString)
+            calendar = try! await MXLCalendarManager().parse(icsString: icsString)
         }
 
         semaphore.wait()
@@ -237,7 +237,11 @@ public final class TimetableService: @unchecked Sendable {
         self.remoteIcsURL = url
 
         Task {
-            try await refresh()
+            do {
+                try await refresh()
+            } catch {
+                Self.logger.error("Failed to refresh timetable after remote URL change: \(error)")
+            }
         }
     }
 }
@@ -258,7 +262,7 @@ extension TimetableService {
 
         Task {
             defer { semaphore.signal() }
-            calendar = try await MXLCalendarManager().parse(icsString: icsString)
+            calendar = try! await MXLCalendarManager().parse(icsString: icsString)
         }
 
         semaphore.wait()

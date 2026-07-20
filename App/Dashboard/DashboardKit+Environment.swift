@@ -8,6 +8,8 @@
 import SwiftUI
 import DashboardKit
 
+private let defaultService: DashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
+
 extension EnvironmentValues {
-    @Entry var dashboardService: DashboardService = DashboardService(dashboards: DashboardID.allCases.map(\.dashboard))
+    @Entry var dashboardService: DashboardService = defaultService
 }

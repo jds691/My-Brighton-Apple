@@ -155,7 +155,7 @@ actor BbCache {
             courseAttributes.thumbnailURL = CustomisationService.shared.thumbnailUrl(for: course.id, nilIfNonExistent: true)
 
             let courseCsItem = CSSearchableItem(uniqueIdentifier: "course/\(course.id)", domainIdentifier: nil, attributeSet: courseAttributes)
-            courseCsItem.associateAppEntity(courseAppEntity)
+            await courseCsItem.associateAppEntity(courseAppEntity)
 
             csItems.append(courseCsItem)
         }
